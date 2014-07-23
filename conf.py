@@ -48,7 +48,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'cintro'
+project = 'The COSC301 Book of C'
 copyright = '2014, Joel Sommers'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -201,7 +201,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'cintro.tex', 'cintro Documentation',
+  ('index', 'cintro.tex', 'COSC 301 Book of C',
    'Joel Sommers', 'manual'),
 ]
 
@@ -266,7 +266,7 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = 'cintro'
+epub_title = 'The COSC301 Book of C'
 epub_author = 'Joel Sommers'
 epub_publisher = 'Joel Sommers'
 epub_copyright = '2014, Joel Sommers'
