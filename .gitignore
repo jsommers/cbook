@@ -1,2 +1,5 @@
-xenv
-_build
+cbook.aux
+cbook.log
+cbook.out
+cbook.pdf
+cbook.toc
