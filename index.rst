@@ -14,16 +14,17 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   preface
    intro
    tutorial
-   types
+   basictypes
    control
-   advancedtypes
+   stringsarrays
+   structs
    functions
+   pointersarrays
    programstructure
-   pointers
    stdlib
+
 
 Indices and tables
 ==================

@@ -1,3 +1,6 @@
+Structs
+*******
+
 Advanced Data Types
 *******************
 

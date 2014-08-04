@@ -184,31 +184,31 @@ will execute until the variable i takes on the value 10 at which time the expres
 Mathematical Operators
 ----------------------
 
-C includes the usual binary and unary arithmetic operators. See the appendix for the table of precedence. Personally, I just use parenthesis liberally to avoid any bugs due to a misunderstanding of precedence. The operators are sensitive to the type of the operands. So division (/) with two integer arguments will do integer division. If either argument is a float, it does floating point division. So (6/4) evaluates to 1 while (6/4.0) evaluates to 1.5 -- the 6 is promoted to 6.0 before the division.
+C includes the usual binary and unary arithmetic operators. See the appendix for the table of precedence. Personally, I just use parenthesis liberally to avoid any bugs due to a misunderstanding of precedence. The operators are sensitive to the type of the operands. So division (/) with two integer arguments will do integer division. If either argument is a float, it does floating point division. So (6/4) evaluates to 1 while (6/4.0) evaluates to 1.5 --- the 6 is promoted to 6.0 before the division.
 
-+ 
+``+``
     Addition
-- 
+``-``
     Subtraction
-/ 
+``/``
     Division
-* 
+``*``
     Multiplication
-% 
+``%``
     Remainder (mod)
 
-Unary Increment Operators: ++ --
---------------------------------
+Unary Increment Operators: ``++`` and ``--``
+--------------------------------------------
 
-The unary ++ and -- operators increment or decrement the value in a variable. There are "pre" and "post" variants for both operators which do slightly different things (explained below)
+The unary ``++`` and ``--`` operators increment or decrement the value in a variable. There are "pre" and "post" variants for both operators which do slightly different things (explained below)
 
-var++ 
+``var++``
     increment "post" variant 
-++var 
+``++var``
     increment "pre" variant
-var-- 
+``var--``
     decrement "post" variant 
---var 
+``--var``
     decrement "pre" variant
 
 An example using post increment/decrement::
@@ -252,17 +252,17 @@ Relational Operators
 --------------------
 These operate on integer or floating point values and return a 0 or 1 boolean value. 
 
-== 
+``==``
     Equal
-!= 
+``!=``
     Not Equal
-> 
+``>``
     Greater Than
-< 
+``<``
     Less Than
->= 
+``>=``
     Greater or Equal 
-<= 
+``<=``
     Less or Equal
 
 To see if x equals three, write something like::
@@ -273,22 +273,22 @@ To see if x equals three, write something like::
 Pitfall: ``= != ==``
 --------------------
 
-An absolutely classic pitfall is to write assignment (=) when you mean comparison (==). This would not be such a problem, except the incorrect assignment version compiles fine because the compiler assumes you mean to use the value returned by the assignment. This is rarely what you want::
+An absolutely classic pitfall is to write assignment (``=``) when you mean comparison (``==``). This would not be such a problem, except the incorrect assignment version compiles fine because the compiler assumes you mean to use the value returned by the assignment. This is rarely what you want ::
 
     if (x = 3) ...
 
-This does not test if x is 3. This sets x to the value 3, and then returns the 3 to the if for testing. 3 is not 0, so it counts as "true" every time. This is probably the single most common error made by beginning C programmers. The problem is that the compiler is no help -- it thinks both forms are fine, so the only defense is extreme vigilance when coding. Or write "= ≠ ==" in big letters on the back of your hand before coding. This mistake is an absolute classic and it's a bear to debug. Watch Out! And need I say: "Professional Programmer's Language."
+This does not test if x is 3. This sets x to the value 3, and then returns the 3 to the if for testing. 3 is not 0, so it counts as "true" every time. This is probably the single most common error made by beginning C programmers. The problem is that the compiler is no help -- it thinks both forms are fine, so the only defense is extreme vigilance when coding. Or write "``=`` is not ``=``!" in big letters on the back of your hand before coding. This mistake is an absolute classic and it's a bear to debug. Watch Out! And need I say: "Professional Programmer's Language."
 
 Logical Operators
 -----------------
 
 The value 0 is false, anything else is true. The operators evaluate left to right and stop as soon as the truth or falsity of the expression can be deduced. (Such operators are called "short circuiting") In ANSI C, these are furthermore guaranteed to use 1 to represent true, and not just some random non-zero bit pattern. However, there are many C programs out there which use values other than 1 for true (non-zero pointers for example), so when programming, do not assume that a true boolean is necessarily 1 exactly.
 
-! 
+``!``
     Boolean not (unary) 
-&& 
+``&&``
     Boolean and
-|| 
+``||`` 
     Boolean or
 
 
@@ -296,25 +296,25 @@ Bitwise Operators
 -----------------
 C includes operators to manipulate memory at the bit level. This is useful for writing low-level hardware or operating system code where the ordinary abstractions of numbers, characters, pointers, etc... are insufficient -- an increasingly rare need. Bit manipulation code tends to be less "portable". Code is "portable" if with no programmer intervention it compiles and runs correctly on different types of computers. The bitwise operations are typically used with unsigned types. In particular, the shift operations are guaranteed to shift 0 bits into the newly vacated positions when used on unsigned values.
 
-~ 
+``~`` 
     Bitwise Negation (unary) – flip 0 to 1 and 1 to 0 throughout 
-& 
+``&`` 
     Bitwise And
-| 
+``|`` 
     Bitwise Or
-^ 
+``^`` 
     Bitwise Exclusive Or
->> 
+``>>`` 
     Right Shift by right hand side (RHS) (divide by power of 2)
-<< 
+``<<`` 
     Left Shift by RHS (multiply by power of 2)
 
-Do not confuse the Bitwise operators with the logical operators. The bitwise connectives are one character wide (``&``, ``|``) while the boolean connectives are two characters wide (&&, ||). The bitwise operators have higher precedence than the boolean operators. The compiler will never help you out with a type error if you use & when you meant &&. As far as the type checker is concerned, they are identical-- they both take and produce integers since there is no distinct boolean type.
+Do not confuse the Bitwise operators with the logical operators. The bitwise connectives are one character wide (``&``, ``|``) while the boolean connectives are two characters wide (``&&``, ``||``). The bitwise operators have higher precedence than the boolean operators. The compiler will never help you out with a type error if you use ``&`` when you meant ``&&``. As far as the type checker is concerned, they are identical-- they both take and produce integers since there is no distinct boolean type.
 
 Other Assignment Operators
 --------------------------
 
-In addition to the plain = operator, C includes many shorthand operators which represents variations on the basic =. For example "+=" adds the right hand side to the left hand side. x = x + 10; can be reduced to x += 10;. This is most useful if x is a long expression such as the following, and in some cases it may run a little faster::
+In addition to the plain ``=`` operator, C includes many shorthand operators which represents variations on the basic ``=``. For example ``+=`` adds the right hand side to the left hand side. ``x = x + 10`` can be reduced to ``x += 10``. This is most useful if ``x`` is a long expression such as the following, and in some cases it may run a little faster ::
 
    person->relatives.mom.numChildren += 2;      // increase children by 2
 

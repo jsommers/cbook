@@ -212,6 +212,9 @@ htmlhelp_basename = 'cintrodoc'
 latex_elements = {
     'inputenc': '',
     'utf8extra': '',
+
+# Additional stuff for the LaTeX preamble.
+#'preamble': '',
     'preamble': '''
 
 \usepackage{fontspec}
@@ -219,23 +222,23 @@ latex_elements = {
 \setsansfont{Helvetica Neue Light}
 \setromanfont{Optima Regular}
 \setmonofont{Andale Mono}
-
+\usepackage[paperwidth=6.125in, paperheight=8.5in]{geometry}
 ''',
 # The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+# 'papersize': 'letterpaper',
+# 'ebook' size with memoir
 
 # The font size ('10pt', '11pt' or '12pt').
-#'pointsize': '10pt',
+'pointsize': '10pt',
 
-# Additional stuff for the LaTeX preamble.
-#'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'cintro.tex', 'COSC 301 Book of C',
+  ('index', 'cbook301.tex', 'COSC 301 Book of C',
+#   'Joel Sommers', 'memoir'),
    'Joel Sommers', 'manual'),
 ]
 
