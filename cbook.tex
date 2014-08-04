@@ -1,21 +1,25 @@
-\documentclass[10pt,twoside,openright]{memoir}
-\usepackage{fontspec}
-\usepackage{xunicode}
-\usepackage{xltxtra}
-\setmainfont{Optima Regular}
-\setmonofont[Scale=0.80]{Andale Mono}
+\documentclass[letterpaper,10pt,oneside]{memoir}
 
-%% \usepackage{times}
-%% \usepackage[scaled=0.92]{helvet}
-%% \usepackage[T1]{fontenc}
-%% \usepackage{textcomp}
+
+%% \usepackage{fontspec}
+%% \usepackage{xunicode}
+%% \usepackage{xltxtra}
+%% \setmainfont{Optima Regular}
+%% \setmonofont[Scale=0.80]{Andale Mono}
+
+\usepackage{times}
+\usepackage[scaled=0.92]{helvet}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
 
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{memhfixc}
 \usepackage{float}
 \usepackage{url}
 \usepackage{mathptmx}
 \usepackage[noadjust]{cite}
+
 %% \usepackage[scaled]{couriers}
 
 \usepackage{multirow}
@@ -26,6 +30,8 @@
 \lstset{
   basicstyle=\small\ttfamily,
 }
+
+\settocdepth{section}
 
 
 %%% BEGIN DOCUMENT
@@ -42,6 +48,8 @@
     \clearpage
 
 \mainmatter
+
+\pagestyle{ruled}
 
     \input{preface}
     \input{intro}
