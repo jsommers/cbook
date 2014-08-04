@@ -2,7 +2,7 @@ Control Structures
 ******************
 
 Curly Braces ``{}``
----------------
+-------------------
 
 C uses curly braces ({}) to group multiple statements together. The statements execute in order. Some languages let you declare variables on any line (C++). Other languages insist that variables are declared only at the beginning of functions (Pascal). C takes the middle road -- variables may be declared within the body of a function, but they must follow a '{'. More modern languages like Java and C++ allow you to declare variables on any line, which is handy.
 

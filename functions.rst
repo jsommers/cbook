@@ -7,15 +7,15 @@ A function has a name, a list of arguments which it takes when called, and the b
 
 
 ::
-    /*
-      Computes double of a number.
-      Works by tripling the number, and then subtracting to get back to double.
-     */
+
+    // Computes double of a number.
+    // Works by tripling the number, and then subtracting to get back to double.
     static int Twice(int num) {
         int result = num * 3;
         result = result - num;
         return(result);
     }
+
 
 Syntax
 ------

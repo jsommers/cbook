@@ -9,7 +9,7 @@
 The COSC 301 Book of C
 ======================
 
-Contents:
+.. include:: preface.rst
 
 .. toctree::
    :maxdepth: 2

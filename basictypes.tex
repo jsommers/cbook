@@ -1,64 +1,57 @@
-Basic Types and Operators
-*************************
+\chapter{Basic Types and Operators}
 
-C provides a standard, minimal set of basic data types. Sometimes these are called "primitive" types. More complex data structures can be built up from these basic types.
+C provides a standard, minimal set of basic data types. Sometimes these are called ``primitive'' types. More complex data structures can be built up from these basic types.
 
-Integer Types
-=============
+\section{Integer Types}
 
-The "integral" types in C form a family of integer types. They all behave like integers and can be mixed together and used in similar ways. The differences are due to the different number of bits ("widths") used to implement each type -- the wider types can store a greater ranges of values.
+The ``integral'' types in C form a family of integer types. They all behave like integers and can be mixed together and used in similar ways. The differences are due to the different number of bits (``widths'') used to implement each type --- the wider types can store a greater ranges of values.
 
-char ASCII character
+\begin{description}
+\item[\lstinline{char}: ASCII character] \hfill \\
     at least 8 bits. Pronounced "car". As a practical matter char is basically always a byte which is 8 bits which is enough to store a single ASCII character. 8 bits provides a signed range of -128..127 or an unsigned range is 0..255. char is also required to be the "smallest addressable unit" for the machine -- each byte in memory has its own address.
 
-short Small integer
+\item[\lstinline{short}: Small integer] \hfill \\
     at least 16 bits which provides a signed range of -32768..32767. Typical size is 16 bits. Not used so much.
 
-int Default integer
+\item[\lstinline{int}: Default integer] \hfill \\
     at least 16 bits, with 32 bits being typical. Defined to be the "most comfortable" size for the computer. If you do not really care about the range for an integer variable, declare it int since that is likely to be an appropriate size (16 or 32 bit) which works well for that machine.
 
-long Large integer
+\item[\lstinline{long}: Large integer] \hfill \\
     at least 32 bits. Typical size is 32 bits which gives a signed range of about -2 billion ..+2 billion. Some compilers support "long long" for 64 bit ints.
+\end{description}
 
-.. sidebar:: Types in Python compared with C
-
-   For those who know Python, recall that there are four basic types:
-   int, float, str, and bool.  A float in Python is identical to a double
-   in C, but none of the other Python types have an exact analog in C.
-   An int in Python can hold an integer of arbitrary size, but that's
-   definitely not true in C!  
+\sidebar{\textbf{Types in Python compared with C.} For those who know Python, recall that there are four basic types: int, float, str, and bool.  A float in Python is identical to a double in C, but none of the other Python types have an exact analog in C.  An int in Python can hold an integer of arbitrary size, but that's definitely not true in C!}
 
 The integer types can be preceded by the qualifier unsigned which disallows representing negative numbers, but doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, whileunsigned shortcan store 0..65535. You can think of pointers as being a form of unsigned long on a machine with 4 byte pointers. In my opinion, it's best to avoid using unsigned unless you really need to. It tends to cause more misunderstandings and problems than it is worth.
 
-Extra: Portability Problems
----------------------------
+\subsection{Extra: Portability Problems}
 
 Instead of defining the exact sizes of the integer types, C defines lower bounds. This makes it easier to implement C compilers on a wide range of hardware. Unfortunately it occasionally leads to bugs where a program runs differently on a 16-bit-int machine than it runs on a 32-bit-int machine. In particular, if you are designing a function that will be implemented on several different machines, it is a good idea to use typedefs to set up types like Int32 for 32 bit int and Int16 for 16 bit int. That way you can prototype a function Foo(Int32) and be confident that the typedefs for each machine will be set so that the function really takes exactly a 32 bit int. That way the code will behave the same on all the different machines.
 
-char Constants
---------------
+\subsection{\lstinline{char} Constants}
 
 A char constant is written with single quotes (') like 'A' or 'z'. The char constant 'A' is really just a synonym for the ordinary integer value 65 which is the ASCII value for ￼ uppercase 'A'. There are special case char constants, such as '\t' for tab, for characters which are not convenient to type on a keyboard.
 
-'A'
+\begin{description}
+\item[\lstinline{'A'}] 
     uppercase 'A' character
 
-'\n'
+\item[\lstinline{'\n'}]
     newline character
 
-'\t'
+\item[\lstinline{'\t'}]
     tab character
 
-'\0'
+\item[\lstinline{'\0'}]
     the "null" character -- integer value 0 (different from the char digit '0')
 
-'\012'
+\item[\lstinline{'\012'}]
     the character with value 12 in octal, which is decimal 10
+\end{description}
 
-int Constants
--------------
+\subsection{\lstinline{int} Constants}
 
-Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long such as 42L. An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal -- 0x10 is way of expressing the number 16. Similarly, a constant may be written in octal by preceding it with "0" -- 012 is a way of expressing the number 10.
+Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long such as 42L. An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal --- 0x10 is way of expressing the number 16. Similarly, a constant may be written in octal by preceding it with "0" --- 012 is a way of expressing the number 10.
 
 Type Combination and Promotion
 ------------------------------
@@ -175,9 +168,12 @@ No Boolean -- Use int
 ---------------------
 
 C does not have a distinct boolean type-- int is used instead. The language treats integer 0 as false and all non-zero values as true. So the statement::
+
     i = 0;
     while (i - 10) {
-        ...
+        // more code
+
+    }
 
 will execute until the variable i takes on the value 10 at which time the expression (i - 10) will become false (i.e. 0). (we'll see the while() statement a bit later).
 

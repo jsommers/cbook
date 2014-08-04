@@ -1,0 +1,60 @@
+\documentclass[10pt,twoside,openright]{memoir}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\setmainfont{Optima Regular}
+\setmonofont[Scale=0.80]{Andale Mono}
+
+%% \usepackage{times}
+%% \usepackage[scaled=0.92]{helvet}
+%% \usepackage[T1]{fontenc}
+%% \usepackage{textcomp}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{url}
+\usepackage{mathptmx}
+\usepackage[noadjust]{cite}
+%% \usepackage[scaled]{couriers}
+
+\usepackage{multirow}
+\hyphenation{hy-phen-ation}
+
+\usepackage{listings}
+\lstloadlanguages{C}
+\lstset{
+  basicstyle=\small\ttfamily,
+}
+
+
+%%% BEGIN DOCUMENT
+
+\begin{document}
+
+\frontmatter
+
+    \input{titlepage}
+    \clearpage
+    \input{copyright}
+    \clearpage
+    \tableofcontents
+    \clearpage
+
+\mainmatter
+
+    \input{preface}
+    \input{intro}
+    \input{tutorial}
+    \input{basictypes}
+    %% \input{control}
+    %% \input{stringsarrays}
+    %% \input{structs}
+    %% \input{functions}
+    %% \input{pointersarrays}
+    %% \input{programstructure}
+    %% \input{stdlib}
+
+\backmatter
+
+\end{document}

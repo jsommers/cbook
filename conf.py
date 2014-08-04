@@ -221,8 +221,7 @@ latex_elements = {
 \setmainfont{Helvetica Neue Light}
 \setsansfont{Helvetica Neue Light}
 \setromanfont{Optima Regular}
-\setmonofont{Andale Mono}
-\usepackage[paperwidth=6.125in, paperheight=8.5in]{geometry}
+\setmonofont{Consolas}
 ''',
 # The paper size ('letterpaper' or 'a4paper').
 # 'papersize': 'letterpaper',
