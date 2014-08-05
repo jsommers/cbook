@@ -6,7 +6,9 @@ The main function
 
 The execution of a C program begins with function named main(). All of the files and libraries for the C program are compiled together to build a single program file. That file must contain exactly one main() function which the operating system uses as the starting point for the program. Main() returns an int which, by convention, is 0 if the program completed successfully and non-zero if the program exited due to some error condition. This is just a convention which makes sense in shell oriented environments such as Unix or DOS.
 
-FIXME: arguments to main and return value from main
+.. todo::
+
+   Need to include stuff about arguments to main and return value from main
 
 Multiple Files
 --------------
@@ -115,7 +117,9 @@ There's a problem sometimes where a .h file is #included into a file more than o
     #pragma once
     <rest of foo.h ...>
 
-FIXME: remove this pragma garbage
+.. todo::
+
+   remove this pragma garbage
 
 Assert
 ------

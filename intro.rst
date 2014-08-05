@@ -30,5 +30,4 @@ Other Resources
 
  * C Primer Plus
 
- * FIXME
 

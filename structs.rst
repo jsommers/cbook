@@ -31,7 +31,13 @@ The simplest type of array in C is one which is declared and used in one place. 
     scores[0]  = 13;           // set first element
     scores[99] = 42;           // set last element
 
-The name of the array refers to the whole array. (implementation) it works by representing a pointer to the start of the array.  (FIXME: picture of an array.)
+The name of the array refers to the whole array. (implementation) it works by representing a pointer to the start of the array.  
+
+.. todo::
+
+   Add a picture of an array.
+
+.. 
 
  * There is space for each int element in the scores array — this element is referred to as scores[0].
  * These elements have random values because the code has not yet initialized them to anything.
@@ -204,12 +210,15 @@ Note that the regular assignment operator (=) does not do string copying which i
 The following code allocates a 10 char array and uses strcpy() to copy the bytes of the string constant "binky" into that local array.
 
 ::
+
     {
         char localString[10];
         strcpy(localString, "binky");
     }
 
-FIXME: memory drawing
+.. todo::
+
+   Make a memory drawing of the above
 
 The memory drawing shows the local variable localString with the string "binky" copied into it. The letters take up the first 5 characters and the '\0' char marks the end of the string after the 'y'. The x's represent characters which have not been set to any particular value.
 

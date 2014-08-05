@@ -128,7 +128,9 @@ One effect of the C array scheme is that the compiler does not distinguish meani
         intPtr[3] = 13; // BAD! no integer reserved here.
     }
 
-FIXME: picture of the above
+.. todo::
+
+   memory diagram/picture of the above
 
 Array Names Are Const
 ---------------------

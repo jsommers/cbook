@@ -33,12 +33,16 @@ The "integral" types in C form a family of integer types. They all behave like i
 
 The integer types can be preceded by the qualifier ``unsigned`` which disallows representing negative numbers, but doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, while ``unsigned short`` can store 0..65535. You can think of pointers as being a form of unsigned long on a machine with 4 byte pointers. In my opinion, it's best to avoid using unsigned unless you really need to. It tends to cause more misunderstandings and problems than it is worth.
 
-Extra: Portability Problems
----------------------------
+.. literalinclude:: code/sizes.c
+   :linenos:
+   :language: c
 
-Instead of defining the exact sizes of the integer types, C defines lower bounds. This makes it easier to implement C compilers on a wide range of hardware. Unfortunately it occasionally leads to bugs where a program runs differently on a 16-bit-int machine than it runs on a 32-bit-int machine. In particular, if you are designing a function that will be implemented on several different machines, it is best to explicitly specify the sizes of integral types.  If you ``#include <stdint.h>``, you can use types that explicitly indicate their bit-widths: ``int8_t``, ``int16_t``, ``int32_t``, and ``int64_t``.  There are also ``unsigned`` variants of these types: ``uint8_t``, ``uint16_t``, ``uint32_t``, and ``uint64_t``.   
 
-For some operating systems-related functions it is extremely important to be sure that a variable is *exactly* of a given size. These types come in handy in those situations, too.
+.. sidebar:: Extra: Portability Problems
+
+    Instead of defining the exact sizes of the integer types, C defines lower bounds. This makes it easier to implement C compilers on a wide range of hardware. Unfortunately it occasionally leads to bugs where a program runs differently on a 16-bit-int machine than it runs on a 32-bit-int machine. In particular, if you are designing a function that will be implemented on several different machines, it is best to explicitly specify the sizes of integral types.  If you ``#include <stdint.h>``, you can use types that explicitly indicate their bit-widths: ``int8_t``, ``int16_t``, ``int32_t``, and ``int64_t``.  There are also ``unsigned`` variants of these types: ``uint8_t``, ``uint16_t``, ``uint32_t``, and ``uint64_t``.   
+
+    For some operating systems-related functions it is extremely important to be sure that a variable is *exactly* of a given size. These types come in handy in those situations, too.
 
 
 ``char`` Constants
