@@ -2,7 +2,7 @@ Program structure
 *****************
 
 The main function
------------------
+=================
 
 The execution of a C program begins with function named main(). All of the files and libraries for the C program are compiled together to build a single program file. That file must contain exactly one main() function which the operating system uses as the starting point for the program. Main() returns an int which, by convention, is 0 if the program completed successfully and non-zero if the program exited due to some error condition. This is just a convention which makes sense in shell oriented environments such as Unix or DOS.
 
@@ -14,6 +14,11 @@ Multiple Files
 --------------
 
 For a program of any size, it's convenient to separate the functions into several separate files. To allow the functions in separate files to cooperate, and yet allow the compiler to work on the files independently, C programs typically depend on two features...
+
+.. todo::
+   
+   * C compiler makes a single pass
+   * 3 Steps: preprocessing, compiling, linking
 
 Prototypes
 ----------
@@ -122,7 +127,7 @@ There's a problem sometimes where a .h file is #included into a file more than o
    remove this pragma garbage
 
 Assert
-------
+======
 
 Array out of bounds references are an extremely common form of C run-time error. You can use the assert() function to sprinkle your code with your own bounds checks. A few seconds putting in assert statements can save you hours of debugging.
 

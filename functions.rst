@@ -3,6 +3,14 @@ Functions
 
 All languages have a construct to separate and package blocks of code. C uses the "function" to package blocks of code. This article concentrates on the syntax and peculiarities of C functions. The motivation and design for dividing a computation into separate blocks is an entire discipline in its own.
 
+.. sidebar:: Structured programming
+
+    There are no classes or objects in C, unlike other programming languages you've probably encountered to this point.  FIXME: complete this thought.
+
+
+Function syntax
+===============
+
 A function has a name, a list of arguments which it takes when called, and the block of code it executes when called. C functions are defined in a text file and the names of all the functions in a C program are lumped together in a single, flat namespace. The special function called "main" is where program execution begins. Some programmers like to begin their function names with Upper case, using lower case for variables and parameters, Here is a simple C function declaration. This declares a function named Twice which takes a single int argument named num. The body of the function computes the value which is twice the num argument and returns that value to the caller.
 
 
@@ -18,8 +26,10 @@ A function has a name, a list of arguments which it takes when called, and the b
         return(result);
     }
 
-Syntax
-------
+.. todo::
+
+    Static should be taken out here; it's too confusing.  Added sidebar (to be completed) below
+    to discuss some stuff w/static.  
 
 The keyword "static" defines that the function will only be available to callers in the file where it is declared. If a function needs to be called from another file, the function cannot be static and will require a prototype -- see prototypes below. The static form is convenient for utility functions which will only be used in the file where they are declared. Next , the "int" in the function above is the type of its return value. Next comes name of the function and its list of parameters. When referring to a function by name in documentation or other prose, it's a convention to keep the parenthesis () suffix, so in this case I refer to the function as "Twice()". The parameters are listed with their types and names, just like variables.
 
@@ -58,8 +68,8 @@ void is a type formalized in ANSI C which means "nothing". To indicate that a fu
     int TakesNothingAndReturnsAnInt(void); // equivalent syntax for above
 
 
-Call by Value vs. Call by Reference
------------------------------------
+Function parameters are passed by value
+---------------------------------------
 
 C passes parameters "by value" which means that the actual parameter values are copied into local storage. The caller and callee functions do not share any memory -- they each have their own copy. This scheme is fine for many purposes, but it has two disadvantages.
 
@@ -91,73 +101,14 @@ The classic example of wanting to modify the caller's memory is a ``swap()`` fun
 
 ``Swap()`` does not affect the arguments a and b in the caller. The function above only operates on the copies of a and b local to Swap() itself. This is a good example of how "local" memory such as ( x, y, temp) behaves -- it exists independent of everything else only while its owning function is running. When the owning function exits, its local memory disappears.
 
-Reference Parameter Technique
------------------------------
+.. todo::
 
-To pass an object X as a reference parameter, the programmer must pass a pointer to X instead of X itself. The formal parameter will be a pointer to the value of interest. The caller will need to use & or other operators to compute the correct pointer actual parameter. The callee will need to dereference the pointer with * where appropriate to access the value of interest. Here is an example of a correct Swap() function.
+   Forward reference to how this will work eventually (pointers; next chapter)
 
-::
+.. sidebar:: The keyword ``static``
 
-    static void Swap(int* x, int* y) {     // params are int* instead of int
-        int temp;
-        temp = *x;        // use * to follow the pointer back to the caller's memory
-        *x = *y;
-        *y = temp;
-    }
+    FIXME: add text about static in its various forms
 
-    // Some caller code which calls Swap()...
-    int a = 1;
-    int b = 2;
-    Swap(&a, &b);
+.. todo::
 
-Things to notice:
- 
- * The formal parameters are int* instead of int.
- * The caller uses & to compute pointers to its local memory (a,b).
- * The callee uses * to dereference the formal parameter pointers back to get the caller's memory.
-
-Since the operator & produces the address of a variable -- &a is a pointer to a. In Swap() itself, the formal parameters are declared to be pointers, and the values of interest (a,b) are accessed through them. There is no special relationship between the names used for the actual and formal parameters. The function call matches up the actual and formal parameters by their order -- the first actual parameter is assigned to the first formal parameter, and so on. I deliberately used different names (a,b vs x,y) to emphasize that the names do not matter.
-
-const
------
-
-The qualifier const can be added to the left of a variable or parameter type to declare that the code using the variable will not change the variable. As a practical matter, use of const is very sporadic in the C programming community. It does have one very handy use, which is to clarify the role of a parameter in a function prototype ::
-
-    void foo(const struct fraction* fract);
-
-In the foo() prototype, the const declares that foo() does not intend to change the struct fraction pointee which is passed to it. Since the fraction is passed by pointer, we could not know otherwise if foo() intended to change our memory or not. Using the const, foo() makes its intentions clear. Declaring this extra bit of information helps to clarify the role of the function to its implementor and caller.
-
-Bigger Pointer Example
-----------------------
-
-The following code is a large example of using reference parameters. There are several common features of C programs in this example...Reference parameters are used to allow the functions Swap() and IncrementAndSwap() to affect the memory of their callers. There's a tricky case inside of IncrementAndSwap() where it calls Swap() -- no additional use of & is necessary in this case since the parameters x, y inside InrementAndSwap() are already pointers to the values of interest. The names of the variables through the program(a, b, x, y, alice, bob) do not need to match up in any particular way for the parameters to work. The parameter mechanism only depends on the types of the parameters and their order in the parameter list -- not their names. Finally this is an example of what multiple functions look like in a file and how they are called from the main() function.
-
-::
-
-    static void Swap(int* a, int* b) {
-        int temp;
-        temp = *a;
-        *a = *b;
-        *b = temp;
-    }
-
-    static void IncrementAndSwap(int* x, int* y) {
-        (*x)++;
-        (*y)++;
-        Swap(x, y); // don't need & here since a and b are already
-                    // int*'s.
-    }
-
-    int main(int argc, char **argv) {
-        int alice = 10;
-        int bob = 20;
-
-        Swap(&alice, &bob);
-        // at this point alice==20 and bob==10
-
-        IncrementAndSwap(&alice, &bob);
-        // at this point alice==11 and bob==21
-
-        return 0; 
-    }
-
+    Add some examples and exercises
