@@ -1,24 +1,27 @@
 Basic Types and Operators
 *************************
 
-C provides a standard, minimal set of basic data types. Sometimes these are called "primitive" types. More complex data structures can be built up from these basic types.
+C provides a standard, minimal set of basic data types.  Sometimes these are called "primitive" types.  More complex data structures can be built up from these basic types.
 
 Integer Types
 =============
 
-The "integral" types in C form a family of integer types. They all behave like integers and can be mixed together and used in similar ways. The differences are due to the different number of bits ("widths") used to implement each type -- the wider types can store a greater ranges of values.
+The "integral" types in C form a family of integer types. They all behave like integers and can be mixed together and used in similar ways. The differences are due to the different number of bits ("widths") used to implement each type --- the wider types can store a greater ranges of values.
 
-char ASCII character
-    at least 8 bits. Pronounced "car". As a practical matter char is basically always a byte which is 8 bits which is enough to store a single ASCII character. 8 bits provides a signed range of -128..127 or an unsigned range is 0..255. char is also required to be the "smallest addressable unit" for the machine -- each byte in memory has its own address.
+``char``: One ASCII character
+    The size of a ``char`` is almost always 8 bits, or 1 byte.  Pronounced "car".  8 bits provides a signed range of -128..127 or an unsigned range is 0..255, which is enough to hold a single ASCII character. ``char`` is also required to be the "smallest addressable unit" for the machine --- each byte in memory has its own address.
 
-short Small integer
-    at least 16 bits which provides a signed range of -32768..32767. Typical size is 16 bits. Not used so much.
+``short``: A "small" integer
+    A ``short`` is typically 16 bits, which provides a signed range of -32768..32767.  It is less common to use a ``short`` than a ``char``, ``int``, or something larger.
 
-int Default integer
-    at least 16 bits, with 32 bits being typical. Defined to be the "most comfortable" size for the computer. If you do not really care about the range for an integer variable, declare it int since that is likely to be an appropriate size (16 or 32 bit) which works well for that machine.
+``int``: A "default" integer size
+    An ``int`` is typically 32 bits (4 bytes), though it is only guaranteed to be at least 16 bits.  It is defined to be the "most comfortable" size for the computer architecture for which the compiler is targetted.  If you do not really care about the range for an integer variable, declare it ``int`` since that is likely to be an appropriate size which works well for that machine.
 
-long Large integer
-    at least 32 bits. Typical size is 32 bits which gives a signed range of about -2 billion ..+2 billion. Some compilers support "long long" for 64 bit ints.
+``long``: A large integer
+    A least 32 bits.  On a 32-bit machine, it will usually be 32 bits, but on a 64 bit machine, it will usually be 64 bits.  
+    
+``long long``
+    Most modern compilers support ``long long`` as an integer type.  It is usually 64 bits.
 
 .. sidebar:: Types in Python compared with C
 
@@ -28,56 +31,61 @@ long Large integer
    An int in Python can hold an integer of arbitrary size, but that's
    definitely not true in C!  
 
-The integer types can be preceded by the qualifier unsigned which disallows representing negative numbers, but doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, whileunsigned shortcan store 0..65535. You can think of pointers as being a form of unsigned long on a machine with 4 byte pointers. In my opinion, it's best to avoid using unsigned unless you really need to. It tends to cause more misunderstandings and problems than it is worth.
+The integer types can be preceded by the qualifier ``unsigned`` which disallows representing negative numbers, but doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, while ``unsigned short`` can store 0..65535. You can think of pointers as being a form of unsigned long on a machine with 4 byte pointers. In my opinion, it's best to avoid using unsigned unless you really need to. It tends to cause more misunderstandings and problems than it is worth.
 
 Extra: Portability Problems
 ---------------------------
 
-Instead of defining the exact sizes of the integer types, C defines lower bounds. This makes it easier to implement C compilers on a wide range of hardware. Unfortunately it occasionally leads to bugs where a program runs differently on a 16-bit-int machine than it runs on a 32-bit-int machine. In particular, if you are designing a function that will be implemented on several different machines, it is a good idea to use typedefs to set up types like Int32 for 32 bit int and Int16 for 16 bit int. That way you can prototype a function Foo(Int32) and be confident that the typedefs for each machine will be set so that the function really takes exactly a 32 bit int. That way the code will behave the same on all the different machines.
+Instead of defining the exact sizes of the integer types, C defines lower bounds. This makes it easier to implement C compilers on a wide range of hardware. Unfortunately it occasionally leads to bugs where a program runs differently on a 16-bit-int machine than it runs on a 32-bit-int machine. In particular, if you are designing a function that will be implemented on several different machines, it is best to explicitly specify the sizes of integral types.  If you ``#include <stdint.h>``, you can use types that explicitly indicate their bit-widths: ``int8_t``, ``int16_t``, ``int32_t``, and ``int64_t``.  There are also ``unsigned`` variants of these types: ``uint8_t``, ``uint16_t``, ``uint32_t``, and ``uint64_t``.   
 
-char Constants
---------------
+For some operating systems-related functions it is extremely important to be sure that a variable is *exactly* of a given size. These types come in handy in those situations, too.
 
-A char constant is written with single quotes (') like 'A' or 'z'. The char constant 'A' is really just a synonym for the ordinary integer value 65 which is the ASCII value for ￼ uppercase 'A'. There are special case char constants, such as '\t' for tab, for characters which are not convenient to type on a keyboard.
 
-'A'
+``char`` Constants
+------------------
+
+A ``char`` constant is written with single quotes (') like ``'A'`` or ``'z'``. The char constant ``'A'`` is really just a synonym for the ordinary integer value 65, which is the ASCII value for uppercase 'A'. There are special case char constants, such as '\t' for tab, for characters which are not convenient to type on a keyboard.
+
+``'A'``
     uppercase 'A' character
 
-'\n'
+``'\n'``
     newline character
 
-'\t'
+``'\t'``
     tab character
 
-'\0'
+``'\0'``
     the "null" character -- integer value 0 (different from the char digit '0')
 
-'\012'
+``'\012'``
     the character with value 12 in octal, which is decimal 10
 
-int Constants
--------------
+``int`` Constants
+-----------------
 
 Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long such as 42L. An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal -- 0x10 is way of expressing the number 16. Similarly, a constant may be written in octal by preceding it with "0" -- 012 is a way of expressing the number 10.
 
 Type Combination and Promotion
 ------------------------------
 
-The integral types may be mixed together in arithmetic expressions since they are all basically just integers with variation in their width. For example, char and int can be combined in arithmetic expressions such as ('b' + 5). How does the compiler deal with the different widths present in such an expression? In such a case, the compiler "promotes" the smaller type (char) to be the same size as the larger type (int) before combining the values. Promotions are determined at compile time based purely on the types of the values in the expressions. Promotions do not lose information -- they always convert from a type to compatible, larger type to avoid losing information.
+The integral types may be mixed together in arithmetic expressions since they are all basically just integers with variation in their width. For example, char and int can be combined in arithmetic expressions such as (``'b' + 5``). How does the compiler deal with the different widths present in such an expression? In such a case, the compiler "promotes" the smaller type (char) to be the same size as the larger type (int) before combining the values. Promotions are determined at compile time based purely on the types of the values in the expressions. Promotions do not lose information --- they always convert from a type to compatible, larger type to avoid losing information.
 
-Pitfall -- int Overflow
------------------------
 
-I once had a piece of code which tried to compute the number of bytes in a buffer with the expression (k * 1024) where k was an int representing the number of kilobytes I wanted. Unfortunately this was on a machine where int happened to be 16 bits. Since k and 1024 were both int, there was no promotion. For values of k >= 32, the product was too big to fit in the 16 bit int resulting in an overflow. The compiler can do whatever it wants in overflow situations -- typically the high order bits just vanish. One way to fix the code was to rewrite it as (k * 1024L) -- the long constant forced the promotion of the int. This was not a fun bug to track down -- the expression sure looked reasonable in the source code. Only stepping past the key line in the debugger showed the overflow problem. "Professional Programmer's Language." This example also demonstrates the way that C only promotes based on the types in an expression. The compiler does not consider the values 32 or 1024 to realize that the operation will overflow (in general, the values don't exist until run time anyway). The compiler just looks at the compile time types, int and int in this case, and thinks everything is fine.
+.. sidebar:: Pitfall: ``int`` overflow
+
+    I once had a piece of code which tried to compute the number of bytes in a buffer with the expression (k * 1024) where k was an int representing the number of kilobytes I wanted. Unfortunately this was on a machine where int happened to be 16 bits. Since k and 1024 were both int, there was no promotion. For values of k >= 32, the product was too big to fit in the 16 bit int resulting in an overflow. The compiler can do whatever it wants in overflow situations -- typically the high order bits just vanish. One way to fix the code was to rewrite it as (k * 1024L) -- the long constant forced the promotion of the int. This was not a fun bug to track down -- the expression sure looked reasonable in the source code. Only stepping past the key line in the debugger showed the overflow problem. "Professional Programmer's Language." This example also demonstrates the way that C only promotes based on the types in an expression. The compiler does not consider the values 32 or 1024 to realize that the operation will overflow (in general, the values don't exist until run time anyway). The compiler just looks at the compile time types, int and int in this case, and thinks everything is fine.
 
 Floating point Types
 --------------------
 
-float 
+``float``
     Single precision floating point number typical size: 32 bits 
-double 
+
+``double``
     Double precision floating point number typical size: 64 bits
-long double 
+
+``long double``
     Possibly even bigger floating point number (somewhat obscure)
 
 Constants in the source code such as 3.14 default to type double unless the are suffixed with an 'f' (float) or 'l' (long double). Single precision equates to about 6 digits of precision and double is about 15 digits of precision. Most C programs use double for their computations. The main reason to use float is to save memory if many numbers need to be stored. The main thing to remember about floating point numbers is that they are inexact. For example, what is the value of the following double expression?
@@ -85,7 +93,7 @@ Constants in the source code such as 3.14 default to type double unless the are 
 
    (1.0/3.0 + 1.0/3.0 + 1.0/3.0)    // is this equal to 1.0 exactly?
 
-   The sum may or may not be 1.0 exactly, and it may vary from one type of machine to another. For this reason, you should never compare floating numbers to eachother for equality (==) -- use inequality (<) comparisons instead. Realize that a correct C program run on different computers may produce slightly different outputs in the rightmost digits of its floating point computations.
+The sum may or may not be 1.0 exactly, and it may vary from one type of machine to another. For this reason, you should never compare floating numbers to eachother for equality (``==``) --- use inequality (``<``) comparisons instead. Realize that a correct C program run on different computers may produce slightly different outputs in the rightmost digits of its floating point computations.
 
 Comments
 --------
@@ -105,10 +113,13 @@ Variables
 ---------
 
 As in most languages, a variable declaration reserves and names an area in memory at run time to hold a value of particular type. Syntactically, C puts the type first followed by the name of the variable. The following declares an int variable named "num" and the 2nd line stores the value 42 into num::
+
    int num;
    num = 42;
 
-FIXME: num box(42)
+.. todo::
+
+   Make a "number box" for the above
    
 A variable corresponds to an area of memory which can store a value of the given type. Making a drawing is an excellent way to think about the variables in a program. Draw each variable as box with the current value inside the box. This may seem like a "beginner" technique, but when I'm buried in some horribly complex programming problem, I invariably resort to making a drawing to help think the problem through.
 
@@ -175,6 +186,7 @@ No Boolean -- Use int
 ---------------------
 
 C does not have a distinct boolean type-- int is used instead. The language treats integer 0 as false and all non-zero values as true. So the statement::
+
     i = 0;
     while (i - 10) {
         ...
@@ -212,6 +224,7 @@ The unary ``++`` and ``--`` operators increment or decrement the value in a vari
     decrement "pre" variant
 
 An example using post increment/decrement::
+
     int i = 42;
     i++;     // increment on i
     // i is now 43
@@ -243,6 +256,7 @@ If I want j to depend on i's value before the increment, I write::
     i++;
 
 Or if I want to j to use the value after the increment, I write::
+
     i++;
     j = (i + 10);
 

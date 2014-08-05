@@ -17,8 +17,13 @@ In C, an array is formed by laying out all the elements contiguously in memory. 
     }
 
 The array name acts like a pointer to the first element; in this case an ``(int*)``.
+
+..
          ￼
-FIXME: picture
+.. todo:: 
+
+    Make a picture 
+
 
 The programmer can refer to elements in the array with the simple [ ] syntax such as array[1]. This scheme works by combining the base address of the whole array with the index to compute the base address of the desired element in the array. It just requires a little arithmetic. Each element takes up a fixed number of bytes which is known at compile-time. So the address of element n in the array using 0 based indexing will be at an offset of (n * element_size) bytes from the base address of the whole array.
 
@@ -35,7 +40,10 @@ The square bracket syntax [ ] deals with this address arithmetic for you, but it
         intArray[3] = 13;
     }
 
-FIXME: picture
+.. todo:: 
+
+    Make a picture of the above
+
 
 '+' Syntax
 ----------

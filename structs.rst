@@ -43,6 +43,7 @@ Multidimensional Arrays
 -----------------------
 
 The following declares a two-dimensional 10 by 10 array of integers and sets the first and last elements to be 13::
+
     int board [10][10];
     board[0][0] = 13;
     board[9][9] = 13;
@@ -101,12 +102,13 @@ We'll see shortly how a pointer is set to point to something -- for now just ass
 ::
     struct fraction* f1;
 
- ---------------  -----------------
+ ================ ==================
  Expression       Type
- ---------------  -----------------
+ ================ ==================
   f1              struct fraction*
   * f1            struct fraction
  (* f1).numerator  int
+ ================ ==================
 
 
 There's an alternate, more readable syntax available for dereferencing a pointer to a struct. A "->" at the right of the pointer can access any of the fields in the struct. So the reference to the numerator field could be written f1->numerator.

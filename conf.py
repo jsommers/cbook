@@ -35,6 +35,8 @@ extensions = [
     'sphinx.ext.ifconfig',
 ]
 
+todo_include_todos = True
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -221,8 +223,8 @@ latex_elements = {
 \setmainfont{Helvetica Neue Light}
 \setsansfont{Helvetica Neue Light}
 \setromanfont{Optima Regular}
-\setmonofont{Andale Mono}
-\usepackage[paperwidth=6.125in, paperheight=8.5in]{geometry}
+\setmonofont{Monaco}
+%% \usepackage[paperwidth=6.125in, paperheight=8.5in]{geometry}
 ''',
 # The paper size ('letterpaper' or 'a4paper').
 # 'papersize': 'letterpaper',

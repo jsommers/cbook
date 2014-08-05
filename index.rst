@@ -9,7 +9,13 @@
 The COSC 301 Book of C
 ======================
 
-Contents:
+.. todolist::
+
+.. include:: preface.rst
+
+.. raw:: html
+
+   <h3>Contents:</h3>
 
 .. toctree::
    :maxdepth: 2

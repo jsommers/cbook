@@ -7,6 +7,7 @@ A function has a name, a list of arguments which it takes when called, and the b
 
 
 ::
+
     /*
       Computes double of a number.
       Works by tripling the number, and then subtracting to get back to double.
