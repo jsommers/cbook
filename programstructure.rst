@@ -1,6 +1,8 @@
 Program structure
 *****************
 
+.. _the-main-function:
+
 The main function
 =================
 
@@ -16,9 +18,12 @@ Multiple Files
 For a program of any size, it's convenient to separate the functions into several separate files. To allow the functions in separate files to cooperate, and yet allow the compiler to work on the files independently, C programs typically depend on two features...
 
 .. todo::
-   
+
    * C compiler makes a single pass
    * 3 Steps: preprocessing, compiling, linking
+
+.. _compilation-phases:
+
 
 Prototypes
 ----------

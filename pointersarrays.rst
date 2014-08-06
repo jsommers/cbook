@@ -455,6 +455,9 @@ Disadvantages of being in the heap
 
  * The above two disadvantages have the same basic profile: if you get them wrong, your code still looks right. It compiles fine. It even runs for small cases, but for some input cases it just crashes unexpectedly because random memory is getting overwritten somewhere like the smiley face. This sort of "random memory smasher" bug can be a real ordeal to track down.
 
+
+.. _dynamic-strings:
+
 Dynamic Strings
 ---------------
 

@@ -1,3 +1,4 @@
+
 C Standard Library Functions
 ****************************
 
@@ -26,6 +27,8 @@ never works.  The field selection operator (``.``) has higher precedence
 than the dereference operator (``*``), thus the expression is evaluated
 as ``*(structptr.field)`` instead of the (usually) desired ``(*structptr).field``.  A way to avoid this problem altogether is to write ``structptr->field``.
 
+.. _C-standard-library-functions:
+
 Standard Library Functions
 --------------------------
 
@@ -49,6 +52,10 @@ Many basic housekeeping funcions are available to a C program in form of standar
   float.h            as ``INT_MAX``, ``FLOAT_MAX``
   stdbool.h     ``bool`` type (requires ``-std=c99`` compiler flag)
 ==============  ===================================================
+
+.. _stdio:
+
+.. index:: printf, fgets
 
 stdio.h
 -------
@@ -95,6 +102,8 @@ stdio.h
 The above code looks for the word "hello" followed by a number and two words (all separated by whitespace). scanf() uses the pointers &num, s1, and s2 to store what it finds into the local variables.
 
 ..
+
+.. index:: isalpha, islower, isupper, isspace, isdigit, toupper, tolower
 
 ctype.h
 -------
@@ -162,9 +171,6 @@ stdlib.h
 
 ``void free(void* block);``
     Opposite of malloc(). Returns a previous malloc block to the system for reuse
-
-``void* realloc(void* block, size_t size);``
-    Resize an existing heap block to the new size. Takes care of copying bytes from the old block to the new. Returns the new base address of the heap block. It is a common error to forget to catch the return value from realloc(). Returns NULL if the resize operation was not possible.
 
 ``void exit(int status);``
     Halt and exit the program and pass a condition int back to the operating sytem. Pass 0 to signal normal program termination, non-zero otherwise.

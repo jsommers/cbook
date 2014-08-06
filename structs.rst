@@ -19,8 +19,8 @@ This declaration introduces the type struct fraction (both words are required) a
     f2 = f1;    // this copies over the whole struct
 
 
-Arrays of ``struct``s
----------------------
+Arrays of structs
+-----------------
 
 The following declares an array named "numbers" which holds 1000 struct fraction's.
 

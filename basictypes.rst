@@ -45,10 +45,13 @@ The integer types can be preceded by the qualifier ``unsigned`` which disallows 
     For some operating systems-related functions it is extremely important to be sure that a variable is *exactly* of a given size. These types come in handy in those situations, too.
 
 
-``char`` Constants
-------------------
+.. _character-literals:
 
-A ``char`` constant is written with single quotes (') like ``'A'`` or ``'z'``. The char constant ``'A'`` is really just a synonym for the ordinary integer value 65, which is the ASCII value for uppercase 'A'. There are special case char constants, such as '\t' for tab, for characters which are not convenient to type on a keyboard.
+
+``char`` literals
+-----------------
+
+A ``char`` literal is written with single quotes (') like ``'A'`` or ``'z'``. The char constant ``'A'`` is really just a synonym for the ordinary integer value 65, which is the ASCII value for uppercase 'A'. There are special case char constants, such as '\t' for tab, for characters which are not convenient to type on a keyboard.
 
 ``'A'``
     uppercase 'A' character
