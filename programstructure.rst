@@ -1,17 +1,29 @@
 Program structure
 *****************
 
+.. _the-main-function:
+
 The main function
------------------
+=================
 
 The execution of a C program begins with function named main(). All of the files and libraries for the C program are compiled together to build a single program file. That file must contain exactly one main() function which the operating system uses as the starting point for the program. Main() returns an int which, by convention, is 0 if the program completed successfully and non-zero if the program exited due to some error condition. This is just a convention which makes sense in shell oriented environments such as Unix or DOS.
 
-FIXME: arguments to main and return value from main
+.. todo::
+
+   Need to include stuff about arguments to main and return value from main
 
 Multiple Files
 --------------
 
 For a program of any size, it's convenient to separate the functions into several separate files. To allow the functions in separate files to cooperate, and yet allow the compiler to work on the files independently, C programs typically depend on two features...
+
+.. todo::
+
+   * C compiler makes a single pass
+   * 3 Steps: preprocessing, compiling, linking
+
+.. _compilation-phases:
+
 
 Prototypes
 ----------
@@ -40,6 +52,7 @@ The preprocessing step happens to the C source before it is fed to the compiler.
 The #define directive can be used to set up symbolic replacements in the source. As with all preprocessor operations, #define is extremely unintelligent -- it just does textual replacement without understanding. #define statements are used as a crude way of establishing symbolic constants.
 
 ::
+
     #define MAX 100
     #define SEVEN_WORDS that_symbol_expands_to_all_these_words
 
@@ -66,13 +79,17 @@ The universally followed convention for C is that for a file named "foo.c" conta
  *  A separate file named foo.h will contain the prototypes for the functions in foo.c which clients may want to call. Functions in foo.c which are for "internal use only" and should never be called by clients should be declared static.
  * Near the top of foo.c will be the following line which ensures that the function definitions in foo.c see the prototypes in foo.h which ensures the "prototype before definition" rule above.
  
+..
+
 ::
+
     #include "foo.h" // show the contents of "foo.h"
                      // to the compiler at this point
 
  *  Any xxx.c file which wishes to call a function defined in foo.c must include the following line to see the prototypes, ensuring the "clients must see prototypes" rule above.
 
 ::
+
     #include "foo.h"
 
 
@@ -104,15 +121,18 @@ Multiple #includes -- #pragma once
 There's a problem sometimes where a .h file is #included into a file more than one time resulting in compile errors. This can be a serious problem. Because of this, you want to avoid #including .h files in other .h files if at all possible. On the other hand, #including .h files in .c files is fine. If you are lucky, your compiler will support the #pragma once feature which automatically prevents a single file from being #included more than once in any one file. This largely solves multiple #include problems.
 
 ::
+
     // foo.h
     // The following line prevents problems in files which #include "foo.h"
     #pragma once
     <rest of foo.h ...>
 
-FIXME: remove this pragma garbage
+.. todo::
+
+   remove this pragma garbage
 
 Assert
-------
+======
 
 Array out of bounds references are an extremely common form of C run-time error. You can use the assert() function to sprinkle your code with your own bounds checks. A few seconds putting in assert statements can save you hours of debugging.
 
@@ -134,6 +154,7 @@ Getting out all the bugs is the hardest and scariest part of writing a large pie
 Depending on the options specified at compile time, the assert() expressions will be left in the code for testing, or may be ignored. For that reason, it is important to only put expressions in assert() tests which do not need to be evaluated for the proper functioning of the program.
 
 ::
+
     int errCode = foo();      // yes
     assert(errCode == 0);
     assertfoo() == 0);        // NO, foo() will not be called if
