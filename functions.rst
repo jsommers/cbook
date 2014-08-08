@@ -101,6 +101,11 @@ The classic example of wanting to modify the caller's memory is a ``swap()`` fun
 
 ``Swap()`` does not affect the arguments a and b in the caller. The function above only operates on the copies of a and b local to Swap() itself. This is a good example of how "local" memory such as ( x, y, temp) behaves -- it exists independent of everything else only while its owning function is running. When the owning function exits, its local memory disappears.
 
+
+.. todo::
+
+   different types of function params: ints, arrays, structs (it's all pass by value!)
+
 .. todo::
 
    Forward reference to how this will work eventually (pointers; next chapter)

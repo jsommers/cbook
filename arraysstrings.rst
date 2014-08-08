@@ -1,6 +1,8 @@
 Arrays and Strings
 ******************
 
+.. index:: arrays, array indexing
+
 Arrays
 ======
 
@@ -22,17 +24,23 @@ The name of the array refers, in some sense, to the *whole array*. In actuality,
 
    A memory diagram of the scores array.
 
+.. index:: array initialization, memset
+
 Array initialization
 --------------------
 
-Note that because C does not do any automatic initialization of variables, the array has undefined contents at the point of declaration (line 1, above).  A common practice is to use either a simple ``for`` loop construct to set all values in the array to a specific value, e.g.,::
+Note that because C does not do any automatic initialization of variables, the array has undefined contents at the point of declaration (line 1, above).  A common practice is to use either a simple ``for`` loop construct to set all values in the array to a specific value, e.g.,:
+
+.. code-block:: c
 
     int scores[100];
     for (int i = 0; i < 100; i++) {
         scores[i] = 0; 
     }
 
-Another common practice is to use the ``memset`` function or ``bzero`` function to set everything in an array to zeroes.  The ``memset`` function is declared in ``strings.h`` (so you need to ``#include`` it), and takes three parameters: a memory address (which can just be the name of the array), the character that should be written into each byte of the memory address, and the number of bytes to set.  Thus, the above ``for`` loop could be replaced with the following::
+Another common practice is to use the ``memset`` function or ``bzero`` function to set everything in an array to zeroes.  The ``memset`` function is declared in ``strings.h`` (so you need to ``#include`` it), and takes three parameters: a memory address (which can just be the name of the array), the character that should be written into each byte of the memory address, and the number of bytes to set.  Thus, the above ``for`` loop could be replaced with the following:
+
+.. code-block:: c
 
     // at the top of your source code
     #include <string.h>
@@ -42,20 +50,28 @@ Another common practice is to use the ``memset`` function or ``bzero`` function 
 
 Note that we need to specify the number of *bytes* we want to set to 0, thus we say ``sizeof(int)`` multiplied by the number of array elements.  It's always good practice to use ``sizeof``, even if you think you can assume that the size of an ``int`` is 4.  Don't make that assumption; use ``sizeof``.
 
-One last way that array contents can be initialized is to use C initializer syntax. Say that we just want to create an array of 10 scores.  We could initialize the array as follows::
+One last way that array contents can be initialized is to use C initializer syntax. Say that we just want to create an array of 10 scores.  We could initialize the array as follows:
+
+.. code-block:: c
 
     int scores[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-The initializer syntax in C is just a set of curly braces, within which are comma-separate values.  You can even leave off the array size if you give an initializer, and the compiler will figure out how large to make the array::
+The initializer syntax in C is just a set of curly braces, within which are comma-separate values.  You can even leave off the array size if you give an initializer, and the compiler will figure out how large to make the array:
+
+.. code-block:: c
 
     int scores[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; // equivalent to above
 
 The initializer syntax is especially useful for small-ish arrays for which the initial values are not all identical.
 
+.. index:: sizeof, sizeof and arrays
+
 ``sizeof`` and arrays
 ---------------------
 
-The built-in ``sizeof`` function works with arrays.  Specifically, it will return the number of bytes occupied by the array, which is quite helpful.  So, the ``memset`` code we wrote earlier could be replaced with::
+The built-in ``sizeof`` function works with arrays.  Specifically, it will return the number of bytes occupied by the array, which is quite helpful.  So, the ``memset`` code we wrote earlier could be replaced with:
+
+.. code-block:: c
 
     // at the top of your source code
     #include <string.h>
@@ -70,6 +86,7 @@ It is a very common error to try to refer to non-existent array element. Unlike 
 
 So what you can you do about this?  The best thing is to use good tools for detecting memory corruption and bad array accesses.  The :command:`valgrind` tool [#f1]_ is especially good in this regard, and is highly recommended.  Its output can be somewhat difficult to understand at first, but it is a hugely helpful tool when trying to debug seemingly random program behavior.
 
+.. index:: variable length arrays
 
 Variable length arrays
 ----------------------
@@ -81,73 +98,163 @@ At the point of declaration, the size of an array in C *can* be specified with a
    :linenos:
 
 
+.. index:: strings, string initialization
+
 C Strings
 =========
 
-C has minimal support of character strings. For the most part, strings operate as ordinary arrays of characters. Their maintenance is up to the programmer using the standard facilities available for arrays and pointers. C does include a standard library of functions which perform common string operations, but the programmer is responsible for the managing the string memory and calling the right functions. Unfortunately computations involving strings are very common, so becoming a good C programmer often requires becoming adept at writing code which manages strings which means managing pointers and arrays.
+C has minimal support of character strings.  A string in C is, in essence, an array of ``char``\ s.  C includes a standard library of functions for performing a variety of string operations, but the programmer is ultimately responsible for managing the underlying array (and memory) used by the string.  Computations involving strings is very common, so becoming a competent C programmer requires a level of adeptness at understanding and manipulating C strings.
 
-A C string is just an array of char with the one additional convention that a "null" character ('\0') is stored after the last real character in the array to mark the end of the string. The compiler represents string constants in the source code such as "binky" as arrays which follow this convention. The string library functions (see the appendix for a partial list) operate on strings stored in this way. The most useful library function is strcpy(char dest[], const char source[]); which copies the bytes of one string over to another. The order of the arguments to strcpy() mimics the arguments in of '=' -- the right is assigned to the left. Another useful string function is strlen(const char string[]); which returns the number of characters in C string not counting the trailing '\0'.
+A C string is just an array of ``char`` with the one additional convention that a "null" character (``'\0'``) is stored after the last character in the array, as an end-of-string marker.  For example, the following code creates and prints the C string ``"go 'gate"`` (using some array initialization syntax introduced above):
 
-Note that the regular assignment operator (=) does not do string copying which is why strcpy() is necessary. See Section 6, Advanced Pointers and Arrays, for more detail on how arrays and pointers work.
+.. code-block:: c
 
-The following code allocates a 10 char array and uses strcpy() to copy the bytes of the string constant "binky" into that local array.
+    char string[] = {'g', 'o', ' ', '\'', 'g', 'a', 't', 'e', '\0' };
+    printf("%s\n", string);
+
+Notice a few things about the above line of code: (1) we don't need to specify the size of the array (the compiler can figure that out), (2) we need to "escape" the apostrophe (the 4th character), since we need to distinguish it from the character delimiters, and (3) we need to explicitly specify the end-of-string marker (null character).  
+
+Another way to initialize a C string is to use double-quotes.  The following code is identical to above:
+
+.. code-block:: c
+
+    char string[] = "go 'gate";
+    printf("%s\n", string);
+
+The compiler *automatically* adds the null termination character as the last character in ``string``, giving an identical in-memory representation as the previous code example.
+
+Since a C string is just an array of ``char``, it is totally mutable (which should be, hopefully, an obvious point).  As a result, we can tamper directly with the contents of the array to change the string.  For example, building on the last example, we could write:
+
+.. code-block:: c
+  
+    string[3] = 's';
+    string[4] = 'k';
+    printf("%s\n", string);
+
+to change the string to ``"go skate"`` and print it.
+
+.. index:: strlen, string length
+
+Getting the length of a string
+------------------------------
+
+It is often necessary in programs to obtain the length of a string.  There is a built-in ``strlen`` function just for this purpose.  ``strlen`` takes a single C string as a parameter, and returns an ``size_t`` type, which is typically the same size as a ``long`` (either 4 or 8 bytes, depending whether you're on a 32-bit or 64-bit machine, respectively).  ``strlen`` is declared in the ``string.h`` header file, so don't forget to include that file when using any built-in string functions like ``strlen``.
+
+Here's a brief example:
+
+.. code-block:: c
+
+    #include <stdio.h>
+    #include <string.h>
+
+    int main() {
+        char name[128];
+        printf("Please type your name: ");
+        fgets(name, 128, stdin);
+        printf("Your name is %d characters long.\n", strlen(name)-1);
+            // why strlen(name) - 1?  
+            // go back and re-read chapter 2 ("a head-first dive...") if you don't know or remember
+        return 0;
+    }
+
+.. index:: header files, man pages
+
+.. topic:: Which header file do I need to include?
+
+    Sometimes it can be hard to remember which header file a particular function, data type, or constant is declared in.  One UNIX-based systems, the best way to find out is to use the built-in ``man`` (manual) pages.  At a terminal, you can usually just type ``man <function-name>`` to bring up some online help about the function.  For example, you could type ``man strlen`` at a terminal prompt to get the man page on ``strlen``.
+
+    Manual pages can be a little bit difficult to wade through, but they are almost always divided into useful sections so you can (sort of) quickly find what you're looking for.  For finding out what header file to include, look in a section at the top of the man page called "SYNOPSIS".  That section also contains the function "prototypes" (which we'll discuss in a later chapter on functions), which provides the data types of any parameters and return values.
+
+    To navigate a man page, you can usually type ``'d'`` to go down a page, ``'u'`` to go up a page, and ``'q'`` to quit (type ``'h'`` or ``'?'`` for help on navigating).  
+
+    One other thing about man pages: some times there are terminal commands that have the same name as a C library function.  These things will have different man pages, filed in different *sections* of the online manual.  For example, there is a ``printf`` function that can be used in shell programs, but there is also the C function ``printf``.  If you just type ``man printf``, you'll get the shell command reference, which may not be what you want.  To get the right man page, you can type ``man <sectionnumber> <symbol>``, as in ``man 3 printf`` (the C library function ``printf`` is in manual section 3).  To find out the manual section number, you can search the manual pages by typing ``man -k printf``, which will give a list of all man pages that contain the string ``printf``.  The section number is shown in parens after the function name.
+
+.. index:: copying strings, strlcpy, strcpy
+
+Copying strings
+---------------
+
+Recall that an array variable really just holds the memory address of the beginning of the array.  Thus, ``=`` (direct assignment) cannot be used to copy strings.  Instead, the characters must be copied one-by-one from one string to another.  Fortunately, the pain of doing this is (somewhat) alleviated by a number of built-in C library functions to do the work for us.  The best function to use for copying strings is called ``strlcpy``, which takes three parameters: the destination string buffer, the source string, and the size (number of bytes) in the destination string buffer.  For example, if we wanted to make a copy of a string that a user typed in, we could do the following:
+
+.. _strlcpy-example:
+
+.. code-block:: c
+
+    #include <stdio.h>
+    #include <string.h>
+
+    int main() {
+        char buffer[128];
+        printf("Gimme a string: ");
+        fgets(buffer, 128, stdin);
+        size_t size = strlen(buffer)+1; // add 1 for the null termination character!
+        char copy[size];
+        strlcpy(copy, buffer, size);
+        return 0;
+    }
+
+.. index:: buffer overflows and strcpy
+
+Why, you may ask, do we need to pass the size of the destination string buffer as the third argument?  Can't the compiler figure it out?  Sadly, it cannot, especially in the case of variable length arrays and pointers (which we will encounter in a later chapter).  There is an "older" C library function called ``strcpy`` which only takes two parameters: the destination and the source strings.  One seriously bad thing that can happen with ``strcpy`` is exemplified by the following code:
+
+.. code-block:: c
+
+    char source[] = "this is a fairly long string, isn't it?";
+    char dest[8];  // this is a rather small buffer, isn't it?
+    strcpy(dest, source);
+
+The ``strcpy`` function will happily copy the string referred to by ``source`` into the string referred to by ``dest``.  That's bad.  The length of ``source`` is *way* longer than ``dest``, so what happens is a *buffer overflow*.  That is, the ``strcpy`` function ends up blowing past the end of the 8 bytes we allocated to ``dest``, and starts writing data into what ever comes next (which happens to be on the stack of what ever function is executing).  Again, clearly bad stuff.  The moral of the story: always use ``strlcpy``.
+
+.. index:: comparing strings, strcmp, strncmp, strcasecmp, strncasecmp
+
+Comparing strings
+-----------------
+
+Just as ``=`` cannot be used to copy strings, ``==`` cannot be used to compare strings.  The reason is very similar to why ``==`` cannot be used in the Java language to compare strings: the comparison for equality will just compare string *references* (or "pointers", which we will encounter soon) instead of comparing the *contents* of the strings.  
+
+There are four C library functions that are commonly used to compare two strings.
+
+``strcmp(s1, s2)``
+    Compare C strings referred to by parameters s1 and s2. Return 0 if the string contents are equivalent, -1 if s1 lexicographically precedes s2, and 1 if s2 lexicographically precedes s1.
+
+``strcasecmp(s1, s2)``
+    Same as ``strcmp``, but compare the strings in a case-insensitive manner.
+
+``strncmp(s1, s2, n)``
+    Same as ``strcmp``, but only compare the first ``n`` characters of the two strings.  (Technically ``strncmp`` only compares the first min(n, strlen(s1), strlen(s2)) characters).
+
+``strncasecmp(s1, s2, n)``
+    Same as ``strncmp``, but compare the strings in a case-insensitive manner.
+
+String examples
+---------------
+
+Let's look at two examples of string manipulation programs.  
+
+In the first program, we'll ask the user for a string, then convert all the characters in the string to lowercase.
+Here is the code:
+
+.. literalinclude:: code/tolower.c
+   :language: c
+   :linenos:
 
 ::
 
-    {
-        char localString[10];
-        strcpy(localString, "binky");
-    }
+    Gimme a string: AbCDERX!!! whY?!
+    Here's your string, lower-cased: abcderx!!! why?!
 
-.. todo::
 
-   Make a memory drawing of the above
+In the second program, we'll ask the user for a string, then overwrite any space characters with an underscore (``_``).
 
-The memory drawing shows the local variable localString with the string "binky" copied into it. The letters take up the first 5 characters and the '\0' char marks the end of the string after the 'y'. The x's represent characters which have not been set to any particular value.
-
-If the code instead tried to store the string "I enjoy languages which have good string support" into localString, the code would just crash at run time since the 10 character array can contain at most a 9 character string. The large string will be written passed the right hand side of localString, overwriting whatever was stored there.
-
-String Code Example
--------------------
-
-Here's a moderately complex for loop which reverses a string stored in a local array. It demonstrates calling the standard library functions strcpy() and strlen() and demonstrates that a string really is just an array of characters with a '\0' to mark the effective end of the string. Test your C knowledge of arrays and for loops by making a drawing of the
+.. literalinclude:: code/white2hyphen.c
+   :language: c
+   :linenos:
 
 ::
 
-    {
-        char string[1000];   // string is a local 1000 char array
-        int len;
-        strcpy(string, "binky");
-        len = strlen(string);
-        /*
-            Reverse the chars in the string:
-            i starts at the beginning and goes up
-            j starts at the end and goes down
-            i/j exchange their chars as they go until they meet
-        */
-        int i, j;
-        char temp;
-        for (i = 0, j = len - 1; i < j; i++, j--) {
-            temp = string[i];
-            string[i] = string[j];
-            string[j] = temp;
-        }
-        // at this point the local string should be "yknib"
-   }
+    Gimme a string: here are some wurds
+    I don't like spaces, so here: here_are_some_wurds
 
-"Large Enough" Strings
-----------------------
-
-The convention with C strings is that the owner of the string is responsible for allocating array space which is "large enough" to store whatever the string will need to store. Most routines do not check that size of the string memory they operate on, they just assume its big enough and blast away. Many, many programs contain declarations like the following ::
-
-    {
-        char localString[1000];
-        // ...
-    }
-
-The program works fine so long as the strings stored are 999 characters or shorter. Someday when the program needs to store a string which is 1000 characters or longer, then it crashes. Such array-not-quite-big-enough problems are a common source of bugs, and are also the source of so called "buffer overflow" security problems. This scheme has the additional disadvantage that most of the time when the array is storing short strings, 95% of the memory reserved is actually being wasted. A better solution allocates the string dynamically in the heap, so it has just the right size.
-
-To avoid buffer overflow attacks, production code should check the size of the data first, to make sure it fits in the destination string. See the strlcpy() function in Appendix A.
 
 .. rubric:: Exercises
 
@@ -168,7 +275,13 @@ To avoid buffer overflow attacks, production code should check the size of the d
         return 0;
     }
 
-2.  Write a program to FIXME
+2.  Write some code that computes the length of a string without using the built-in ``strlen`` function.  (Defining new functions is described in a later chapter, but with some Java and/or Python knowledge, you can probably make a good guess at how to define a new function in C.)
+
+3.  Implement your own version of ``strlcpy``.   Instead of calling ``strlcpy`` on the second to last line of the :ref:`strlcpy example above <strlcpy-example>`, write your own ``for`` loop (or some other kind of loop) to accomplish the same thing.
+
+4.  Write a program that asks for a string from a user and "strips" all whitespace characters from the end of the string (spaces, tabs and newlines).  To do that, you can simply assign a null character to the character array index that follows the last non-whitespace character of the string.
+
+5.  Write a program that asks for a string from a user and prints the string in reverse.  
 
 
 .. rubric:: Footnotes

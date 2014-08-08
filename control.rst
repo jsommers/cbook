@@ -8,7 +8,9 @@ In this chapter, we encounter the set of "control" structures in C, such as cond
 ``if`` Statement
 ================
 
-Both an ``if`` and an ``if-else`` are available in C.  The ``<expression>`` can be any valid expression. The parentheses around the expression are required, even if it is just a single variable::
+Both an ``if`` and an ``if-else`` are available in C.  The ``<expression>`` can be any valid expression. The parentheses around the expression are required, even if it is just a single variable:
+
+.. code-block:: c
 
     if (<expression>) <statement>    // simple form with no {}'s or else clause
 
@@ -16,9 +18,9 @@ I **strongly** recommend against using the above form of curly brace-free ``if``
 
 As in Java, the ``else`` keyword can be used to provide alternative execution for a conditional expression.  Also similar to Java, multiple ``if`` ... ``else if`` statements can be chained together.  
 
-::
+.. code-block:: c
 
-   ￼if (<expression>) { // simple form with {}'s to group statements
+    if (<expression>) { // simple form with {}'s to group statements
         <statements>
     }
 
@@ -52,13 +54,17 @@ As in Java, the ``else`` keyword can be used to provide alternative execution fo
 The conditional expression (ternary operator)
 =============================================
 
-The conditional expression can be used as a shorthand for some if-else statements. The general syntax of the conditional operator is::
+The conditional expression can be used as a shorthand for some if-else statements. The general syntax of the conditional operator is:
+
+.. code-block:: c
 
     <expression1> ? <expression2> : <expression3>
 
 This is an expression, not a statement, so it represents a value. The operator works by evaluating expression1. If it is true (non-zero), it evaluates and returns expression2 . Otherwise, it evaluates and returns expression3.
 
-The classic example of the ternary operator is to return the smaller of two variables. Every once in a while, the following form is just what you needed. Instead of::
+The classic example of the ternary operator is to return the smaller of two variables. Every once in a while, the following form is just what you needed. Instead of:
+
+.. code-block:: c
 
     if (x < y) {
         min = x;
@@ -66,7 +72,9 @@ The classic example of the ternary operator is to return the smaller of two vari
         min = y; 
     }
 
-you can write::
+you can write:
+
+.. code-block:: c
 
     min = (x < y) ? x : y;
 
@@ -75,7 +83,9 @@ you can write::
 ``switch`` statement
 ====================
 
-The switch statement is a sort of specialized form of ``if`` used to efficiently separate different blocks of code based on the value of an integer.  The ``switch`` expression is evaluated, and then the flow of control jumps to the matching const-expression ``case``. The ``case`` expressions are typically ``int`` or ``char`` constants (unfortunately, you cannot use strings as ``case`` expressions).  The ``switch`` statement is probably the single most syntactically awkward and error-prone features of the C language::
+The switch statement is a sort of specialized form of ``if`` used to efficiently separate different blocks of code based on the value of an integer.  The ``switch`` expression is evaluated, and then the flow of control jumps to the matching const-expression ``case``. The ``case`` expressions are typically ``int`` or ``char`` constants (unfortunately, you cannot use strings as ``case`` expressions).  The ``switch`` statement is probably the single most syntactically awkward and error-prone features of the C language:
+
+.. code-block:: c
 
     switch (<expression>) {
         case <const-expression-1>:
@@ -101,7 +111,9 @@ Why does the ``switch`` statement fall-through behavior work the way it does? Th
 ``while`` loop
 ==============
 
-The ``while`` loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parenthesis like the if::
+The ``while`` loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parenthesis like the if:
+
+.. code-block:: c
 
     while (<expression>) {
         <statement>
@@ -114,7 +126,9 @@ Although the curly braces are not technically required if there is only one stat
 ``do-while`` loop
 =================
 
-Like a ``while``, but with the test condition at the bottom of the loop. The loop body will always execute at least once. The ``do-while`` tends to be an unpopular area of the language, most everyone tries to use the straight ``while`` if possible::
+Like a ``while``, but with the test condition at the bottom of the loop. The loop body will always execute at least once. The ``do-while`` tends to be an unpopular area of the language, most everyone tries to use the straight ``while`` if possible:
+
+.. code-block:: c
 
     do {
         <statement>
@@ -128,7 +142,9 @@ Like a ``while``, but with the test condition at the bottom of the loop. The loo
 .. fixme: C99 declaration of variable; show what error shows up if you don't use -std=c99 and declare in the for loop.  for is *not* the most general looping statement.  ridiculous, dude.
 
 
-The ``for`` loop in C contains three components that are often used in looping constructs, making it a fairly convenient statement to use.  The three parts are an initializer, a continuation condition, and an action, as in::
+The ``for`` loop in C contains three components that are often used in looping constructs, making it a fairly convenient statement to use.  The three parts are an initializer, a continuation condition, and an action, as in:
+
+.. code-block:: c
 
     for (<initializer>; <continuation>; <action>) {
         <statement>
@@ -156,7 +172,9 @@ Once the ``-std=c99`` flag is added, the code compiles correctly, as expected.
 ``break``
 ---------
 
-The ``break`` statement causes to execution to exit the current loop or switch statement.  Stylistically speaking, ``break`` has the potential to be a bit vulgar.  It is preferable to use a straight ``while`` with a single conditional expression at the top if possible, but sometimes you are forced to use a ``break`` because the test can occur only somewhere in the midst of the statements in the loop body.  To keep the code readable, be sure to make the ``break`` obvious --- forgetting to account for the action of a ``break`` is a traditional source of bugs in loop behavior::
+The ``break`` statement causes to execution to exit the current loop or switch statement.  Stylistically speaking, ``break`` has the potential to be a bit vulgar.  It is preferable to use a straight ``while`` with a single conditional expression at the top if possible, but sometimes you are forced to use a ``break`` because the test can occur only somewhere in the midst of the statements in the loop body.  To keep the code readable, be sure to make the ``break`` obvious --- forgetting to account for the action of a ``break`` is a traditional source of bugs in loop behavior:
+
+.. code-block:: c
 
     while (<expression>) {
         <statement>
@@ -174,7 +192,9 @@ The ``break`` does not work with ``if``; it only works in loops and switches. Th
 ``continue``
 ------------
 
-The ``continue`` statement causes control to jump to the bottom of the loop, effectively skipping over any code below the ``continue``. As with ``break``, this has a reputation as being vulgar, so use it sparingly. You can almost always get the effect more clearly using an ``if`` inside your loop::
+The ``continue`` statement causes control to jump to the bottom of the loop, effectively skipping over any code below the ``continue``. As with ``break``, this has a reputation as being vulgar, so use it sparingly. You can almost always get the effect more clearly using an ``if`` inside your loop:
+
+.. code-block:: c
 
     while (<expression>) {
         <statement>

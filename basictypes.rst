@@ -147,7 +147,7 @@ Constants in the source code such as 3.14 default to type ``double`` unless the 
 
 The main thing to remember about floating point computations is that they are *inexact*. For example, what is the value of the following double expression?
 
-::
+.. code-block:: c
 
    (1.0/3.0 + 1.0/3.0 + 1.0/3.0) // is this equal to 1.0 exactly?
 
@@ -162,7 +162,9 @@ The sum may or may not be 1.0 exactly, and it may vary from one type of machine 
 Boolean type
 ============
 
-In C prior to the C99 standard, there was no distinct Boolean type.  Instead, integer values were used to indicate true or false: zero (0) means false, and anything non-zero means true.  So, the following code::
+In C prior to the C99 standard, there was no distinct Boolean type.  Instead, integer values were used to indicate true or false: zero (0) means false, and anything non-zero means true.  So, the following code:
+
+.. code-block:: c
 
     int i = 0;
     while (i - 10) {
@@ -173,7 +175,9 @@ In C prior to the C99 standard, there was no distinct Boolean type.  Instead, in
 
 will execute until the variable ``i`` takes on the value 10 at which time the expression (i - 10) will become false (i.e., 0).  
 
-In the C99 revision, a ``bool`` type was added to the language, but the vast majority of existing C code uses integers as quasi-Boolean values. In C99, you must add ``#include <stdbool.h>`` to your code to gain access to the ``bool`` type.  Using the C99 ``bool`` type, we could modify the above code to read as follows::
+In the C99 revision, a ``bool`` type was added to the language, but the vast majority of existing C code uses integers as quasi-Boolean values. In C99, you must add ``#include <stdbool.h>`` to your code to gain access to the ``bool`` type.  Using the C99 ``bool`` type, we could modify the above code to read as follows:
+
+.. code-block:: c
 
     #include <stdbool.h> 
 
@@ -238,12 +242,16 @@ Names in C are *case sensitive* so "x" and "X" refer to different variables. Nam
 Assignment Operator ``=``
 -------------------------
 
-The assignment operator is the single equals sign (``=``)::
+The assignment operator is the single equals sign (``=``):
+
+.. code-block:: c
 
     i = 6;
     i = i + 1;
 
-The assignment operator copies the value from its right hand side to the variable on its left hand side. The assignment also acts as an expression which returns the newly assigned value. Some programmers will use that feature to write things like the following::
+The assignment operator copies the value from its right hand side to the variable on its left hand side. The assignment also acts as an expression which returns the newly assigned value. Some programmers will use that feature to write things like the following:
+
+.. code-block:: c
 
     y = x = 2 * x;  // double x, and also put x's new value in y
 
@@ -252,7 +260,9 @@ The assignment operator copies the value from its right hand side to the variabl
 Truncation on assignment
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-The opposite of promotion, truncation moves a value from a type to a smaller type.  In that case, the compiler just drops the extra bits.  A good compiler will generate a compile time warning of the loss of information. Assigning from an integer to a smaller integer (e.g., ``long`` to ``int``, or ``int`` to ``char``) drops the most significant bits.  Assigning from a floating point type to an integer drops the fractional part of the number::
+The opposite of promotion, truncation moves a value from a type to a smaller type.  In that case, the compiler just drops the extra bits.  A good compiler will generate a compile time warning of the loss of information. Assigning from an integer to a smaller integer (e.g., ``long`` to ``int``, or ``int`` to ``char``) drops the most significant bits.  Assigning from a floating point type to an integer drops the fractional part of the number:
+
+.. code-block:: c
 
     int i = 321;
     char ch = i;     // truncation of an int value to fit in a char
@@ -321,7 +331,9 @@ Operator  Meaning
 ``--var`` decrement "pre" variant
 ========= ==========================
 
- An example using post increment/decrement::
+An example using post increment/decrement:
+
+.. code-block::
 
     int i = 42;
     i++;     // increment on i
@@ -332,7 +344,9 @@ Operator  Meaning
 Pre- and post- variations
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The pre-/post- variation has to do with nesting a variable with the increment or decrement operator inside an expression --- should the entire expression represent the value of the variable *before* or *after* the change?  These operators can be confusing to read in code and are often best avoided, but here is an example::
+The pre-/post- variation has to do with nesting a variable with the increment or decrement operator inside an expression --- should the entire expression represent the value of the variable *before* or *after* the change?  These operators can be confusing to read in code and are often best avoided, but here is an example:
+
+.. code-block::
 
     int i = 42;
     int j;
@@ -361,22 +375,15 @@ Operator  Meaning
 ``<=``    Less or Equal
 ========= ==========================
 
-To see if ``x`` equals three, write something like::
-
-    if (x == 3) ...
-
+To see if ``x`` equals three, write something like ``if (x==3) ...``.
 
 .. sidebar:: pitfall: ``= != ==``
 
-    An absolutely classic pitfall is to write assignment (``=``) when you mean comparison (``==``). This would not be such a problem, except the incorrect assignment version compiles fine because the compiler assumes you mean to use the value returned by the assignment.  This is rarely what you want::
-
-        if (x = 3) ...
+    An absolutely classic pitfall is to write assignment (``=``) when you mean comparison (``==``). This would not be such a problem, except the incorrect assignment version compiles fine because the compiler assumes you mean to use the value returned by the assignment.  This is rarely what you want: ``if (x=3) ...``.
 
     This does not test if ``x`` is 3!  It sets ``x`` to the value 3, and then returns the 3 to the ``if statement`` for testing.  3 is not 0, so it counts as "true" every time.  
 
-    Some compilers will emit warnings for these types of expressions, but a better technique that many C programmers use to avoid such problems is to put the literal value on the *left hand side* of the expression as in::
-
-        if (3 = x) ...
+    Some compilers will emit warnings for these types of expressions, but a better technique that many C programmers use to avoid such problems is to put the literal value on the *left hand side* of the expression as in: ``if (3=x)...``
 
     In this case, a compile-time error would result (you can't assign anything to a literal).  
 
