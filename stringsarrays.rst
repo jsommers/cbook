@@ -4,26 +4,82 @@ Arrays and Strings
 Arrays
 ======
 
-The simplest type of array in C is one which is declared and used in one place. There are more complex uses of arrays which I will address later along with pointers. The following declares an array called scores to hold 100 integers and sets the first and last elements. C arrays are always indexed from 0. So the first int in scores array is scores[0] and the last is scores[99].
+Arrays in C are declared and used much like they are in Java.  The syntax for using arrays in C is nearly identical to Java, and is very similar to the syntax used for Python lists.  As with both Python and Java, arrays in C are always indexed starting at 0.  Thus, in the following example, the first ``int`` in the ``scores`` array is ``scores[0]`` and the last is ``scores[99]``::
 
-::
+.. code-block:: c
+   :linenos:
+
     int scores[100];
     scores[0]  = 13;           // set first element
     scores[99] = 42;           // set last element
 
-The name of the array refers to the whole array. (implementation) it works by representing a pointer to the start of the array.  
+The name of the array refers, in some sense, to the *whole array*. In actuality, the array name refers to the memory address at which the array storage begins. As in Java, elements of an array in C are stored *contiguously*.  Thus, for the above array, if the first element in the array is stored at memory address *x*, the next element is stored at *x+4* (since the ``int`` is 4 bytes on most machines today), as depicted in :ref:`array-figure`, below.
 
-.. todo::
+.. _array-figure:
 
-   Add a picture of an array.
+.. figure:: figures/array.*
+   :alt: A diagram of an array in C
 
-.. 
+   A memory diagram of the scores array.
 
- * There is space for each int element in the scores array — this element is referred to as scores[0].
- * These elements have random values because the code has not yet initialized them to anything.
- * Someone else’s memory off either end of the array — do not read or write this memory.
+Array initialization
+--------------------
 
-It is a very common error to try to refer to non-existent scores[100] element. C does not do any run time or compile time bounds checking in arrays. At run time the code will just access or mangle whatever memory it happens to hit and crash or misbehave in some unpredictable way thereafter. "Professional programmer's language." The convention of numbering things 0..(number of things - 1) pervades the language. To best integrate with C and other C programmers, you should use that sort of numbering in your own data structures as well.
+Note that because C does not do any automatic initialization of variables, the array has undefined contents at the point of declaration (line 1, above).  A common practice is to use either a simple ``for`` loop construct to set all values in the array to a specific value, e.g.,::
+
+    int scores[100];
+    for (int i = 0; i < 100; i++) {
+        scores[i] = 0; 
+    }
+
+Another common practice is to use the ``memset`` function or ``bzero`` function to set everything in an array to zeroes.  The ``memset`` function is declared in ``strings.h`` (so you need to ``#include`` it), and takes three parameters: a memory address (which can just be the name of the array), the character that should be written into each byte of the memory address, and the number of bytes to set.  Thus, the above ``for`` loop could be replaced with the following::
+
+    // at the top of your source code
+    #include <string.h>
+
+    int scores[100];
+    memset(scores, 0, 100*sizeof(int));
+
+Note that we need to specify the number of *bytes* we want to set to 0, thus we say ``sizeof(int)`` multiplied by the number of array elements.  It's always good practice to use ``sizeof``, even if you think you can assume that the size of an ``int`` is 4.  Don't make that assumption; use ``sizeof``.
+
+One last way that array contents can be initialized is to use C initializer syntax. Say that we just want to create an array of 10 scores.  We could initialize the array as follows::
+
+    int scores[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+The initializer syntax in C is just a set of curly braces, within which are comma-separate values.  You can even leave off the array size if you give an initializer, and the compiler will figure out how large to make the array::
+
+    int scores[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; // equivalent to above
+
+The initializer syntax is especially useful for small-ish arrays for which the initial values are not all identical.
+
+``sizeof`` and arrays
+---------------------
+
+The built-in ``sizeof`` function works with arrays.  Specifically, it will return the number of bytes occupied by the array, which is quite helpful.  So, the ``memset`` code we wrote earlier could be replaced with::
+
+    // at the top of your source code
+    #include <string.h>
+
+    int scores[100];
+    memset(scores, 0, sizeof(scores)); 
+
+Array bounds checking (not!)
+----------------------------
+
+It is a very common error to try to refer to non-existent array element. Unlike Java or Python, in which an out-of-bounds array (or list) reference will result in an exception, C will happily attempt to access the non-existent element.  The program behavior in such a case is *undefined*, which basically means that anything can happen.  Your program might crash, but it might not.  It might behave as you expect, but it might not.  Yuck.  Welcome to C.  
+
+So what you can you do about this?  The best thing is to use good tools for detecting memory corruption and bad array accesses.  The :command:`valgrind` tool [#f1]_ is especially good in this regard, and is highly recommended.  Its output can be somewhat difficult to understand at first, but it is a hugely helpful tool when trying to debug seemingly random program behavior.
+
+
+Variable length arrays
+----------------------
+
+At the point of declaration, the size of an array in C *can* be specified with a variable, which creates what is called a *variable length array*.  Variable length arrays were added to C in the C99 standard, so if you use a variable when specifying the size of an array and there is a compile-time error on that line, make sure that you are compiling in C99 mode (``-std=c99`` on :command:`clang` and :command:`gcc`).  Here is an example with using a variable-length array (notice that we're using the ``atoi`` function to convert a string to an integer):
+
+.. literalinclude:: code/vararray.c
+   :language: c
+   :linenos:
+
 
 C Strings
 =========
@@ -95,4 +151,26 @@ To avoid buffer overflow attacks, production code should check the size of the d
 
 .. rubric:: Exercises
 
-.. todo:: add exercises for basic types
+1.  Run the following program, which has a bad array index.  What is its behavior?  What if you change the ``for`` loop so that the second part of the for loop reads ``i <= max*100`` --- what happens then?
+
+.. code-block:: c
+   :linenos:
+   
+    #include <stdio.h>
+
+    int main() {
+        int max = 10;
+        int array[max] = { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 };
+        
+        for (int i = 0; i <= max; i++) {
+            printf("Array index %d contains %d\n", i, array[i]);
+        }
+        return 0;
+    }
+
+2.  Write a program to FIXME
+
+
+.. rubric:: Footnotes
+
+.. [#f1] http://valgrind.org

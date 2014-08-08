@@ -218,7 +218,6 @@ As in most languages, a variable declaration reserves and names an area in memor
 ..
 
 .. figure:: figures/numbox.*
-   :width: 0.75in
    :alt: Memory box diagram
 
    A simple memory diagram for ``int num = 42;``.
@@ -434,11 +433,6 @@ Operator       Meaning
 ``<<=``        Bitwise left shift by RHS (multiply by power of 2)
 ``&=, |=, ^=`` Bitwise and, or, xor by RHS
 ============== =============================================================
-
-
-.. rubric:: Exercises
-
-.. todo:: add exercises for basic types
 
 
 .. rubric:: Footnotes

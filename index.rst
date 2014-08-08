@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 .. highlight:: c
-   :linenothreshold: 5
+   :linenothreshold: 3
 
 The COSC 301 Book of C
 ======================
@@ -32,10 +32,10 @@ The COSC 301 Book of C
    stdlib
 
 
-Indices and tables
-==================
+.. Indices and tables
+..  ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. xx * :ref:`genindex`
+.. xx * :ref:`modindex`
+.. xx* :ref:`search`
 

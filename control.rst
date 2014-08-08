@@ -186,11 +186,6 @@ The ``continue`` statement causes control to jump to the bottom of the loop, eff
         // control jumps here on the continue
     }
 
-.. rubric:: Exercises
-
-.. todo:: add exercises for control structures
-
-
 .. rubric:: Footnotes
 
 .. [#f1] See https://gotofail.com for a variety of information about the bug, and https://www.imperialviolet.org/2014/02/22/applebug.html for detailed analysis of the source code that caused the problem.
