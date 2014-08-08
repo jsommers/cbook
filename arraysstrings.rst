@@ -4,7 +4,7 @@ Arrays and Strings
 Arrays
 ======
 
-Arrays in C are declared and used much like they are in Java.  The syntax for using arrays in C is nearly identical to Java, and is very similar to the syntax used for Python lists.  As with both Python and Java, arrays in C are always indexed starting at 0.  Thus, in the following example, the first ``int`` in the ``scores`` array is ``scores[0]`` and the last is ``scores[99]``::
+Arrays in C are declared and used much like they are in Java.  The syntax for using arrays in C is nearly identical to Java, and is very similar to the syntax used for Python lists.  As with both Python and Java, arrays in C are always indexed starting at 0.  Thus, in the following example, the first ``int`` in the ``scores`` array is ``scores[0]`` and the last is ``scores[99]``:
 
 .. code-block:: c
    :linenos:

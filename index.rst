@@ -24,7 +24,7 @@ The COSC 301 Book of C
    tutorial
    basictypes
    control
-   stringsarrays
+   arraysstrings
    structs
    functions
    pointersarrays
