@@ -149,9 +149,21 @@ The padding inserted by the compiler is not usually something one needs to pay c
 
 .. rubric:: Exercises
 
-1.  Assume that you have a text file with a series of student names, class years, and ages listed, like the following::
+1. Assume that you have a text file with a series of student names, class years, and ages listed, like the following::
 
-    
+       Alice Z., 2020, 17
+       Bob Y., 2019, 19
+       Chelsea X., 2020, 18
+       Draco W., 2019, 20
+
+   Write a program that reads the text file contents from standard input (hint below) and stores each student in a C struct in an array.  After you've loaded the students, print each of them out on a separate line, and print the average age (as a floating point number) at the end.  (To format a floating point number for output using ``printf``, you can use the ``%f`` placeholder.)
+
+   You can assume any reasonable upper-bound for the number of characters in a name, and any reasonable upper-bound for the number of students.  That is, you should *overallocate* space required for the name and number of students, within reason.  An upper bound for student name might be 64, and an upper bound for the number of students might be 100.
+
+   You can use the ``fgets`` call to read data from standard input (just as you've already done for keyboard input), and use "shell redirection" to cause the contents of a text file to be treated as stdin to your program.  Say that you've compiled the code to an executable called ``sreader`` and the student data is in the text file ``students.txt``, you could do the redirection trick by typing::
+
+       $ ./sreader < students.txt
+
 
 
 .. [#f1] http://en.wikipedia.org/wiki/Data_structure_alignment

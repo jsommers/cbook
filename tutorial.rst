@@ -66,6 +66,11 @@ Notice that there are a few command-line flags/options given:
 
  * ``<sourcefiles>`` comes last, and can be one or more ``.c`` files containing C source code.   
 
+.. sidebar:: a.out is the default executable file name produced by clang
+
+   If you do not supply an output executable name using the ``-o`` flag, :command:`clang` will create a file named ``a.out``.  Which is very, very weird, right?  There is, of course, a history behind this file name [#f3]_.
+
+
 For example, with the "hello, someone" example above, we might compile and run the program as follows::
 
     $ clang -g -Wall -std=c99 -o hello hello.c
@@ -143,3 +148,5 @@ Ugh.  Not only are there *more* errors reported than actually exist, the output 
 .. [#f1] Don't look for any examples related to Windows or Visual C in this book: they don't exist.
 
 .. [#f2] If the terminal in which you invoke :command:`clang` is capable, it will even color-highlight the output to help draw your attention to various errors and warnings.  
+
+.. [#f3] http://en.wikipedia.org/wiki/A.out

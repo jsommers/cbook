@@ -3,6 +3,8 @@
 Functions
 *********
 
+it's all about abstraction, modularity, and code design (DRY, SOFA)
+
 All languages have a construct to separate and package blocks of code. C uses the "function" to package blocks of code. This article concentrates on the syntax and peculiarities of C functions. The motivation and design for dividing a computation into separate blocks is an entire discipline in its own.
 
 .. sidebar:: Structured programming
@@ -28,12 +30,7 @@ A function has a name, a list of arguments which it takes when called, and the b
         return(result);
     }
 
-.. todo::
-
-    Static should be taken out here; it's too confusing.  Added sidebar (to be completed) below
-    to discuss some stuff w/static.  
-
-The keyword "static" defines that the function will only be available to callers in the file where it is declared. If a function needs to be called from another file, the function cannot be static and will require a prototype -- see prototypes below. The static form is convenient for utility functions which will only be used in the file where they are declared. Next , the "int" in the function above is the type of its return value. Next comes name of the function and its list of parameters. When referring to a function by name in documentation or other prose, it's a convention to keep the parenthesis () suffix, so in this case I refer to the function as "Twice()". The parameters are listed with their types and names, just like variables.
+Next , the "int" in the function above is the type of its return value. Next comes name of the function and its list of parameters. When referring to a function by name in documentation or other prose, it's a convention to keep the parenthesis () suffix, so in this case I refer to the function as "Twice()". The parameters are listed with their types and names, just like variables.
 
 Inside the function, the parameter num and the local variable result are "local" to the function -- they get their own memory and exist only so long as the function is executing. This independence of "local" memory is a standard feature of most languages (See CSLibrary/102 for the detailed discussion of local memory).
 
@@ -89,6 +86,20 @@ The alternative is to pass the arguments "by reference". Instead of passing a co
 
 Some languages support reference parameters automatically. C does not do this -- the programmer must implement reference parameters manually using the existing pointer constructs in the language.
 
+
+
+.. todo::
+
+   different types of function params: ints, arrays, structs (it's all pass by value!)
+
+.. todo::
+
+   Forward reference to how this will work eventually (pointers; next chapter)
+
+.. todo::
+ 
+   Yes, recursion works.
+
 Swap Example
 ------------ 
 
@@ -109,18 +120,14 @@ The classic example of wanting to modify the caller's memory is a ``swap()`` fun
 ``Swap()`` does not affect the arguments a and b in the caller. The function above only operates on the copies of a and b local to Swap() itself. This is a good example of how "local" memory such as ( x, y, temp) behaves -- it exists independent of everything else only while its owning function is running. When the owning function exits, its local memory disappears.
 
 
-.. todo::
-
-   different types of function params: ints, arrays, structs (it's all pass by value!)
-
-.. todo::
-
-   Forward reference to how this will work eventually (pointers; next chapter)
-
 .. sidebar:: The keyword ``static``
 
-    FIXME: add text about static in its various forms
+    FIXME: add text about static in two forms: internal linkage and static variables in functions
 
-.. todo::
+    The keyword "static" defines that the function will only be available to callers in the file where it is declared. If a function needs to be called from another file, the function cannot be static and will require a prototype -- see prototypes below. The static form is convenient for utility functions which will only be used in the file where they are declared.
 
-    Add some examples and exercises
+
+.. rubric:: Exercises
+
+1.  Refactor exercise 1 in the ``struct`` chapter.  Write functions to parse a single line into a struct, and to print out a struct.
+
