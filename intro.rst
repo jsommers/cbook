@@ -25,7 +25,6 @@ This book is intended to be a short, though mostly complete introduction to the 
 
 .. [Evolution] D. Ritchie. *The Evolution of the Unix Time-sharing System*, AT&T Bell Laboratories Technical Journal 63 No. 6 Part 2, October 1984, pp. 1577-93.  Available at: http://cm.bell-labs.com/who/dmr/hist.html
 
-.. rubric:: Footnotes
 
 .. [#f1] Take a moment and consider how difficult it must have been to develop a new OS!
 

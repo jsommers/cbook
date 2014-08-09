@@ -97,6 +97,35 @@ At the point of declaration, the size of an array in C *can* be specified with a
    :language: c
    :linenos:
 
+..
+
+.. index::
+   double: arrays; multi-dimensional arrays
+
+
+Multidimensional Arrays
+=======================
+
+Just as in Java, C allows a programmer to declare "multi-dimensional" arrays by using multiple pairs of square braces in the array variable declaration.  For example, an 2-dimensional array of integers with ``r`` rows and ``c`` columns would be declared as ``int array[r][c]``.  Thus, if we wanted to declare a 3x3 array to hold the contents of a tic-tac-toe board, we might do something like this:
+
+.. code-block:: c
+
+    char board[3][3];
+
+You can use array initialization syntax with multi-dimensional arrays, too.  For example, the ``board`` declaration could set each element as follows:
+
+.. code-block:: c
+
+    char board[3][3] = {{'O', 'O', ' '},
+                        {'X', 'X', 'O'},
+                        {' ', 'O', 'X'}};
+
+
+Note that each nested set of curly braces in the initializer refers to a *row* in the array.
+
+The underlying implementation of a multi-dimensional array stores all the elements in a *single contiguous block of memory*.  The array is arranged with the elements of the rightmost index next to each other. In other words, board[1][8] comes right before board[1][9] in memory.  (This arrangement is called "row-major order" [#f2]_.)
+
+(highly optional efficiency point) It's typically efficient to access memory which is near other recently accessed memory. This means that the most efficient way to read through a chunk of the array is to vary the rightmost index the most frequently since that will access elements that are near each other in memory.
 
 .. index:: strings, string initialization
 
@@ -153,7 +182,9 @@ Here's a brief example:
         fgets(name, 128, stdin);
         printf("Your name is %d characters long.\n", strlen(name)-1);
             // why strlen(name) - 1?  
-            // go back and re-read chapter 2 ("a head-first dive...") if you don't know or remember
+            // fgets includes the \n (newline) character that the user types in
+            // the string filled in name, and we don't want to include that 
+            // character as part of the length of the name.
         return 0;
     }
 
@@ -226,35 +257,41 @@ There are four C library functions that are commonly used to compare two strings
 ``strncasecmp(s1, s2, n)``
     Same as ``strncmp``, but compare the strings in a case-insensitive manner.
 
-String examples
+.. index:: islower, isupper, ispunct, isdigit, tolower, toupper, isspace, ctype, isalpha, isalnum
+
+Another example
 ---------------
 
-Let's look at two examples of string manipulation programs.  
-
-In the first program, we'll ask the user for a string, then convert all the characters in the string to lowercase.
-Here is the code:
+Let's look at one more example of a string manipulation program.  In this program, we ask the user for a string, then convert all characters in the string to lowercase.  
 
 .. literalinclude:: code/tolower.c
    :language: c
    :linenos:
 
-::
+An example run of the program might look like this::
 
     Gimme a string: AbCDERX!!! whY?!
     Here's your string, lower-cased: abcderx!!! why?!
 
+The core of the function is a for loop that iterates through all indexes of the string, checking whether each character should be lower-cased. The code above also demonstrates a couple functions from the ``#include <ctype.h>`` header file (``isupper`` and ``tolower``).  The ``isupper`` test (line 10) is, strictly speaking, unnecessary; calling ``tolower`` on an already-lowercased letter still results in a lowercase letter.  Otherwise, those two new functions behave as one might expect: given a character, they return either a new character, or a (quasi-)Boolean value [#f3]_.
 
-In the second program, we'll ask the user for a string, then overwrite any space characters with an underscore (``_``).
+There are quite a few functions defined in ``ctype.h``.  On MacOS X you can type :command:`man ctype` to get a list of those functions, and on Linux, you can type :command:`man islower` (or :command:`man <any ctype function>`) to get a catalog of all the various functions in ``ctype.h``.   The following is an incomplete list; see :command:`man` pages for gory details:
 
-.. literalinclude:: code/white2hyphen.c
-   :language: c
-   :linenos:
+.. hlist::
+   :columns: 4
 
-::
-
-    Gimme a string: here are some wurds
-    I don't like spaces, so here: here_are_some_wurds
-
+   * ``isalnum``
+   * ``isalpha``
+   * ``isdigit``
+   * ``ishexnumber``
+   * ``islower``
+   * ``isnumber``
+   * ``isprint``
+   * ``ispunct``
+   * ``isspace``
+   * ``isupper``
+   * ``tolower``
+   * ``toupper``
 
 .. rubric:: Exercises
 
@@ -284,6 +321,9 @@ In the second program, we'll ask the user for a string, then overwrite any space
 5.  Write a program that asks for a string from a user and prints the string in reverse.  
 
 
-.. rubric:: Footnotes
-
 .. [#f1] http://valgrind.org
+
+.. [#f2] http://en.wikipedia.org/wiki/Row-major_order
+
+.. [#f3] The ``isupper`` function returns an ``int``, not ``bool``, which is fairly common in C. Since the ``bool`` type didn't get added to the language until fairly recently, most predicate functions return an integer representing True (1) or False (0).
+

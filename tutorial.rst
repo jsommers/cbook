@@ -139,7 +139,6 @@ Ugh.  Not only are there *more* errors reported than actually exist, the output 
 
     * You can assume that the string entered by the user for finish time is *exactly* in the format "HH:MM:SS", for simplicity.  Assume that if the user wants to finish in 31 minutes and 19 seconds, they type "00:31:19".
 
-.. rubric:: Footnotes
 
 .. [#f1] Don't look for any examples related to Windows or Visual C in this book: they don't exist.
 

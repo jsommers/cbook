@@ -1,3 +1,5 @@
+.. _pointers:
+
 Pointers and (more) Arrays
 **************************
 

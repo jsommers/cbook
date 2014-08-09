@@ -1,3 +1,5 @@
+.. _functions:
+
 Functions
 *********
 
@@ -66,6 +68,11 @@ void is a type formalized in ANSI C which means "nothing". To indicate that a fu
     void TakesAnIntAndReturnsNothing(int anInt);
     int TakesNothingAndReturnsAnInt();
     int TakesNothingAndReturnsAnInt(void); // equivalent syntax for above
+
+
+.. topic:: No function overloading allowed in C
+
+    FIXME: mention that you can't have overloaded functions (same name, different parameters)
 
 
 Function parameters are passed by value

@@ -50,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'The COSC301 Book of C'
+project = 'The COSC 301 Book of C'
 copyright = '2014, Joel Sommers'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -220,11 +220,11 @@ latex_elements = {
 #'preamble': '',
     'preamble': '''
 
-\usepackage{fontspec}
-\setmainfont{Helvetica Neue Light}
-\setsansfont{Helvetica Neue Light}
-\setromanfont{Optima Regular}
-\setmonofont{Monaco}
+\usepackage{pxfonts}
+%% \setmainfont{Helvetica Neue Light}
+%% \setsansfont{Helvetica Neue Light}
+%% \setromanfont{Optima Regular}
+%% \setmonofont{Monaco}
 %% \usepackage[paperwidth=6.125in, paperheight=8.5in]{geometry}
 ''',
 # The paper size ('letterpaper' or 'a4paper').
@@ -240,7 +240,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'cbook301.tex', 'COSC 301 Book of C',
+  ('index', 'cbook301.tex', 'The COSC 301 Book of C',
 #   'Joel Sommers', 'memoir'),
    'Joel Sommers', 'manual'),
 ]
@@ -306,7 +306,7 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = 'The COSC301 Book of C'
+epub_title = 'The COSC 301 Book of C'
 epub_author = 'Joel Sommers'
 epub_publisher = 'Joel Sommers'
 epub_copyright = '2014, Joel Sommers'
