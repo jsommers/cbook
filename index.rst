@@ -19,6 +19,7 @@ The COSC 301 Book of C
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
 
    intro
    tutorial

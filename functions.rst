@@ -3,68 +3,84 @@
 Functions
 *********
 
-it's all about abstraction, modularity, and code design (DRY, SOFA)
+All programming languages have built-in mechanisms for *structuring* and *modularizing* the code.  The main mechanism that C provides is the *subroutine*, or *function*.  In fact, C provides little beyond this basic technique [#f1]_.
 
-All languages have a construct to separate and package blocks of code. C uses the "function" to package blocks of code. This article concentrates on the syntax and peculiarities of C functions. The motivation and design for dividing a computation into separate blocks is an entire discipline in its own.
+Good program design in C (and many other programming languages) involves creating what are typically short functions that accomplish one task, and in which there is little or no duplication of functionality.  The main reasons for creating short, single-purpose functions is to make them more easily testable and to make them easier to read.  There are many benefits to having one place in the code where each major component is implemented, including making it easier to modify the code and making it easier to test.  These ideas are so important in programming that they are present in many different design principles, such as the Abstraction Principle [#f2]_, the Don't Repeat Yourself (DRY) principle [#f3]_, and structured programming [#f4]_.
 
-.. sidebar:: Structured programming
+.. sidebar:: The Abstraction Principle
 
-    There are no classes or objects in C, unlike other programming languages you've probably encountered to this point.  FIXME: complete this thought.
+    "Each significant piece of functionality in a program should be implemented in just one place in the source code. Where similar functions are carried out by distinct pieces of code, it is generally beneficial to combine them into one by abstracting out the varying parts."
+
+    Benjamin C. Pierce, "Types and Programming Languages" (http://www.cis.upenn.edu/~bcpierce/tapl/).
 
 
 Function syntax
 ===============
 
-A function has a name, a list of arguments which it takes when called, and the block of code it executes when called. C functions are defined in a text file and the names of all the functions in a C program are lumped together in a single, flat namespace. The special function called "main" is where program execution begins. Some programmers like to begin their function names with Upper case, using lower case for variables and parameters, Here is a simple C function declaration. This declares a function named Twice which takes a single int argument named num. The body of the function computes the value which is twice the num argument and returns that value to the caller.
+A function has a name, a comma-separated list of parameters, the block of code it executes when called, and, optionally, a return value.  The basic function definition syntax is:: 
 
+    return-type function-name(parameters) { code-block }
 
-::
+For example, here is a function that computes and returns :math:`n!` (n factorial):
+
+.. code-block:: c
+   :linenos:
 
     /*
-      Computes double of a number.
-      Works by tripling the number, and then subtracting to get back to double.
+     * iteratively computes and returns n!
+     * if n < 0, returns 0.
      */
-    static int Twice(int num) {
-        int result = num * 3;
-        result = result - num;
-        return(result);
+    int factorial(int n) {
+        if (n < 0) {
+            return 0;
+        } 
+        int result = 1;
+        for (int i = 2; i <= n; i++) {
+            result *= i; 
+        } 
+        return result;
     }
 
-Next , the "int" in the function above is the type of its return value. Next comes name of the function and its list of parameters. When referring to a function by name in documentation or other prose, it's a convention to keep the parenthesis () suffix, so in this case I refer to the function as "Twice()". The parameters are listed with their types and names, just like variables.
+We have seen most of this syntax already (with the ``main`` function), but it is worth reviewing.  
 
-Inside the function, the parameter num and the local variable result are "local" to the function -- they get their own memory and exist only so long as the function is executing. This independence of "local" memory is a standard feature of most languages (See CSLibrary/102 for the detailed discussion of local memory).
+1.  On line 5, the type declaration of the function is given, and shows that the data type of the return value of the function is ``int``, and that the function takes a single ``int`` parameter, named ``n``.  The function is, of course, named ``factorial``.  
 
-The "caller" code which calls Twice() looks like ::
+2.  There can be any number of parameters to a function (though a small number of parameters is strongly preferable).  Each parameter is separated by a comma, and follows the basic syntax of a variable declaration, which is: ``type-name variable-name``.  
 
-    int num = 13;
-    int a = 1;
-    int b = 2;
-    a = Twice(a);        // call Twice() passing the value of a
-    b = Twice(b + num);  // call Twice() passing the value b+num
-    // a == 2
-    // b == 30
-    // num == 13 (this num is totally independent of the "num" local to Twice()
+3.  Any parameters to the function are *passed by value*.  This means that the function receives *copies* of the arguments passed to it by the caller.  If any modifications are made to those copies, they have *zero effect* on the variables or values passed to the function --- any changes are confined (*local*) to the function.  We will have more to say about pass-by-value function call semantics, below.
 
-Things to notice:
+4.  The ``return`` statement delivers a value from the function back to the caller of the function.  There are ``return`` statements on lines 7 and 13 of this function.  The first ``return`` handles the special case where ``n`` is less than 0, thus :math:`n!` is undefined.  
 
- * (vocabulary) The expression passed to a function by its caller is called the "actual parameter" -- such as "a" and "b + num" above. The parameter storage local to the function is called the "formal parameter" such as the "num" in "static int Twice(int num)".
+5.  Any variables declared inside the function are *local* to the function, just as with Java, Python, and many other programming languages.  Thus, the parameter variable ``n`` and the local variable ``result`` only exist while the function is being executed.
 
- * Parameters are passed "by value" that means there is a single copying assignment operation (=) from each actual parameter to set each formal parameter. The actual parameter is evaluated in the caller's context, and then the value is copied into the function's formal parameter just before the function begins executing. The alternative parameter mechanism is "by reference" which C does not implement directly, but which the programmer can implement manually when needed (see below). When a parameter is a struct, it is copied.
+To call the ``factorial`` function, a programmer uses parentheses after the function name, passing any required arguments between the parens:
 
- * The variables local to Twice(), num and result, only exist temporarily while Twice() is executing. This is the standard definition for "local" storage for functions.
- 
- * The return at the end of Twice() computes the return value and exits the function. Execution resumes with the caller. There can be multiple return statements within a function, but it's good style to at least have one at the end if a return value needs to be specified. Forgetting to account of a return somewhere in the middle of a function is a traditional source of bugs.
+.. code-block::
+    
+    #include <stdio.h>
+    #include <stdlib.h>
 
-C-ing and Nothingness -- void
------------------------------
+    // ...
 
-void is a type formalized in ANSI C which means "nothing". To indicate that a function does not return anything, use void as the return type. Also, by convention, a pointer which does not point to any particular type is declared as void*. Sometimes void* is used to force two bodies of code to not depend on each other where void* translates roughly to "this points to something, but I'm not telling you (the client) the type of the pointee exactly because you do not really need to know." If a function does not take any parameters, its parameter list is empty, or it can contain the keyword void but that style is now out of favor.
+    char buffer[8];
+    printf("I'll compute n! for you.  What should n be? ");
+    fgets(buffer, 8, stdin);
+    n = atoi(buffer);
+    int result = factorial(n);
+    printf ("%d! is %d\n", n, result);
 
-::
 
-    void TakesAnIntAndReturnsNothing(int anInt);
-    int TakesNothingAndReturnsAnInt();
-    int TakesNothingAndReturnsAnInt(void); // equivalent syntax for above
+So far, none of this should be particularly surprising.  You may have already seen "static methods" in Java, which are very similar to C functions, or you may have already seen function in Python (defined using the ``def`` keyword).  Both static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters. 
+
+Function naming restrictions and conventions
+--------------------------------------------
+
+The special function called ``main`` is where program execution begins. Some programmers like to name their functions using ``lowerCamelCase``, which is common in languages such as Java, or using ``snake_case``, which is common in Python and Ruby.  In the C standard library, a common practice is to use short, abbreviated names consisting of a single word (e.g., ``tolower``), but the only *real* requirement is that the name begin with either a letter or underscore, and that it not include any symbols besides underscores.  
+
+
+.. topic:: C-ing and Nothingness -- void
+
+    void is a type formalized in ANSI C which means "nothing". To indicate that a function does not return anything, use void as the return type. Also, by convention, a pointer which does not point to any particular type is declared as void*. Sometimes void* is used to force two bodies of code to not depend on each other where void* translates roughly to "this points to something, but I'm not telling you (the client) the type of the pointee exactly because you do not really need to know." If a function does not take any parameters, its parameter list is empty, or it can contain the keyword void but that style is now out of favor.
 
 
 .. topic:: No function overloading allowed in C
@@ -100,6 +116,13 @@ Some languages support reference parameters automatically. C does not do this --
  
    Yes, recursion works.
 
+Return values and restrictions
+------------------------------
+
+Can't return an array (it's allocated on the stack!)
+Can return a struct, or any other primitive (non-pointer) type.
+
+
 Swap Example
 ------------ 
 
@@ -130,4 +153,13 @@ The classic example of wanting to modify the caller's memory is a ``swap()`` fun
 .. rubric:: Exercises
 
 1.  Refactor exercise 1 in the ``struct`` chapter.  Write functions to parse a single line into a struct, and to print out a struct.
+
+
+.. [#f1] There are advanced techniques that build upon the basic mechanisms available in C to, for example, mimic capabilities found in object-oriented programming languages.  As a introductory text, this book will not go into any of those techniques.  One additional technique we cover in this book is found in the chapter on :ref:`compilation-and-program-structure`, in which we discuss a technique that provides a type of information hiding by enabling functions to remain "hidden" on a per-file basis.
+
+.. [#f2] http://en.wikipedia.org/wiki/Abstraction_principle_(programming)
+
+.. [#f3] http://en.wikipedia.org/wiki/Don%27t_repeat_yourself
+
+.. [#f4] http://en.wikipedia.org/wiki/Structured_programming
 

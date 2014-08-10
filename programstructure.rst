@@ -1,7 +1,14 @@
-Program structure
-*****************
+.. _compilation-and-program-structure:
+
+Compilation and program structure
+*********************************
 
 .. _the-main-function:
+
+
+
+C functions are defined in a text file and the names of all the functions in a C program are lumped together in a single, flat namespace.
+
 
 The main function
 =================
