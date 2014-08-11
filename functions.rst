@@ -104,7 +104,7 @@ The key thing to remember for function parameters is that they are *passed by va
 
  1. Because the function invocation ("callee") has its own copy (or copies) of parameters, modifications to that memory are always *local to the function*.  Therefore, value parameters do not allow the callee to communicate back to the caller. The function's return value can communicate some information back to the caller, but not all problems can be solved with the single return value.
 
- 2. Sometimes it is undesirable to copy the value from the caller to the callee because the value is large and copying is expensive, or because, for some reason, copying the value is undesirable.  Modern compilers have generally made this issue moot: the overhead of copying is very often not something that a programmer should be concerned with.  
+ 2. Sometimes it is undesirable to copy the value from the caller to the callee because the value is large and copying is expensive, or because, for some reason, copying the value is undesirable.  
 
 
 Example 1: an anti-example of swapping two values
@@ -143,7 +143,11 @@ Epic fail, times 2.  For each of the swap functions, the exchange happens only *
 Example 2: passing a ``struct`` to and from a function
 ------------------------------------------------------
 
-Ok, enough of the anti-examples.  Here is an example of passing *and* returning a ``struct``.  We'll write a function to add two fractions together and return a new fraction.
+Ok, enough of the anti-examples.  Here is an example of passing *and* returning a ``struct``.  We'll write a function to add two fractions together and return a new fraction.  A few things to note about the code below:
+
+ * The computation of the greatest common divisor is recursive.
+ * The use of ``abs`` in the least common multiple function requires ``#include <stdlib.h>`` at the top of the source code. 
+ * The ``add_fractions`` function separately computes the denominator and numerator of the result of the addition, then just constructs and returns a new ``fraction_t``.  For both the ``fraction_t`` parameters *and* the return value, entire copies are made to get the arguments "in" to the function and to get the result "out".  
 
 .. literalinclude:: code/addfrac.c
    :language: c
@@ -153,22 +157,75 @@ Ok, enough of the anti-examples.  Here is an example of passing *and* returning 
 Example 3: passing an array to a function
 -----------------------------------------
 
-example with multiplying fractions, return a fraction.  take an array, return fraction
+Passing an array parameter to a function is somewhat different in nature than the other parameter data types we've seen:
 
+ 1. It is often the case that it is not possible to know the correct array length when declaring the *formal* parameter in the function declaration.  This is actually a *good* thing in disguise: it forces us to write a more general function instead of one that specifies an array of a certain size.  
 
-.. todo::
+    For example, say we want to write a function to multiple several fractions together, where each fraction is an element of an array.  We want to write the function so that it can handle *any* array size.  We write it as shown below.  Notice that we leave the array size blank in the formal parameter, and pass a second parameter that specifies the number of array elements we should examine.  Since an array in C does not know its own size, we are forced to pass its size separately.
 
-   different types of function params: ints, arrays, structs (it's all pass by value!)
+.. code-block:: c
+
+    fraction_t multiply_fractions(fraction_t fraclist[], int num_fractions) {
+        fraction_t result = { 1, 1};
+        for (int i = 0; i < num_fractions; i++) {
+            result.numerator *= fraclist[i].numerator;
+            result.denominator *= fraclist[i].denominator;
+        }
+        return result;
+    }
+
+..
+
+ 2. The second issue that makes array parameters somewhat different than any other data type we've seen thus far is that an array variable refers to the *memory address* of the first element in the array.  As a result, **it is possible to modify the contents of an array that is passed to a function**.  Here is an example of a function that modifies a C string by overwriting any *trailing* whitespace characters with the null-character.  Notice that for C strings we do *not* need to pass the size of the string, since, by convention, the null character marks the end of the string (and thus we can just use the built-in ``strlen`` function).
+
+.. code-block:: c
+
+    void strip_trailing_whitespace(char string[]) {
+        int index = strlen(string)-1;
+        while (index >= 0) {
+            if (isspace(string[index])) {
+                string[index] = '\0';
+                index -= 1;
+            } else {
+                // as soon as we encounter first non-whitespace
+                // character, get out of loop
+                break;
+            }
+        }
+    }
+
+    int main() {
+        char s[128] = "hello\n\n\t";
+        strip_trailing_whitespace(s);
+        printf("%s\n", s);
+        return 0;
+    }
+
+How does this jive with pass-by-value?  What happens here is that ``s`` in ``main`` holds the memory address of the array, which is allocated on the stack of ``main``.  When the ``strip_trailing_whitespace`` function is called, the value of ``s`` is copied to the parameter ``string``, but *the value itself is a memory address*.  So the ``string`` array inside ``strip_trailing_whitespace`` holds the same memory address as ``s`` back in ``main``.  Thus, these two variables *refer to the same array in memory*, as depicted in the figure below.  As a result, when we modify the string inside the function, the changes can be observed when we return back to ``main``.
+
+.. figure:: figures/arrayparam.*
+   
+    An array parameter gets a copy of the *memory* address of the array passed into the function, and thus "points" back to the same array contents as can be observed outside the function.
 
 
 .. topic:: No function overloading or default parameters in C
 
     In some languages, e.g., C++, it is permitted to have more than one function definition with the same name, as long as the two definitions differ in the number and data type(s) of parameters.  Other languages permit "default" parameters, which means that if a caller chooses *not* to pass a particular argument, the parameter gets a *default* value.  Unfortunately, C's syntax does not permit either of these fairly convenient techniques.
 
-
 A longer example
 ----------------
 
+We'll wrap up this section with one more example.  A few things to note:
+
+ * The ``struct student`` has an *embedded* struct field (``struct course_grade``).  Actually, an array of ``struct course_grade``.  One ``struct student`` would occupy a pretty large chunk of memory.  It is left to you to compute how many bytes, and where any padding is silently inserted by the compiler.
+
+ * In ``struct student`` we need to keep the field ``num_courses_completed`` to know how many array elements in ``courses_completed`` are meaningful.
+
+ * The ``typedef``\ s on lines 16-17 help to save a few keystrokes with the ``struct`` usage.
+
+ * In ``compute_gpa``, we don't need to specify the size of the ``grade_t`` array, but we do need an additional parameter to tell us how many entries in the array we should consider.
+
+ * The initialization syntax for the array of ``student_t`` just follows the rules we've discussed for array and struct initialization.  It is perfectly valid to nest the curly braces where necessary to achieve the correct field initializations.
 
 .. literalinclude:: code/structparam.c
    :linenos:
@@ -176,48 +233,44 @@ A longer example
 
 ..
 
-::
+Compiling and running this code gives the following output::
 
     A. Student, Class of 2019, GPA: 3.00
     B. Smart, Class of 2018, GPA: 2.25
 
 
-Stack allocation, recursion, and return types
-=============================================
+Storage classes, the stack and the heap
+=======================================
 
 
+.. sidebar:: Static variables and the static storage class
+
+    The keyword ``static`` has two, somewhat different, meanings and usages in C.  
+    
+    The first usage is that variables within functions can be prefixed with the ``static`` keyword to indicate that their value is retained across invocations of the function.  For example, consider the following function::
+
+        void myfunction() {
+            static int i = 0;
+            i += 1;
+            printf("i is now %d\n", i);
+        }
+
+    Because of the ``static`` keyword, the value stored in ``i`` is retained across multiple calls of ``myfunction``.  Without the ``static`` keyword, the output of the function would *always* be ``i is now 1``.
+
+    The second meaning of ``static`` in C is to indicate that functions or variables defined outside any function should be *local* to the source file in which they are defined.  In :ref:`compilation-and-program-structure` we will discuss header files, compilation, and issues related to this usage of ``static`` in more detail.
 
 
-Swap Example
------------- 
+There are two essential "storage classes" in C: *automatic* and *static*.  Static storage is somewhat of an advanced concept, and you can refer to the sidebar for a brief discussion.  
 
-The classic example of wanting to modify the caller's memory is a ``swap()`` function which exchanges two values. Because C uses call by value, the following version of Swap will not work ::
+"Automatic" variables are what we have used exclusively thus far: they are variables that come into existence when a code block is entered, and which are discarded when a code block is exited.  This type of allocation and deallocation is done on the call stack of the running program.  Recall that all parameters and local variables are allocated on the stack in a last-in, first-out manner.  This is exactly the idea behind the "automatic" storage class --- memory is *automatically* assigned on the stack [#f7]_.
 
-    void Swap(int x, int y) {        // NO does not work
-        int temp;
-        temp = x;
-        x = y;      // these operations just change the local x,y,temp
-        y = temp;   // -- nothing connects them back to the caller's a,b
-    }
-
-    // Some caller code which calls Swap()...
-    int a = 1;
-    int b = 2;
-    Swap(a, b);
-
-``Swap()`` does not affect the arguments a and b in the caller. The function above only operates on the copies of a and b local to Swap() itself. This is a good example of how "local" memory such as ( x, y, temp) behaves -- it exists independent of everything else only while its owning function is running. When the owning function exits, its local memory disappears.
-
-
-.. sidebar:: The keyword ``static``
-
-    FIXME: add text about static in two forms: internal linkage and static variables in functions
-
-    The keyword "static" defines that the function will only be available to callers in the file where it is declared. If a function needs to be called from another file, the function cannot be static and will require a prototype -- see prototypes below. The static form is convenient for utility functions which will only be used in the file where they are declared.
-
+It's worth repeating that all variables in examples we've considered to this point are "automatic" and allocated on the stack.  That goes for strings, arrays of various sorts, structures, etc.  Most often, we've declared some local variables in ``main`` (which are allocated on the stack of ``main``), and passed parameters into functions (which results in the creation of copies of those parameters in the stack frame of the called function).  
 
 .. rubric:: Exercises
 
-1.  Refactor exercise 1 in the ``struct`` chapter.  Write functions to parse a single line into a struct, and to print out a struct.
+1.  Refactor and modularize the code in exercise 1 in the ``struct`` chapter.  At the very least, write functions to parse a single line into a struct, and to print out a struct.  
+
+2.  Write a text-based program to play hangperson.  Many of you have probably written this sort of program in Python.  Test your mettle by writing it in C.
 
 
 .. [#f1] There are advanced techniques that build upon the basic mechanisms available in C to, for example, mimic capabilities found in object-oriented programming languages.  As a introductory text, this book will not go into any of those techniques.  One additional technique we cover in this book is found in the chapter on :ref:`compilation-and-program-structure`, in which we discuss a technique that provides a type of information hiding by enabling functions to remain "hidden" on a per-file basis.
@@ -231,3 +284,5 @@ The classic example of wanting to modify the caller's memory is a ``swap()`` fun
 .. [#f5] http://en.wikipedia.org/wiki/Highlander_(film)
 
 .. [#f6] http://en.wikipedia.org/wiki/Hungarian_notation
+
+.. [#f7] The compiler is responsible for this magic.  It must emit the right code so that the stack is managed correctly and variables come into existence and go away at exactly the right point in execution.
