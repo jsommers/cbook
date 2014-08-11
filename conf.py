@@ -35,7 +35,7 @@ extensions = [
     'sphinx.ext.ifconfig',
 ]
 
-todo_include_todos = True
+todo_include_todos = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -219,13 +219,7 @@ latex_elements = {
 # Additional stuff for the LaTeX preamble.
 #'preamble': '',
     'preamble': '''
-
 \usepackage{pxfonts}
-%% \setmainfont{Helvetica Neue Light}
-%% \setsansfont{Helvetica Neue Light}
-%% \setromanfont{Optima Regular}
-%% \setmonofont{Monaco}
-%% \usepackage[paperwidth=6.125in, paperheight=8.5in]{geometry}
 ''',
 # The paper size ('letterpaper' or 'a4paper').
 # 'papersize': 'letterpaper',
@@ -233,7 +227,6 @@ latex_elements = {
 
 # The font size ('10pt', '11pt' or '12pt').
 'pointsize': '10pt',
-
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -335,7 +328,7 @@ epub_copyright = '2014, Joel Sommers'
 #epub_uid = ''
 
 # A tuple containing the cover image and cover page html template filenames.
-#epub_cover = ()
+epub_cover = ('seaimg.jpg','epub_cover.html')
 
 # A sequence of (type, uri, title) tuples for the guide element of content.opf.
 #epub_guide = ()

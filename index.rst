@@ -9,7 +9,12 @@
 The COSC 301 Book of C
 ======================
 
-.. todolist::
+.. figure:: figures/seaimg.jpg
+   :scale: 50%
+   :align: center
+
+   New Harbor, Maine, USA.  Photo by J. Sommers.
+
 
 .. include:: preface.rst
 

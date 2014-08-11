@@ -55,7 +55,7 @@ We have seen most of this syntax already (with the ``main`` function), but it is
 
 To call the ``factorial`` function, a programmer uses parentheses after the function name, passing any required arguments between the parens:
 
-.. code-block::
+.. code-block:: c
     
     #include <stdio.h>
     #include <stdlib.h>
@@ -70,57 +70,122 @@ To call the ``factorial`` function, a programmer uses parentheses after the func
     printf ("%d! is %d\n", n, result);
 
 
-So far, none of this should be particularly surprising.  You may have already seen "static methods" in Java, which are very similar to C functions, or you may have already seen function in Python (defined using the ``def`` keyword).  Both static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters. 
+So far, none of this should be particularly surprising.  You may have already seen "public static methods" in Java (e.g., ``main``!), which are very similar to C functions, or you may have already seen function in Python (defined using the ``def`` keyword).  Both public static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters. 
+
+``main`` is where it all begins
+-------------------------------
+
+Every C program **must** have a ``main`` function.  An attempt to compile a program in C which does not have a ``main`` function defined somewhere will result in an error.  Unlike Java, where any number of class definitions can have a ``public static void main`` definition, it's a highlander situation in C: *there can be only one* [#f5]_.
+
 
 Function naming restrictions and conventions
 --------------------------------------------
 
-The special function called ``main`` is where program execution begins. Some programmers like to name their functions using ``lowerCamelCase``, which is common in languages such as Java, or using ``snake_case``, which is common in Python and Ruby.  In the C standard library, a common practice is to use short, abbreviated names consisting of a single word (e.g., ``tolower``), but the only *real* requirement is that the name begin with either a letter or underscore, and that it not include any symbols besides underscores.  
+The only *requirement* for naming C functions is similar to many programming languages: function names must either begin with a letter or underscore, and can only include numbers, letters, and underscores.  Conventionally, function names that start with an underscore typically mean that the function should be treated as a "private" library function, off limits to other programmers.
+
+As far as naming conventions, there are a wide variety of practices in existence.  Some programmers like to name their functions using ``lowerCamelCase``, which is common in languages such as Java, or using ``snake_case``, which is common in Python and Ruby.  In the C standard library, a common practice is to use short, abbreviated names consisting of a single word (e.g., ``tolower``).  Still others like to use the abomination referred to as Hungarian Notation [#f6]_.  A fairly widely used convention in C is ``snake_case``, which is the practice followed in this book.
+
+Data types for parameters and return values
+===========================================
+
+There are, technically speaking, no restrictions on the data types of parameters or return values for functions in C.  Functions in C can accept all the basic data types as parameters, as well as ``struct`` types, arrays, and as we will see soon, memory pointers to any data type.
+
+Likewise, there are no syntactic restrictions on the data type of the return value from a function.  C does not permit *multiple* return values, unlike some other languages, but it is permissible to return a ``struct`` type that contains multiple fields (or, as we will later see, a pointer to a memory block containing multiple data items).
+
+.. topic:: C-ing and Nothingness --- ``void``
+
+    ``void`` is a type formalized in ANSI C which means "nothing". To indicate that a function does not return anything, use ``void`` as the return type.  If a function does not take any parameters, its parameter list may either be empty (i.e., ``()``), or it can contain the keyword ``void`` to indicate that the function does not take parameters.  It is more common and conventional in C to use an empty parameter list for functions that don't take parameters.
+    
+
+Parameters to functions are passed by value
+-------------------------------------------
+
+The key thing to remember for function parameters is that they are *passed by value*.  (Note that Java also uses pass-by-value semantics for function parameters.)  Passing by value means that the actual parameter values are *copied* into local storage (on the stack).  This scheme is fine for many purposes, but it has two disadvantages:
+
+ 1. Because the function invocation ("callee") has its own copy (or copies) of parameters, modifications to that memory are always *local to the function*.  Therefore, value parameters do not allow the callee to communicate back to the caller. The function's return value can communicate some information back to the caller, but not all problems can be solved with the single return value.
+
+ 2. Sometimes it is undesirable to copy the value from the caller to the callee because the value is large and copying is expensive, or because, for some reason, copying the value is undesirable.  Modern compilers have generally made this issue moot: the overhead of copying is very often not something that a programmer should be concerned with.  
 
 
-.. topic:: C-ing and Nothingness -- void
+Example 1: an anti-example of swapping two values
+-------------------------------------------------
 
-    void is a type formalized in ANSI C which means "nothing". To indicate that a function does not return anything, use void as the return type. Also, by convention, a pointer which does not point to any particular type is declared as void*. Sometimes void* is used to force two bodies of code to not depend on each other where void* translates roughly to "this points to something, but I'm not telling you (the client) the type of the pointee exactly because you do not really need to know." If a function does not take any parameters, its parameter list is empty, or it can contain the keyword void but that style is now out of favor.
+As mentioned above, a key implication of pass-by-value function parameters is that the function gets *local* copies of any parameter values.  Say that we want to exchange two values via a function.  For example, we want to swap the numerator and denominator in a fraction ``struct``.  This is some code that would *not* work:
+
+.. code-block:: c
+
+    typedef struct fraction {
+        int numerator;
+        int denominator;
+    } fraction_t;
+
+    void swap_numerator_denominator1(fraction_t frac) {
+        int tmp = frac.numerator;
+        frac.numerator = frac.denominator;
+        frac.denominator = tmp;
+    }
+
+    void swap_numerator_denominator2(int num, int den) {
+        int tmp = num;
+        num = den;
+        den = tmp;
+    }
+
+    int main() {
+        fraction_t f1 = { 1, 3};
+        swap_numerator_denominator1(f1);  // swap?  uh, no.
+        swap_numerator_denominator2(f1.numerator, f1.denominator);  // no, again
+        return 0;
+    }
+
+Epic fail, times 2.  For each of the swap functions, the exchange happens only *inside* the function; the caller will *never* see any swap of nancy and donkey.  The fact that the function takes a ``struct`` here is irrelevant for attempt 1; even if we wrote a ``swap`` to take two ``int`` parameters (i.e., attempt 2), there is no way this is going to happen.  Sorry.  In the next chapter on :ref:`pointers`, we will solve this problem.  
+
+Example 2: passing a ``struct`` to and from a function
+------------------------------------------------------
+
+Ok, enough of the anti-examples.  Here is an example of passing *and* returning a ``struct``.  We'll write a function to add two fractions together and return a new fraction.
+
+.. literalinclude:: code/addfrac.c
+   :language: c
+   :lines: 9-30
 
 
-.. topic:: No function overloading allowed in C
+Example 3: passing an array to a function
+-----------------------------------------
 
-    FIXME: mention that you can't have overloaded functions (same name, different parameters)
-
-
-Function parameters are passed by value
----------------------------------------
-
-C passes parameters "by value" which means that the actual parameter values are copied into local storage. The caller and callee functions do not share any memory -- they each have their own copy. This scheme is fine for many purposes, but it has two disadvantages.
-
- 1. Because the callee has its own copy, modifications to that memory are not communicated back to the caller. Therefore, value parameters do not allow the callee to communicate back to the caller. The function's return value can communicate some information back to the caller, but not all problems can be solved with the single return value.
-
- 2. Sometimes it is undesirable to copy the value from the caller to the callee because the value is large and so copying it is expensive, or because at a conceptual level copying the value is undesirable.
-
-
-The alternative is to pass the arguments "by reference". Instead of passing a copy of a value from the caller to the callee, pass a pointer to the value. In this way there is only one copy of the value at any time, and the caller and callee both access that one value through pointers.
-
-Some languages support reference parameters automatically. C does not do this -- the programmer must implement reference parameters manually using the existing pointer constructs in the language.
-
+example with multiplying fractions, return a fraction.  take an array, return fraction
 
 
 .. todo::
 
    different types of function params: ints, arrays, structs (it's all pass by value!)
 
-.. todo::
 
-   Forward reference to how this will work eventually (pointers; next chapter)
+.. topic:: No function overloading or default parameters in C
 
-.. todo::
- 
-   Yes, recursion works.
+    In some languages, e.g., C++, it is permitted to have more than one function definition with the same name, as long as the two definitions differ in the number and data type(s) of parameters.  Other languages permit "default" parameters, which means that if a caller chooses *not* to pass a particular argument, the parameter gets a *default* value.  Unfortunately, C's syntax does not permit either of these fairly convenient techniques.
 
-Return values and restrictions
-------------------------------
 
-Can't return an array (it's allocated on the stack!)
-Can return a struct, or any other primitive (non-pointer) type.
+A longer example
+----------------
+
+
+.. literalinclude:: code/structparam.c
+   :linenos:
+   :language: c
+
+..
+
+::
+
+    A. Student, Class of 2019, GPA: 3.00
+    B. Smart, Class of 2018, GPA: 2.25
+
+
+Stack allocation, recursion, and return types
+=============================================
+
+
 
 
 Swap Example
@@ -163,3 +228,6 @@ The classic example of wanting to modify the caller's memory is a ``swap()`` fun
 
 .. [#f4] http://en.wikipedia.org/wiki/Structured_programming
 
+.. [#f5] http://en.wikipedia.org/wiki/Highlander_(film)
+
+.. [#f6] http://en.wikipedia.org/wiki/Hungarian_notation

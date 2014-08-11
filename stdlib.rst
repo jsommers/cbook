@@ -40,7 +40,7 @@ Many basic housekeeping funcions are available to a C program in form of standar
   stdio.h       file input and output, e.g., ``printf``
   ctype.h       character tests, e.g., ``isspace``
   string.h      string operations
-  stdlib.h      utility functions, e.g., ``atoi``, ``rand``
+  stdlib.h      utility functions, e.g., ``atoi``, ``rand``, ``abs``
   math.h        mathematical functions, e.g., ``sin``, ``pow``
   assert.h      the ``assert`` debugging macro
   stdarg.h      support to create functions that take a variable
@@ -165,6 +165,9 @@ stdlib.h
 
 ``void srand(unsigned int seed);``
     The sequence of random numbers returned by rand() is initially controlled by a global "seed" variable. srand() sets this seed which, by default, starts with the value 1. Pass the expression time(NULL) (time.h) to set the seed to a value based on the current time to ensure that the random sequence is different from one run to the next.
+
+``int abs(int i);``
+    Return the absolute value of ``i``.
 
 ``void* malloc(size_t size);``
     Allocate a heap block of the given size in bytes. Returns a pointer to the block or NULL on failure. A cast may be required to store the void* pointer into a regular typed pointer. [ed: see the Heap Allocation section above for the longer discussion of malloc(), free(), and realloc()]

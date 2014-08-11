@@ -6,7 +6,8 @@
 
     <h4>Preface</h4>
 
-This little book of C is based on the "Essential C" document written by Nick Parlante at Stanford University.  The original document is available at http://cslibrary.stanford.edu/101/.  The Essential C document was last updated in 2003, which is one reason why this document exists.  Programming languages and compilers change, and I wanted to take the good work that Nick had done and make several updates to modernize and tailor the text.  The notice reproduced below is copied from Essential C:
+
+This book is based on the "Essential C" document written by Nick Parlante at Stanford University.  The original document is available at http://cslibrary.stanford.edu/101/.  The Essential C document was last updated in 2003, which is one reason why this document exists.  Programming languages and compilers change, and I wanted to take the good work that Nick had done and make several updates to modernize and tailor the text.  The notice reproduced below is copied from Essential C:
 
 .. epigraph::
 
