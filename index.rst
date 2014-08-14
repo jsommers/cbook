@@ -15,6 +15,7 @@ The COSC 301 Book of C
 
    New Harbor, Maine, USA.  Photo by J. Sommers.
 
+.. todolist::
 
 .. include:: preface.rst
 

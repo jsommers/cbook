@@ -142,6 +142,7 @@ Consider the size reported by the program, 36, and remember that a ``short`` is 
 When the compiler allocates memory on the stack or the heap for a ``struct``, it may introduce "padding" bytes to ensure that the entire ``struct`` fits within an even multiple of machine words.  If the word size is 4 bytes, then the compiler will silently add ``sizeof(struct) % 4`` bytes as "padding" to the end of the struct [#f1]_.  So, in the ``struct student`` definition starting on line 3, above, there is one extra byte added by the compiler to make the entire structure occupy a "word-aligned" number of bytes.  A picture of how an actual ``struct student`` looks in memory is thus like the following:
 
 .. figure:: figures/structalign.* 
+   :align: center
    
    An struct that has "padding" inserted by the compiler.
 

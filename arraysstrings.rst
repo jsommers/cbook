@@ -21,6 +21,7 @@ The name of the array refers, in some sense, to the *whole array*. In actuality,
 
 .. figure:: figures/array.*
    :alt: A diagram of an array in C
+   :align: center
 
    A memory diagram of the scores array.
 

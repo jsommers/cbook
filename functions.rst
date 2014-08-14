@@ -204,8 +204,9 @@ Passing an array parameter to a function is somewhat different in nature than th
 How does this jive with pass-by-value?  What happens here is that ``s`` in ``main`` holds the memory address of the array, which is allocated on the stack of ``main``.  When the ``strip_trailing_whitespace`` function is called, the value of ``s`` is copied to the parameter ``string``, but *the value itself is a memory address*.  So the ``string`` array inside ``strip_trailing_whitespace`` holds the same memory address as ``s`` back in ``main``.  Thus, these two variables *refer to the same array in memory*, as depicted in the figure below.  As a result, when we modify the string inside the function, the changes can be observed when we return back to ``main``.
 
 .. figure:: figures/arrayparam.*
+   :align: center
    
-    An array parameter gets a copy of the *memory* address of the array passed into the function, and thus "points" back to the same array contents as can be observed outside the function.
+   An array parameter gets a copy of the *memory* address of the array passed into the function, and thus "points" back to the same array contents as can be observed outside the function.
 
 
 .. topic:: No function overloading or default parameters in C

@@ -222,6 +222,7 @@ As in most languages, a variable declaration reserves and names an area in memor
 ..
 
 .. figure:: figures/numbox.*
+   :align: center
    :alt: Memory box diagram
 
    A simple memory diagram for ``int num = 42;``.
@@ -333,7 +334,7 @@ Operator  Meaning
 
 An example using post increment/decrement:
 
-.. code-block::
+.. code-block:: c
 
     int i = 42;
     i++;     // increment on i
@@ -341,12 +342,13 @@ An example using post increment/decrement:
     i--;     // decrement on i
     // i is now 42
 
+
 Pre- and post- variations
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The pre-/post- variation has to do with nesting a variable with the increment or decrement operator inside an expression --- should the entire expression represent the value of the variable *before* or *after* the change?  These operators can be confusing to read in code and are often best avoided, but here is an example:
 
-.. code-block::
+.. code-block:: c
 
     int i = 42;
     int j;
