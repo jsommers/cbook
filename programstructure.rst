@@ -3,6 +3,14 @@
 Compilation and program structure
 *********************************
 
+
+.. figure:: figures/compilesteps.*
+   :align: center
+
+   There are three basic steps when compiling C programs: *preprocessing*, *compilation*, and *linking*.  
+
+
+
 .. _the-main-function:
 
 
