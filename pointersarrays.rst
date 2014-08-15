@@ -425,16 +425,72 @@ As an example, say that we need to "escape" an HTML string to replace any occurr
 
 An exercise left for you is to improve the efficiency of the code (notice that there's some code duplication and some other ugliness that could/should be improved).
 
-
 Linked lists
 ------------
+
+One of the most commonly used dynamic data structures is the *linked list*.  A standard definition of a linked list node in C, in which each node contains an integer, is as follows:
 
 .. code-block:: c
 
     struct node {
-        int data;
+        int value;
         struct node* next;
     };
+
+
+Notice that there's something of a circular definition and usage here (i.e., inside the definition of ``struct node``, we declare a ``struct node`` as a field).  C is perfectly happy with that circularity.
+
+Manipulating nodes in a linked list generally involves allocating new nodes on the heap, linking in new nodes to the list, and/or modifying node pointers in other ways.  Here is a bit of code for adding a new node to a list by inserting in the front:
+
+.. code-block:: c
+
+    struct node *insert(struct node *head, int new_value) {
+
+        struct node *new_node = malloc(sizeof(struct node));
+        new_node->value = new_value;
+        new_node->next = head;  // next ptr of new node refers to head of old list
+        return new_node;
+    }
+
+A function to traverse a list and print each value out might look like the following.  Notice that since the ``print_list`` function gets a *copy* of the head of the list, it is safe to modify that pointer within the ``print_list`` function.
+
+.. code-block:: c
+
+    void print_list(struct node *head) {
+        int i = 0;
+        while (head->next != NULL) {
+            printf ("Node %d has the value %d\n", i+1, head->value); 
+            head = head->next;  // advance the list pointer
+            i += 1;
+        }
+    }
+
+
+.. rubric:: Exercises
+
+#.  Consider the following code.  Identify exactly what is allocated on the stack and what is allocated on the heap::
+
+        int main() {
+            int *p = NULL;
+            p = malloc(sizeof(int)*42);
+            char arr[1000];
+            char *p = &arr[10];
+            char *q = malloc(64);
+            char *r = &q[10];
+        }
+
+
+#.  Write a function that mimics the built-in ``strdup`` function.
+
+#.  Write a ``clear_list`` function that takes a pointer to a linked list (``struct node *``) and calls free for each element in the list (i.e., to completely deallocate the list).
+
+#.  Create a ``clone_list`` function that takes a pointer to a linked list (``struct node *``) and returns a completely cloned copy of the list (i.e., there are exactly the same number of nodes in the new list, with the exactly the same values in the same order, but the old list is left totally unmodified).
+
+#.  Create a ``reverse_list`` function that accepts a pointer to a ``struct node`` and returns a pointer to the list with all elements now in reversed order.
+
+#.  Write a function that appends a new value to the end of a linked list.  The function should return a pointer to the head of the list.
+
+#.  Write new implementations of the various linked list functions we've seen and written so far but instead of having an int as the value, use a ``char *`` (dynamically allocated C string).
 
 
 
