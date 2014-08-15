@@ -9,6 +9,8 @@ The C programming language has a somewhat split personality.  On the one hand, i
 
 .. index:: process, address space, stack, heap
 
+.. _addr-space:
+
 .. topic:: Process address spaces
 
    As a bit of context for discussing memory addresses and pointers, consider the following depiction of the *address space* of a running program (a "process").
@@ -291,34 +293,15 @@ A totally bizarre implication of the way that C handles array indexing and point
 The above code is purely an illustration --- don't write code with inverted indexing!  Although it is legal, it is a "feature" that makes the code harder to read since nobody writes indexes like that.  
 
 
-C strings revisited
--------------------
+Dynamic memory allocation
+=========================
 
-Recall that a string in C is just a series of ``char``\s which has a null character (``\0``) to signify the end of the string.  We have used arrays of ``char`` to create a contiguous block of ``char``\s 
+We started this chapter by outlining how memory is organized within a single running program, or process (see :ref:`Process address spaces <addr-space>`, above).  So far, we have just used local and parameter variables, which result in *stack-allocated* memory.  In this section, we discuss how to *dynamically* allocate and deallocate blocks of memory on the heap.  C requires that a program *manually* manage heap-allocated memory through explicit allocation and deallocation.  In contrast, a language like Java only requires that a programmer explicitly allocate memory, but the language runtime handles automatic deallocation through a process called *garbage collection*.  
 
+``malloc`` and ``free``
+-----------------------
 
-Thus far, we have created character arrays to hold C strings
-
-
-Because of the way C handles the types of arrays, the type of the variable localString above is essentially char*. C programs very often manipulate strings using variables of type char* which point to arrays of characters. Manipulating the actual chars in a string requires code which manipulates the underlying array, or the use of library functions such as strcpy() which manipulate the array for you. 
-
-
-
-
-
-Dynamic memory allocation on the heap
-=====================================
-
-C gives programmers the standard sort of facilities to allocate and deallocate dynamic heap memory. A word of warning: writing programs which manage their heap memory is notoriously difficult. This partly explains the great popularity of languages such as Java and Perl which handle heap management automatically. These languages take over a task which has proven to be extremely difficult for the programmer. As a result Perl and Java programs run a little more slowly, but they contain far fewer bugs.
-
-C provides access to the heap features through library functions which any C code can call. The prototypes for these functions are in the file <stdlib.h>, so any code which wants to call these must #include that header file. The three functions of interest are...
-
-``void* malloc(size_t size)``
-    Request a contiguous block of memory of the given size in the heap. malloc() returns a pointer to the heap block or NULL if the request could not be satisfied. The type size_t is essentially an unsigned long which indicates how large a block the caller would like measured in bytes. Because the block pointer returned by malloc() is a void* (i.e. it makes no claim about the type of its pointee), a cast will probably be required when storing the void* pointer into a regular typed pointer.
-
-``void free(void* block)``
-    The mirror image of malloc() -- free takes a pointer to a heap block earlier allocated by malloc() and returns that block to the heap for re-use. After the free(), the client should not access any part of the block or assume that the block is valid memory. The block should not be freed a second time.
-
+The built-in functions ``malloc`` and ``free`` are used to manually allocate and deallocate blocks of heap memory.  These functions are declared in the header file ``<stdlib.h>`` (i.e., you must ``#include`` this file) and work as follows:
 
 .. sidebar:: Pointing into the ``void``
 
@@ -328,81 +311,119 @@ C provides access to the heap features through library functions which any C cod
 
     Also, interestingly, ``NULL`` is usually defined as ``(void*)0``.
 
+``void* malloc(size_t size)``
+    ``malloc`` takes one parameter: the number of bytes to allocate on the heap.  It returns a "generic pointer" (i.e., ``void *``) that refers to a newly allocated block of memory on the heap.  If there is not enough memory on the heap to satisfy the request, ``malloc`` returns ``NULL``.
+
+``void free(void* block)``
+    The mirror image of ``malloc``, ``free`` takes a pointer to a heap block previously returned by a call to ``malloc`` and returns it to the heap for re-use.  After calling ``free``, the caller should not access any part of the memory block that has been returned to the heap.
+
+Note that all of a program's memory is deallocated automatically when the it exits, so a program *technically* only needs to use ``free`` during execution if it is important for the program to recycle its memory while it runs --- typically because it uses a lot of memory or because it runs for a long time.  However, **it is always good practice to free what ever you malloc**.  You should not rely on the fact that a program does not run long or that you *think* it does not use a lot of memory.  
+
+Here is some example code that uses ``malloc`` and ``free`` to allocate a block of ``struct fraction`` records (basically an array, but not declared as an array), fill each one in with user input, invert each one, then print them all out.  Notice that each of the functions ``get_fractions``, ``invert_fractions``, and ``print_fractions`` accesses each ``struct fraction`` in different ways: by index, and by pointer arithmetic.  Note specifically that the ``invert_fractions`` function modifies the ``fracblock`` pointer (by "incrementing it by 1, which makes the pointer advance to the next ``struct fraction``), but since that function just gets a *copy* of the pointer to the ``struct fraction`` this is totally ok.  
+
+.. literalinclude:: code/fracheap.c
+   :language: c
+   :linenos:
+
+
+Memory leaks and dangling pointers
+----------------------------------
+
+Note that in the above example code, we have exactly 1 call to ``malloc`` and exactly 1 matching call to ``free``.  If you do not have a matching ``free`` call for each malloc, your program has a *memory leak*.  Memory leaks are especially problematic for long-running programs (e.g., web browsers are often implicated in memory leak problems [#f3]_).  The following program is one example of a pretty horrible leak: there is a ``malloc`` call in a loop, but no matching ``free``.  Even worse, we completely lose the ability to access the memory block in the previous iteration of the loop by re-assigning to ``memory_block`` each time through the loop.  Note also that assigning ``NULL`` doesn't free a block; it simply makes a block inaccessible to the program.  
+
+.. code-block:: c
+
+    for (int i = 0; i < BIGNUMBER; i++) {
+        char *memory_block = malloc(1024*1024);  // allocate a chunk on the heap
+        // do nothing else!  
+    }
+    memory_block = NULL;  // doesn't free anything!  we just lost our access
+                          // to the memory block most recently allocated, so
+                          // we've created a hopeless memory leak!
+
+
+A *dangling pointer* is a pointer that refers to a invalid block of memory, either to an undefined memory address or to a memory block that has already been freeed, and should thus be considered inaccessible.  For example:
+
+.. code-block:: c
+
+    int *p = malloc(sizeof(int));
+    *p = 42; 
+    int *q = p;  // q is a pointer; now it just holds the same address as p
+    printf("q is %d\n", q); // 42
+    printf("p is %d\n", p); // 42
+    free(p); // free p.
+    printf("q is %d\n", q); // NO!  since we free'd p, q is a "dangling pointer"
+                            // since it pointed to the same memory block!
+
+
 .. sidebar:: The valgrind tool
 
-   Valgrind is awesome and you should always use it.
+   Valgrind is a pretty excellent tool for helping to ferret out memory leaks, memory trashing, and any other type of memory corruption error that can happen in C programs.  To run a program with valgrind, you can just type :command:`valgrind <program>`.  
+   
+    There are *many* command-line options to change the behavior or output of valgrind.  Type :command:`valgrind -h` for help (or :command:`man valgrind`).  See http://valgrind.org for more information on this great tool.
 
 
+Advantages and disadvantages of heap-allocated memory
+-----------------------------------------------------
 
+Heap-allocated memory makes it possible to create linked lists, dynamically-sized arrays and strings, and more exotic data structures such as trees, heaps, and hashtables.  Manually allocating and deallocating memory can be a pain, though.  As a result, you probably want to be strategic about whether to use stack-allocated memory (e.g., local arrays and variables) or heap-allocated memory in a program.  Here are some key advantages and disadvantages to help you consider what is right for a given situation:
 
+Advantages to heap allocation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-All of a program's memory is deallocated automatically when the it exits, so a program only needs to use free() during execution if it is important for the program to recycle its memory while it runs -- typically because it uses a lot of memory or because it runs for a long time. The pointer passed to free() must be exactly the pointer which was originally returned by malloc() or realloc(), not just a pointer into somewhere within the heap block.
+ * The size of an array, string, or some other data structure can be defined at run time.  With stack-allocated arrays, for example, you typically need to specify a "reasonable upper bound" for the size of the array, and somehow deal with the consequences if the size of the array is exceeded.
+
+ * A block of memory will exist until it is explicitly deallocated with a call to ``free``.  For stack-allocated memory, the memory is automatically deallocated when a function is exited, which is totally inappropriate for data structures such as linked lists.  
+
+ * You can dynamically *change* the size of the array, string, or some other data structure at run time.  There is a built-in ``realloc`` function that can help with this (see :command:`man realloc`), 
+
+Disadvantages to heap allocation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ * You have to remember to allocate and deallocate a data structure, and you have to get it right.  This is harder than it sounds, and when things go wrong the program will either exhibit unexpected (buggy) behavior, or crash in a ball of flames.  Debugging can be hard.
+
+ * You have to remember to deallocate a memory block exactly once when you are done with it, and you have to get that right.  Also, harder than it looks.  For example, calling ``free`` on the same memory block *twice* is an error, and typically causes a crash.
+
 
 Dynamic Arrays
 --------------
 
-Since arrays are just contiguous areas of bytes, you can allocate your own arrays in the heap using malloc(). The following code allocates two arrays of 1000 ints-- one in the stack the usual "local" way, and one in the heap using malloc(). Other than the different allocations, the two are syntactically similar in use.
+Since arrays are just contiguous areas of bytes, you can allocate your own arrays in the heap using ``malloc``.  It is also fairly straightforward to resize an array as necessary (i.e., to grow it to accommodate more data items).  The following code allocates two arrays of 1000 ints --- one in the stack the usual "local" way, and one in the heap using ``malloc``.  Other than the different allocations, the two are syntactically similar in use.  
 
-::
+.. code-block:: c
 
-    {
-        int a[1000];
-        int *b;
-        b = (int*) malloc( sizeof(int) * 1000);
-        assert(b != NULL);      // check that the allocation succeeded
-        a[123] = 13;      // Just use good ol' [] to access elements
-        b[123] = 13;      // in both arrays.
-        free(b); 
-    }
-
-Although both arrays can be accessed with ``[ ]``, the rules for their maintenance are very different.
-
-Advantages of being in the heap
--------------------------------
-
- * Size (in this case 1000) can be defined at run time. Not so for an array like "a".
-
- * The array will exist until it is explicitly deallocated with a call to free().
-
- * You can change the size of the array at will at run time using realloc(). The following changes the size of the array to 2000. Realloc() takes care of copying over the old elements.
-
-::
-    b = realloc(b, sizeof(int) * 2000);
-    assert(b != NULL);
-
-Disadvantages of being in the heap
-----------------------------------
-
- * You have to remember to allocate the array, and you have to get it right.
-
- * You have to remember to deallocate it exactly once when you are done with it, and you have to get that right.
-
- * The above two disadvantages have the same basic profile: if you get them wrong, your code still looks right. It compiles fine. It even runs for small cases, but for some input cases it just crashes unexpectedly because random memory is getting overwritten somewhere like the smiley face. This sort of "random memory smasher" bug can be a real ordeal to track down.
+    int a[1000]; // allocate 1000 ints in the stack
+    int *b = malloc(sizeof(int) * 1000);  // allocate 1000 ints on the heap
+    a[123] = 13;      // just use good ol' [] to access elements
+    b[123] = 13;      // in both arrays
+    free(b);          // must call free on the heap-allocated array
 
 
-.. _dynamic-strings:
+To grow the heap-allocated array, we could do something like the following.  (Note that the following code uses ``memcpy``, which accepts three parameters: a destination address, a source address, and the number of bytes to copy):
 
-Dynamic Strings
----------------
+.. code-block:: c
 
+    int *arr = malloc(sizeof(int) * 1000); // 1000 ints on the heap
 
-The dynamic allocation of arrays works very well for allocating strings in the heap. The advantage of heap allocating a string is that the heap block can be just big enough to store the actual number of characters in the string. The common local variable technique such as char string[1000]; allocates way too much space most of the time, wasting the unused bytes, and yet fails if the string ever gets bigger than the variable's fixed size.
+    // assume we need to grow the array
 
-::
+    int *newarr = malloc(sizeof(int) * 2000); // double your integer pleasure
+    memcpy(newarr, arr, 1000*sizeof(int)); // copy over contents of old array
+    free(arr);    // free old array
+    arr = newarr; // arr now points to new, larger block
 
-    #include <string.h>
-    /*
-      Takes a c string as input, and makes a copy of that string
-      in the heap. The caller takes over ownership of the new string
-      and is responsible for freeing it.
-     */
-    char* MakeStringInHeap(const char* source) {
-        char* newString;
-        newString = (char*) malloc(strlen(source) + 1); // +1 for the '\0'
-        assert(newString != NULL);
-        strcpy(newString, source);
-        return(newString);
-    }
+C strings revisited
+-------------------
+
+Although we have used arrays of ``char`` to hold C strings thus far, a much more common way to declare the type of a C string is ``char *``.  This shouldn't be particularly surprising, since arrays and pointers are treated nearly synonymously in C.  That's not to say that stack-allocated C strings as arrays aren't useful.  Indeed, they are very commonly used.  It is, however, often necessary to copy and manipulate strings in memory, and using stack or statically allocated arrays becomes quite difficult.
+
+As an example, say that we need to "escape" an HTML string to replace any occurrence of ``<`` with ``&lt;`` (lt: "less-than") and any occurrence of ``>`` with ``&gt;`` (gt: "greater-than").  (There are other characters that are replaced when "properly" escaping an HTML string; we're just focusing on these two characters in this example.)  Since the string will "grow" as we escape it, dynamic memory allocation has obvious benefits.  Here is the code:
+
+.. literalinclude:: code/escapehtml.c
+   :language: c
+   :linenos:
+
+An exercise left for you is to improve the efficiency of the code (notice that there's some code duplication and some other ugliness that could/should be improved).
 
 
 Linked lists
@@ -420,3 +441,5 @@ Linked lists
 .. [#f1] http://en.wikipedia.org/wiki/High-level_programming_language
 
 .. [#f2] http://en.wikipedia.org/wiki/Low-level_programming_language
+
+.. [#f3] Just search for "Firefox memory leak" and you'll find plenty of posts not unlike the following: https://support.mozilla.org/en-US/questions/1006397  
