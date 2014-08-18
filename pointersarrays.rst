@@ -230,10 +230,6 @@ Interestingly, C compilers do not meaningfully distinguish between arrays and po
     int fibarray[] = { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 };
     int *fibptr1 = array;
 
-A picture of how this might look in memory is shown below:
-
-.. todo:: make picture of array variable
-
 An alternative (and somewhat more explicit) syntax for obtaining the base address of the array is to use the address-of operator with the first element of the array.  The following declaration creates yet another pointer variable that refers to the beginning of the array:
 
 .. code-block:: c

@@ -55,14 +55,14 @@ Many basic housekeeping funcions are available to a C program in form of standar
 
 .. _stdio:
 
-.. index:: printf, fgets
+.. index:: printf, fgets, snprintf, scanf, fopen, fclose
 
 stdio.h
 -------
  ``stdio.h`` is a very common file to include.  It includes functions to print and read strings from files and to open and close files in the file system.
 
 ``FILE* fopen(const char* fname, const char* mode);``
-    Open a file named in the filesystem and return a FILE* for it. Mode = "r" read,"w" write,"a"append, returns NULL on error. The standard files stdout, stdin, stderr are automatically opened and closed for you by the system.
+    Open a file named in the filesystem and return a FILE* for it. Mode = "r" read, "w" write, "a" append, returns NULL on error. The standard files stdout, stdin, stderr are automatically opened and closed for you by the system.
 
 ``int fclose(FILE* file);``
     Close a previously opened file. Returns EOF on error. The operating system closes all of a program's files when it exits, but it's tidy to do it beforehand. Also, there is typically a limit to the number of files which a program may have open simultaneously.
@@ -100,6 +100,14 @@ stdio.h
         }
 
 The above code looks for the word "hello" followed by a number and two words (all separated by whitespace). scanf() uses the pointers &num, s1, and s2 to store what it finds into the local variables.
+
+``int snprintf(char* buffer, size_t size, const char *format, ...)``
+    A version of ``printf`` that fills a char buffer with the resulting formatted string.  The first two arguments of ``snprintf`` are the buffer to file and the size of the buffer.  The remaining arguments are exactly like ``printf``: a format string followed by any arguments to be formatted in the resulting string.
+
+``int fprintf(FILE *stream, const char *format, ...)``
+    A version of ``printf`` that causes output to be sent to a file instead of to the default standard output.  ``printf`` works exactly like ``fprintf(stdout, ...)`` since ``stdout`` is predefined in ``stdio.h`` as a ``FILE *`` that results in console output.
+
+
 
 ..
 
@@ -140,8 +148,8 @@ None of these string routines allocate memory or check that the passed in memory
 ``size_t strlcpy(char* dest, const char* source, size_t dest_size);``
     Like strcpy(), but knows the size of the dest. Truncates if necessary. Use this to avoid memory errors and buffer-overflow security problems. This function is not as standard as strcpy(), but most sytems have it.  Do not use the old strncpy() function -- it is difficult to use correctly.
 
-``char *strcat(char* dest, const char* source);``
-    Append the characters from the source string to the end of destination string. (There is a non-standard strlcat() variant that takes the size of the dest as third argument.)
+``char *strlcat(char* dest, const char* source, size_t dest_size);``
+    Append the characters from the source string to the end of destination string.
 
 ``int strcmp(const char* a, const char* b);``
     Compare two strings and return an int which encodes their ordering. zero:a==b, negative:a<b, positive:a>b. It is a common error to think of the result of strcmp() as being boolean true if the strings are equal which is, unfortunately, exactly backwards.
@@ -184,19 +192,9 @@ stdlib.h
 ``void qsort(void* base, size_t len, size_t elem_size, <compare_function>);``
     Sort an array of elements. Takes a function pointer just like bsearch().
 
+``int atoi(const char *s)``
+    Return an integer parsed from the string s.  This function is somewhat problematic since it cannot return errors if the string does not contain a parseable integer.  You should generally use ``strtol`` (and related functions) which can return errors.
 
-.. todo::
+``double atof(const char *)``
+    Return a floating point number in ``double`` format parsed from the string s.  Like ``atoi`` this function is somewhat problematic since it cannot return errors if the string does not contain a parseable floating point number.  You should generally use ``strtod`` (and related functions) instead.
 
-   A bunch of missing functions:
-
-    * strtol, strtoul
-    * strtod, strtof
-    * fprintf, fgets, fflush
-    * open 
-    * close
-    * write
-    * read
-    * seek
-    * time functions: gettimeofday
-    * strerror
-    * time, localtime_r, asctime_r, mktime
