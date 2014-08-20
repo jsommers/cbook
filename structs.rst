@@ -6,7 +6,7 @@ Aggregate Data Structures
 The C ``struct``
 ================
 
-C has a facility for grouping more primitive data elements together in the form of a "record", which is called a ``struct``.  A ``struct`` in C is sort of like a class (in languages with classes), except that (1) all members of the ``struct`` are public (i.e., there is no way to "hide" members), and (2) there are no methods, data members.  Members of a ``struct`` are often referred to as ``fields``.
+C has a facility for grouping data elements together in the form of a "record", which is called a ``struct``.  A ``struct`` in C is sort of like a class (in languages with classes), except that (1) all members of the ``struct`` are public (i.e., there is no way to "hide" members), and (2) there are no methods, only data members.  Members of a ``struct`` are often referred to as ``fields``.
 
 The following code defines a type called ``struct fraction`` that has two integer fields named ``numerator`` and ``denominator``.  Note that a semicolon is required after the final curly brace of the declaration, as well as after the declaration of each field.
 

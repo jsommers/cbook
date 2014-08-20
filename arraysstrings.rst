@@ -80,6 +80,8 @@ The built-in ``sizeof`` function works with arrays.  Specifically, it will retur
     int scores[100];
     memset(scores, 0, sizeof(scores)); 
 
+.. index:: array bounds checking (lack of)
+
 Array bounds checking (not!)
 ----------------------------
 

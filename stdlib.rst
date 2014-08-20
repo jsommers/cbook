@@ -1,6 +1,7 @@
-
 C Standard Library Functions
 ****************************
+
+.. index:: operator precedence, operator associativity, operators
 
 Precedence and Associativity
 ----------------------------
@@ -26,6 +27,8 @@ One common pitfall with the above precedence fields is that::
 never works.  The field selection operator (``.``) has higher precedence
 than the dereference operator (``*``), thus the expression is evaluated
 as ``*(structptr.field)`` instead of the (usually) desired ``(*structptr).field``.  A way to avoid this problem altogether is to write ``structptr->field``.
+
+.. index:: C standard library
 
 .. _C-standard-library-functions:
 

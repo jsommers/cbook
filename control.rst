@@ -14,7 +14,23 @@ Both an ``if`` and an ``if-else`` are available in C.  The ``<expression>`` can 
 
     if (<expression>) <statement>    // simple form with no {}'s or else clause
 
-I **strongly** recommend against using the above form of curly brace-free ``if`` statement.  **Always** use the curly braces, even if you only have a single statement as part of an ``if`` or some other control structure.  Why, you ask, should I type those additional characters?  See the sidebar on the Apple SSL bug for why.
+I **strongly** recommend against using the above form of curly brace-free ``if`` statement.  **Always use the curly braces**, even if you only have a single statement as part of an ``if`` or some other control structure.  Why, you ask, should I type those additional characters?  See the sidebar on the Apple SSL bug for why.
+
+
+.. sidebar:: Why you should always use curly braces, even when they're optional
+    
+   For ``if`` statements and loop constructs that only contain a single line of code in the body, C allows the programmer *not* to include the curly braces.  Curly braces are only required in the case of multiple statements in the body of one of these constructs.  Using the curly braces, however, is very strongly recommended.  Just ask an unfortunate engineering group at Apple who introduced the "goto fail" bug into their SSL (secure sockets layer) library: a bug that affected MacOS X and iOS operating systems quite severely [#f1]_.
+
+
+.. index:: curly braces
+
+.. topic:: Code blocks use curly braces (``{}``)
+
+    C uses curly braces (``{}``) to group multiple statements together, very much like Java.  Whitespace is
+    generally insignificant, very much *unlike* Python.  Not surprisingly, within a code block the statements execute in order.  
+
+    Note that older versions of C (pre-C99) required that all variables be declared at the beginning of a code block.  Since the C99 standard, however, variables can be declared anywhere, as in Java and C++.
+
 
 As in Java, the ``else`` keyword can be used to provide alternative execution for a conditional expression.  Also similar to Java, multiple ``if`` ... ``else if`` statements can be chained together.  
 
@@ -35,19 +51,6 @@ As in Java, the ``else`` keyword can be used to provide alternative execution fo
     } else if (<expression2>) {
         <statements>
     } ...
-
-.. index:: curly braces
-
-.. topic:: Code blocks use curly braces (``{}``)
-
-    C uses curly braces (``{}``) to group multiple statements together, very much like Java.  Whitespace is
-    generally insignificant, very much *unlike* Python.  Not surprisingly, within a code block the statements execute in order.  
-
-    Note that older versions of C (pre-C99) required that all variables be declared at the beginning of a code block.  Since the C99 standard, however, variables can be declared anywhere, as in Java and C++.
-
-.. topic:: Why you should always use curly braces, even when they're optional
-    
-   For ``if`` statements and loop constructs that only contain a single line of code in the body, C allows the programmer *not* to include the curly braces.  Curly braces are only required in the case of multiple statements in the body of one of these constructs.  Using the curly braces, however, is very strongly recommended.  Just ask an unfortunate engineering group at Apple who introduced the "goto fail" bug into their SSL (secure sockets layer) library: a bug that affected MacOS X and iOS operating systems quite severely [#f1]_.
 
 .. index:: ternary operator
 
@@ -104,7 +107,7 @@ The switch statement is a sort of specialized form of ``if`` used to efficiently
 
 Each constant needs its own ``case`` keyword and a trailing colon (:).  Once execution has jumped to a particular case, the program will keep running through all the cases from that point down --- this so called *fall through* operation is used in the above example so that ``expression-3`` and ``expression-4`` run the same statements. The explicit ``break`` statements are necessary to exit the ``switch``. Omitting the ``break`` statements is a common error --- it compiles, but leads to inadvertent fall-through behavior.
 
-Why does the ``switch`` statement fall-through behavior work the way it does? The best explanation I can think of is that originally C was developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a jump table with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.
+Why does the ``switch`` statement fall-through behavior work the way it does? The best explanation might be that C was originally developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a jump table with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.
 
 .. index:: while loop
 

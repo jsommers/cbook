@@ -13,6 +13,7 @@ Good program design in C (and many other programming languages) involves creatin
 
     Benjamin C. Pierce, "Types and Programming Languages" (http://www.cis.upenn.edu/~bcpierce/tapl/).
 
+.. index:: functions, function declaration, function parameters, function return values
 
 Function syntax
 ===============
@@ -72,11 +73,15 @@ To call the ``factorial`` function, a programmer uses parentheses after the func
 
 So far, none of this should be particularly surprising.  You may have already seen "public static methods" in Java (e.g., ``main``!), which are very similar to C functions, or you may have already seen function in Python (defined using the ``def`` keyword).  Both public static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters. 
 
+.. index:: main function
+
 ``main`` is where it all begins
 -------------------------------
 
 Every C program **must** have a ``main`` function.  An attempt to compile a program in C which does not have a ``main`` function defined somewhere will result in an error.  Unlike Java, where any number of class definitions can have a ``public static void main`` definition, it's a highlander situation in C: *there can be only one* [#f5]_.
 
+
+.. index:: function naming
 
 Function naming restrictions and conventions
 --------------------------------------------
@@ -85,6 +90,8 @@ The only *requirement* for naming C functions is similar to many programming lan
 
 As far as naming conventions, there are a wide variety of practices in existence.  Some programmers like to name their functions using ``lowerCamelCase``, which is common in languages such as Java, or using ``snake_case``, which is common in Python and Ruby.  In the C standard library, a common practice is to use short, abbreviated names consisting of a single word (e.g., ``tolower``).  Still others like to use the abomination referred to as Hungarian Notation [#f6]_.  A fairly widely used convention in C is ``snake_case``, which is the practice followed in this book.
 
+.. index:: function parameters, function return values
+
 Data types for parameters and return values
 ===========================================
 
@@ -92,10 +99,13 @@ There are, technically speaking, no restrictions on the data types of parameters
 
 Likewise, there are no syntactic restrictions on the data type of the return value from a function.  C does not permit *multiple* return values, unlike some other languages, but it is permissible to return a ``struct`` type that contains multiple fields (or, as we will later see, a pointer to a memory block containing multiple data items).
 
+.. index:: void
+
 .. topic:: C-ing and Nothingness --- ``void``
 
     ``void`` is a type formalized in ANSI C which means "nothing". To indicate that a function does not return anything, use ``void`` as the return type.  If a function does not take any parameters, its parameter list may either be empty (i.e., ``()``), or it can contain the keyword ``void`` to indicate that the function does not take parameters.  It is more common and conventional in C to use an empty parameter list for functions that don't take parameters.
-    
+
+.. index:: function parameters, pass-by-value function parameter semantics
 
 Parameters to functions are passed by value
 -------------------------------------------
@@ -269,9 +279,11 @@ It's worth repeating that all variables in examples we've considered to this poi
 
 .. rubric:: Exercises
 
-1.  Refactor and modularize the code in exercise 1 in the ``struct`` chapter.  At the very least, write functions to parse a single line into a struct, and to print out a struct.  
+1.  Write a function that takes two ``struct fraction``\s, ``a`` and ``b`` and compares them for equality.  Return -1 if ``a`` is less than ``b``, 0 if they are equal, and 1 if ``a`` is greater than ``b``.
 
-2.  Write a text-based program to play hangperson.  Many of you have probably written this sort of program in Python.  Test your mettle by writing it in C.
+2.  Refactor and modularize the code in exercise 1 in the ``struct`` chapter.  At the very least, write functions to parse a single line into a struct, and to print out a struct.  
+
+3.  Write a text-based program to play hangperson.  Many of you have probably written this sort of program in Python.  Test your mettle by writing it in C.
 
 
 .. [#f1] There are advanced techniques that build upon the basic mechanisms available in C to, for example, mimic capabilities found in object-oriented programming languages.  As a introductory text, this book will not go into any of those techniques.  One additional technique we cover in this book is found in the chapter on :ref:`compilation-and-program-structure`, in which we discuss a technique that provides a type of information hiding by enabling functions to remain "hidden" on a per-file basis.

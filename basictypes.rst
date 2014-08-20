@@ -44,10 +44,10 @@ The integer types can be preceded by the qualifier ``unsigned`` which disallows 
 
    Java contains (almost) the same basic integer types as in C.  It has ``short``, ``int``, and ``long``, which are 2 bytes, 4 bytes, and 8 bytes respectively (i.e., generally as they are in C).  Java also has a ``byte`` type, which is like ``char`` in C: a 1-byte integer.  A ``char`` in Java is **not** treated as an integer: it is a single Unicode character. Also, all integer types in Java are signed; unsigned integer types don't exist.
 
-The ``sizeof`` function
------------------------
+The ``sizeof`` keyword
+----------------------
 
-There is a built-in function in C called ``sizeof`` that returns the number of bytes occupied by a type or variable.  If there is ever a need to know the size of something, just use ``sizeof``.  Here is an example of how ``sizeof`` can be used to print out the sizes of the various integer types on any computer system.  Note that the ``%lu`` format placeholder in each of the format strings to ``printf`` means "unsigned long integer", which is what ``sizeof`` returns.  (As an exercise, change ``%lu`` to ``%d`` and recompile with :command:`clang`.  It will helpfully tell you that something is fishy with the ``printf`` call.)
+There is a keyword in C called ``sizeof`` that works like a function and returns the number of bytes occupied by a type or variable.  If there is ever a need to know the size of something, just use ``sizeof``.  Here is an example of how ``sizeof`` can be used to print out the sizes of the various integer types on any computer system.  Note that the ``%lu`` format placeholder in each of the format strings to ``printf`` means "unsigned long integer", which is what ``sizeof`` returns.  (As an exercise, change ``%lu`` to ``%d`` and recompile with :command:`clang`.  It will helpfully tell you that something is fishy with the ``printf`` call.)
 
 .. literalinclude:: code/sizes.c
    :linenos:
@@ -70,6 +70,8 @@ and when the program is run on a 64-bit machine, the output is::
     An int is 4 bytes
     A long is 8 bytes
     A long long is 8 bytes
+
+Notice that the key difference above is that on a 64-bit platform, the ``long`` type is 8 bytes (64 bits), but only 4 bytes (32 bits) on a 32-bit platform.
 
 .. sidebar:: Integer sizes and source code portability
 
@@ -113,7 +115,7 @@ A ``char`` literal is written with single quotes (') like ``'A'`` or ``'z'``.  T
 
 Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long, such as 42L.  Similarly, an integer literal may be followed by 'LL' to indicate that it is of type ``long long``.  Adding a 'U' before 'L' or 'LL' can be used to specify that the value is unsigned, e.g., 42ULL is an ``unsigned long long`` type.
 
-An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal --- 0x10 is way of expressing the number 16.  Similarly, a constant may be written in octal by preceding it with "0" --- 012 is a way of expressing the number 10.
+An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal (base 16) --- 0x10 is way of expressing the number 16.  Similarly, a constant may be written in octal (base 8) by preceding it with "0" --- 012 is a way of expressing the number 10.
 
 Type combination and promotion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -127,7 +129,7 @@ The integral types may be mixed together in arithmetic expressions since they ar
 
        int mid = (low + high) / 2;
 
-   So what's the problem?  The issue is that for very large arrays, the expression ``low + high`` may exceed the size of a 32-bit integer, resulting in "overflow": the high-order bit(s) are simply lost.  In C, the result is that the array index (``mid``) overflows to a negative value, resulting in incorrect program behavior.  See the footnote reference for ways to fix the code in both Java and C/C++.
+   So what's the problem?  The issue is that for very large arrays, the expression ``low + high`` may exceed the size of a 32-bit integer, resulting in "overflow": the high-order bit(s) are simply lost.  In C, the result is that the array index (``mid``) overflows to a negative value, resulting in incorrect program behavior.  See the footnote reference ([#f2]_) for ways to fix the code in both Java and C/C++.
 
 
 Floating point types
@@ -175,7 +177,7 @@ In C prior to the C99 standard, there was no distinct Boolean type.  Instead, in
 
 will execute until the variable ``i`` takes on the value 10 at which time the expression (i - 10) will become false (i.e., 0).  
 
-In the C99 revision, a ``bool`` type was added to the language, but the vast majority of existing C code uses integers as quasi-Boolean values. In C99, you must add ``#include <stdbool.h>`` to your code to gain access to the ``bool`` type.  Using the C99 ``bool`` type, we could modify the above code to read as follows:
+In the C99 revision, a ``bool`` type was added to the language, but the vast majority of existing C code uses integers as quasi-Boolean values. In C99, you must add ``#include <stdbool.h>`` to your code to gain access to the ``bool`` type.  Using the C99 ``bool`` type, we could modify the above code to use a Boolean flag variable as follows:
 
 .. code-block:: c
 
@@ -234,7 +236,7 @@ A variable corresponds to an area of memory which can store a value of the given
 
    .. index:: initialization, =
 
-   Unlike Java, variables in C do not have their memory cleared or set in any way when they are allocated at run time.  The value in a variable at the time it is declared is *undefined*: it is likely to be filled with what ever variable or value previously occupied that particular location in memory.  Or it might be zeroes.  Or it might be filled with fuzzy pink pandas.  The point is that you should never assume that a variable has any value stored in it at the time of declaration.  As a result, you should almost always *explicitly initialize variables* at the point of declaration.  A good compiler will (usually) tell you when you're playing with fire with respect to variable initialization, but it is good to get into the habit of explicitly initializing variables to avoid this pitfall.
+   Unlike Java, **variables in C do not have their memory cleared or set in any way when they are allocated at run time**.  The value in a variable at the time it is declared is *undefined*: it is likely to be filled with what ever variable or value previously occupied that particular location in memory.  Or it might be zeroes.  Or it might be filled with fuzzy pink pandas.  The point is that you should never assume that a variable has any value stored in it at the time of declaration.  As a result, you should almost always *explicitly initialize variables* at the point of declaration.  A good compiler will (usually) tell you when you're playing with fire with respect to variable initialization, but it is good to get into the habit of explicitly initializing variables to avoid this pitfall.
 
 Names in C are *case sensitive* so "x" and "X" refer to different variables. Names can contain digits and underscores (_), but may not begin with a digit. Multiple variables can be declared after the type by separating them with commas.  C is a classical "compile time" language --- the names of the variables, their types, and their implementations are all flushed out by the compiler at compile time (as opposed to figuring such details out at run time like an interpreter).
 

@@ -463,6 +463,35 @@ A function to traverse a list and print each value out might look like the follo
         }
     }
 
+.. index:: pointers to pointers
+
+Pointers to pointers, etc.
+--------------------------
+
+Some functions in the C standard library take pointers-to-pointers ("double pointers"), and you will likely encounter situations in which it is *useful* to make pointers-to-pointers.  One example of such a situation occurs when a function needs to allocate and initialize heap memory for a caller.  Here is an example in code:
+
+.. code-block:: c
+
+  int copy_string(char **dest, const char *source) {
+      int buffer_size = strlen(source) + 1;
+      *dest = malloc(sizeof(char) * buffer_size);
+      if (!*dest) {
+          return -1;  // failure!
+      }
+      strlcpy(*dest, source, buffer_size);
+      return 0; // success
+  }
+
+  char *ptr;
+  copy_string(&ptr, "here's a string!");
+  printf("%s\n", ptr); 
+  // don't forget: need to eventually free(ptr)!
+
+In the above code, the ``copy_string`` function takes a "pointer to a pointer to a char" as the first parameter, and a constant C string as the second parameter.  The function allocates a new block of memory using ``malloc`` and copies the ``source`` string into a ``dest`` string.  
+
+Why can't the first parameter be ``char *``?  The reason has to do with pass-by-value function parameters: since we want to *modify* what ``dest`` points to, we need to access that pointer indirectly or the modification only happens to a local variable.  (This is exactly the same situation we encountered with the failed ``swap`` function.)  Since we can indirectly access the ``dest`` pointer (i.e., via the pointer to the pointer), the change we make is observable to the caller of the function.
+
+Outside the function, we declare a normal ``char *`` string variable (``ptr``), then pass *the address of ptr* to the function, which creates the pointer-to-a-pointer.  When we return from the function, ``ptr`` has been modified (specifically, the address held in the variable ``ptr`` has been modified).  As a side-effect of the way this function is implemented (i.e., it uses ``malloc``), we must remember to eventually call ``free`` on ``ptr`` in order to avoid a memory leak.
 
 .. rubric:: Exercises
 
