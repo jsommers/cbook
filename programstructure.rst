@@ -20,6 +20,8 @@ There are three basic steps involved in compiling a C program: *preprocessing*, 
 
    The three basic steps when compiling C programs are *preprocessing*, *compilation*, and *linking*.  
 
+.. _preprocessing:
+
 The preprocessing step
 ----------------------
 

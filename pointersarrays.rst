@@ -408,6 +408,8 @@ To grow the heap-allocated array, we could do something like the following.  (No
     free(arr);    // free old array
     arr = newarr; // arr now points to new, larger block
 
+.. _dynamic-strings:
+
 C strings revisited
 -------------------
 

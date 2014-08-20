@@ -1,12 +1,14 @@
-A head-first dive into C
-************************
+Getting your feet wet in the sea
+********************************
 
-In this first chapter, we take a plunge into C by way of a tutorial that examines a variety of topics that are discussed in depth in later chapters.  Where appropriate, pointers to later sections are given if you want to read a bit more about various topics as you work through the following examples.
+In this first chapter, we take a dip into the C by way of a tutorial that examines a variety of topics that are discussed in depth in later chapters.  Where appropriate, pointers to later sections are given if you want to read a bit more about various topics as you work through the following examples.  
 
 Hello, somebody
 ---------------
 
 We first start out by examining a simple "hello, world"-style program, but with a twist to make it somewhat more interesting.  The following program asks a user for his or her name, then prints ``Hello, <name>!``.  Here is the code:
+
+.. index:: #include, main, printf, arrays, fgets
 
 .. literalinclude:: code/hello.c
    :language: c
@@ -14,17 +16,17 @@ We first start out by examining a simple "hello, world"-style program, but with 
 
 Since this may be the first C program you've seen, we'll walk through it line by line:
 
-  1.  The first line (``#include <stdio.h>``) tells the C compiler that we intend to use functions that are declared in a "header" file called ``stdio.h``.  This line is (somewhat) analogous to saying ``import`` in Python or Java.  The file ``stdio.h`` contains declarations for input/output functions in C, such as ``printf`` and ``fgets``, which we will use to print text to the console and get input from a user, respectively.  See the chapter on :ref:`C-standard-library-functions` for more discussion of ``#include`` files.
+  1.  The first line (``#include <stdio.h>``) tells the C compiler that we intend to use functions that are in the *C standard library* and declared in a *header file* called ``stdio.h``.  This line is (somewhat) analogous to saying ``import`` in Python or Java.  The file ``stdio.h`` contains declarations for input/output functions in C, such as ``printf`` and ``fgets``, which we will use to print text to the console and get input from a user, respectively.  Including those declarations in our program lets the compiler know the type signatures of the functions we want to use (i.e., the data types of the function parameters, and the return type). See :ref:`preprocessing <preprocessing>` for more discussion of ``#include`` files.
 
-  2.  The second line is another ``#include`` line to tell the C compiler that we want to use some string-related functions.  In particular, we use ``#include <string.h>`` because we want to use a function called ``strlen``, which is used to find the length of a string.
+  2.  The second line is another ``#include`` line to tell the C compiler that we want to use some string-related functions.  In particular, we use ``#include <string.h>`` because we want to use a function called ``strlen``, which is used to compute the length of a string.
 
-  4.  Line 4 starts a function called ``main``, which is the function in which every C program **must** start.  If you don't define a ``main`` function, the compiler will complain loudly.  Notice that the return value of ``main`` is of type ``int``.  In UNIX-based systems (and C), it is common for functions to return an integer value indicating whether the function "succeeded" or not.  Weirdly enough 0 usually means "success" and some non-zero value (usually -1, or some other negative number) means "failure".  If you look at line 10, you'll see that we unconditionally return 0 to indicate that the program successfully completes.  The ``main`` function can also take two parameters; see :ref:`the main function <the-main-function>` for more about ``main``.
+  4.  Line 4 starts a function called ``main``, which is the function in which every C program **must** start.  If you don't define a ``main`` function, the compiler will complain loudly.  Notice that the return value of ``main`` is of type ``int``.  In UNIX-based systems (and C), it is common for functions to return an integer value indicating whether the function "succeeded" or not.  Weirdly enough 0 usually means "success" and some non-zero value (usually -1, or some other negative number) means "failure".  If you look at line 10, you'll see that we unconditionally return 0 to indicate that the program successfully completes.  (The ``main`` function can also take two parameters; see :ref:`the main function <the-main-function>` for more about ``main``.)
 
   5.  We print a prompt for a user using the ``printf`` function.  There shouldn't be anything particularly surprising about this function call: as in Java, the string we print out is delimited with double quotes (``"``).  In C, all strings **must** be delimited with double quotes, unlike Python which has three different ways of enclosing text (single, double, and triple quotes).  (Note that, like Java, single characters must be enclosed in single quotes in C.)  You can also see on line 5 that the ``printf`` statement is terminated with a semicolon.  As with Java, all statements in C must end with a semicolon.   The ``printf`` function can take any number of parameters, and a "format" string can define how to display different data types.  See :ref:`stdio reference <stdio>` for more.
 
   6.  On line 6, we declare a variable called ``name``, which is an array of length 32 of ``char``.  A string in C is represented as an array of characters, where the last character of the string contains the special character ``'\0'``.  This character is referred to as the "null" character and is used to delimit strings.  Unlike any other language you have probably encountered so far, the *representation* of a string in C is completely transparent: there is no "information hiding" or abstraction here --- it is all visible.  Thus, unlike strings in Python and Java which are *immutable*, strings in C are completely mutable.  Changing a string in C boils down to modifying individual characters of the string.  You just need to be sure that the string is terminated with the special ``'\0'`` (null) character.  See :ref:`character literals <character-literals>` for more information on character literals and the null character.
 
-      One thing that may not be obvious on line 6 is that this statement only declares the variable ``name``.  The C compiler does not do any automatic initialization of the string.  So at the point of declaration, the programmer cannot assume that there is anything known about the contents of ``name`` --- it is currently what ever random characters that may have resided in the memory location occupied by ``name`` prior to its being brought to life.
+      One thing that may not be obvious on line 6 is that this statement only declares the variable ``name``.  The C compiler and runtime environment does not do any automatic initialization of the string.  So at the point of declaration, the programmer cannot assume that there is anything known about the contents of ``name`` --- it is currently what ever random characters that may have resided in the memory location occupied by ``name`` prior to its being brought to life.
 
   7.  The next statement calls the ``fgets`` C library function to get input from the keyboard.  There are three parameters we pass: the string variable we created on line 6 (``name``), the maximum number of characters that ``name`` can hold (32), and the "input stream" that we wish to read from.  The variable name ``stdin`` is predefined in the ``<stdio.h>`` header file, so we can just use it directly as the third parameter.  ``stdin`` means "standard input", and (usually) refers to input that can be collected from the keyboard.  As you'll see later on in this book, you can also use ``fgets`` to read from files that you open.  See :ref:`stdio reference <stdio>` for more.
 
@@ -46,9 +48,9 @@ Since this may be the first C program you've seen, we'll walk through it line by
 Hello, :command:`clang`
 -----------------------
 
-Now that we've got our program done and explained, let's compile and run it.  Just like Java, C requires an explicit compilation step to produce an executable program.  Unlike Java, however, the program produced by the compiler does not contain "byte code", it contains *real* executable instructions for the processor on which you're running the compiler.  So, if you happen to be compiling on a 64-bit Linux system using an Intel-based processor, the program produced by the C compiler will contain raw Intel X86_64 instructions.
+Now that we've got our program done and explained, let's compile and run it.  Just like Java, C requires an explicit compilation step to produce an executable program.  Unlike Java, however, the program produced by the compiler does not contain "byte code", it contains *real* executable instructions for the processor on which you're running the compiler.  So, if you happen to be compiling on a 64-bit Linux system using an Intel-based processor, the program produced by the C compiler will contain raw Intel x86_64 instructions [#f1]_.
 
-All the examples in this book will use a compiler called :command:`clang`, and all examples will use the command line (in particular, the :command:`bash` shell). :command:`clang` is available on most recent Linux systems and on MacOS X [#f1]_.  If :command:`clang` is unavailable, you can also use the :command:`gcc` compiler.  The reason we favor :command:`clang` is that the error messages produced by :command:`clang` are far, far superior to the cryptic nonsense spewed by :command:`gcc`.
+All the examples in this book will use a compiler called :command:`clang`, and all examples will use the command line (in particular, the :command:`bash` shell). :command:`clang` is available on most recent Linux systems and on MacOS X [#f2]_.  If :command:`clang` is unavailable, you can also use the :command:`gcc` compiler.  The reason we favor :command:`clang` is that the error messages produced by :command:`clang` are far, far superior to the cryptic nonsense spewed by :command:`gcc`.
 
 The basic recipe for using :command:`clang` is::
 
@@ -58,9 +60,9 @@ Notice that there are a few command-line flags/options given:
 
  * ``-g`` tells the compiler to include debugging symbols in the compiled program.  This is a good thing to do because it will enable you to use a symbolic debugger like :command:`gdb`, if necessary.
 
- * ``-Wall`` tells the compiler to turn on all warnings.  If :command:`clang` detects something odd or suspicious about your code, it will say so.  Turning on this flag is a ridiculously good idea.
+ * ``-Wall`` tells the compiler to turn on all warnings.  If :command:`clang` detects something odd or suspicious about your code, it will say so.  Turning on this flag is a ridiculously good idea.  If you enjoy the feeling of someone yelling at you, you can even turn on the ``-pedantic`` flag.
 
- * ``-std=c99`` tells the compiler to turn on "C99" features, or language features that were introduced in a 1999 revision of the C programming language standard.  We will use various C99 constructs in this book, so you should always turn on this flag.
+ * ``-std=c99`` tells the compiler to turn on "C99" features, or language features that were introduced in a 1999 revision of the C programming language standard.  We will use various C99 constructs in this book, so you should always turn on this flag [#f3]_.
 
  * ``-o <executablename>`` tells the compiler how to name the file that is produced as an executable program.  You should replace ``<executablename>`` with something more meaningful (as shown in the example below).
 
@@ -68,7 +70,7 @@ Notice that there are a few command-line flags/options given:
 
 .. sidebar:: a.out is the default executable file name produced by clang
 
-   If you do not supply an output executable name using the ``-o`` flag, :command:`clang` will create a file named ``a.out``.  Which is very, very weird, right?  There is, of course, a history behind this file name [#f3]_.
+   If you do not supply an output executable name using the ``-o`` flag, :command:`clang` will create a file named ``a.out``.  Which is very, very weird, right?  There is, of course, a history behind this file name [#f4]_.
 
 
 For example, with the "hello, someone" example above, we might compile and run the program as follows::
@@ -97,7 +99,7 @@ Of course, not all our wonderful source code will compile and run correctly on t
                        ~^
     1 warning and 1 error generated.    
 
-:command:`Clang` helpfully tells us that we're missing the semicolon (the 6:18 means the sixth line and 18th character on that line), and that there was an unequal number of arguments to ``printf`` and ``%``-placeholders in the format string [#f2]_.
+:command:`Clang` helpfully tells us that we're missing the semicolon (the 6:18 means the sixth line and 18th character on that line), and that there was an unequal number of arguments to ``printf`` and ``%``-placeholders in the format string [#f5]_.
 
 
 .. index::
@@ -144,9 +146,12 @@ Ugh.  Not only are there *more* errors reported than actually exist, the output 
 
     * You can assume that the string entered by the user for finish time is *exactly* in the format "HH:MM:SS", for simplicity.  Assume that if the user wants to finish in 31 minutes and 19 seconds, they type "00:31:19".
 
+.. [#f1] The file containing the instructions is in a format known as ELF: http://en.wikipedia.org/wiki/Executable_and_Linkable_Format
 
-.. [#f1] Don't look for any examples related to Windows or Visual C in this book: they don't exist.
+.. [#f2] Don't look for any examples related to Windows or Visual C in this book: they don't exist.
 
-.. [#f2] If the terminal in which you invoke :command:`clang` is capable, it will even color-highlight the output to help draw your attention to various errors and warnings.  
+.. [#f3] By default, recent versions of :command:`clang` operate in a "modern" mode (C99 or C11).  To be safe, however, you should specify the C standard to which the code is written.  
 
-.. [#f3] http://en.wikipedia.org/wiki/A.out
+.. [#f4] http://en.wikipedia.org/wiki/A.out
+
+.. [#f5] If the terminal in which you invoke :command:`clang` is capable, it will even color-highlight the output to help draw your attention to various errors and warnings.  
