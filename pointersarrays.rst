@@ -266,7 +266,7 @@ A somewhat longer example of adding a pointer and integer together is shown belo
     int a = *(fibptr + 0);  // add 0*sizeof(int) to fibptr address, then dereference (yields the value 1)
     int b = *(fibptr + 2);  // add 2*sizeof(int) to fibptr address, then dereference (yields the value 2)
 
-Again, the syntax ``fibptr + 2`` is interpreted as "get the address of the 2nd integer following the address fibptr".  
+Again, the syntax ``fibptr + 2`` is interpreted by the compiler as "get the address of the 2nd integer following the address fibptr".  
 
 In fact, array indexing syntax works identically to pointer arithmetic.  As a result, square-brace indexing can be used with pointer variables.  Moreover, the nice thing about this syntax is that *dereferencing is automatic*. Continuing the code above:
 
@@ -348,7 +348,8 @@ A *dangling pointer* is a pointer that refers to a invalid block of memory, eith
     printf("q is %d\n", q); // 42
     printf("p is %d\n", p); // 42
     free(p); // free p.
-    printf("q is %d\n", q); // NO!  since we free'd p, q is a "dangling pointer"
+    printf("p is %d\n", p); // NO!  p is invalid because we just free'd it!
+    printf("q is %d\n", q); // Double NO!  since we free'd p, q is a "dangling pointer"
                             // since it pointed to the same memory block!
 
 
@@ -420,8 +421,6 @@ As an example, say that we need to "escape" an HTML string to replace any occurr
 .. literalinclude:: code/escapehtml.c
    :language: c
    :linenos:
-
-An exercise left for you is to improve the efficiency of the code (notice that there's some code duplication and some other ugliness that could/should be improved).
 
 Linked lists
 ------------
@@ -519,7 +518,13 @@ Outside the function, we declare a normal ``char *`` string variable (``ptr``), 
 
 #.  Write new implementations of the various linked list functions we've seen and written so far but instead of having an int as the value, use a ``char *`` (dynamically allocated C string).
 
+#.  Write a function that accepts the name of a text file, and allocates and returns a C string that contains the *entire* contents of the file.  (If you're familiar with the basic file I/O API of Python, this function should work like the ``read()`` method of a file object.)
 
+#.  Rewrite the ``escapehtml`` function so that it accepts a *pointer to a pointer to a char* (``char **``), allocates a new string that contains the escaped string and *assigns* the newly allocated string to the C string pointer to by the pointer argument to the function.  For example, if the parameter is ``char **str``, the variable ``*str`` refers to the C string containing the HTML text to be escaped.  When the function concludes, ``*str`` should *now* refer to the C string containing the escaped HTML text.  You should be sure to ``free`` the original unescaped C string.
+
+#.  Rewrite the ``escapehtml`` function so that it accepts a *pointer to a char* (not a *const* pointer), and modifies the string *in place* to escape each ``<`` and ``>``.  You should use the built-in C library function ``realloc`` to dynamically reallocate heap memory allocated to the string passed into the function.  You'll need to read the ``man`` page for ``realloc`` to understand how this function works.
+
+.. rubric:: Footnotes
 
 .. [#f1] http://en.wikipedia.org/wiki/High-level_programming_language
 

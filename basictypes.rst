@@ -20,7 +20,7 @@ Integer types
 There are several integer types in C, differing primarily in their bit widths and thus the range of values they can accommodate.  Each integer type can also be *signed* or *unsigned*.  Signed integer types have a range :math:`-2^{width-1}..2^{width-1}-1`, and unsigned integers have a range :math:`0..2^{width}-1`.  There are five basic integer types:
 
 ``char``: One ASCII character
-    The size of a ``char`` is almost always 8 bits, or 1 byte.  Pronounced "car".  8 bits provides a signed range of -128..127 or an unsigned range is 0..255, which is enough to hold a single ASCII character. ``char`` is also required to be the "smallest addressable unit" for the machine --- each byte in memory has its own address.
+    The size of a ``char`` is almost always 8 bits, or 1 byte.  8 bits provides a signed range of -128..127 or an unsigned range is 0..255, which is enough to hold a single ASCII character [#f1]_. ``char`` is also required to be the "smallest addressable unit" for the machine --- each byte in memory has its own address.
 
 ``short``: A "small" integer
     A ``short`` is typically 16 bits, which provides a signed range of -32768..32767.  It is less common to use a ``short`` than a ``char``, ``int``, or something larger.
@@ -34,7 +34,7 @@ There are several integer types in C, differing primarily in their bit widths an
 ``long long``
     Modern C compilers also support ``long long`` as an integer type, which is a 64-bit integer.
 
-The integer types can be preceded by the qualifier ``unsigned`` which disallows representing negative numbers, but doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, while ``unsigned short`` can store 0..65535.
+The integer types can be preceded by the qualifier ``unsigned`` which disallows representing negative numbers and doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, while ``unsigned short`` can store 0..65535.
 
 .. You can think of pointers as being a form of unsigned long on a machine with 4 byte pointers. In my opinion, it's best to avoid using unsigned unless you really need to. It tends to cause more misunderstandings and problems than it is worth.
 
@@ -55,7 +55,7 @@ There is a keyword in C called ``sizeof`` that works like a function and returns
 
 ..
 
-When the above program is run on a 32-bit machine[#f1]_, the output is::
+When the above program is run on a 32-bit machine[#f2]_, the output is::
 
     A char is 1 bytes
     A short is 2 bytes
@@ -115,17 +115,17 @@ A ``char`` literal is written with single quotes (') like ``'A'`` or ``'z'``.  T
 
 Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long, such as 42L.  Similarly, an integer literal may be followed by 'LL' to indicate that it is of type ``long long``.  Adding a 'U' before 'L' or 'LL' can be used to specify that the value is unsigned, e.g., 42ULL is an ``unsigned long long`` type.
 
-An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal (base 16) --- 0x10 is way of expressing the number 16.  Similarly, a constant may be written in octal (base 8) by preceding it with "0" --- 012 is a way of expressing the number 10.
+An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal (base 16) --- 0x10 is way of expressing the decimal number 16.  Similarly, a constant may be written in octal (base 8) by preceding it with "0" --- 012 is a way of expressing the decimal number 10.
 
 Type combination and promotion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The integral types may be mixed together in arithmetic expressions since they are all basically just integers.  That includes the ``char`` type (unlike Java, in which the ``byte`` type would need to be used to specify a single-byte integer). For example, ``char`` and ``int`` can be combined in arithmetic expressions such as (``'b' + 5``). How does the compiler deal with the different widths present in such an expression?  In such a case, the compiler "promotes" the smaller type (``char``) to be the same size as the larger type (``int``) before combining the values.  Promotions are determined at compile time based purely on the types of the values in the expressions. Promotions do not lose information --- they always convert from a type to compatible, larger type to avoid losing information.  However, an assignment from a larger type to smaller type (e.g., assigning an ``int`` value to a ``short`` variable) may indeed lose information.  
+The integral types may be mixed together in arithmetic expressions since they are all basically just integers.  That includes the ``char`` type (unlike Java, in which the ``byte`` type would need to be used to specify a single-byte integer). For example, ``char`` and ``int`` can be combined in arithmetic expressions such as (``'b' + 5``). How does the compiler deal with the different widths present in such an expression?  In such a case, the compiler "promotes" the smaller type (``char``) to be the same size as the larger type (``int``) before combining the values.  Promotions are determined at compile time based purely on the types of the values in the expressions. Promotions do not lose information --- they always convert from one type to a compatible, larger type to avoid losing information.  However, an assignment (or explicit cast) from a larger type to smaller type (e.g., assigning an ``int`` value to a ``short`` variable) may indeed lose information.  
 
 
 .. sidebar:: Pitfall: ``int`` overflow
 
-   Remember that wonderful algorithm called "binary search"?  As an engineer at Google discovered some time ago, nearly all implementations of binary search are coded incorrectly [#f2]_.  The problem is usually on the line that computes the midpoint of an array, which often looks like this::
+   Remember that wonderful algorithm called "binary search"?  As an engineer at Google discovered some time ago, nearly all implementations of binary search are coded incorrectly [#f3]_.  The problem is usually on the line that computes the midpoint of an array, which often looks like this::
 
        int mid = (low + high) / 2;
 
@@ -229,7 +229,7 @@ As in most languages, a variable declaration reserves and names an area in memor
 
    A simple memory diagram for ``int num = 42;``.
 
-A variable corresponds to an area of memory which can store a value of the given type. Making a drawing is an excellent way to think about the variables in a program. Draw each variable as box with the current value inside the box. This may seem like a "beginner" technique,  but when you are buried in some horribly complex programming problem, it will almost certainly help to draw things out as a way to think through the problem.
+A variable corresponds to an area of memory which can store a value of the given type. Making a drawing is an excellent way to think about the variables in a program. Draw each variable as box with the current value inside the box. This may seem like a "newbie" technique,  but when you are buried in some horribly complex programming problem, it will almost certainly help to draw things out as a way to think through the problem.  Embrace your inner noob.
 
 
 .. sidebar:: Initial values in variables
@@ -448,6 +448,8 @@ Operator       Meaning
 
 .. rubric:: Footnotes
 
-.. [#f1] To find out whether your machine is 64 bit or 32 bit, you can do the following.  On Linux, just type ``uname -p`` at a terminal.  If the output is ``i386``, you have a 32-bit OS.  If it is ``x86_64``, it is 64 bits.  All recent versions of MacOS X are 64 bits, so unless you're running something extremely old, you've got 64.
+.. [#f1] Non-ASCII characters can also be represented in C, such as characters in Cyrillic, Hangul, Simplified Chinese, and Emoji, but not in a single 8-bit data type.  See http://en.wikipedia.org/wiki/Wide_character for some information on data types to support these character types.
 
-.. [#f2] http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html
+.. [#f2] To find out whether your machine is 64 bit or 32 bit, you can do the following.  On Linux, just type ``uname -p`` at a terminal.  If the output is ``i386``, you have a 32-bit OS.  If it is ``x86_64``, it is 64 bits.  All recent versions of MacOS X are 64 bits, so unless you're running something extremely old, you've got 64.
+
+.. [#f3] http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html

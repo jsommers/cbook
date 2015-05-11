@@ -146,7 +146,7 @@ When the compiler allocates memory on the stack or the heap for a ``struct``, it
    
    An struct that has "padding" inserted by the compiler.
 
-The padding inserted by the compiler is not usually something one needs to pay close attention to, but in certain circumstances it *does* matter and is good to be aware of.
+The padding inserted by the compiler is not usually something one needs to pay close attention to, but in certain circumstances it *does* matter and it's good to be aware of this behavior.
 
 .. rubric:: Exercises
 
@@ -155,7 +155,7 @@ The padding inserted by the compiler is not usually something one needs to pay c
        Alice Z., 2020, 17
        Bob Y., 2019, 19
        Chelsea X., 2020, 18
-       Draco W., 2019, 20
+       Draco M., 2019, 20
 
    Write a program that reads the text file contents from standard input (hint below) and stores each student in a C struct in an array.  After you've loaded the students, print each of them out on a separate line, and print the average age (as a floating point number) at the end.  (To format a floating point number for output using ``printf``, you can use the ``%f`` placeholder.)
 
@@ -165,6 +165,6 @@ The padding inserted by the compiler is not usually something one needs to pay c
 
        $ ./sreader < students.txt
 
-
+.. rubric:: Footnotes
 
 .. [#f1] http://en.wikipedia.org/wiki/Data_structure_alignment

@@ -110,9 +110,11 @@ Likewise, there are no syntactic restrictions on the data type of the return val
 Parameters to functions are passed by value
 -------------------------------------------
 
-The key thing to remember for function parameters is that they are *passed by value*.  (Note that Java also uses pass-by-value semantics for function parameters.)  Passing by value means that the actual parameter values are *copied* into local storage (on the stack).  This scheme is fine for many purposes, but it has two disadvantages:
+The key thing to remember for function parameters is that they are *passed by value*.  (Note that Java also uses pass-by-value semantics for method parameters.)  Passing by value means that the actual parameter values are *copied* into local storage (on the stack).  This scheme is fine for many purposes, but it has two disadvantages:
 
- 1. Because the function invocation ("callee") has its own copy (or copies) of parameters, modifications to that memory are always *local to the function*.  Therefore, value parameters do not allow the callee to communicate back to the caller. The function's return value can communicate some information back to the caller, but not all problems can be solved with the single return value.
+ 1. Because the function invocation ("callee") has its own copy (or copies) of parameters, modifications to that memory are always *local to the function*.  Therefore, value parameters do not allow the callee to communicate back to the caller.  The function's return value can communicate some information back to the caller, but not all problems can be solved with the single return value.
+
+    "Wait!", you may exclaim.  "Can't I pass in a list variable in Python or some object variable in Java and *modify* that variable within the function or method I call?"  The answer is not really.  While it's true that you can modify a list that's passed into a function in Python, the parameter variable in the function really just receives a *copy of a reference to the list*, not the list itself.  Same thing for Java: when you pass an object into a method, you're really *passing a reference to an object* into the method.  The method receives a *copy* of the reference, allowing you to manipulate that object.  We can get similar behavior with passing "pointers" into functions in C, which we'll see in the next chapter.
 
  2. Sometimes it is undesirable to copy the value from the caller to the callee because the value is large and copying is expensive, or because, for some reason, copying the value is undesirable.  
 
@@ -135,10 +137,10 @@ As mentioned above, a key implication of pass-by-value function parameters is th
         frac.denominator = tmp;
     }
 
-    void swap_numerator_denominator2(int num, int den) {
-        int tmp = num;
-        num = den;
-        den = tmp;
+    void swap_numerator_denominator2(int nancy, int donkey) {
+        int tmp = nancy;
+        nancy = donkey;
+        donkey = nancy;
     }
 
     int main() {
@@ -186,7 +188,7 @@ Passing an array parameter to a function is somewhat different in nature than th
 
 ..
 
- 2. The second issue that makes array parameters somewhat different than any other data type we've seen thus far is that an array variable refers to the *memory address* of the first element in the array.  As a result, **it is possible to modify the contents of an array that is passed to a function**.  Here is an example of a function that modifies a C string by overwriting any *trailing* whitespace characters with the null-character.  Notice that for C strings we do *not* need to pass the size of the string, since, by convention, the null character marks the end of the string (and thus we can just use the built-in ``strlen`` function).
+ 2. The second issue that makes array parameters somewhat different than any other data type we've seen thus far is that an array variable refers to the *memory address* of the first element in the array.  As a result, **it is possible to modify the contents of an array that is passed to a function**.  Pass-by-value semantics still apply; the function simply receives a *copy* of the memory address at which the array begins. Here is an example of a function that modifies a C string by overwriting any *trailing* whitespace characters with the null-character.  Notice that for C strings we do *not* need to pass the size of the string, since, by convention, the null character marks the end of the string (and thus we can just use the built-in ``strlen`` function).
 
 .. code-block:: c
 
@@ -285,6 +287,7 @@ It's worth repeating that all variables in examples we've considered to this poi
 
 3.  Write a text-based program to play hangperson.  Many of you have probably written this sort of program in Python.  Test your mettle by writing it in C.
 
+.. rubric:: Footnotes
 
 .. [#f1] There are advanced techniques that build upon the basic mechanisms available in C to, for example, mimic capabilities found in object-oriented programming languages.  As a introductory text, this book will not go into any of those techniques.  One additional technique we cover in this book is found in the chapter on :ref:`compilation-and-program-structure`, in which we discuss a technique that provides a type of information hiding by enabling functions to remain "hidden" on a per-file basis.
 

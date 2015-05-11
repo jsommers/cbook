@@ -15,7 +15,7 @@ Arrays in C are declared and used much like they are in Java.  The syntax for us
     scores[0]  = 13;           // set first element
     scores[99] = 42;           // set last element
 
-The name of the array refers, in some sense, to the *whole array*. In actuality, the array name refers to the memory address at which the array storage begins. As in Java, elements of an array in C are stored *contiguously*.  Thus, for the above array, if the first element in the array is stored at memory address *x*, the next element is stored at *x+4* (since the ``int`` is 4 bytes on most machines today), as depicted in :ref:`array-figure`, below.
+The name of the array refers, in some sense, to the *whole array* but in actuality, the array name refers to the *memory address* at which the array storage begins.  As in Java, elements of an array in C are stored *contiguously*.  Thus, for the above array, if the first element in the array is stored at memory address *x*, the next element is stored at *x+4* (since the ``int`` is 4 bytes on most machines today), as depicted in :ref:`array-figure`, below.
 
 .. _array-figure:
 
@@ -25,7 +25,7 @@ The name of the array refers, in some sense, to the *whole array*. In actuality,
 
    A memory diagram of the scores array.
 
-.. index:: array initialization, memset
+.. index:: array initialization, memset, bzero, initialization syntax
 
 Array initialization
 --------------------
@@ -128,7 +128,9 @@ Note that each nested set of curly braces in the initializer refers to a *row* i
 
 The underlying implementation of a multi-dimensional array stores all the elements in a *single contiguous block of memory*.  The array is arranged with the elements of the rightmost index next to each other. In other words, board[1][8] comes right before board[1][9] in memory.  (This arrangement is called "row-major order" [#f2]_.)
 
-(highly optional efficiency point) It's typically efficient to access memory which is near other recently accessed memory. This means that the most efficient way to read through a chunk of the array is to vary the rightmost index the most frequently since that will access elements that are near each other in memory.
+.. sidebar:: Memory access efficiency.
+
+   If you know about CPU caches and cache lines, you'll know that it's more efficient to access memory which is near other recently accessed memory.  This means that the most efficient way to read through a chunk of the array is to vary the rightmost index the most frequently since that will access elements that are near each other in memory.
 
 .. index:: strings, string initialization
 
@@ -195,13 +197,12 @@ Here's a brief example:
 
 .. topic:: Which header file do I need to include?
 
-    Sometimes it can be hard to remember which header file a particular function, data type, or constant is declared in.  One UNIX-based systems, the best way to find out is to use the built-in ``man`` (manual) pages.  At a terminal, you can usually just type ``man <function-name>`` to bring up some online help about the function.  For example, you could type ``man strlen`` at a terminal prompt to get the man page on ``strlen``.
+    For pretty much *all* C programs you write you will need to ``#include`` some header files.  Which header file will you need?  One of the easiest ways to find out is to use the ``man`` program in a Linux (or *NIX) shell to read the manual page for a particular C library function.  For example, if you need to find out what include file to use for the function ``atoi``, you could simply type ``man atoi`` at the command line.  At the top of the man page the appropriate ``#include`` line will be listed.  You can also use a search engine and search for ``atoi man page`` and *usually* you'll get the same results, but different C library versions and compilers may use slightly different header files so its best just to use the ``man`` pages on your system.
 
     Manual pages can be a little bit difficult to wade through, but they are almost always divided into useful sections so you can (sort of) quickly find what you're looking for.  For finding out what header file to include, look in a section at the top of the man page called "SYNOPSIS".  That section also contains the function "prototypes" (which we'll discuss in a later chapter on functions), which provides the data types of any parameters and return values.
 
     To navigate a man page, you can usually type ``'d'`` to go down a page, ``'u'`` to go up a page, and ``'q'`` to quit (type ``'h'`` or ``'?'`` for help on navigating).  
-
-    One other thing about man pages: some times there are terminal commands that have the same name as a C library function.  These things will have different man pages, filed in different *sections* of the online manual.  For example, there is a ``printf`` function that can be used in shell programs, but there is also the C function ``printf``.  If you just type ``man printf``, you'll get the shell command reference, which may not be what you want.  To get the right man page, you can type ``man <sectionnumber> <symbol>``, as in ``man 3 printf`` (the C library function ``printf`` is in manual section 3).  To find out the manual section number, you can search the manual pages by typing ``man -k printf``, which will give a list of all man pages that contain the string ``printf``.  The section number is shown in parens after the function name.
+    One confusing aspect of looking up a ``man`` page is that the same *name* can appear in multiple *sections* of the manual pages system.  For example, there's a ``printf`` C library function, and there is also a ``printf`` function available for writing shell scripts.  If you just type ``man printf``, you'll get the shell command reference, which may not be what you want.  To get the right man page, you can type ``man <sectionnumber> <symbol>``, as in ``man 3 printf`` (the C library function ``printf`` is in manual section 3).  To find out the manual section number, you can search the manual pages by typing ``man -k printf``, which will give a list of all man pages that contain the string ``printf``.  The section number is shown in parens after the function name.
 
 .. index:: copying strings, strlcpy, strcpy
 
@@ -237,7 +238,7 @@ Why, you may ask, do we need to pass the size of the destination string buffer a
     char dest[8];  // this is a rather small buffer, isn't it?
     strcpy(dest, source);
 
-The ``strcpy`` function will happily copy the string referred to by ``source`` into the string referred to by ``dest``.  That's bad.  The length of ``source`` is *way* longer than ``dest``, so what happens is a *buffer overflow*.  That is, the ``strcpy`` function ends up blowing past the end of the 8 bytes we allocated to ``dest``, and starts writing data into what ever comes next (which happens to be on the stack of what ever function is executing).  Again, clearly bad stuff.  The moral of the story: always use ``strlcpy``.
+The ``strcpy`` function will happily copy the string referred to by ``source`` into the string referred to by ``dest``.  That's bad.  The length of ``source`` is *way* longer than ``dest``, so what happens is a *buffer overflow*.  That is, the ``strcpy`` function ends up blowing past the end of the 8 bytes we allocated to ``dest``, and starts writing data into what ever comes next (which happens to be on the stack of what ever function is executing).  Again, clearly bad stuff.  Even worse, the program may crash ... or it might not.  It's impossible to tell from the source code, because the behavior (according to the C language specification) is *undefined* [#f3]_.  The moral of the story: always use ``strlcpy``.
 
 .. index:: comparing strings, strcmp, strncmp, strcasecmp, strncasecmp
 
@@ -276,7 +277,7 @@ An example run of the program might look like this::
     Gimme a string: AbCDERX!!! whY?!
     Here's your string, lower-cased: abcderx!!! why?!
 
-The core of the function is a for loop that iterates through all indexes of the string, checking whether each character should be lower-cased. The code above also demonstrates a couple functions from the ``#include <ctype.h>`` header file (``isupper`` and ``tolower``).  The ``isupper`` test (line 10) is, strictly speaking, unnecessary; calling ``tolower`` on an already-lowercased letter still results in a lowercase letter.  Otherwise, those two new functions behave as one might expect: given a character, they return either a new character, or a (quasi-)Boolean value [#f3]_.
+The core of the function is a for loop that iterates through all indexes of the string, checking whether each character should be lower-cased. The code above also demonstrates a couple functions from the ``#include <ctype.h>`` header file (``isupper`` and ``tolower``).  The ``isupper`` test (line 10) is, strictly speaking, unnecessary; calling ``tolower`` on an already-lowercased letter still results in a lowercase letter.  Otherwise, those two new functions behave as one might expect: given a character, they return either a new character, or a (quasi-)Boolean value [#f4]_.
 
 There are quite a few functions defined in ``ctype.h``.  On MacOS X you can type :command:`man ctype` to get a list of those functions, and on Linux, you can type :command:`man islower` (or :command:`man <any ctype function>`) to get a catalog of all the various functions in ``ctype.h``.   The following is an incomplete list; see :command:`man` pages for gory details:
 
@@ -323,10 +324,12 @@ There are quite a few functions defined in ``ctype.h``.  On MacOS X you can type
 
 5.  Write a program that asks for a string from a user and prints the string in reverse.  
 
+.. rubric:: Footnotes
 
 .. [#f1] http://valgrind.org
 
 .. [#f2] http://en.wikipedia.org/wiki/Row-major_order
 
-.. [#f3] The ``isupper`` function returns an ``int``, not ``bool``, which is fairly common in C. Since the ``bool`` type didn't get added to the language until fairly recently, most predicate functions return an integer representing True (1) or False (0).
+.. [#f3] http://en.wikipedia.org/wiki/Undefined_behavior
 
+.. [#f4] The ``isupper`` function returns an ``int``, not ``bool``, which is fairly common in C. Since the ``bool`` type didn't get added to the language until fairly recently, most predicate functions return an integer representing True (1) or False (0).

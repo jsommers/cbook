@@ -1,7 +1,7 @@
 Control Structures
 ******************
 
-In this chapter, we encounter the set of "control" structures in C, such as conditional statements and looping constructs.  As a preview, the control structures in C are nearly identical to those found in Java (since Java syntax is heavily based on C), and bear strong resemblance to control structures found in other languages such as Python.
+In this chapter, we encounter the set of "control" structures in C, such as conditional statements and looping constructs.  As a preview, the control structures in C are nearly identical to those found in Java (since Java syntax is heavily based on C), and bear strong resemblance to control structures found in other programming languages.
 
 .. index:: if statement
 
@@ -27,12 +27,12 @@ I **strongly** recommend against using the above form of curly brace-free ``if``
 .. topic:: Code blocks use curly braces (``{}``)
 
     C uses curly braces (``{}``) to group multiple statements together, very much like Java.  Whitespace is
-    generally insignificant, very much *unlike* Python.  Not surprisingly, within a code block the statements execute in order.  
+    generally insignificant, very much *unlike* Python.  Not surprisingly, within a code block the statements are executed in order.  
 
-    Note that older versions of C (pre-C99) required that all variables be declared at the beginning of a code block.  Since the C99 standard, however, variables can be declared anywhere, as in Java and C++.
+    Note that older versions of C (pre-C99) required that all variables be declared at the beginning of a code block.  Since the C99 standard, however, variables can be declared on any line of code, as in Java and C++.
 
 
-As in Java, the ``else`` keyword can be used to provide alternative execution for a conditional expression.  Also similar to Java, multiple ``if`` ... ``else if`` statements can be chained together.  
+As in Java, the ``else`` keyword can be used to provide alternative execution for a conditional expression.  Also similar to Java, multiple ``if`` ... ``else if`` statements can be chained together.  There is no ``elif`` as in Python (or ``elsif`` as in Ruby).
 
 .. code-block:: c
 
@@ -80,6 +80,8 @@ you can write:
 .. code-block:: c
 
     min = (x < y) ? x : y;
+
+The ternary operator is viewed by some programmers as "excessively tricky" since expressions with such operators can be hard to read.  Use your best judgment, and don't do something this horrific_.
 
 .. index:: switch statement
 
@@ -209,5 +211,9 @@ The ``continue`` statement causes control to jump to the bottom of the loop, eff
         // control jumps here on the continue
     }
 
+
+.. rubric:: Footnotes
+
+.. _horrific: http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another
 
 .. [#f1] See https://gotofail.com for a variety of information about the bug, and https://www.imperialviolet.org/2014/02/22/applebug.html for detailed analysis of the source code that caused the problem.
