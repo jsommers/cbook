@@ -74,7 +74,7 @@ stdio.h
     Read and return the next unsigned char out of a file, or EOF if the file has been exhausted. (detail) This and other file functions return ints instead of a chars because the EOF constant they potentially is not a char, but is an int. getc() is an alternate, faster version implemented as a macro which may evaluate the FILE* expression more than once.
 
 ``char* fgets(char* dest, int n, FILE* in)``
-    Reads the next line of text into a string supplied by the caller. Reads at most n-1 characters from the file, stopping at the first '\n' character. In any case, the string is '\0' terminated. The '\n' is included in the string. Returns NULL on EOF or error.
+    Reads the next line of text into a string supplied by the caller. Reads at most n-1 characters from the file, stopping at the first '\n' character. In any case, the string is '\0' terminated. The '\n' is included in the string. Returns NULL on EOF or error.  There's also a ``gets`` function, but *you should never use it!* (read the ``man`` page for why).
 
 ``int fputc(int ch, FILE* out);``
     Write the char to the file as an unsigned char. Returns ch, or EOF on err. putc() is an alternate, faster version implemented as a macro which may evaluate the FILE* expression more than once.
@@ -93,7 +93,7 @@ stdio.h
                 // prints: hello A there 42 ok
         
 ``int scanf(const char* format, ...)``
-    Opposite of printf() -- reads characters from standard input trying to match elements in the format string. Each percent directive in the format string must have a matching pointer in the argument list which scanf() uses to store the values it finds. scanf() skips whitespace as it tries to read in each percent directive. Returns the number of percent directives processed successfully, or EOF on error. scanf() is famously sensitive to programmer errors. If scanf() is called with anything but the correct pointers after the format string, it tends to crash or otherwise do the wrong thing at run time. sscanf() is a variant which takes an additional initial string from which it does its reading. fscanf() is a variant which takes an additional initial FILE* from which it does its reading. Example::
+    Opposite of printf() -- reads characters from standard input trying to match elements in the format string. Each percent directive in the format string must have a matching pointer in the argument list which scanf() uses to store the values it finds. scanf() skips whitespace as it tries to read in each percent directive. Returns the number of percent directives processed successfully, or EOF on error. scanf() is famously sensitive to programmer errors. If scanf() is called with anything but the correct pointers after the format string, it tends to crash or otherwise do the wrong thing at run time. sscanf() is a variant which takes an additional initial string from which it does its reading. ``fscanf()`` is a variant which takes an additional initial FILE* from which it does its reading. Example::
 
         {
             int num;
@@ -102,10 +102,10 @@ stdio.h
             scanf("hello %d %s %s", &num, s1, s2);
         }
 
-The above code looks for the word "hello" followed by a number and two words (all separated by whitespace). scanf() uses the pointers &num, s1, and s2 to store what it finds into the local variables.
+The above code looks for the word "hello" followed by a number and two words (all separated by whitespace).  ``scanf()`` uses the pointers &num, s1, and s2 to store what it finds into the local variables.
 
 ``int snprintf(char* buffer, size_t size, const char *format, ...)``
-    A version of ``printf`` that fills a char buffer with the resulting formatted string.  The first two arguments of ``snprintf`` are the buffer to file and the size of the buffer.  The remaining arguments are exactly like ``printf``: a format string followed by any arguments to be formatted in the resulting string.
+    A version of ``printf`` that fills a char buffer with the resulting formatted string.  The first two arguments of ``snprintf`` are the buffer to file and the size of the buffer.  The remaining arguments are exactly like ``printf``: a format string followed by any arguments to be formatted in the resulting string.  There is also a ``sprintf`` function, but it is not "safe" since it does not include the buffer size in the set of parameters, which makes buffer overflows [#f1]_ easily possible.
 
 ``int fprintf(FILE *stream, const char *format, ...)``
     A version of ``printf`` that causes output to be sent to a file instead of to the default standard output.  ``printf`` works exactly like ``fprintf(stdout, ...)`` since ``stdout`` is predefined in ``stdio.h`` as a ``FILE *`` that results in console output.
@@ -137,6 +137,8 @@ ctype.h includes macros for doing simple tests and operations on characters
     Return the lower or upper case version of a alphabetic character, otherwise pass it through unchanged.
 
 
+.. index:: strlen, strcpy, strlcpy, strlcat, strcmp, strncmp, strcasecmp, strncasecmp, strchr, strstr, memcpy, memmove
+
 string.h
 --------
 
@@ -157,6 +159,9 @@ None of these string routines allocate memory or check that the passed in memory
 ``int strcmp(const char* a, const char* b);``
     Compare two strings and return an int which encodes their ordering. zero:a==b, negative:a<b, positive:a>b. It is a common error to think of the result of strcmp() as being boolean true if the strings are equal which is, unfortunately, exactly backwards.
 
+``int strncmp(const char *a, const char *b, size_t n);``
+    Just like ``strcmp``, except only the minimum of the lengths of ``a`` and ``b``, and the value ``n`` characters are compared.  There's also ``strncasecmp`` and ``strcasecmp`` which compare strings in a case-insensitive manner.
+
 ``char* strchr(const char* searchIn, char ch);``
     Search the given string for the first occurence of the given character. Returns a pointer to the character, or NULL if none is found.
 
@@ -168,6 +173,8 @@ None of these string routines allocate memory or check that the passed in memory
 
 ``void* memmove(void* dest, const void* source, size_t n);``
     Similar to memcpy() but allows the areas to overlap. This probably runs slightly slower than memcpy().
+
+.. index:: rand, srand, abs, malloc, free, exit, bsearch, qsort, atoi, atof, strtol, realloc, strtod
 
 stdlib.h
 --------
@@ -181,7 +188,7 @@ stdlib.h
     Return the absolute value of ``i``.
 
 ``void* malloc(size_t size);``
-    Allocate a heap block of the given size in bytes. Returns a pointer to the block or NULL on failure. A cast may be required to store the void* pointer into a regular typed pointer. [ed: see the Heap Allocation section above for the longer discussion of malloc(), free(), and realloc()]
+    Allocate a heap block of the given size in bytes. Returns a pointer to the block or NULL on failure. A cast may be required to store the void* pointer into a regular typed pointer.  There is also a ``realloc`` function which can *change* the size of a heap-allocated block of memory.  See the ``man`` page for details.
 
 ``void free(void* block);``
     Opposite of malloc(). Returns a previous malloc block to the system for reuse
@@ -196,8 +203,11 @@ stdlib.h
     Sort an array of elements. Takes a function pointer just like bsearch().
 
 ``int atoi(const char *s)``
-    Return an integer parsed from the string s.  This function is somewhat problematic since it cannot return errors if the string does not contain a parseable integer.  You should generally use ``strtol`` (and related functions) which can return errors.
+    Return an integer parsed from the string s.  This function is somewhat problematic since it cannot return errors if the string does not contain a parseable integer.  You should generally use ``strtol`` (and related functions) which can return errors.  See the ``man`` page on ``strtol`` for more.
 
 ``double atof(const char *)``
     Return a floating point number in ``double`` format parsed from the string s.  Like ``atoi`` this function is somewhat problematic since it cannot return errors if the string does not contain a parseable floating point number.  You should generally use ``strtod`` (and related functions) instead.
 
+.. rubric:: Footnotes
+
+.. [#f1]  http://en.wikipedia.org/wiki/Buffer_overflow

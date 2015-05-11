@@ -8,7 +8,7 @@ The compilation process
 
 For a C program of any reasonable size, it is convenient to separate the functions that comprise the program into different text files. There are standard ways to organize source code in order to allow the functions in separate files to cooperate, and yet allow the compiler *build* a single executable.  
 
-The process of compiling C programs is different than with Java, and has important implications for how source code must be organized within files.  In particular, **C compilers make a single (top-to-bottom) pass over source code files.**   This process is *very much unlike the Java compiler*, which may make multiple passes over the same file, and which may automatically compile *multiple* files in order to resolve code dependencies (e.g., if a class is used in one file but defined in another, the compiler will compile *both* files).
+The process of compiling C programs is different than with Java, and has important implications for how source code must be organized within files.  In particular, **C compilers make a single (top-to-bottom) pass over source code files.**   This process is *very much unlike the Java compiler*, which may make multiple passes over the same file, and which may automatically compile *multiple* files in order to resolve code dependencies (e.g., if a class is used in one file but defined in another, the compiler will compile *both* files).  In C, it is entirely up to the programmer to decide which files need to be compiled and linked to produce an executable program.
 
 .. _compilation-phases:
 
@@ -139,6 +139,8 @@ would be replaced by the preprocessor with the following:
 .. code-block:: c
 
     int a = (c > d ? c : d);
+
+While ``MAX`` is often referred to as a *macro function* (or simply macro), it does not operate as a function at all.  The programmer can (somewhat) treat the macro as a function, but the effect is just an illusion created by the C preprocessor.
 
 #if
 ^^^
