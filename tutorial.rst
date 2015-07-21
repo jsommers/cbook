@@ -131,7 +131,7 @@ Ugh.  Not only are there *more* errors reported than actually exist, the output 
 
 .. rubric:: Exercises
 
-1.  A common error is to fail to include a null-termination character in a C string.  Modify the code example above to remove the ``'\0'``.  What does ``printf`` do?  What do you think is happening?
+1.  A common error is to fail to include a null-termination character in a C string.  Modify the code example above to remove the ``'\0'``.  What does ``printf`` do?  What do you think is happening?  (Note: you actually have to work a bit to remove any null-termination character, since ``fgets`` will automatically null-terminate a string. You can either overwrite the null-termination character added by ``fgets`` with some other character, or devise some other method.)
 
 2.  Line 8 in our example program above can squash a non-newline character if the user types more than 31 characters for a name.  Fix the program so that the last character of the string is *only* overwritten if it is a newline (``\n``).  Note that, as with Java and Python, characters can be compared using ``==`` (double-equals), and that ``if`` statements work very similarly in C as they do in Java.
 
