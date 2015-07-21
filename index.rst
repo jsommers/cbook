@@ -4,10 +4,16 @@
    contain the root `toctree` directive.
 
 .. highlight:: c
-   :linenothreshold: 5
+   :linenothreshold: 3
 
 The COSC 301 Book of C
 ======================
+
+.. figure:: figures/seaimg.jpg
+   :scale: 50%
+   :align: center
+
+   New Harbor, Maine, USA.  Photo by J. Sommers.
 
 .. todolist::
 
@@ -19,12 +25,13 @@ The COSC 301 Book of C
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
 
    intro
    tutorial
    basictypes
    control
-   stringsarrays
+   arraysstrings
    structs
    functions
    pointersarrays
@@ -32,10 +39,10 @@ The COSC 301 Book of C
    stdlib
 
 
-Indices and tables
-==================
+.. Indices and tables
+..  ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. xx * :ref:`genindex`
+.. xx * :ref:`modindex`
+.. xx* :ref:`search`
 

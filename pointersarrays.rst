@@ -1,481 +1,533 @@
-Pointers and (more) Arrays
-**************************
+.. _pointers:
+
+Pointers and more arrays
+************************
+
+The C programming language has a somewhat split personality.  On the one hand, it is a *high-level programming language* [#f1]_ in that it provides basic control and data abstractions so that a programmer does not have to work in low-level assembly code.  On the other hand, it is often considered a fairly *low-level language* [#f2]_ due to the fact that it provides only simple data types that directly reflect standard hardware capabilities (e.g., integers, floating point numbers, and simple character strings) and that it allows programmers to directly manipulate memory and memory addresses.  In this chapter, we focus on C's capabilities for enabling a programmer to directly manipulate memory and memory addresses.  
+
+.. wanted to say something about C not providing guardrails like array bounds checking, etc.  C assumes a programmer knows what he or she is doing.
+
+.. index:: process, address space, stack, heap
+
+.. _addr-space:
+
+.. topic:: Process address spaces
+
+   As a bit of context for discussing memory addresses and pointers, consider the following depiction of the *address space* of a running program (a "process").
+
+   .. image:: figures/addressspace.*
+      :align: center
+
+   A process in memory typically has (at least) 4 different portions of memory ("segments") dedicated to different purposes.  For example, the binary machine code for the program must reside in memory, and a segment is dedicated to storage for global ("static") variables.  These portions of memory typically remain *constant* in size, e.g., the amount of memory used for program code does not need to change.  There are two segments, however, that are designed to grow and shrink over the lifetime of a process: the *stack* and the *heap*.  The stack holds data for each function in progress, including space for local variables, space for parameters, and space for return values.  For each function call and return, the size of the stack will grow or shrink, respectively.  The heap contains storage for dynamic data structures, e.g., data objects in linked lists, which are managed by the programmer.
+
 
 Pointers
 ========
 
-A pointer is a value which represents a reference to another value sometimes known as the pointer's "pointee". Hopefully you have learned about pointers somewhere else, since the preceding sentence is probably inadequate explanation. This discussion will concentrate on the syntax of pointers in C --- for a much more complete discussion of pointers and their use see http://cslibrary.stanford.edu/102/, Pointers and Memory.
+A *pointer* is a variable that holds a memory address.  The C language allows a programmer to manipulate data *indirectly* through a pointer variable, as well as manipulate the memory address itself stored in the pointer variable.  
 
-Syntactically C uses the asterisk or "star" (*) to indicate a pointer. C defines pointer types based on the type pointee. A char* is type of pointer which refers to a single char. a struct fraction* is type of pointer which refers to a struct fraction.
+.. index:: 
+   double: pointers; pointer declaration
+   double: pointers; pointer initialization
+   double: pointers; NULL
+   single: \* (pointer declaration)
 
-::
-
-    int* intPtr;   // declare an integer pointer variable intPtr
-    char* charPtr; // declares a character pointer --
-                   // a very common type of pointer
-    // Declare two struct fraction pointers
-    // (when declaring multiple variables on one line, the *
-    //  should go on the right with the variable)
-    struct fraction *f1, *f2;
-
-The Floating "*"
-----------------
-
-In the syntax, the star is allowed to be anywhere between the base type and the variable name. Programmer's have their own conventions-- I generally stick the * on the left with the type. So the above declaration of intPtr could be written equivalently ::
-
-    int  *intPtr;        // these are all the same
-    int * intPtr;
-    int*  intPtr;
-
-Pointer Dereferencing
----------------------
-
-We'll see shortly how a pointer is set to point to something -- for now just assume the pointer points to memory of the appropriate type. In an expression, the unary * to the left of a pointer dereferences it to retrieve the value it points to. The following drawing shows the types involved with a single pointer pointing to a struct fraction.
-
-::
-    struct fraction* f1;
-
- ================ ==================
- Expression       Type
- ================ ==================
-  f1              struct fraction*
-  * f1            struct fraction
- (* f1).numerator  int
- ================ ==================
-
-
-There's an alternate, more readable syntax available for dereferencing a pointer to a struct. A "->" at the right of the pointer can access any of the fields in the struct. So the reference to the numerator field could be written f1->numerator.
-
-Here are some more complex declarations ::
-
-    struct fraction** fp;      // a pointer to a pointer to a struct fraction
-    struct fraction fract_array[20];       // an array of 20 struct fractions
-    struct fraction* fract_ptr_array[20];  // an array of 20 pointers to
-                                           // struct fractions
-
-One nice thing about the C type syntax is that it avoids the circular definition problems which come up when a pointer structure needs to refer to itself. The following definition defines a node in a linked list. Note that no preparatory declaration of the node pointer type is necessary.
-
-::
-
-    struct node {
-        int data;
-        struct node* next;
-    };
-
-The ``&`` Operator
+Declaration syntax
 ------------------
 
-The & operator is one of the ways that pointers are set to point to things. The & operator computes a pointer to the argument to its right. The argument can be any variable which takes up space in the stack or heap (known as an "LValue" technically). So ``&i`` and ``&(f1->numerator)`` are ok, but ``&6`` is not. Use & when you have some memory, and you want a pointer to that memory.
+Declaring a new pointer variable is accomplished by using the syntax ``<data-type> *<variable-name>;``  The asterisk symbol between the data type and variable name indicates that the variable holds a memory address that refers to a location holding the given data type.  For example, the following declaration creates a variable ``p`` that contains a memory address referring to a location holding an ``int`` type.
 
-::
+.. code-block:: c
 
-    void foo() {
-        int* p;  // p is a pointer to an integer
-        int i;   // i is an integer
-        p = &i;  // Set p to point to i
-        *p = 13; // Change what p points to -- in this case i -- to 13
-        // At this point i is 13. So is *p. In fact *p is i. 
+    int *p; // p points to ???
+
+Recall that C does not do any automatic initialization of variables.  Thus, the variable ``p`` will hold an *undefined* memory address after the above declaration.  To initialize the pointer so that it points to "nothing", you use ``NULL`` in C, which is defined as the special address 0.
+
+.. code-block:: c
+
+    int *p = NULL; // p points to nothing
+
+The figure below depicts the state of ``p`` after this assignment
+
+
+.. figure:: figures/nullptr.*
+   :align: center
+
+   ``p`` is ``NULL``, or holds the special address 0.
+   
+.. index:: 
+   double: &; address-of operator
+   double: pointers; address-of operator
+
+``&``: Address-of operator
+--------------------------
+
+It is often the case that we need to obtain the address of a variable in memory in order to indirectly manipulate its contents through a pointer variable.  The address-of operator --- ``&`` --- is used for this purpose.  For example, the following two lines of code create an integer variable ``i`` initialized with contents 42, and a *pointer to int* variable ``p`` which is initialized with *the address of i*.  Notice that the ``&`` goes before the variable for which we want to obtain the address.
+
+.. code-block:: c
+
+    int i = 42;  // i directly holds the integer 42 (on the stack)
+    int *p = &i; // p holds the address of i 
+
+Below is an example depiction of the contents of memory assuming that the variable ``i`` is stored at (hex) address 0x1004, and ``p`` is stored in the next four bytes.  (Note that this figure assumes 32 bit addressing, since ``p`` --- which holds a memory address --- occupies exactly 4 bytes, or 32 bits, in this diagram.)
+
+
+.. figure:: figures/addrof.*
+   :align: center
+
+   ``i`` directly holds the value 42, and ``p`` holds the address
+   of ``i``.
+
+
+.. index::
+   single: \* (pointer dereference)
+   double: pointers; dereference operator (\*)
+
+Dereferencing, or "following" a pointer
+---------------------------------------
+
+Now that ``p`` "points to" the contents of ``i``, we could indirectly modify ``i``\'s contents through ``p``.  Essentially what we want to do is to "follow" (or "dereference") the pointer ``p`` to get to the integer that its address refers to (i.e., ``i``), and modify those contents.  
+
+The asterisk (``*``) is used as the dereference operator.  The basic syntax is: ``* <pointer-variable>``, which means "obtain the contents of the memory address to which ``<pointer-variable>`` refers.  (Notice that the asterisk goes to the left of the pointer variable that we wish to dereference.)  We could use this syntax to increment ``i`` by one, indirectly through ``p``, as follows:
+
+.. code-block:: c
+
+    int i = 42;  // i directly holds the integer 42
+    int *p = &i; // p holds address of i
+    *p = *p + 1; // dereference p (follow pointer), add one to int to which
+                 // p points, then assign back to int to which p points
+    printf("%d\n", i); // -> will print 43
+
+.. index:: 
+   double: pointers; swap function
+
+
+A canonical example for why pointers can be useful is for implementing a function that successfully swaps two values.  Here is the code to do it:
+
+ 
+.. code-block:: c
+
+    #include <stdio.h>
+
+    void swap(int *a, int *b) {
+        int tmp = *a;
+        *a = *b;
+        *b = tmp;
     }
 
-When using a pointer to an object created with &, it is important to only use the pointer so long as the object exists. A local variable exists only as long as the function where it is declared is still executing (we'll see functions shortly). In the above example, i exists only as long as foo() is executing. Therefore any pointers which were initialized with &i are valid only as long as foo() is executing. This "lifetime" constraint of local memory is standard in many languages, and is something you need to take into account when using the & operator.
+    int main() {
+        int x = 42, y = 13;
+        printf("x is %d, y is %d\n", x, y);
+        swap(&x, &y);
+        printf("x is %d, y is %d\n", x, y);
+        return 0;
+    }
 
-NULL
-----
+.. figure:: figures/swap.*
+   :align: center
+   :scale: 75%
 
-A pointer can be assigned the value 0 to explicitly represent that it does not currently have a pointee. Having a standard representation for "no current pointee" turns out to be very handy when using pointers. The constant NULL is defined to be 0 and is typically used when setting a pointer to NULL. Since it is just 0, a NULL pointer will behave like a boolean false when used in a boolean context. Dereferencing a NULL pointer is an error which, if you are lucky, the computer will detect at runtime -- whether the computer detects this depends on the operating system.
+   Inside the ``swap`` function, ``a`` holds the address of ``x`` back on
+   ``main``\'s stack and ``b`` holds the address of ``y`` also on ``main``\'s 
+   stack.  With pass-by-value semantics, ``a`` gets a *copy* of the address
+   of ``x`` (likewise, ``b`` gets a *copy* of the address of ``y``).
 
-.. sidebar:: Pitfall -- Uninitialized Pointers
+The key to this code is that we declare the ``swap`` function to take two *pointers to ints* as parameters (rather than the two integers themselves).  In ``main``, we pass *copies of the addresses of x and y*, as shown in the figure above.  Inside ``swap``, therefore, ``a`` holds the memory address of ``x`` (which is back on ``main``\'s stack) and ``b`` holds the memory address of ``y`` (which is also back on ``main``\'s stack).  Through the pointers, we indirectly modify the contents of ``x`` and ``y``.  
 
-    When using pointers, there are two entities to keep track of. The pointer and the memory it is pointing to, sometimes called the "pointee". There are three things which must be done for a pointer/pointee relationship to work:
+
+.. topic::  Uninitialized pointers
+
+    When using pointers, there are two entities to keep track of: the pointer itself, and the memory address to which the pointer points, sometimes called the "pointee".  There are three things that must be done for a pointer/pointee relationship to work correctly:
 
      1. The pointer must be declared and allocated
      2. The pointee must be declared and allocated
      3. The pointer (1) must be initialized so that it points to the pointee (2)
 
-    The most common pointer related error of all time is the following: Declare and allocate the pointer (step 1). Forget step 2 and/or 3. Start using the pointer as if it has been setup to point to something. Code with this error frequently compiles fine, but the runtime results are disastrous. Unfortunately the pointer does not point anywhere good unless (2) and (3) are done, so the run time dereference operations on the pointer with * will misuse and trample memory leading to a random crash at some point.
+    A common error is to do (1), but not (2) or (3).  For example::
 
-    ::
+        int *p;  // p points to ???
+        *p = 13; // follow p to some unknown memory location and put 13 there
 
-        {
-            int* p;
-            *p = 13;
-            // NO NO NO p does not point to an int yet
-            // this just overwrites a random area in memory
-        }
+    Since C does not do any initialization for the programmer, just declaring a pointer (i.e., step 1) isn't enough for *using* a pointer.  In the above code, ``p`` points to some undefined memory location and the act of writing the integer 13 to that location *may* result in a crash.  The crash will likely appear to be *random*, but is entirely due to the fact that ``p`` was never properly initialized.
 
-    Of course your code won't be so trivial, but the bug has the same basic form: declare a pointer, but forget to set it up to point to a particular pointee.
+    To fix this error, ``p`` must point to some actual ``int`` in memory, for example::
 
-Using Pointers
---------------
+        int q = 99;
+        int *p = &q; // p now is initialized to hold the address of q
+        *p = 13;     
 
-Declaring a pointer allocates space for the pointer itself, but it does not allocate space for the pointee. The pointer must be set to point to something before you can dereference it.
-
-Here's some code which doesn't do anything useful, but which does demonstrate (1) (2) (3) for pointer use correctly ::
-
-    int* p;     // (1) allocate the pointer
-    int i;      // (2) allocate pointee
-    struct fraction f1;  // (2) allocate pointee
-    p = &i;     // (3) setup p to point to i
-    *p = 42;    // ok to use p since it's setup
-    p = &(f1.numerator);       // (3) setup p to point to a different int
-    *p = 22;
-    p = &(f1.denominator);     // (3)
-    *p = 7;
-
-So far we have just used the & operator to create pointers to simple variables such as i. Later, we'll see other ways of getting pointers with arrays and other techniques.
-
-
-``char*``
----------
-
-Because of the way C handles the types of arrays, the type of the variable localString above is essentially char*. C programs very often manipulate strings using variables of type char* which point to arrays of characters. Manipulating the actual chars in a string requires code which manipulates the underlying array, or the use of library functions such as strcpy() which manipulate the array for you. See Section 6 for more detail on pointers and arrays.
-
-Type aliases
-------------
-
-A typedef statement introduces an alias, or shorthand, for a type. The syntax is::
-
-    typedef <type> <name>;
-
-The following defines Fraction type to be the type (struct fraction). C is case sensitive, so fraction is different from Fraction. It's convenient to use typedef to create types with upper case names and use the lower-case version of the same word as a variable.
-
-::
-
-    typedef struct fraction Fraction;
-    Fraction fraction;   // Declare the variable "fraction" of type "Fraction"
-                         //  which is really just a synonym for "struct fraction".
-
-The following typedef defines the name Tree as a standard pointer to a binary tree node where each node contains some data and "smaller" and "larger" subtree pointers.
-
-::
-
-    typedef struct treenode* Tree;
-    struct treenode {
-        int data;
-        Tree smaller, larger;   // equivalently, this line could say
-                                // "struct treenode *smaller, *larger"
-    };
-
-Functions revisited: passing by reference
-=========================================
-
-To pass an object X as a reference parameter, the programmer must pass a pointer to X instead of X itself. The formal parameter will be a pointer to the value of interest. The caller will need to use & or other operators to compute the correct pointer actual parameter. The callee will need to dereference the pointer with * where appropriate to access the value of interest. Here is an example of a correct Swap() function.
-
-::
-
-    static void Swap(int* x, int* y) {     // params are int* instead of int
-        int temp;
-        temp = *x;        // use * to follow the pointer back to the caller's memory
-        *x = *y;
-        *y = temp;
-    }
-
-    // Some caller code which calls Swap()...
-    int a = 1;
-    int b = 2;
-    Swap(&a, &b);
-
-Things to notice:
  
- * The formal parameters are int* instead of int.
- * The caller uses & to compute pointers to its local memory (a,b).
- * The callee uses * to dereference the formal parameter pointers back to get the caller's memory.
-
-Since the operator & produces the address of a variable -- &a is a pointer to a. In Swap() itself, the formal parameters are declared to be pointers, and the values of interest (a,b) are accessed through them. There is no special relationship between the names used for the actual and formal parameters. The function call matches up the actual and formal parameters by their order -- the first actual parameter is assigned to the first formal parameter, and so on. I deliberately used different names (a,b vs x,y) to emphasize that the names do not matter.
-
-const
------
-
-The qualifier const can be added to the left of a variable or parameter type to declare that the code using the variable will not change the variable. As a practical matter, use of const is very sporadic in the C programming community. It does have one very handy use, which is to clarify the role of a parameter in a function prototype ::
-
-    void foo(const struct fraction* fract);
-
-In the foo() prototype, the const declares that foo() does not intend to change the struct fraction pointee which is passed to it. Since the fraction is passed by pointer, we could not know otherwise if foo() intended to change our memory or not. Using the const, foo() makes its intentions clear. Declaring this extra bit of information helps to clarify the role of the function to its implementor and caller.
-
-Bigger Pointer Example
-======================
-
-The following code is a large example of using reference parameters. There are several common features of C programs in this example...Reference parameters are used to allow the functions Swap() and IncrementAndSwap() to affect the memory of their callers. There's a tricky case inside of IncrementAndSwap() where it calls Swap() -- no additional use of & is necessary in this case since the parameters x, y inside InrementAndSwap() are already pointers to the values of interest. The names of the variables through the program(a, b, x, y, alice, bob) do not need to match up in any particular way for the parameters to work. The parameter mechanism only depends on the types of the parameters and their order in the parameter list -- not their names. Finally this is an example of what multiple functions look like in a file and how they are called from the main() function.
-
-::
-
-    static void Swap(int* a, int* b) {
-        int temp;
-        temp = *a;
-        *a = *b;
-        *b = temp;
-    }
-
-    static void IncrementAndSwap(int* x, int* y) {
-        (*x)++;
-        (*y)++;
-        Swap(x, y); // don't need & here since a and b are already
-                    // int*'s.
-    }
-
-    int main(int argc, char **argv) {
-        int alice = 10;
-        int bob = 20;
-
-        Swap(&alice, &bob);
-        // at this point alice==20 and bob==10
-
-        IncrementAndSwap(&alice, &bob);
-        // at this point alice==11 and bob==21
-
-        return 0; 
-    }
-
-Advanced C Arrays
-=================
-
-In C, an array is formed by laying out all the elements contiguously in memory. The square bracket syntax can be used to refer to the elements in the array. The array as a whole is referred to by the address of the first element which is also known as the "base address" of the whole array.
-
-::
-
-    {
-        int array[6];
-        int sum = 0;
-        sum += array[0] + array[1];
-        array
-        // refer to elements using []
-    }
-
-The array name acts like a pointer to the first element; in this case an ``(int*)``.
-
-..
-         ￼
-.. todo:: 
-
-    Make a picture 
-
-
-The programmer can refer to elements in the array with the simple [ ] syntax such as array[1]. This scheme works by combining the base address of the whole array with the index to compute the base address of the desired element in the array. It just requires a little arithmetic. Each element takes up a fixed number of bytes which is known at compile-time. So the address of element n in the array using 0 based indexing will be at an offset of (n * element_size) bytes from the base address of the whole array.
-
-::
-
-    address of nth element = address_of_0th_element + (n * element_size_in_bytes)
-
-The square bracket syntax [ ] deals with this address arithmetic for you, but it's useful to know what it's doing. The [ ] takes the integer index, multiplies by the element size, adds the resulting offset to the array base address, and finally dereferences the resulting pointer to get to the desired element.
-
-::
-
-    {
-        int intArray[6];
-        intArray[3] = 13;
-    }
-
-.. todo:: 
-
-    Make a picture of the above
-
-
-'+' Syntax
-----------
-
-In a closely related piece of syntax, a + between a pointer and an integer does the same offset computation, but leaves the result as a pointer. The square bracket syntax gives the nth element while the + syntax gives a pointer to the nth element.
-
-So the expression (intArray + 3) is a pointer to the integer intArray[3]. (intArray + 3) is of type (int*) while intArray[3] is of type int. The two expressions only differ by whether the pointer is dereferenced or not. So the expression (intArray + 3) is exactly equivalent to the expression (&(intArray[3])). In fact those two probably compile to exactly the same code. They both represent a pointer to the element at index 3.
-
-Any ``[]`` expression can be written with the + syntax instead. We just need to add in the pointer dereference. So ``intArray[3]`` is exactly equivalent to ``*(intArray + 3)``. For most purposes, it's easiest and most readable to use the [] syntax. Every once in a while the + is convenient if you needed a pointer to the element instead of the element itself.
-
-Pointer++ Style -- strcpy()
----------------------------
-
-If p is a pointer to an element in an array, then (p+1) points to the next element in the array. Code can exploit this using the construct p++ to step a pointer over the elements in an array. It doesn't help readability any, so I can't recommend the technique, but you may see it in code written by others.
-
-(This example was originally inspired by Mike Cleron) There's a library function called strcpy(char* destination, char* source) which copies the bytes of a C string from one place to another. Below are four different implementations of strcpy() written in order: from most verbose to most cryptic. In the first one, the normally straightforward while loop is actually sortof tricky to ensure that the terminating null character is copied over. The second removes that trickiness by moving assignment into the test. The last two are cute (and they demonstrate using ++ on pointers), but not really the sort of code you want to maintain. Among the four, I think strcpy2() is the best stylistically. With a smart compiler, all four will compile to basically the same code with the same efficiency.
-
-::
-
-    // Unfortunately, a straight while or for loop won't work.
-    // The best we can do is use a while (1) with the test
-    // in the middle of the loop.
-    void strcpy1(char dest[], const char source[]) {
-        int i = 0;
-        while (1) {
-            dest[i] = source[i];
-            if (dest[i] == '\0') break; // we're done
-            i++;
-        } 
-    }
-
-    // Move the assignment into the test
-    void strcpy2(char dest[], const char source[]) {
-        int i = 0;
-        while ((dest[i] = source[i]) != '\0') {
-            i++;
-        }
-    }
-
-    // Get rid of i and just move the pointers.
-    // Relies on the precedence of * and ++.
-    void strcpy3(char dest[], const char source[]) {
-        while ((*dest++ = *source++) != '\0') ;
-    }
-
-    // Rely on the fact that '\0' is equivalent to FALSE
-    void strcpy4(char dest[], const char source[]) {
-        while (*dest++ = *source++) ;
-    }
-
-Pointer Type Effects
---------------------
-
-Both ``[ ]`` and ``+`` implicitly use the compile time type of the pointer to compute the element_size which affects the offset arithmetic. When looking at code, it's easy to assume that everything is in the units of bytes.
-
-::
-
-    int *p;
-    p = p + 12;    // at run-time, what does this add to p? 12?
-
-The above code does not add the number 12 to the address in p-- that would increment p by 12 bytes. The code above increments p by 12 ints. Each int probably takes 4 bytes, so at run time the code will effectively increment the address in p by 48. The compiler figures all this out based on the type of the pointer.
-
-Using casts, the following code really does just add 12 to the address in the pointer p. It works by telling the compiler that the pointer points to char instead of int. The size of char is defined to be exactly 1 byte (or whatever the smallest addressable unit is on the computer). In other words, sizeof(char) is always 1. We then cast the resulting ``(char*)`` back to an ``(int*)``. The programmer is allowed to cast any pointer type to any other pointer type like this to change the code the compiler generates.
-
-::
-    p = (int*) ( ((char*)p) + 12);
-
-
-Array and pointer duality
+Pointers to ``struct``\'s
 -------------------------
 
-One effect of the C array scheme is that the compiler does not distinguish meaningfully between arrays and pointers-- they both just look like pointers. In the following example, the value of intArray is a pointer to the first element in the array so it's an (int*). The value of the variable intPtr is also (int*) and it is set to point to a single integer i. So what's the difference between intArray and intPtr? Not much as far as the compiler is concerned. They are both just (int*) pointers, and the compiler is perfectly happy to apply the [] or + syntax to either. It's the programmer's responsibility to ensure that the elements referred to by a [] or + operation really are there. Really its' just the same old rule that C doesn't do any bounds checking. C thinks of the single integer i as just a sort of degenerate array of size 1.
+Pointer variables can refer to *any* data type, including ``struct`` variables.  For a ``struct``, the syntax for handling pointers can be a bit tricky.  To illustrate the trickiness, here is a function that exchanges (swaps) the numerator and denominator of a ``struct fraction`` (along wht a bit of code to call the function):
 
-::
+.. code-block:: c
 
-    {
-        int intArray[6];
-        int *intPtr;
-        int i;
-        intPtr = &i;
-        intArray[3] = 13; // ok
-        intPtr[0] = 12; // odd, but ok.  changes i.
-        intPtr[3] = 13; // BAD! no integer reserved here.
+    void flip_fraction(struct fraction *f) {
+        int tmp = (*f).denominator;
+        (*f).denominator = (*f).numerator;
+        (*f).numerator = tmp;
     }
 
-.. todo::
+    struct fraction frac = { 1,2};
+    flip_fraction(&frac);
 
-   memory diagram/picture of the above
+Why do we need to use parentheses around the ``(*f)``?  The reason is that the field selection operator (``.``) has higher operator precedence than the dereference operator.  Thus, a statement like ``*f.numerator`` simply does not work: it gets treated by the compiler as ``*(f.numerator)``.  If ``f`` is a pointer, ``f.numerator`` just doesn't make any sense.  As a result, it is necessary to first dereference the struct pointer, *then* access the numerator field.
 
-Array Names Are Const
+Because of the awkwardness of requiring the parens for ``(*f).numerator`` to work right, C provides an operator to access a struct field through a pointer: the *arrow* operator (``->``):
+
+.. code-block:: c
+
+    void flip_fraction(struct fraction *f) {
+      int tmp = f->denominator;
+      f->denominator = f->numerator;
+      f->numerator = tmp;
+    }
+
+The above function using the arrow operator has *exactly* the same effect as the more unwieldy version of the ``flip_fraction`` function above.
+
+
+Example operating system call with pointers: ``gettimeofday``
+-------------------------------------------------------------
+
+A standard function for getting the current system time in seconds and microseconds is to use the ``gettimeofday`` call.  This function is declared in the header file ``<sys/time.h>`` and has the following signature::
+
+    int gettimeofday(struct timeval *, struct timezone *);
+
+where the first argument is a pointer to a ``struct timeval``, and the second argument is a pointer to a ``struct timezone``.  A ``struct timeval`` has two fields: ``tv_sec`` and ``tv_usec``, which contain the seconds and microseconds after the UNIX epoch (Midnight, January 1, 1970), respectively.  This function *fills in* these fields in the ``struct timeval`` passed to the function (i.e., it modifies the two fields of this struct).  ``NULL`` is normally passed for the timezone argument. 
+
+If a programmer wants to get the current system time, a standard way to use this function is to declare a ``struct timeval`` on the stack of the currently executing function (i.e., as a local variable), then pass the address of this struct to ``gettimeofday``, as follows:
+
+.. code-block:: c
+
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    // tv.tv_sec and tv.tv_usec now have meaningful values filled in by the gettimeofday function
+
+This pattern of passing the address of a stack-allocated struct is fairly common when making various system calls.
+
+
+.. sidebar:: The ``const`` qualifier
+
+  The keyword ``const`` can be added to the left of a variable or parameter type to declare that the code using the variable will not change the variable.  As a practical matter, use of ``const`` is very sporadic in the C programming community. It does have one very handy use, which is to clarify the role of a parameter in a function prototype.  For example, in:: 
+
+      void foo(const struct fraction* fract);
+
+  In the ``foo()`` function prototype, the ``const`` declares that ``foo()`` does not intend to change the struct fraction pointee which is passed to it.  Since the fraction is passed by pointer, we could not know otherwise if ``foo()`` intended to change our memory or not.  Using ``const``, ``foo()`` makes its intentions clear. Declaring this extra bit of information helps to clarify the role of the function to its implementor and caller.
+
+
+Advanced C Arrays and Pointer Arithmetic
+========================================
+
+Array/pointer duality
 ---------------------
 
-One subtle distinction between an array and a pointer, is that the pointer which represents the base address of an array cannot be changed in the code. The array base address behaves like a const pointer. The constraint applies to the name of the array where it is declared in the code --- the variable ints in the example below.
+Interestingly, C compilers do not meaningfully distinguish between arrays and pointers --- a C array variable actually just holds the memory address of the beginning of the array (also referred to as the *base address* of the array).  In the following code, we illustrate the *duality* of arrays and pointers by creating 10-element ``int`` array (``fibarray``) and a *pointer* to an ``int`` (``fibptr1``).  Notice that we directly assign the array variable to an ``int *``, which is perfectly legal in C and nicely illustrates the duality between pointers and arrays:
 
-::
+.. code-block:: c
 
-    {
+    int fibarray[] = { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 };
+    int *fibptr1 = array;
+
+An alternative (and somewhat more explicit) syntax for obtaining the base address of the array is to use the address-of operator with the first element of the array.  The following declaration creates yet another pointer variable that refers to the beginning of the array:
+
+.. code-block:: c
+    
+    int *fibptr2 = &array[0]; // get the memory address of the first element of the array
+
+
+.. sidebar:: Array names are constant pointers
+
+  One subtle distinction between an array and a pointer is that the array name where it is declared in the code cannot be modified.  In other words, an array name cannot be made to refer to a *different* array or pointer in memory.  For example::
+
         int ints[100]
         int *p;
         int i;
 
-        ints = NULL;      // NO, cannot change the base addr ptr
-        ints = &i;  // NO
-        ints = ints + 1;    // NO
-        ints++; // NO
+        ints = NULL;      // NO: cannot change the base address pointer
+        ints = &i;        // NO 
+        ints = ints + 1;  // NO
+        ints++;           // NO
 
-        p = ints; // OK, p is a regular pointer which can be changed
-        // here it is getting a copy of the ints pointer
 
-        p++; // OK, p can still be changed (and ints cannot)
-        p = NULL; // OK
-        p = &i; // OK
-        foo(ints); // OK (possible foo definitions are below)
-    }
+Pointer arithmetic
+------------------
 
-Array parameters are passed as pointers. The following two definitions of foo look different, but to the compiler they mean exactly the same thing. It's preferable to use whichever syntax is more accurate for readability. If the pointer coming in really is the base address of a whole array, then use ``[ ]``.
+The ``+`` operator can be used with pointers to access memory locations that reside at some *offset* from a pointer.   For example, say that we have the following variable: ``int *i``.  ``i+j`` (where j is an integer, *not* a pointer) is interpreted by the compiler as ``i + j * sizeof(int)``.  Thus, ``i+j`` yields the memory address of the jth ``int`` after the address ``i`` (where we start counting at 0, as you should expect).  
 
-::
+A somewhat longer example of adding a pointer and integer together is shown below:
 
-    void foo(int arrayParam[]) {
-        arrayParam = NULL;      // Silly but valid. Just changes the local pointer
-    }
+.. code-block:: c
 
-    void foo(int *arrayParam) {
-        arrayParam = NULL;      // ditto
-    }
+    int fibarray[] = { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 };
+    int *fibptr1 = array;
 
-Dynamic memory allocation on the heap
-=====================================
+    int a = *(fibptr + 0);  // add 0*sizeof(int) to fibptr address, then dereference (yields the value 1)
+    int b = *(fibptr + 2);  // add 2*sizeof(int) to fibptr address, then dereference (yields the value 2)
 
-C gives programmers the standard sort of facilities to allocate and deallocate dynamic heap memory. A word of warning: writing programs which manage their heap memory is notoriously difficult. This partly explains the great popularity of languages such as Java and Perl which handle heap management automatically. These languages take over a task which has proven to be extremely difficult for the programmer. As a result Perl and Java programs run a little more slowly, but they contain far fewer bugs.
+Again, the syntax ``fibptr + 2`` is interpreted by the compiler as "get the address of the 2nd integer following the address fibptr".  
 
-C provides access to the heap features through library functions which any C code can call. The prototypes for these functions are in the file <stdlib.h>, so any code which wants to call these must #include that header file. The three functions of interest are...
+In fact, array indexing syntax works identically to pointer arithmetic.  As a result, square-brace indexing can be used with pointer variables.  Moreover, the nice thing about this syntax is that *dereferencing is automatic*. Continuing the code above:
+
+.. code-block:: c
+
+    int c = fibptr1[5]  // add 5*sizeof(int) to fibptr1 address, 
+                        // then dereference (automatically!) (yields 8)
+
+
+A totally bizarre implication of the way that C handles array indexing and pointers is that the array name and index value can be inverted!  
+
+.. code-block:: c
+
+    int array[] = { 1, 2, 3};
+    printf("%d\n", array[1]);   // "normal" indexing
+    printf("%d\n", 1[array]);   // bizarro inverted indexing, but legal and identical to previous line!
+    printf("%d\n", *(array+1)); // pointer arithmetic syntax
+    printf("%d\n", *(1+array)); // pointer arithmetic syntax, with operands reversed
+
+The above code is purely an illustration --- don't write code with inverted indexing!  Although it is legal, it is a "feature" that makes the code harder to read since nobody writes indexes like that.  
+
+
+Dynamic memory allocation
+=========================
+
+We started this chapter by outlining how memory is organized within a single running program, or process (see :ref:`Process address spaces <addr-space>`, above).  So far, we have just used local and parameter variables, which result in *stack-allocated* memory.  In this section, we discuss how to *dynamically* allocate and deallocate blocks of memory on the heap.  C requires that a program *manually* manage heap-allocated memory through explicit allocation and deallocation.  In contrast, a language like Java only requires that a programmer explicitly allocate memory, but the language runtime handles automatic deallocation through a process called *garbage collection*.  
+
+``malloc`` and ``free``
+-----------------------
+
+The built-in functions ``malloc`` and ``free`` are used to manually allocate and deallocate blocks of heap memory.  These functions are declared in the header file ``<stdlib.h>`` (i.e., you must ``#include`` this file) and work as follows:
+
+.. sidebar:: Pointing into the ``void``
+
+    Notice that the ``malloc`` function returns a "pointer to void" (``void *``), and ``free`` takes a ``void *`` as a parameter. By convention in C, a pointer which does not point to any particular type is declared as ``void*``. Sometimes ``void*`` is used to force two bodies of code not to depend on each other, since ``void*`` translates roughly to "this points to something, but I'm not telling you (the client) the type of the pointee exactly because you do not really need to know."  That's exactly the case with ``malloc`` and ``free``:  the ``malloc`` function cannot possibly know what the caller wants the new memory block allocated on the heap to contain, and neither can the ``free`` function know what data type some memory block points to.
+
+    Note that a ``void *`` cannot be dereferenced --- the compiler prevents this.  The pointer must be cast to a pointer to some concrete type in order to be dereferenced.  
+
+    Also, interestingly, ``NULL`` is usually defined as ``(void*)0``.
 
 ``void* malloc(size_t size)``
-    Request a contiguous block of memory of the given size in the heap. malloc() returns a pointer to the heap block or NULL if the request could not be satisfied. The type size_t is essentially an unsigned long which indicates how large a block the caller would like measured in bytes. Because the block pointer returned by malloc() is a void* (i.e. it makes no claim about the type of its pointee), a cast will probably be required when storing the void* pointer into a regular typed pointer.
+    ``malloc`` takes one parameter: the number of bytes to allocate on the heap.  It returns a "generic pointer" (i.e., ``void *``) that refers to a newly allocated block of memory on the heap.  If there is not enough memory on the heap to satisfy the request, ``malloc`` returns ``NULL``.
 
 ``void free(void* block)``
-    The mirror image of malloc() -- free takes a pointer to a heap block earlier allocated by malloc() and returns that block to the heap for re-use. After the free(), the client should not access any part of the block or assume that the block is valid memory. The block should not be freed a second time.
+    The mirror image of ``malloc``, ``free`` takes a pointer to a heap block previously returned by a call to ``malloc`` and returns it to the heap for re-use.  After calling ``free``, the caller should not access any part of the memory block that has been returned to the heap.
 
-Memory Management
------------------
+Note that all of a program's memory is deallocated automatically when the it exits, so a program *technically* only needs to use ``free`` during execution if it is important for the program to recycle its memory while it runs --- typically because it uses a lot of memory or because it runs for a long time.  However, **it is always good practice to free what ever you malloc**.  You should not rely on the fact that a program does not run long or that you *think* it does not use a lot of memory.  
 
-All of a program's memory is deallocated automatically when the it exits, so a program only needs to use free() during execution if it is important for the program to recycle its memory while it runs -- typically because it uses a lot of memory or because it runs for a long time. The pointer passed to free() must be exactly the pointer which was originally returned by malloc() or realloc(), not just a pointer into somewhere within the heap block.
+Here is some example code that uses ``malloc`` and ``free`` to allocate a block of ``struct fraction`` records (basically an array, but not declared as an array), fill each one in with user input, invert each one, then print them all out.  Notice that each of the functions ``get_fractions``, ``invert_fractions``, and ``print_fractions`` accesses each ``struct fraction`` in different ways: by index, and by pointer arithmetic.  Note specifically that the ``invert_fractions`` function modifies the ``fracblock`` pointer (by "incrementing it by 1, which makes the pointer advance to the next ``struct fraction``), but since that function just gets a *copy* of the pointer to the ``struct fraction`` this is totally ok.  
+
+.. literalinclude:: code/fracheap.c
+   :language: c
+   :linenos:
+
+
+Memory leaks and dangling pointers
+----------------------------------
+
+Note that in the above example code, we have exactly 1 call to ``malloc`` and exactly 1 matching call to ``free``.  If you do not have a matching ``free`` call for each malloc, your program has a *memory leak*.  Memory leaks are especially problematic for long-running programs (e.g., web browsers are often implicated in memory leak problems [#f3]_).  The following program is one example of a pretty horrible leak: there is a ``malloc`` call in a loop, but no matching ``free``.  Even worse, we completely lose the ability to access the memory block in the previous iteration of the loop by re-assigning to ``memory_block`` each time through the loop.  Note also that assigning ``NULL`` doesn't free a block; it simply makes a block inaccessible to the program.  
+
+.. code-block:: c
+
+    for (int i = 0; i < BIGNUMBER; i++) {
+        char *memory_block = malloc(1024*1024);  // allocate a chunk on the heap
+        // do nothing else!  
+    }
+    memory_block = NULL;  // doesn't free anything!  we just lost our access
+                          // to the memory block most recently allocated, so
+                          // we've created a hopeless memory leak!
+
+
+A *dangling pointer* is a pointer that refers to a invalid block of memory, either to an undefined memory address or to a memory block that has already been freeed, and should thus be considered inaccessible.  For example:
+
+.. code-block:: c
+
+    int *p = malloc(sizeof(int));
+    *p = 42; 
+    int *q = p;  // q is a pointer; now it just holds the same address as p
+    printf("q is %d\n", q); // 42
+    printf("p is %d\n", p); // 42
+    free(p); // free p.
+    printf("p is %d\n", p); // NO!  p is invalid because we just free'd it!
+    printf("q is %d\n", q); // Double NO!  since we free'd p, q is a "dangling pointer"
+                            // since it pointed to the same memory block!
+
+
+.. sidebar:: The valgrind tool
+
+   Valgrind is a pretty excellent tool for helping to ferret out memory leaks, memory trashing, and any other type of memory corruption error that can happen in C programs.  To run a program with valgrind, you can just type :command:`valgrind <program>`.  
+   
+    There are *many* command-line options to change the behavior or output of valgrind.  Type :command:`valgrind -h` for help (or :command:`man valgrind`).  See http://valgrind.org for more information on this great tool.
+
+
+Advantages and disadvantages of heap-allocated memory
+-----------------------------------------------------
+
+Heap-allocated memory makes it possible to create linked lists, dynamically-sized arrays and strings, and more exotic data structures such as trees, heaps, and hashtables.  Manually allocating and deallocating memory can be a pain, though.  As a result, you probably want to be strategic about whether to use stack-allocated memory (e.g., local arrays and variables) or heap-allocated memory in a program.  Here are some key advantages and disadvantages to help you consider what is right for a given situation:
+
+Advantages to heap allocation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ * The size of an array, string, or some other data structure can be defined at run time.  With stack-allocated arrays, for example, you typically need to specify a "reasonable upper bound" for the size of the array, and somehow deal with the consequences if the size of the array is exceeded.
+
+ * A block of memory will exist until it is explicitly deallocated with a call to ``free``.  For stack-allocated memory, the memory is automatically deallocated when a function is exited, which is totally inappropriate for data structures such as linked lists.  
+
+ * You can dynamically *change* the size of the array, string, or some other data structure at run time.  There is a built-in ``realloc`` function that can help with this (see :command:`man realloc`), 
+
+Disadvantages to heap allocation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ * You have to remember to allocate and deallocate a data structure, and you have to get it right.  This is harder than it sounds, and when things go wrong the program will either exhibit unexpected (buggy) behavior, or crash in a ball of flames.  Debugging can be hard.
+
+ * You have to remember to deallocate a memory block exactly once when you are done with it, and you have to get that right.  Also, harder than it looks.  For example, calling ``free`` on the same memory block *twice* is an error, and typically causes a crash.
+
 
 Dynamic Arrays
 --------------
 
-Since arrays are just contiguous areas of bytes, you can allocate your own arrays in the heap using malloc(). The following code allocates two arrays of 1000 ints-- one in the stack the usual "local" way, and one in the heap using malloc(). Other than the different allocations, the two are syntactically similar in use.
+Since arrays are just contiguous areas of bytes, you can allocate your own arrays in the heap using ``malloc``.  It is also fairly straightforward to resize an array as necessary (i.e., to grow it to accommodate more data items).  The following code allocates two arrays of 1000 ints --- one in the stack the usual "local" way, and one in the heap using ``malloc``.  Other than the different allocations, the two are syntactically similar in use.  
 
-::
+.. code-block:: c
 
-    {
-        int a[1000];
-        int *b;
-        b = (int*) malloc( sizeof(int) * 1000);
-        assert(b != NULL);      // check that the allocation succeeded
-        a[123] = 13;      // Just use good ol' [] to access elements
-        b[123] = 13;      // in both arrays.
-        free(b); 
-    }
+    int a[1000]; // allocate 1000 ints in the stack
+    int *b = malloc(sizeof(int) * 1000);  // allocate 1000 ints on the heap
+    a[123] = 13;      // just use good ol' [] to access elements
+    b[123] = 13;      // in both arrays
+    free(b);          // must call free on the heap-allocated array
 
-Although both arrays can be accessed with ``[ ]``, the rules for their maintenance are very different.
 
-Advantages of being in the heap
--------------------------------
+To grow the heap-allocated array, we could do something like the following.  (Note that the following code uses ``memcpy``, which accepts three parameters: a destination address, a source address, and the number of bytes to copy):
 
- * Size (in this case 1000) can be defined at run time. Not so for an array like "a".
+.. code-block:: c
 
- * The array will exist until it is explicitly deallocated with a call to free().
+    int *arr = malloc(sizeof(int) * 1000); // 1000 ints on the heap
 
- * You can change the size of the array at will at run time using realloc(). The following changes the size of the array to 2000. Realloc() takes care of copying over the old elements.
+    // assume we need to grow the array
 
-::
-    b = realloc(b, sizeof(int) * 2000);
-    assert(b != NULL);
-
-Disadvantages of being in the heap
-----------------------------------
-
- * You have to remember to allocate the array, and you have to get it right.
-
- * You have to remember to deallocate it exactly once when you are done with it, and you have to get that right.
-
- * The above two disadvantages have the same basic profile: if you get them wrong, your code still looks right. It compiles fine. It even runs for small cases, but for some input cases it just crashes unexpectedly because random memory is getting overwritten somewhere like the smiley face. This sort of "random memory smasher" bug can be a real ordeal to track down.
-
+    int *newarr = malloc(sizeof(int) * 2000); // double your integer pleasure
+    memcpy(newarr, arr, 1000*sizeof(int)); // copy over contents of old array
+    free(arr);    // free old array
+    arr = newarr; // arr now points to new, larger block
 
 .. _dynamic-strings:
 
-Dynamic Strings
----------------
+C strings revisited
+-------------------
 
-The dynamic allocation of arrays works very well for allocating strings in the heap. The advantage of heap allocating a string is that the heap block can be just big enough to store the actual number of characters in the string. The common local variable technique such as char string[1000]; allocates way too much space most of the time, wasting the unused bytes, and yet fails if the string ever gets bigger than the variable's fixed size.
+Although we have used arrays of ``char`` to hold C strings thus far, a much more common way to declare the type of a C string is ``char *``.  This shouldn't be particularly surprising, since arrays and pointers are treated nearly synonymously in C.  That's not to say that stack-allocated C strings as arrays aren't useful.  Indeed, they are very commonly used.  It is, however, often necessary to copy and manipulate strings in memory, and using stack or statically allocated arrays becomes quite difficult.
 
-::
+As an example, say that we need to "escape" an HTML string to replace any occurrence of ``<`` with ``&lt;`` (lt: "less-than") and any occurrence of ``>`` with ``&gt;`` (gt: "greater-than").  (There are other characters that are replaced when "properly" escaping an HTML string; we're just focusing on these two characters in this example.)  Since the string will "grow" as we escape it, dynamic memory allocation has obvious benefits.  Here is the code:
 
-    #include <string.h>
-    /*
-      Takes a c string as input, and makes a copy of that string
-      in the heap. The caller takes over ownership of the new string
-      and is responsible for freeing it.
-     */
-    char* MakeStringInHeap(const char* source) {
-        char* newString;
-        newString = (char*) malloc(strlen(source) + 1); // +1 for the '\0'
-        assert(newString != NULL);
-        strcpy(newString, source);
-        return(newString);
+.. literalinclude:: code/escapehtml.c
+   :language: c
+   :linenos:
+
+Linked lists
+------------
+
+One of the most commonly used dynamic data structures is the *linked list*.  A standard definition of a linked list node in C, in which each node contains an integer, is as follows:
+
+.. code-block:: c
+
+    struct node {
+        int value;
+        struct node* next;
+    };
+
+
+Notice that there's something of a circular definition and usage here (i.e., inside the definition of ``struct node``, we declare a ``struct node`` as a field).  C is perfectly happy with that circularity.
+
+Manipulating nodes in a linked list generally involves allocating new nodes on the heap, linking in new nodes to the list, and/or modifying node pointers in other ways.  Here is a bit of code for adding a new node to a list by inserting in the front:
+
+.. code-block:: c
+
+    struct node *insert(struct node *head, int new_value) {
+
+        struct node *new_node = malloc(sizeof(struct node));
+        new_node->value = new_value;
+        new_node->next = head;  // next ptr of new node refers to head of old list
+        return new_node;
     }
 
+A function to traverse a list and print each value out might look like the following.  Notice that since the ``print_list`` function gets a *copy* of the head of the list, it is safe to modify that pointer within the ``print_list`` function.
+
+.. code-block:: c
+
+    void print_list(struct node *head) {
+        int i = 0;
+        while (head->next != NULL) {
+            printf ("Node %d has the value %d\n", i+1, head->value); 
+            head = head->next;  // advance the list pointer
+            i += 1;
+        }
+    }
+
+.. index:: pointers to pointers
+
+Pointers to pointers, etc.
+--------------------------
+
+Some functions in the C standard library take pointers-to-pointers ("double pointers"), and you will likely encounter situations in which it is *useful* to make pointers-to-pointers.  One example of such a situation occurs when a function needs to allocate and initialize heap memory for a caller.  Here is an example in code:
+
+.. code-block:: c
+
+  int copy_string(char **dest, const char *source) {
+      int buffer_size = strlen(source) + 1;
+      *dest = malloc(sizeof(char) * buffer_size);
+      if (!*dest) {
+          return -1;  // failure!
+      }
+      strlcpy(*dest, source, buffer_size);
+      return 0; // success
+  }
+
+  char *ptr;
+  copy_string(&ptr, "here's a string!");
+  printf("%s\n", ptr); 
+  // don't forget: need to eventually free(ptr)!
+
+In the above code, the ``copy_string`` function takes a "pointer to a pointer to a char" as the first parameter, and a constant C string as the second parameter.  The function allocates a new block of memory using ``malloc`` and copies the ``source`` string into a ``dest`` string.  
+
+Why can't the first parameter be ``char *``?  The reason has to do with pass-by-value function parameters: since we want to *modify* what ``dest`` points to, we need to access that pointer indirectly or the modification only happens to a local variable.  (This is exactly the same situation we encountered with the failed ``swap`` function.)  Since we can indirectly access the ``dest`` pointer (i.e., via the pointer to the pointer), the change we make is observable to the caller of the function.
+
+Outside the function, we declare a normal ``char *`` string variable (``ptr``), then pass *the address of ptr* to the function, which creates the pointer-to-a-pointer.  When we return from the function, ``ptr`` has been modified (specifically, the address held in the variable ``ptr`` has been modified).  As a side-effect of the way this function is implemented (i.e., it uses ``malloc``), we must remember to eventually call ``free`` on ``ptr`` in order to avoid a memory leak.
+
+.. rubric:: Exercises
+
+#.  Consider the following code.  Identify exactly what is allocated on the stack and what is allocated on the heap::
+
+        int main() {
+            int *p = NULL;
+            p = malloc(sizeof(int)*42);
+            char arr[1000];
+            char *p = &arr[10];
+            char *q = malloc(64);
+            char *r = &q[10];
+        }
+
+
+#.  Write a function that mimics the built-in ``strdup`` function.
+
+#.  Write a ``clear_list`` function that takes a pointer to a linked list (``struct node *``) and calls free for each element in the list (i.e., to completely deallocate the list).
+
+#.  Create a ``clone_list`` function that takes a pointer to a linked list (``struct node *``) and returns a completely cloned copy of the list (i.e., there are exactly the same number of nodes in the new list, with the exactly the same values in the same order, but the old list is left totally unmodified).
+
+#.  Create a ``reverse_list`` function that accepts a pointer to a ``struct node`` and returns a pointer to the list with all elements now in reversed order.
+
+#.  Write a function that appends a new value to the end of a linked list.  The function should return a pointer to the head of the list.
+
+#.  Write new implementations of the various linked list functions we've seen and written so far but instead of having an int as the value, use a ``char *`` (dynamically allocated C string).
+
+#.  Write a function that accepts the name of a text file, and allocates and returns a C string that contains the *entire* contents of the file.  (If you're familiar with the basic file I/O API of Python, this function should work like the ``read()`` method of a file object.)
+
+#.  Rewrite the ``escapehtml`` function so that it accepts a *pointer to a pointer to a char* (``char **``), allocates a new string that contains the escaped string and *assigns* the newly allocated string to the C string pointer to by the pointer argument to the function.  For example, if the parameter is ``char **str``, the variable ``*str`` refers to the C string containing the HTML text to be escaped.  When the function concludes, ``*str`` should *now* refer to the C string containing the escaped HTML text.  You should be sure to ``free`` the original unescaped C string.
+
+#.  Rewrite the ``escapehtml`` function so that it accepts a *pointer to a char* (not a *const* pointer), and modifies the string *in place* to escape each ``<`` and ``>``.  You should use the built-in C library function ``realloc`` to dynamically reallocate heap memory allocated to the string passed into the function.  You'll need to read the ``man`` page for ``realloc`` to understand how this function works.
+
+.. rubric:: Footnotes
+
+.. [#f1] http://en.wikipedia.org/wiki/High-level_programming_language
+
+.. [#f2] http://en.wikipedia.org/wiki/Low-level_programming_language
+
+.. [#f3] Just search for "Firefox memory leak" and you'll find plenty of posts not unlike the following: https://support.mozilla.org/en-US/questions/1006397  
