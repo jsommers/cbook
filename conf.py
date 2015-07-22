@@ -58,7 +58,7 @@ copyright = '2014-2015, Joel Sommers'
 # built documents.
 #
 # The short X.Y version.
-version = '06.2015'
+version = '07.2015'
 # The full version, including alpha/beta/rc tags.
 release = version
 

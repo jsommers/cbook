@@ -38,11 +38,10 @@ The COSC 301 Book of C
    programstructure
    stdlib
 
+Indices and tables
+==================
 
-.. Indices and tables
-..  ==================
-
-.. xx * :ref:`genindex`
-.. xx * :ref:`modindex`
-.. xx* :ref:`search`
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
