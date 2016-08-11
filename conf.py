@@ -51,14 +51,14 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'The COSC 301 Book of C'
-copyright = '2014-2015, Joel Sommers'
+copyright = '2014-2016, Joel Sommers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '07.2015'
+version = '08.2016'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -302,7 +302,7 @@ texinfo_documents = [
 epub_title = 'The COSC 301 Book of C'
 epub_author = 'Joel Sommers'
 epub_publisher = 'Joel Sommers'
-epub_copyright = '2014-2015, Joel Sommers'
+epub_copyright = '2014-2016, Joel Sommers'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = 'cintro'
