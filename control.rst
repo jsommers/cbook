@@ -88,7 +88,7 @@ The ternary operator is viewed by some programmers as "excessively tricky" since
 ``switch`` statement
 ====================
 
-The switch statement is a sort of specialized form of ``if`` used to efficiently separate different blocks of code based on the value of an integer.  The ``switch`` expression is evaluated, and then the flow of control jumps to the matching const-expression ``case``. The ``case`` expressions are typically ``int`` or ``char`` constants (unfortunately, you cannot use strings as ``case`` expressions).  The ``switch`` statement is probably the single most syntactically awkward and error-prone features of the C language:
+The switch statement is a sort of specialized form of ``if`` used to efficiently separate different blocks of code based on the value of an integer.  The ``switch`` expression is evaluated, and then the flow of control jumps to the matching const-expression ``case``. The ``case`` expressions are typically ``int`` or ``char`` constants (unfortunately, you cannot use strings as ``case`` expressions).  The ``switch`` statement is probably the single most syntactically awkward and error-prone feature of the C language:
 
 .. code-block:: c
 
@@ -177,7 +177,7 @@ Once the ``-std=c99`` flag is added, the code compiles correctly, as expected.
 ``break``
 ---------
 
-The ``break`` statement causes to execution to exit the current loop or switch statement.  Stylistically speaking, ``break`` has the potential to be a bit vulgar.  It is preferable to use a straight ``while`` with a single conditional expression at the top if possible, but sometimes you are forced to use a ``break`` because the test can occur only somewhere in the midst of the statements in the loop body.  To keep the code readable, be sure to make the ``break`` obvious --- forgetting to account for the action of a ``break`` is a traditional source of bugs in loop behavior:
+The ``break`` statement causes execution to exit the current loop or switch statement.  Stylistically speaking, ``break`` has the potential to be a bit vulgar.  It is preferable to use a straight ``while`` with a single conditional expression at the top if possible, but sometimes you are forced to use a ``break`` because the test can occur only somewhere in the midst of the statements in the loop body.  To keep the code readable, be sure to make the ``break`` obvious --- forgetting to account for the action of a ``break`` is a traditional source of bugs in loop behavior:
 
 .. code-block:: c
 

@@ -6,13 +6,13 @@ Program structure and compilation
 The compilation process
 =======================
 
-For a C program of any reasonable size, it is convenient to separate the functions that comprise the program into different text files. There are standard ways to organize source code in order to allow the functions in separate files to cooperate, and yet allow the compiler *build* a single executable.  
+For a C program of any reasonable size, it is convenient to separate the functions that comprise the program into different text files. There are standard ways to organize source code in order to allow the functions in separate files to cooperate, and yet allow the compiler to *build* a single executable.  
 
 The process of compiling C programs is different than with Java, and has important implications for how source code must be organized within files.  In particular, **C compilers make a single (top-to-bottom) pass over source code files.**   This process is *very much unlike the Java compiler*, which may make multiple passes over the same file, and which may automatically compile *multiple* files in order to resolve code dependencies (e.g., if a class is used in one file but defined in another, the compiler will compile *both* files).  In C, it is entirely up to the programmer to decide which files need to be compiled and linked to produce an executable program.
 
 .. _compilation-phases:
 
-There are three basic steps involved in compiling a C program: *preprocessing*, *compilation* of C source code to machine code (or assembly) (also called *object code*, and *linking* of multiple object files into a single binary executable program.  Each of these steps are described below.
+There are three basic steps involved in compiling a C program: *preprocessing*, *compilation* of C source code to machine code (or assembly) (also called *object code*), and *linking* of multiple object files into a single binary executable program.  Each of these steps are described below.
 
 
 .. figure:: figures/compilesteps.*
@@ -269,7 +269,7 @@ The ``-l`` option indicates that some external library must be linked to the pro
 The main function
 ^^^^^^^^^^^^^^^^^
 
-The execution of a C program begins with function named ``main``. All of the files and libraries for the C program are compiled together to build a single program file. That file must contain exactly one ``main`` function which the operating system uses as the starting point for the program.  ``main`` returns an int which, by convention, is 0 if the program completed successfully and non-zero if the program exited due to some error condition. This is just a convention which makes sense in shell oriented environments such as UNIX.
+The execution of a C program begins with the function named ``main``. All of the files and libraries for the C program are compiled together to build a single program file. That file must contain exactly one ``main`` function which the operating system uses as the starting point for the program.  ``main`` returns an int which, by convention, is 0 if the program completed successfully and non-zero if the program exited due to some error condition. This is just a convention which makes sense in shell oriented environments such as UNIX.
 
 Command-line arguments to a program
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

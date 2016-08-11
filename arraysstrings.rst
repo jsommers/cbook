@@ -85,7 +85,7 @@ The built-in ``sizeof`` function works with arrays.  Specifically, it will retur
 Array bounds checking (not!)
 ----------------------------
 
-It is a very common error to try to refer to non-existent array element. Unlike Java or Python, in which an out-of-bounds array (or list) reference will result in an exception, C will happily attempt to access the non-existent element.  The program behavior in such a case is *undefined*, which basically means that anything can happen.  Your program might crash, but it might not.  It might behave as you expect, but it might not.  Yuck.  Welcome to C.  
+It is a very common error to try to refer to a non-existent array element. Unlike Java or Python, in which an out-of-bounds array (or list) reference will result in an exception, C will happily attempt to access the non-existent element.  The program behavior in such a case is *undefined*, which basically means that anything can happen.  Your program might crash, but it might not.  It might behave as you expect, but it might not.  Yuck.  Welcome to C.  
 
 So what you can you do about this?  The best thing is to use good tools for detecting memory corruption and bad array accesses.  The :command:`valgrind` tool [#f1]_ is especially good in this regard, and is highly recommended.  Its output can be somewhat difficult to understand at first, but it is a hugely helpful tool when trying to debug seemingly random program behavior.
 
@@ -109,7 +109,7 @@ At the point of declaration, the size of an array in C *can* be specified with a
 Multidimensional Arrays
 =======================
 
-Just as in Java, C allows a programmer to declare "multi-dimensional" arrays by using multiple pairs of square braces in the array variable declaration.  For example, an 2-dimensional array of integers with ``r`` rows and ``c`` columns would be declared as ``int array[r][c]``.  Thus, if we wanted to declare a 3x3 array to hold the contents of a tic-tac-toe board, we might do something like this:
+Just as in Java, C allows a programmer to declare "multi-dimensional" arrays by using multiple pairs of square braces in the array variable declaration.  For example, a 2-dimensional array of integers with ``r`` rows and ``c`` columns would be declared as ``int array[r][c]``.  Thus, if we wanted to declare a 3x3 array to hold the contents of a tic-tac-toe board, we might do something like this:
 
 .. code-block:: c
 

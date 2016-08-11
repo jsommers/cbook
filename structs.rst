@@ -42,7 +42,7 @@ C uses the period (``.``) as the operator to access individual fields in a ``str
 Initializing ``struct``\ s
 --------------------------
 
-A syntax similar to array initialization can be used to initialize fields of a ``struct``.  For example, declare and initialize a new ``struct fraction``, we could use the following:
+A syntax similar to array initialization can be used to initialize fields of a ``struct``.  For example, to declare and initialize a new ``struct fraction``, we could use the following:
 
 .. code-block:: c
 
@@ -101,7 +101,7 @@ The declaration on line 1, above, is a little bit of a mouthful, but reading fro
     typedef struct fraction fraction_t;
     fraction_t numbers2[100];
 
-Line 1 defines a type alias for ``struct fraction`` called ``fraction_t`` (a "fraction type").  Now, ``fraction_t`` can be used where ever we might original have used ``struct fraction``.  On line 2, an array of these fraction structures is created, which is a tiny bit easier to read than the first array declaration.  
+Line 1 defines a type alias for ``struct fraction`` called ``fraction_t`` (a "fraction type").  Now, ``fraction_t`` can be used where ever we might originally have used ``struct fraction``.  On line 2, an array of these fraction structures is created, which is a tiny bit easier to read than the first array declaration.  
 
 .. index:: 
    double: struct; memory alignment

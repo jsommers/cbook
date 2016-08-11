@@ -71,7 +71,7 @@ To call the ``factorial`` function, a programmer uses parentheses after the func
     printf ("%d! is %d\n", n, result);
 
 
-So far, none of this should be particularly surprising.  You may have already seen "public static methods" in Java (e.g., ``main``!), which are very similar to C functions, or you may have already seen function in Python (defined using the ``def`` keyword).  Both public static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters. 
+So far, none of this should be particularly surprising.  You may have already seen "public static methods" in Java (e.g., ``main``!), which are very similar to C functions, or you may have already seen functions in Python (defined using the ``def`` keyword).  Both public static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters. 
 
 .. index:: main function
 
@@ -173,7 +173,7 @@ Passing an array parameter to a function is somewhat different in nature than th
 
  1. It is often the case that it is not possible to know the correct array length when declaring the *formal* parameter in the function declaration.  This is actually a *good* thing in disguise: it forces us to write a more general function instead of one that specifies an array of a certain size.  
 
-    For example, say we want to write a function to multiple several fractions together, where each fraction is an element of an array.  We want to write the function so that it can handle *any* array size.  We write it as shown below.  Notice that we leave the array size blank in the formal parameter, and pass a second parameter that specifies the number of array elements we should examine.  Since an array in C does not know its own size, we are forced to pass its size separately.
+    For example, say we want to write a function to multiply several fractions together, where each fraction is an element of an array.  We want to write the function so that it can handle *any* array size.  We write it as shown below.  Notice that we leave the array size blank in the formal parameter, and pass a second parameter that specifies the number of array elements we should examine.  Since an array in C does not know its own size, we are forced to pass its size separately.
 
 .. code-block:: c
 

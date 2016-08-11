@@ -145,7 +145,7 @@ Floating point types
     A "quad-precision" floating point number.  128 bits on modern Linux and MacOS X machines (16 bytes).
     Possibly even bigger floating point number (somewhat obscure)
 
-Constants in the source code such as 3.14 default to type ``double`` unless the are suffixed with an 'f' (``float``) or 'l' (``long double``). Single precision equates to about 6 digits of precision and double is about 15 digits of precision.  Most C programs use ``double`` for their computations, since the additional precision is usually well worth the additional 4 bytes of memory usage.  The only reason to use ``float`` is to save on memory consumption, but in normal user programs the tradeoff just isn't worth it.
+Constants in the source code such as 3.14 default to type ``double`` unless they are suffixed with an 'f' (``float``) or 'l' (``long double``). Single precision equates to about 6 digits of precision and double is about 15 digits of precision.  Most C programs use ``double`` for their computations, since the additional precision is usually well worth the additional 4 bytes of memory usage.  The only reason to use ``float`` is to save on memory consumption, but in normal user programs the tradeoff just isn't worth it.
 
 The main thing to remember about floating point computations is that they are *inexact*. For example, what is the value of the following double expression?
 
@@ -273,7 +273,12 @@ The opposite of promotion, truncation moves a value from a type to a smaller typ
 
 The assignment will drop the upper bits of the ``int`` 321. The lower 8 bits of the number 321 represents the number 65 (321 - 256). So the value of ``ch`` will be (char)65 which happens to be 'A'.
 
-The assignment of a floating point type to an integer type will drop the fractional part of the number. The following code will set ``i`` to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.
+The assignment of a floating point type to an integer type will drop the fractional part of the number. The following code will set ``i`` to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  Most modern compilers will warn about an implicit conversion like this, but not all.
+
+.. code-block:: c
+
+    int i;
+    i = 3.14159; // truncation of a float value to int
 
 
 .. index:: +, -, /, *, %, arithmetic operations
@@ -281,7 +286,7 @@ The assignment of a floating point type to an integer type will drop the fractio
 Arithmetic operations
 ---------------------
 
-C includes the usual binary and unary arithmetic operators.  It is good practice to use parentheses if there is every any question or ambiguity surrounding order of operations.  The compiler will optimize the expression anyway, so as a programmer you should always strive for *maximum readability* rather than some perceived notion of what is efficient or not.  The operators are sensitive to the type of the operands. So division (``/``) with two integer arguments will do integer division.  If either argument is a float, it does floating point division. So (``6/4``) evaluates to 1 while (``6/4.0``) evaluates to 1.5 --- the 6 is promoted to 6.0 before the division.
+C includes the usual binary and unary arithmetic operators.  It is good practice to use parentheses if there is ever any question or ambiguity surrounding order of operations.  The compiler will optimize the expression anyway, so as a programmer you should always strive for *maximum readability* rather than some perceived notion of what is efficient or not.  The operators are sensitive to the type of the operands. So division (``/``) with two integer arguments will do integer division.  If either argument is a float, it does floating point division. So (``6/4``) evaluates to 1 while (``6/4.0``) evaluates to 1.5 --- the 6 is promoted to 6.0 before the division.
 
 ========= ===============
 Operator  Meaning

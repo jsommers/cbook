@@ -228,13 +228,13 @@ Interestingly, C compilers do not meaningfully distinguish between arrays and po
 .. code-block:: c
 
     int fibarray[] = { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 };
-    int *fibptr1 = array;
+    int *fibptr1 = fibarray;
 
 An alternative (and somewhat more explicit) syntax for obtaining the base address of the array is to use the address-of operator with the first element of the array.  The following declaration creates yet another pointer variable that refers to the beginning of the array:
 
 .. code-block:: c
     
-    int *fibptr2 = &array[0]; // get the memory address of the first element of the array
+    int *fibptr2 = &fibarray[0]; // get the memory address of the first element of the array
 
 
 .. sidebar:: Array names are constant pointers
@@ -261,7 +261,7 @@ A somewhat longer example of adding a pointer and integer together is shown belo
 .. code-block:: c
 
     int fibarray[] = { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 };
-    int *fibptr1 = array;
+    int *fibptr1 = fibarray;
 
     int a = *(fibptr + 0);  // add 0*sizeof(int) to fibptr address, then dereference (yields the value 1)
     int b = *(fibptr + 2);  // add 2*sizeof(int) to fibptr address, then dereference (yields the value 2)
@@ -313,7 +313,7 @@ The built-in functions ``malloc`` and ``free`` are used to manually allocate and
 ``void free(void* block)``
     The mirror image of ``malloc``, ``free`` takes a pointer to a heap block previously returned by a call to ``malloc`` and returns it to the heap for re-use.  After calling ``free``, the caller should not access any part of the memory block that has been returned to the heap.
 
-Note that all of a program's memory is deallocated automatically when the it exits, so a program *technically* only needs to use ``free`` during execution if it is important for the program to recycle its memory while it runs --- typically because it uses a lot of memory or because it runs for a long time.  However, **it is always good practice to free what ever you malloc**.  You should not rely on the fact that a program does not run long or that you *think* it does not use a lot of memory.  
+Note that all of a program's memory is deallocated automatically when it exits, so a program *technically* only needs to use ``free`` during execution if it is important for the program to recycle its memory while it runs --- typically because it uses a lot of memory or because it runs for a long time.  However, **it is always good practice to free what ever you malloc**.  You should not rely on the fact that a program does not run long or that you *think* it does not use a lot of memory.  
 
 Here is some example code that uses ``malloc`` and ``free`` to allocate a block of ``struct fraction`` records (basically an array, but not declared as an array), fill each one in with user input, invert each one, then print them all out.  Notice that each of the functions ``get_fractions``, ``invert_fractions``, and ``print_fractions`` accesses each ``struct fraction`` in different ways: by index, and by pointer arithmetic.  Note specifically that the ``invert_fractions`` function modifies the ``fracblock`` pointer (by "incrementing it by 1, which makes the pointer advance to the next ``struct fraction``), but since that function just gets a *copy* of the pointer to the ``struct fraction`` this is totally ok.  
 
@@ -345,11 +345,11 @@ A *dangling pointer* is a pointer that refers to a invalid block of memory, eith
     int *p = malloc(sizeof(int));
     *p = 42; 
     int *q = p;  // q is a pointer; now it just holds the same address as p
-    printf("q is %d\n", q); // 42
-    printf("p is %d\n", p); // 42
+    printf("q is %d\n", *q); // 42
+    printf("p is %d\n", *p); // 42
     free(p); // free p.
-    printf("p is %d\n", p); // NO!  p is invalid because we just free'd it!
-    printf("q is %d\n", q); // Double NO!  since we free'd p, q is a "dangling pointer"
+    printf("p is %d\n", *p); // NO!  p is invalid because we just free'd it!
+    printf("q is %d\n", *q); // Double NO!  since we free'd p, q is a "dangling pointer"
                             // since it pointed to the same memory block!
 
 
