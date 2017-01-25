@@ -16,6 +16,8 @@
 import sys
 import os
 
+version = '2017.01'
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -58,7 +60,6 @@ copyright = '2014-2016, Joel Sommers'
 # built documents.
 #
 # The short X.Y version.
-version = '08.2016'
 # The full version, including alpha/beta/rc tags.
 release = version
 

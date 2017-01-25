@@ -9,7 +9,7 @@ Some languages, like Python, are forgiving.  The programmer needs only a basic s
 
 As a result, C can be hard to work with at first.  A feature can work fine in one context, but crash in another. The programmer needs to understand how the features work and use them correctly.  On the other hand, the number of features is pretty small, and the simplicity of C has a certain beauty to it.  What seem like limitations at first can feel liberating as you gain more experience with the language.
 
-As you start to learn and use C, a good piece of advice is to just *be careful*.  Don't write code that don't understand.  Debugging can be challenging in C, and the language is unforgiving.  Create a mental (or real) picture of how your program is using memory.  That's good advice for writing code in any language, but in C it is critical.
+As you start to learn and use C, a good piece of advice is to just *be careful*.  Don't write code that you don't understand.  Debugging can be challenging in C, and the language is unforgiving.  Create a mental (or real) picture of how your program is using memory.  That's good advice for writing code in any language, but in C it is critical.
 
 .. sidebar:: C's popularity
 

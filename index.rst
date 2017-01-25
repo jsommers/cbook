@@ -38,8 +38,14 @@ The COSC 301 Book of C
    programstructure
    stdlib
 
+
+Thanks
+======
+
+Thanks to my COSC 301 students from Fall 2015 and 2016 for test-driving this text and for providing useful feedback.  Thanks also to Aaron Gember-Jacobson for pointing out various typos. 
+
 Copyright
-========
+=========
 
 This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License: http://creativecommons.org/licenses/by-nc-sa/4.0/
 

@@ -55,7 +55,7 @@ There is a keyword in C called ``sizeof`` that works like a function and returns
 
 ..
 
-When the above program is run on a 32-bit machine[#f2]_, the output is::
+When the above program is run on a 32-bit machine [#f2]_, the output is::
 
     A char is 1 bytes
     A short is 2 bytes
