@@ -303,7 +303,7 @@ texinfo_documents = [
 epub_title = 'The COSC 301 Book of C'
 epub_author = 'Joel Sommers'
 epub_publisher = 'Joel Sommers'
-epub_copyright = '2014-2016, Joel Sommers'
+epub_copyright = '2014-2017, Joel Sommers'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = 'cintro'
