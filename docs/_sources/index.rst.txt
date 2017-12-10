@@ -9,6 +9,9 @@
 The Book of C
 ======================
 
+This book is also available in `PDF form <cbook.pdf>`_.
+
+
 .. figure:: figures/seaimg.jpg
    :scale: 50%
    :align: center
