@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 struct fraction {
@@ -21,5 +22,5 @@ int main() {
     printf("Size of f6: %lu\n", sizeof(f6));
     printf("Size of struct fraction: %lu\n", sizeof(struct fraction));
 
-    return 0;
+    return EXIT_SUCCESS;
 }

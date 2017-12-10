@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() {
     float f = 3.14f;
@@ -7,5 +8,5 @@ int main() {
     printf("A float is %lu bytes\n", sizeof(f));
     printf("A double is %lu bytes\n", sizeof(d));
     printf("An long double is %lu bytes\n", sizeof(ld));
-    return 0;
+    return EXIT_SUCCESS;
 }

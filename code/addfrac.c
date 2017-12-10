@@ -36,5 +36,5 @@ int main() {
     printf("%d/%d + %d/%d = %d/%d\n", f1.numerator, f1.denominator,
                                       f2.numerator, f2.denominator,
                                       f3.numerator, f3.denominator);
-    return 0;
+    return EXIT_SUCCESS;
 }

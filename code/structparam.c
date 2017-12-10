@@ -54,5 +54,5 @@ int main() {
         double gpa = compute_gpa(students[i].courses_completed, students[i].num_courses_completed);
         print_student(students[i], gpa);
     }
-    return 0;
+    return EXIT_SUCCESS;
 }

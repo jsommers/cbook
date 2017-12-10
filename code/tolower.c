@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -12,5 +13,5 @@ int main() {
         }
     }
     printf ("Here's your string, lower-cased: %s\n", buffer);
-    return 0;
+    return EXIT_SUCCESS;
 }

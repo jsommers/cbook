@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() {
     char board[3][3] = {{'1', '-', '-'},
@@ -10,5 +11,5 @@ int main() {
         }
         printf ("\n");
     }
-    return 0;
+    return EXIT_SUCCESS;
 }

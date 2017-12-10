@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() {
     char c = 'a';
@@ -11,5 +12,5 @@ int main() {
     printf("An int is %lu bytes\n", sizeof(i));
     printf("A long is %lu bytes\n", sizeof(l));
     printf("A long long is %lu bytes\n", sizeof(ll));
-    return 0;
+    return EXIT_SUCCESS;
 }

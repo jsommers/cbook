@@ -43,5 +43,5 @@ int main() {
     printf("Original: %s\n", orig);
     printf("Escaped: %s\n", escaped);
     free(escaped);
-    return 0;
+    return EXIT_SUCCESS;
 }

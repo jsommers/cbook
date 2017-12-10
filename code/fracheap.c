@@ -59,5 +59,5 @@ int main() {
 
     free(fractions); // return block of fraction memory to the heap
 
-    return 0;
+    return EXIT_SUCCESS;
 }

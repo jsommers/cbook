@@ -15,5 +15,5 @@ int main() {
 
     // ... do something with the scores
 
-    return 0;
+    return EXIT_SUCCESS;
 }

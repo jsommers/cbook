@@ -25,5 +25,5 @@ int main() {
     }
     printf("The average is: %d\n", average);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
