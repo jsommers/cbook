@@ -6,6 +6,8 @@ This text is based on the earlier work *Essential C* written by Nick Parlante at
 
 > **Stanford CS Education Library**. This is document #101, Essential C, in the Stanford CS Education Library. This and other educational materials are available for free at http://cslibrary.stanford.edu/. This article is free to be used, reproduced, excerpted, retransmitted, or sold so long as this notice is clearly reproduced at its beginning.
 
+Rendered versions of this book can be found at https://jsommers.github.io/cbook.
+
 ## Suggestions or edits
 
 Please file bug reports or create pull requests for any bugs or typos found, or suggestions for improvement.  Note that the intention is to keep this text small and concise, so its scope is, by design, quite narrow (and I don't intend to change that).
