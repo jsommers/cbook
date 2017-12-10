@@ -16,13 +16,16 @@ As you start to learn and use C, a good piece of advice is to just *be careful*.
    Although introduced over 40 years ago, C is one of the most popular programming languages in use today [#f2]_\ .Moreover, C's syntax has highly influenced the design of other programming languages (Java syntax is largely based on C).  All modern operating systems today are written largely in C (or a combination of C and C++) due to the fact that low-level resources (memory and I/O devices) can be directly manipulated with a minimum of assembly.  
 
 
-This book is intended to be a short, though mostly complete introduction to the C programming language.  For an in-depth treatment of the language and language features, there are two other books to recommend.  The mostly widely used C book is one simply referred to as "K&R", written by the designers of the language, Brian Kernighan and Dennis Ritchie [KR]_\ .  It is an excellent (though somewhat dated) reference to the language.  An excellent, if lengthy, introduction to C can be found in Stephen Prata's *C Primer Plus* [CPP]_\ .  It contains a more modern treatment of C than K&R, with lots of detail and exercises.  
+This book is intended to be a short, though mostly complete introduction to the C programming language.  A (generally) C99-capable compiler assumed since the book introduces various features from the C99 revision of the language [C99]_.
+For an in-depth treatment of the language and language features, there are two other books to recommend.  The mostly widely used C book is one simply referred to as "K&R", written by the designers of the language, Brian Kernighan and Dennis Ritchie [KR]_\ .  It is an excellent (though somewhat dated) reference to the language.  An excellent, if lengthy, introduction to C can be found in Stephen Prata's *C Primer Plus* [CPP]_\ .  It contains a more modern treatment of C than K&R, with lots of detail and exercises.  
 
 .. rubric:: References
 
 .. [KR] B. Kernighan and D. Ritchie.  *The C Programming Language, 2nd ed.*.  Prentice-Hall, 1988.  https://en.wikipedia.org/wiki/The_C_Programming_Language
 
 .. [CPP] S. Prata.  *C Primer Plus (5th ed.)*.  S. Prata.  SAMS Publishing (2005).
+
+.. [C99] The home of C standards documents can be found here: http://www.open-std.org/jtc1/sc22/wg14/www/projects#9899.  Specific new features in C99 are detailed (http://www.open-std.org/jtc1/sc22/wg14/www/newinc9x.htm), and the full language standard is also available (http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1256.pdf).  Although there is an even more recent standard (C11), we largely focus on C99 (and earlier) features in this text.
 
 .. [Evolution] D. Ritchie. *The Evolution of the Unix Time-sharing System*, AT&T Bell Laboratories Technical Journal 63 No. 6 Part 2, October 1984, pp. 1577-93.  Available at: http://cm.bell-labs.co/who/dmr/hist.pdf
 
