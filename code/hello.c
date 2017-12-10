@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main() {
@@ -7,5 +8,5 @@ int main() {
     fgets(name, 32, stdin);
     name[strlen(name)-1] = '\0'; 
     printf("Hello, %s!\n", name);
-    return 0;
+    return EXIT_SUCCESS;
 }
