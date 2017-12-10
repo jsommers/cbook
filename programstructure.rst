@@ -31,9 +31,11 @@ Since a C compiler makes a single pass over a ``.c`` file, it must be made aware
 
 .. code-block:: c
 
+    #include <stdlib.h>
+
     int main() {
         struct function f1 = { 1,2};
-        return 0;
+        return EXIT_SUCCESS;
     }
 
     struct function {
@@ -85,13 +87,14 @@ A file that *uses* the fraction utility functions in a file called ``test.c`` mi
 .. code-block:: c
 
     #include "fraction.h"  // include struct fraction definition and
-                           // fraction utility function prototypes
+                           // fraction utility function prototypes,
+                           // as well as other headers like stdlib.h
 
     int main() {
         struct fraction f = {2,3};
         invert_fraction(&f);
         print_fraction(&f);
-        return 0;
+        return EXIT_SUCCESS;
     }
 
 
@@ -298,11 +301,14 @@ A simple program that traverses the array of command-line arguments and prints e
 
 .. code-block:: c
     
+    #include <stdio.h>
+    #include <stdlib.h>
+
     int main(int argc, char *argv[]) {
         for (int i = 0; i < argc; i++) {
             printf("argument %d is %s\n", i, argv[i]);
         }
-        return 0;
+        return EXIT_SUCCESS;
     }
 
 There is a C library function called ``getopt`` that enables parsing of options in more flexible ways.  See :command:`man 3 getopt` for more information.

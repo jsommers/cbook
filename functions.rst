@@ -126,6 +126,8 @@ As mentioned above, a key implication of pass-by-value function parameters is th
 
 .. code-block:: c
 
+    #include <stdlib.h>
+
     typedef struct fraction {
         int numerator;
         int denominator;
@@ -147,7 +149,7 @@ As mentioned above, a key implication of pass-by-value function parameters is th
         fraction_t f1 = { 1, 3};
         swap_numerator_denominator1(f1);  // swap?  uh, no.
         swap_numerator_denominator2(f1.numerator, f1.denominator);  // no, again
-        return 0;
+        return EXIT_SUCCESS;
     }
 
 Epic fail, times 2.  For each of the swap functions, the exchange happens only *inside* the function; the caller will *never* see any swap of nancy and donkey.  The fact that the function takes a ``struct`` here is irrelevant for attempt 1; even if we wrote a ``swap`` to take two ``int`` parameters (i.e., attempt 2), there is no way this is going to happen.  Sorry.  In the next chapter on :ref:`pointers`, we will solve this problem.  
@@ -192,6 +194,9 @@ Passing an array parameter to a function is somewhat different in nature than th
 
 .. code-block:: c
 
+    #include <stdio.h>
+    #include <stdlib.h>
+
     void strip_trailing_whitespace(char string[]) {
         int index = strlen(string)-1;
         while (index >= 0) {
@@ -210,7 +215,7 @@ Passing an array parameter to a function is somewhat different in nature than th
         char s[128] = "hello\n\n\t";
         strip_trailing_whitespace(s);
         printf("%s\n", s);
-        return 0;
+        return EXIT_SUCCESS;
     }
 
 How does this jive with pass-by-value?  What happens here is that ``s`` in ``main`` holds the memory address of the array, which is allocated on the stack of ``main``.  When the ``strip_trailing_whitespace`` function is called, the value of ``s`` is copied to the parameter ``string``, but *the value itself is a memory address*.  So the ``string`` array inside ``strip_trailing_whitespace`` holds the same memory address as ``s`` back in ``main``.  Thus, these two variables *refer to the same array in memory*, as depicted in the figure below.  As a result, when we modify the string inside the function, the changes can be observed when we return back to ``main``.
