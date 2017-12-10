@@ -108,6 +108,7 @@ A canonical example for why pointers can be useful is for implementing a functio
 .. code-block:: c
 
     #include <stdio.h>
+    #include <stdlib.h>
 
     void swap(int *a, int *b) {
         int tmp = *a;
@@ -120,7 +121,7 @@ A canonical example for why pointers can be useful is for implementing a functio
         printf("x is %d, y is %d\n", x, y);
         swap(&x, &y);
         printf("x is %d, y is %d\n", x, y);
-        return 0;
+        return EXIT_SUCCESS;
     }
 
 .. figure:: figures/swap.*

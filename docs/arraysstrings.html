@@ -197,7 +197,7 @@
 
     <span class="c1">// ... do something with the scores</span>
 
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>
@@ -249,6 +249,7 @@
 <p>It is often necessary in programs to obtain the length of a string.  There is a built-in <code class="docutils literal"><span class="pre">strlen</span></code> function just for this purpose.  <code class="docutils literal"><span class="pre">strlen</span></code> takes a single C string as a parameter, and returns an <code class="docutils literal"><span class="pre">size_t</span></code> type, which is typically the same size as a <code class="docutils literal"><span class="pre">long</span></code> (either 4 or 8 bytes, depending whether you're on a 32-bit or 64-bit machine, respectively).  <code class="docutils literal"><span class="pre">strlen</span></code> is declared in the <code class="docutils literal"><span class="pre">string.h</span></code> header file, so don't forget to include that file when using any built-in string functions like <code class="docutils literal"><span class="pre">strlen</span></code>.</p>
 <p>Here's a brief example:</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
@@ -260,7 +261,7 @@
         <span class="c1">// fgets includes the \n (newline) character that the user types in</span>
         <span class="c1">// the string filled in name, and we don&#39;t want to include that</span>
         <span class="c1">// character as part of the length of the name.</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -276,6 +277,7 @@ One confusing aspect of looking up a <code class="docutils literal"><span class=
 <span id="index-9"></span><h3>5.3.2. Copying strings<a class="headerlink" href="#copying-strings" title="Permalink to this headline">¶</a></h3>
 <p>Recall that an array variable really just holds the memory address of the beginning of the array.  Thus, <code class="docutils literal"><span class="pre">=</span></code> (direct assignment) cannot be used to copy strings.  Instead, the characters must be copied one-by-one from one string to another.  Fortunately, the pain of doing this is (somewhat) alleviated by a number of built-in C library functions to do the work for us.  The best function to use for copying strings is called <code class="docutils literal"><span class="pre">strlcpy</span></code>, which takes three parameters: the destination string buffer, the source string, and the size (number of bytes) in the destination string buffer.  For example, if we wanted to make a copy of a string that a user typed in, we could do the following:</p>
 <div class="highlight-c" id="strlcpy-example"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
@@ -285,7 +287,7 @@ One confusing aspect of looking up a <code class="docutils literal"><span class=
     <span class="kt">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// add 1 for the null termination character!</span>
     <span class="kt">char</span> <span class="n">copy</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
     <span class="n">strlcpy</span><span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -330,7 +332,9 @@ One confusing aspect of looking up a <code class="docutils literal"><span class=
 13
 14
 15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp"></span>
 
@@ -344,7 +348,7 @@ One confusing aspect of looking up a <code class="docutils literal"><span class=
         <span class="p">}</span>
     <span class="p">}</span>
     <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;Here&#39;s your string, lower-cased: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>
@@ -390,7 +394,9 @@ Here&#39;s your string, lower-cased: abcderx!!! why?!
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+ <span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 
  <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
      <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
@@ -399,7 +405,7 @@ Here&#39;s your string, lower-cased: abcderx!!! why?!
      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">max</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
          <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Array index %d contains %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
      <span class="p">}</span>
-     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+     <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
  <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>

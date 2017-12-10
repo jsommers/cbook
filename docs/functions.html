@@ -199,7 +199,9 @@
 <div class="section" id="example-1-an-anti-example-of-swapping-two-values">
 <h3>7.2.2. Example 1: an anti-example of swapping two values<a class="headerlink" href="#example-1-an-anti-example-of-swapping-two-values" title="Permalink to this headline">¶</a></h3>
 <p>As mentioned above, a key implication of pass-by-value function parameters is that the function gets <em>local</em> copies of any parameter values.  Say that we want to exchange two values via a function.  For example, we want to swap the numerator and denominator in a fraction <code class="docutils literal"><span class="pre">struct</span></code>.  This is some code that would <em>not</em> work:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">fraction</span> <span class="p">{</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">fraction</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">numerator</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">denominator</span><span class="p">;</span>
 <span class="p">}</span> <span class="n">fraction_t</span><span class="p">;</span>
@@ -220,7 +222,7 @@
     <span class="n">fraction_t</span> <span class="n">f1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
     <span class="n">swap_numerator_denominator1</span><span class="p">(</span><span class="n">f1</span><span class="p">);</span>  <span class="c1">// swap?  uh, no.</span>
     <span class="n">swap_numerator_denominator2</span><span class="p">(</span><span class="n">f1</span><span class="p">.</span><span class="n">numerator</span><span class="p">,</span> <span class="n">f1</span><span class="p">.</span><span class="n">denominator</span><span class="p">);</span>  <span class="c1">// no, again</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -286,7 +288,10 @@
 <li>The second issue that makes array parameters somewhat different than any other data type we've seen thus far is that an array variable refers to the <em>memory address</em> of the first element in the array.  As a result, <strong>it is possible to modify the contents of an array that is passed to a function</strong>.  Pass-by-value semantics still apply; the function simply receives a <em>copy</em> of the memory address at which the array begins. Here is an example of a function that modifies a C string by overwriting any <em>trailing</em> whitespace characters with the null-character.  Notice that for C strings we do <em>not</em> need to pass the size of the string, since, by convention, the null character marks the end of the string (and thus we can just use the built-in <code class="docutils literal"><span class="pre">strlen</span></code> function).</li>
 </ol>
 </div></blockquote>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">strip_trailing_whitespace</span><span class="p">(</span><span class="kt">char</span> <span class="n">string</span><span class="p">[])</span> <span class="p">{</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">strip_trailing_whitespace</span><span class="p">(</span><span class="kt">char</span> <span class="n">string</span><span class="p">[])</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
     <span class="k">while</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">isspace</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span> <span class="p">{</span>
@@ -304,7 +309,7 @@
     <span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="mi">128</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;hello</span><span class="se">\n\n\t</span><span class="s">&quot;</span><span class="p">;</span>
     <span class="n">strip_trailing_whitespace</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
     <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -443,7 +448,7 @@
         <span class="kt">double</span> <span class="n">gpa</span> <span class="o">=</span> <span class="n">compute_gpa</span><span class="p">(</span><span class="n">students</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">courses_completed</span><span class="p">,</span> <span class="n">students</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">num_courses_completed</span><span class="p">);</span>
         <span class="n">print_student</span><span class="p">(</span><span class="n">students</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">gpa</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>

@@ -183,7 +183,9 @@
 11
 12
 13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 
 <span class="k">struct</span> <span class="n">student</span> <span class="p">{</span>
     <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
@@ -195,7 +197,7 @@
     <span class="k">struct</span> <span class="n">student</span> <span class="n">s</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;H. Sommers&quot;</span><span class="p">,</span> <span class="mi">2026</span><span class="p">,</span> <span class="mi">5</span> <span class="p">};</span>
     <span class="n">printf</span><span class="p">(</span><span class="s">&quot;An example student: %s, %d, %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">class_year</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
     <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Size of a student struct: %lu</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">student</span><span class="p">));</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>

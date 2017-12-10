@@ -179,6 +179,7 @@ Here's a brief example:
 .. code-block:: c
 
     #include <stdio.h>
+    #include <stdlib.h>
     #include <string.h>
 
     int main() {
@@ -190,7 +191,7 @@ Here's a brief example:
             // fgets includes the \n (newline) character that the user types in
             // the string filled in name, and we don't want to include that 
             // character as part of the length of the name.
-        return 0;
+        return EXIT_SUCCESS;
     }
 
 .. index:: header files, man pages
@@ -216,6 +217,7 @@ Recall that an array variable really just holds the memory address of the beginn
 .. code-block:: c
 
     #include <stdio.h>
+    #include <stdlib.h>
     #include <string.h>
 
     int main() {
@@ -225,7 +227,7 @@ Recall that an array variable really just holds the memory address of the beginn
         size_t size = strlen(buffer)+1; // add 1 for the null termination character!
         char copy[size];
         strlcpy(copy, buffer, size);
-        return 0;
+        return EXIT_SUCCESS;
     }
 
 .. index:: buffer overflows and strcpy
@@ -305,6 +307,7 @@ There are quite a few functions defined in ``ctype.h``.  On MacOS X you can type
    :linenos:
    
     #include <stdio.h>
+    #include <stdlib.h>
 
     int main() {
         int max = 10;
@@ -313,7 +316,7 @@ There are quite a few functions defined in ``ctype.h``.  On MacOS X you can type
         for (int i = 0; i <= max; i++) {
             printf("Array index %d contains %d\n", i, array[i]);
         }
-        return 0;
+        return EXIT_SUCCESS;
     }
 
 2.  Write some code that computes the length of a string without using the built-in ``strlen`` function.  (Defining new functions is described in a later chapter, but with some Java and/or Python knowledge, you can probably make a good guess at how to define a new function in C.)

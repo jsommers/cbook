@@ -119,9 +119,11 @@
 <span id="preprocessing"></span><h3>9.1.1. The preprocessing step<a class="headerlink" href="#the-preprocessing-step" title="Permalink to this headline">¶</a></h3>
 <p>The preprocessing step happens just prior to the compilation phase.  The C preprocessor looks for any <em>preprocessor directives</em> in the source code, which are any lines starting with <code class="docutils literal"><span class="pre">#</span></code>.  The preprocessor then performs some actions specified by the directive.  The text resulting from the preprocessor's action is then fed directly (and automatically) to the compilation phase.</p>
 <p>Since a C compiler makes a single pass over a <code class="docutils literal"><span class="pre">.c</span></code> file, it must be made aware of all the types and signatures in order to correctly and successfully complete the compilation process.  That is, if an unknown data type is encountered in the single top-to-bottom pass, the compiler will report an error.  For example, here is some source code that will <em>not</em> compile correctly:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">struct</span> <span class="n">function</span> <span class="n">f1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="k">struct</span> <span class="n">function</span> <span class="p">{</span>
@@ -162,13 +164,14 @@
 <p>Notice that the first line of code in <code class="docutils literal"><span class="pre">fraction.c</span></code> is <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&quot;fraction.h&quot;</span></code>.  Any line of code that begins <code class="docutils literal"><span class="pre">#</span></code> is called a <strong>preprocessor directive</strong>.  We have used <code class="docutils literal"><span class="pre">#include</span></code> quite a bit so far.  Its meaning is simply to <em>directly replace</em> the <code class="docutils literal"><span class="pre">#include</span></code> directive with the text in the specified file name.</p>
 <p>A file that <em>uses</em> the fraction utility functions in a file called <code class="docutils literal"><span class="pre">test.c</span></code> might look like the following:</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;fraction.h&quot;  // include struct fraction definition and</span><span class="cp"></span>
-                       <span class="c1">// fraction utility function prototypes</span>
+                       <span class="c1">// fraction utility function prototypes,</span>
+                       <span class="c1">// as well as other headers like stdlib.h</span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">struct</span> <span class="n">fraction</span> <span class="n">f</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
     <span class="n">invert_fraction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">f</span><span class="p">);</span>
     <span class="n">print_fraction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">f</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -344,11 +347,14 @@
 <dd>An array of C strings which refer to each of the command-line parameters.  Note that <code class="docutils literal"><span class="pre">argv[0]</span></code> is <em>always</em> the name of the program itself.  For example, in the above command line, <code class="docutils literal"><span class="pre">argv[0]</span></code> would be <code class="docutils literal"><span class="pre">&quot;./myprogram&quot;</span></code>.</dd>
 </dl>
 <p>A simple program that traverses the array of command-line arguments and prints each one out could be written as follows:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">printf</span><span class="p">(</span><span class="s">&quot;argument %d is %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
