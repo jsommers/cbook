@@ -1,0 +1,554 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>7. Functions &#8212; The Book of C (version 2018.01)</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2018.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8. Pointers and more arrays" href="pointersarrays.html" />
+    <link rel="prev" title="6. Aggregate Data Structures" href="structs.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="pointersarrays.html" title="8. Pointers and more arrays"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="structs.html" title="6. Aggregate Data Structures"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">7. Functions</a><ul>
+<li><a class="reference internal" href="#function-syntax">7.1. Function syntax</a><ul>
+<li><a class="reference internal" href="#main-is-where-it-all-begins">7.1.1. <code class="docutils literal"><span class="pre">main</span></code> is where it all begins</a></li>
+<li><a class="reference internal" href="#function-naming-restrictions-and-conventions">7.1.2. Function naming restrictions and conventions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-types-for-parameters-and-return-values">7.2. Data types for parameters and return values</a><ul>
+<li><a class="reference internal" href="#parameters-to-functions-are-passed-by-value">7.2.1. Parameters to functions are passed by value</a></li>
+<li><a class="reference internal" href="#example-1-an-anti-example-of-swapping-two-values">7.2.2. Example 1: an anti-example of swapping two values</a></li>
+<li><a class="reference internal" href="#example-2-passing-a-struct-to-and-from-a-function">7.2.3. Example 2: passing a <code class="docutils literal"><span class="pre">struct</span></code> to and from a function</a></li>
+<li><a class="reference internal" href="#example-3-passing-an-array-to-a-function">7.2.4. Example 3: passing an array to a function</a></li>
+<li><a class="reference internal" href="#a-longer-example">7.2.5. A longer example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#storage-classes-the-stack-and-the-heap">7.3. Storage classes, the stack and the heap</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="structs.html"
+                        title="previous chapter">6. Aggregate Data Structures</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pointersarrays.html"
+                        title="next chapter">8. Pointers and more arrays</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/functions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="functions">
+<span id="id1"></span><h1>7. Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
+<p>All programming languages have built-in mechanisms for <em>structuring</em> and <em>modularizing</em> the code.  The main mechanism that C provides is the <em>subroutine</em>, or <em>function</em>.  In fact, C provides little beyond this basic technique <a class="footnote-reference" href="#f1" id="id2">[1]</a>.</p>
+<p>Good program design in C (and many other programming languages) involves creating what are typically short functions that accomplish one task, and in which there is little or no duplication of functionality.  The main reasons for creating short, single-purpose functions is to make them more easily testable and to make them easier to read.  There are many benefits to having one place in the code where each major component is implemented, including making it easier to modify the code and making it easier to test.  These ideas are so important in programming that they are present in many different design principles, such as the Abstraction Principle <a class="footnote-reference" href="#f2" id="id3">[2]</a>, the Don't Repeat Yourself (DRY) principle <a class="footnote-reference" href="#f3" id="id4">[3]</a>, and structured programming <a class="footnote-reference" href="#f4" id="id5">[4]</a>.</p>
+<div class="sidebar">
+<p class="first sidebar-title">The Abstraction Principle</p>
+<p>&quot;Each significant piece of functionality in a program should be implemented in just one place in the source code. Where similar functions are carried out by distinct pieces of code, it is generally beneficial to combine them into one by abstracting out the varying parts.&quot;</p>
+<p class="last">Benjamin C. Pierce, &quot;Types and Programming Languages&quot; (<a class="reference external" href="http://www.cis.upenn.edu/~bcpierce/tapl/">http://www.cis.upenn.edu/~bcpierce/tapl/</a>).</p>
+</div>
+<div class="section" id="function-syntax">
+<span id="index-0"></span><h2>7.1. Function syntax<a class="headerlink" href="#function-syntax" title="Permalink to this headline">¶</a></h2>
+<p>A function has a name, a comma-separated list of parameters, the block of code it executes when called, and, optionally, a return value.  The basic function definition syntax is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">return</span><span class="o">-</span><span class="nb">type</span> <span class="n">function</span><span class="o">-</span><span class="n">name</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>For example, here is a function that computes and returns <span class="math">\(n!\)</span> (n factorial):</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="cm">/*</span>
+<span class="cm">  * iteratively computes and returns n!</span>
+<span class="cm">  * if n &lt; 0, returns 0.</span>
+<span class="cm">  */</span>
+ <span class="kt">int</span> <span class="nf">factorial</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+     <span class="p">}</span>
+     <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+         <span class="n">result</span> <span class="o">*=</span> <span class="n">i</span><span class="p">;</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>We have seen most of this syntax already (with the <code class="docutils literal"><span class="pre">main</span></code> function), but it is worth reviewing.</p>
+<ol class="arabic simple">
+<li>On line 5, the type declaration of the function is given, and shows that the data type of the return value of the function is <code class="docutils literal"><span class="pre">int</span></code>, and that the function takes a single <code class="docutils literal"><span class="pre">int</span></code> parameter, named <code class="docutils literal"><span class="pre">n</span></code>.  The function is, of course, named <code class="docutils literal"><span class="pre">factorial</span></code>.</li>
+<li>There can be any number of parameters to a function (though a small number of parameters is strongly preferable).  Each parameter is separated by a comma, and follows the basic syntax of a variable declaration, which is: <code class="docutils literal"><span class="pre">type-name</span> <span class="pre">variable-name</span></code>.</li>
+<li>Any parameters to the function are <em>passed by value</em>.  This means that the function receives <em>copies</em> of the arguments passed to it by the caller.  If any modifications are made to those copies, they have <em>zero effect</em> on the variables or values passed to the function --- any changes are confined (<em>local</em>) to the function.  We will have more to say about pass-by-value function call semantics, below.</li>
+<li>The <code class="docutils literal"><span class="pre">return</span></code> statement delivers a value from the function back to the caller of the function.  There are <code class="docutils literal"><span class="pre">return</span></code> statements on lines 7 and 13 of this function.  The first <code class="docutils literal"><span class="pre">return</span></code> handles the special case where <code class="docutils literal"><span class="pre">n</span></code> is less than 0, thus <span class="math">\(n!\)</span> is undefined.</li>
+<li>Any variables declared inside the function are <em>local</em> to the function, just as with Java, Python, and many other programming languages.  Thus, the parameter variable <code class="docutils literal"><span class="pre">n</span></code> and the local variable <code class="docutils literal"><span class="pre">result</span></code> only exist while the function is being executed.</li>
+</ol>
+<p>To call the <code class="docutils literal"><span class="pre">factorial</span></code> function, a programmer uses parentheses after the function name, passing any required arguments between the parens:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="c1">// ...</span>
+
+<span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;I&#39;ll compute n! for you.  What should n be? &quot;</span><span class="p">);</span>
+<span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="n">printf</span> <span class="p">(</span><span class="s">&quot;%d! is %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>So far, none of this should be particularly surprising.  You may have already seen &quot;public static methods&quot; in Java (e.g., <code class="docutils literal"><span class="pre">main</span></code>!), which are very similar to C functions, or you may have already seen functions in Python (defined using the <code class="docutils literal"><span class="pre">def</span></code> keyword).  Both public static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters.</p>
+<div class="section" id="main-is-where-it-all-begins">
+<span id="index-1"></span><h3>7.1.1. <code class="docutils literal"><span class="pre">main</span></code> is where it all begins<a class="headerlink" href="#main-is-where-it-all-begins" title="Permalink to this headline">¶</a></h3>
+<p>Every C program <strong>must</strong> have a <code class="docutils literal"><span class="pre">main</span></code> function.  An attempt to compile a program in C which does not have a <code class="docutils literal"><span class="pre">main</span></code> function defined somewhere will result in an error.  Unlike Java, where any number of class definitions can have a <code class="docutils literal"><span class="pre">public</span> <span class="pre">static</span> <span class="pre">void</span> <span class="pre">main</span></code> definition, it's a highlander situation in C: <em>there can be only one</em> <a class="footnote-reference" href="#f5" id="id6">[5]</a>.</p>
+</div>
+<div class="section" id="function-naming-restrictions-and-conventions">
+<span id="index-2"></span><h3>7.1.2. Function naming restrictions and conventions<a class="headerlink" href="#function-naming-restrictions-and-conventions" title="Permalink to this headline">¶</a></h3>
+<p>The only <em>requirement</em> for naming C functions is similar to many programming languages: function names must either begin with a letter or underscore, and can only include numbers, letters, and underscores.  Conventionally, function names that start with an underscore typically mean that the function should be treated as a &quot;private&quot; library function, off limits to other programmers.</p>
+<p>As far as naming conventions, there are a wide variety of practices in existence.  Some programmers like to name their functions using <code class="docutils literal"><span class="pre">lowerCamelCase</span></code>, which is common in languages such as Java, or using <code class="docutils literal"><span class="pre">snake_case</span></code>, which is common in Python and Ruby.  In the C standard library, a common practice is to use short, abbreviated names consisting of a single word (e.g., <code class="docutils literal"><span class="pre">tolower</span></code>).  Still others like to use the abomination referred to as Hungarian Notation <a class="footnote-reference" href="#f6" id="id7">[6]</a>.  A fairly widely used convention in C is <code class="docutils literal"><span class="pre">snake_case</span></code>, which is the practice followed in this book.</p>
+</div>
+</div>
+<div class="section" id="data-types-for-parameters-and-return-values">
+<span id="index-3"></span><h2>7.2. Data types for parameters and return values<a class="headerlink" href="#data-types-for-parameters-and-return-values" title="Permalink to this headline">¶</a></h2>
+<p>There are, technically speaking, no restrictions on the data types of parameters or return values for functions in C.  Functions in C can accept all the basic data types as parameters, as well as <code class="docutils literal"><span class="pre">struct</span></code> types, arrays, and as we will see soon, memory pointers to any data type.</p>
+<p>Likewise, there are no syntactic restrictions on the data type of the return value from a function.  C does not permit <em>multiple</em> return values, unlike some other languages, but it is permissible to return a <code class="docutils literal"><span class="pre">struct</span></code> type that contains multiple fields (or, as we will later see, a pointer to a memory block containing multiple data items).</p>
+<div class="topic" id="index-4">
+<p class="topic-title first">C-ing and Nothingness --- <code class="docutils literal"><span class="pre">void</span></code></p>
+<p><code class="docutils literal"><span class="pre">void</span></code> is a type formalized in ANSI C which means &quot;nothing&quot;. To indicate that a function does not return anything, use <code class="docutils literal"><span class="pre">void</span></code> as the return type.  If a function does not take any parameters, its parameter list may either be empty (i.e., <code class="docutils literal"><span class="pre">()</span></code>), or it can contain the keyword <code class="docutils literal"><span class="pre">void</span></code> to indicate that the function does not take parameters.  It is more common and conventional in C to use an empty parameter list for functions that don't take parameters.</p>
+</div>
+<div class="section" id="parameters-to-functions-are-passed-by-value">
+<span id="index-5"></span><h3>7.2.1. Parameters to functions are passed by value<a class="headerlink" href="#parameters-to-functions-are-passed-by-value" title="Permalink to this headline">¶</a></h3>
+<p>The key thing to remember for function parameters is that they are <em>passed by value</em>.  (Note that Java also uses pass-by-value semantics for method parameters.)  Passing by value means that the actual parameter values are <em>copied</em> into local storage (on the stack).  This scheme is fine for many purposes, but it has two disadvantages:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Because the function invocation (&quot;callee&quot;) has its own copy (or copies) of parameters, modifications to that memory are always <em>local to the function</em>.  Therefore, value parameters do not allow the callee to communicate back to the caller.  The function's return value can communicate some information back to the caller, but not all problems can be solved with the single return value.</p>
+<p>&quot;Wait!&quot;, you may exclaim.  &quot;Can't I pass in a list variable in Python or some object variable in Java and <em>modify</em> that variable within the function or method I call?&quot;  The answer is not really.  While it's true that you can modify a list that's passed into a function in Python, the parameter variable in the function really just receives a <em>copy of a reference to the list</em>, not the list itself.  Same thing for Java: when you pass an object into a method, you're really <em>passing a reference to an object</em> into the method.  The method receives a <em>copy</em> of the reference, allowing you to manipulate that object.  We can get similar behavior with passing &quot;pointers&quot; into functions in C, which we'll see in the next chapter.</p>
+</li>
+<li><p class="first">Sometimes it is undesirable to copy the value from the caller to the callee because the value is large and copying is expensive, or because, for some reason, copying the value is undesirable.</p>
+</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="example-1-an-anti-example-of-swapping-two-values">
+<h3>7.2.2. Example 1: an anti-example of swapping two values<a class="headerlink" href="#example-1-an-anti-example-of-swapping-two-values" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned above, a key implication of pass-by-value function parameters is that the function gets <em>local</em> copies of any parameter values.  Say that we want to exchange two values via a function.  For example, we want to swap the numerator and denominator in a fraction <code class="docutils literal"><span class="pre">struct</span></code>.  This is some code that would <em>not</em> work:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">fraction</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">numerator</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">denominator</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">fraction_t</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">swap_numerator_denominator1</span><span class="p">(</span><span class="n">fraction_t</span> <span class="n">frac</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">frac</span><span class="p">.</span><span class="n">numerator</span><span class="p">;</span>
+    <span class="n">frac</span><span class="p">.</span><span class="n">numerator</span> <span class="o">=</span> <span class="n">frac</span><span class="p">.</span><span class="n">denominator</span><span class="p">;</span>
+    <span class="n">frac</span><span class="p">.</span><span class="n">denominator</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">swap_numerator_denominator2</span><span class="p">(</span><span class="kt">int</span> <span class="n">nancy</span><span class="p">,</span> <span class="kt">int</span> <span class="n">donkey</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">nancy</span><span class="p">;</span>
+    <span class="n">nancy</span> <span class="o">=</span> <span class="n">donkey</span><span class="p">;</span>
+    <span class="n">donkey</span> <span class="o">=</span> <span class="n">nancy</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">fraction_t</span> <span class="n">f1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+    <span class="n">swap_numerator_denominator1</span><span class="p">(</span><span class="n">f1</span><span class="p">);</span>  <span class="c1">// swap?  uh, no.</span>
+    <span class="n">swap_numerator_denominator2</span><span class="p">(</span><span class="n">f1</span><span class="p">.</span><span class="n">numerator</span><span class="p">,</span> <span class="n">f1</span><span class="p">.</span><span class="n">denominator</span><span class="p">);</span>  <span class="c1">// no, again</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Epic fail, times 2.  For each of the swap functions, the exchange happens only <em>inside</em> the function; the caller will <em>never</em> see any swap of nancy and donkey.  The fact that the function takes a <code class="docutils literal"><span class="pre">struct</span></code> here is irrelevant for attempt 1; even if we wrote a <code class="docutils literal"><span class="pre">swap</span></code> to take two <code class="docutils literal"><span class="pre">int</span></code> parameters (i.e., attempt 2), there is no way this is going to happen.  Sorry.  In the next chapter on <a class="reference internal" href="pointersarrays.html#pointers"><span class="std std-ref">Pointers and more arrays</span></a>, we will solve this problem.</p>
+</div>
+<div class="section" id="example-2-passing-a-struct-to-and-from-a-function">
+<h3>7.2.3. Example 2: passing a <code class="docutils literal"><span class="pre">struct</span></code> to and from a function<a class="headerlink" href="#example-2-passing-a-struct-to-and-from-a-function" title="Permalink to this headline">¶</a></h3>
+<p>Ok, enough of the anti-examples.  Here is an example of passing <em>and</em> returning a <code class="docutils literal"><span class="pre">struct</span></code>.  We'll write a function to add two fractions together and return a new fraction.  A few things to note about the code below:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The computation of the greatest common divisor is recursive.</li>
+<li>The use of <code class="docutils literal"><span class="pre">abs</span></code> in the least common multiple function requires <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;stdlib.h&gt;</span></code> at the top of the source code.</li>
+<li>The <code class="docutils literal"><span class="pre">add_fractions</span></code> function separately computes the denominator and numerator of the result of the addition, then just constructs and returns a new <code class="docutils literal"><span class="pre">fraction_t</span></code>.  For both the <code class="docutils literal"><span class="pre">fraction_t</span></code> parameters <em>and</em> the return value, entire copies are made to get the arguments &quot;in&quot; to the function and to get the result &quot;out&quot;.</li>
+</ul>
+</div></blockquote>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// compute the greatest common divisor, recursive style</span>
+<span class="kt">int</span> <span class="nf">gcd</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// compute the least common multiple </span>
+<span class="kt">int</span> <span class="nf">lcm</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// add a couple fractions together</span>
+<span class="n">fraction_t</span> <span class="nf">add_fractions</span><span class="p">(</span><span class="n">fraction_t</span> <span class="n">f1</span><span class="p">,</span> <span class="n">fraction_t</span> <span class="n">f2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">denom</span> <span class="o">=</span> <span class="n">lcm</span><span class="p">(</span><span class="n">f1</span><span class="p">.</span><span class="n">denominator</span><span class="p">,</span> <span class="n">f2</span><span class="p">.</span><span class="n">denominator</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">numer</span> <span class="o">=</span> <span class="p">(</span><span class="n">denom</span> <span class="o">/</span> <span class="n">f1</span><span class="p">.</span><span class="n">denominator</span><span class="p">)</span> <span class="o">*</span> <span class="n">f1</span><span class="p">.</span><span class="n">numerator</span> <span class="o">+</span>
+                <span class="p">(</span><span class="n">denom</span> <span class="o">/</span> <span class="n">f2</span><span class="p">.</span><span class="n">denominator</span><span class="p">)</span> <span class="o">*</span> <span class="n">f2</span><span class="p">.</span><span class="n">numerator</span><span class="p">;</span>
+    <span class="n">fraction_t</span> <span class="n">result</span> <span class="o">=</span> <span class="p">{</span> <span class="n">numer</span><span class="p">,</span> <span class="n">denom</span> <span class="p">};</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-3-passing-an-array-to-a-function">
+<h3>7.2.4. Example 3: passing an array to a function<a class="headerlink" href="#example-3-passing-an-array-to-a-function" title="Permalink to this headline">¶</a></h3>
+<p>Passing an array parameter to a function is somewhat different in nature than the other parameter data types we've seen:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">It is often the case that it is not possible to know the correct array length when declaring the <em>formal</em> parameter in the function declaration.  This is actually a <em>good</em> thing in disguise: it forces us to write a more general function instead of one that specifies an array of a certain size.</p>
+<p>For example, say we want to write a function to multiply several fractions together, where each fraction is an element of an array.  We want to write the function so that it can handle <em>any</em> array size.  We write it as shown below.  Notice that we leave the array size blank in the formal parameter, and pass a second parameter that specifies the number of array elements we should examine.  Since an array in C does not know its own size, we are forced to pass its size separately.</p>
+</li>
+</ol>
+</div></blockquote>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">fraction_t</span> <span class="nf">multiply_fractions</span><span class="p">(</span><span class="n">fraction_t</span> <span class="n">fraclist</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">num_fractions</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">fraction_t</span> <span class="n">result</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_fractions</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">numerator</span> <span class="o">*=</span> <span class="n">fraclist</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">numerator</span><span class="p">;</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">denominator</span> <span class="o">*=</span> <span class="n">fraclist</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">denominator</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<blockquote>
+<div><ol class="arabic simple" start="2">
+<li>The second issue that makes array parameters somewhat different than any other data type we've seen thus far is that an array variable refers to the <em>memory address</em> of the first element in the array.  As a result, <strong>it is possible to modify the contents of an array that is passed to a function</strong>.  Pass-by-value semantics still apply; the function simply receives a <em>copy</em> of the memory address at which the array begins. Here is an example of a function that modifies a C string by overwriting any <em>trailing</em> whitespace characters with the null-character.  Notice that for C strings we do <em>not</em> need to pass the size of the string, since, by convention, the null character marks the end of the string (and thus we can just use the built-in <code class="docutils literal"><span class="pre">strlen</span></code> function).</li>
+</ol>
+</div></blockquote>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">strip_trailing_whitespace</span><span class="p">(</span><span class="kt">char</span> <span class="n">string</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isspace</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span> <span class="p">{</span>
+            <span class="n">string</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+            <span class="n">index</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// as soon as we encounter first non-whitespace</span>
+            <span class="c1">// character, get out of loop</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="mi">128</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;hello</span><span class="se">\n\n\t</span><span class="s">&quot;</span><span class="p">;</span>
+    <span class="n">strip_trailing_whitespace</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>How does this jive with pass-by-value?  What happens here is that <code class="docutils literal"><span class="pre">s</span></code> in <code class="docutils literal"><span class="pre">main</span></code> holds the memory address of the array, which is allocated on the stack of <code class="docutils literal"><span class="pre">main</span></code>.  When the <code class="docutils literal"><span class="pre">strip_trailing_whitespace</span></code> function is called, the value of <code class="docutils literal"><span class="pre">s</span></code> is copied to the parameter <code class="docutils literal"><span class="pre">string</span></code>, but <em>the value itself is a memory address</em>.  So the <code class="docutils literal"><span class="pre">string</span></code> array inside <code class="docutils literal"><span class="pre">strip_trailing_whitespace</span></code> holds the same memory address as <code class="docutils literal"><span class="pre">s</span></code> back in <code class="docutils literal"><span class="pre">main</span></code>.  Thus, these two variables <em>refer to the same array in memory</em>, as depicted in the figure below.  As a result, when we modify the string inside the function, the changes can be observed when we return back to <code class="docutils literal"><span class="pre">main</span></code>.</p>
+<div class="figure align-center" id="id9">
+<img alt="_images/arrayparam.png" src="_images/arrayparam.png" />
+<p class="caption"><span class="caption-text">An array parameter gets a copy of the <em>memory</em> address of the array passed into the function, and thus &quot;points&quot; back to the same array contents as can be observed outside the function.</span></p>
+</div>
+<div class="topic">
+<p class="topic-title first">No function overloading or default parameters in C</p>
+<p>In some languages, e.g., C++, it is permitted to have more than one function definition with the same name, as long as the two definitions differ in the number and data type(s) of parameters.  Other languages permit &quot;default&quot; parameters, which means that if a caller chooses <em>not</em> to pass a particular argument, the parameter gets a <em>default</em> value.  Unfortunately, C's syntax does not permit either of these fairly convenient techniques.</p>
+</div>
+</div>
+<div class="section" id="a-longer-example">
+<h3>7.2.5. A longer example<a class="headerlink" href="#a-longer-example" title="Permalink to this headline">¶</a></h3>
+<p>We'll wrap up this section with one more example.  A few things to note:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The <code class="docutils literal"><span class="pre">struct</span> <span class="pre">student</span></code> has an <em>embedded</em> struct field (<code class="docutils literal"><span class="pre">struct</span> <span class="pre">course_grade</span></code>).  Actually, an array of <code class="docutils literal"><span class="pre">struct</span> <span class="pre">course_grade</span></code>.  One <code class="docutils literal"><span class="pre">struct</span> <span class="pre">student</span></code> would occupy a pretty large chunk of memory.  It is left to you to compute how many bytes, and where any padding is silently inserted by the compiler.</li>
+<li>In <code class="docutils literal"><span class="pre">struct</span> <span class="pre">student</span></code> we need to keep the field <code class="docutils literal"><span class="pre">num_courses_completed</span></code> to know how many array elements in <code class="docutils literal"><span class="pre">courses_completed</span></code> are meaningful.</li>
+<li>The <code class="docutils literal"><span class="pre">typedef</span></code>s on lines 16-17 help to save a few keystrokes with the <code class="docutils literal"><span class="pre">struct</span></code> usage.</li>
+<li>In <code class="docutils literal"><span class="pre">compute_gpa</span></code>, we don't need to specify the size of the <code class="docutils literal"><span class="pre">grade_t</span></code> array, but we do need an additional parameter to tell us how many entries in the array we should consider.</li>
+<li>The initialization syntax for the array of <code class="docutils literal"><span class="pre">student_t</span></code> just follows the rules we've discussed for array and struct initialization.  It is perfectly valid to nest the curly braces where necessary to achieve the correct field initializations.</li>
+</ul>
+</div></blockquote>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="k">struct</span> <span class="n">course_grade</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">course_name</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+    <span class="kt">char</span> <span class="n">letter_grade</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">student</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+    <span class="kt">short</span> <span class="n">class_year</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">num_courses_completed</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">course_grade</span> <span class="n">courses_completed</span><span class="p">[</span><span class="mi">48</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">student</span> <span class="n">student_t</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">course_grade</span> <span class="n">grade_t</span><span class="p">;</span>
+
+<span class="kt">double</span> <span class="nf">compute_gpa</span><span class="p">(</span><span class="n">grade_t</span> <span class="n">course_list</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">num_courses</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">double</span> <span class="n">sum</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_courses</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">course_list</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">letter_grade</span> <span class="o">==</span> <span class="sc">&#39;A&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">sum</span> <span class="o">+=</span> <span class="mf">4.0</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">course_list</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">letter_grade</span> <span class="o">==</span> <span class="sc">&#39;B&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">sum</span> <span class="o">+=</span> <span class="mf">3.0</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">course_list</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">letter_grade</span> <span class="o">==</span> <span class="sc">&#39;C&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">sum</span> <span class="o">+=</span> <span class="mf">2.0</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">course_list</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">letter_grade</span> <span class="o">==</span> <span class="sc">&#39;D&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">sum</span> <span class="o">+=</span> <span class="mf">1.0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">sum</span> <span class="o">/</span> <span class="n">num_courses</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">print_student</span><span class="p">(</span><span class="n">student_t</span> <span class="n">s</span><span class="p">,</span> <span class="kt">double</span> <span class="n">gpa</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s, Class of %d, GPA: %2.2f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">class_year</span><span class="p">,</span> <span class="n">gpa</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">student_t</span> <span class="n">students</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> 
+        <span class="p">{</span> <span class="s">&quot;A. Student&quot;</span><span class="p">,</span> <span class="mi">2019</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">{</span> <span class="p">{</span><span class="s">&quot;Flowerpot construction&quot;</span><span class="p">,</span> <span class="sc">&#39;A&#39;</span><span class="p">},</span>
+                                   <span class="p">{</span><span class="s">&quot;Underwater basketweaving&quot;</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">},</span>
+                                   <span class="p">{</span><span class="s">&quot;Dog grooming&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">}</span>  <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="p">{</span> <span class="s">&quot;B. Smart&quot;</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">{</span> <span class="p">{</span><span class="s">&quot;Flowerpot construction&quot;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">},</span>
+                                 <span class="p">{</span><span class="s">&quot;Underwater basketweaving&quot;</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">},</span>
+                                 <span class="p">{</span><span class="s">&quot;Cat dentistry&quot;</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">},</span>
+                                 <span class="p">{</span><span class="s">&quot;Dog grooming&quot;</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">},</span>  <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="kt">int</span> <span class="n">num_students</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">students</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">student_t</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_students</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">gpa</span> <span class="o">=</span> <span class="n">compute_gpa</span><span class="p">(</span><span class="n">students</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">courses_completed</span><span class="p">,</span> <span class="n">students</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">num_courses_completed</span><span class="p">);</span>
+        <span class="n">print_student</span><span class="p">(</span><span class="n">students</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">gpa</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Compiling and running this code gives the following output:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">.</span> <span class="n">Student</span><span class="p">,</span> <span class="n">Class</span> <span class="n">of</span> <span class="mi">2019</span><span class="p">,</span> <span class="n">GPA</span><span class="p">:</span> <span class="mf">3.00</span>
+<span class="n">B</span><span class="o">.</span> <span class="n">Smart</span><span class="p">,</span> <span class="n">Class</span> <span class="n">of</span> <span class="mi">2018</span><span class="p">,</span> <span class="n">GPA</span><span class="p">:</span> <span class="mf">2.25</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="storage-classes-the-stack-and-the-heap">
+<h2>7.3. Storage classes, the stack and the heap<a class="headerlink" href="#storage-classes-the-stack-and-the-heap" title="Permalink to this headline">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Static variables and the static storage class</p>
+<p>The keyword <code class="docutils literal"><span class="pre">static</span></code> has two, somewhat different, meanings and usages in C.</p>
+<p>The first usage is that variables within functions can be prefixed with the <code class="docutils literal"><span class="pre">static</span></code> keyword to indicate that their value is retained across invocations of the function.  For example, consider the following function:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">myfunction</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">static</span> <span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;i is now </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Because of the <code class="docutils literal"><span class="pre">static</span></code> keyword, the value stored in <code class="docutils literal"><span class="pre">i</span></code> is retained across multiple calls of <code class="docutils literal"><span class="pre">myfunction</span></code>.  Without the <code class="docutils literal"><span class="pre">static</span></code> keyword, the output of the function would <em>always</em> be <code class="docutils literal"><span class="pre">i</span> <span class="pre">is</span> <span class="pre">now</span> <span class="pre">1</span></code>.</p>
+<p class="last">The second meaning of <code class="docutils literal"><span class="pre">static</span></code> in C is to indicate that functions or variables defined outside any function should be <em>local</em> to the source file in which they are defined.  In <a class="reference internal" href="programstructure.html#compilation-and-program-structure"><span class="std std-ref">Program structure and compilation</span></a> we will discuss header files, compilation, and issues related to this usage of <code class="docutils literal"><span class="pre">static</span></code> in more detail.</p>
+</div>
+<p>There are two essential &quot;storage classes&quot; in C: <em>automatic</em> and <em>static</em>.  Static storage is somewhat of an advanced concept, and you can refer to the sidebar for a brief discussion.</p>
+<p>&quot;Automatic&quot; variables are what we have used exclusively thus far: they are variables that come into existence when a code block is entered, and which are discarded when a code block is exited.  This type of allocation and deallocation is done on the call stack of the running program.  Recall that all parameters and local variables are allocated on the stack in a last-in, first-out manner.  This is exactly the idea behind the &quot;automatic&quot; storage class --- memory is <em>automatically</em> assigned on the stack <a class="footnote-reference" href="#f7" id="id8">[7]</a>.</p>
+<p>It's worth repeating that all variables in examples we've considered to this point are &quot;automatic&quot; and allocated on the stack.  That goes for strings, arrays of various sorts, structures, etc.  Most often, we've declared some local variables in <code class="docutils literal"><span class="pre">main</span></code> (which are allocated on the stack of <code class="docutils literal"><span class="pre">main</span></code>), and passed parameters into functions (which results in the creation of copies of those parameters in the stack frame of the called function).</p>
+<p class="rubric">Exercises</p>
+<ol class="arabic simple">
+<li>Write a function that takes two <code class="docutils literal"><span class="pre">struct</span> <span class="pre">fraction</span></code>s, <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code> and compares them for equality.  Return -1 if <code class="docutils literal"><span class="pre">a</span></code> is less than <code class="docutils literal"><span class="pre">b</span></code>, 0 if they are equal, and 1 if <code class="docutils literal"><span class="pre">a</span></code> is greater than <code class="docutils literal"><span class="pre">b</span></code>.</li>
+<li>Refactor and modularize the code in exercise 1 in the <code class="docutils literal"><span class="pre">struct</span></code> chapter.  At the very least, write functions to parse a single line into a struct, and to print out a struct.</li>
+<li>Write a text-based program to play hangperson.  Many of you have probably written this sort of program in Python.  Test your mettle by writing it in C.</li>
+</ol>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>There are advanced techniques that build upon the basic mechanisms available in C to, for example, mimic capabilities found in object-oriented programming languages.  As a introductory text, this book will not go into any of those techniques.  One additional technique we cover in this book is found in the chapter on <a class="reference internal" href="programstructure.html#compilation-and-program-structure"><span class="std std-ref">Program structure and compilation</span></a>, in which we discuss a technique that provides a type of information hiding by enabling functions to remain &quot;hidden&quot; on a per-file basis.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Abstraction_principle_(programming">http://en.wikipedia.org/wiki/Abstraction_principle_(programming</a>)</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">http://en.wikipedia.org/wiki/Don%27t_repeat_yourself</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[4]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Structured_programming">http://en.wikipedia.org/wiki/Structured_programming</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[5]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Highlander_(film">http://en.wikipedia.org/wiki/Highlander_(film</a>)</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[6]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Hungarian_notation">http://en.wikipedia.org/wiki/Hungarian_notation</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[7]</a></td><td>The compiler is responsible for this magic.  It must emit the right code so that the stack is managed correctly and variables come into existence and go away at exactly the right point in execution.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="pointersarrays.html" title="8. Pointers and more arrays"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="structs.html" title="6. Aggregate Data Structures"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014-2018, Joel Sommers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

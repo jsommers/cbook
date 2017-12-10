@@ -1,0 +1,199 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>The Book of C &#8212; The Book of C (version 2018.01)</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2018.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Introduction: The C Language" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="1. Introduction: The C Language"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Book of C</a></li>
+<li><a class="reference internal" href="#thanks">Thanks</a></li>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="next chapter">1. Introduction: The C Language</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-book-of-c">
+<h1>The Book of C<a class="headerlink" href="#the-book-of-c" title="Permalink to this headline">¶</a></h1>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/seaimg.jpg"><img alt="_images/seaimg.jpg" src="_images/seaimg.jpg" style="width: 320.0px; height: 240.0px;" /></a>
+<p class="caption"><span class="caption-text">New Harbor, Maine, USA.  Photo by J. Sommers.</span></p>
+</div>
+<h4>Preface</h4><p>Get ready to learn one of the most influential programming languages ever developed.  If you know some Java, you'll find C's syntax familiar (Java's syntax is based on C) and many of the same control structures.  That familiarity can be deceptive, though.  C is rather unforgiving and will allow you (nay, give you the weapon) to shoot yourself in the foot <a class="footnote-reference" href="#f1" id="id1">[1]</a>.  On the other hand, you'll develop a much better understanding of computer systems as your knowledge of C grows.  Have fun, and good luck!</p>
+<p>This book is loosely based on the &quot;Essential C&quot; document written by Nick Parlante at Stanford University.  The original document is available at <a class="reference external" href="http://cslibrary.stanford.edu/101/">http://cslibrary.stanford.edu/101/</a>.  The Essential C document was last updated in 2003, which is one reason why this document exists.  Programming languages and compilers change, and I wanted to take the good work that Nick had done and make several updates to modernize the text.  The notice reproduced below is copied from Essential C:</p>
+<blockquote class="epigraph">
+<div><strong>Stanford CS Education Library</strong>. This is document #101, Essential C, in the Stanford CS Education Library. This and other educational materials are available for free at <a class="reference external" href="http://cslibrary.stanford.edu/">http://cslibrary.stanford.edu/</a>. This article is free to be used, reproduced, excerpted, retransmitted, or sold so long as this notice is clearly reproduced at its beginning.</div></blockquote>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://www.toodarkpark.org/computers/humor/shoot-self-in-foot.html">http://www.toodarkpark.org/computers/humor/shoot-self-in-foot.html</a></td></tr>
+</tbody>
+</table>
+<h3>Contents:</h3><div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction: The C Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">2. Getting your feet wet in the C</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hello-somebody">2.1. Hello, somebody</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hello-clang">2.2. Hello, <strong class="command">clang</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basictypes.html">3. Basic Types and Operators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basictypes.html#integer-types">3.1. Integer types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basictypes.html#floating-point-types">3.2. Floating point types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basictypes.html#boolean-type">3.3. Boolean type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basictypes.html#basic-syntactic-elements">3.4. Basic syntactic elements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="control.html">4. Control Structures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="control.html#if-statement">4.1. <code class="docutils literal"><span class="pre">if</span></code> Statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control.html#the-conditional-expression-ternary-operator">4.2. The conditional expression (ternary operator)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control.html#switch-statement">4.3. <code class="docutils literal"><span class="pre">switch</span></code> statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control.html#while-loop">4.4. <code class="docutils literal"><span class="pre">while</span></code> loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control.html#do-while-loop">4.5. <code class="docutils literal"><span class="pre">do-while</span></code> loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="control.html#for-loop">4.6. <code class="docutils literal"><span class="pre">for</span></code> loop</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arraysstrings.html">5. Arrays and Strings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arraysstrings.html#arrays">5.1. Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arraysstrings.html#multidimensional-arrays">5.2. Multidimensional Arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arraysstrings.html#c-strings">5.3. C Strings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="structs.html">6. Aggregate Data Structures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structs.html#the-c-struct">6.1. The C <code class="docutils literal"><span class="pre">struct</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">7. Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#function-syntax">7.1. Function syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#data-types-for-parameters-and-return-values">7.2. Data types for parameters and return values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#storage-classes-the-stack-and-the-heap">7.3. Storage classes, the stack and the heap</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pointersarrays.html">8. Pointers and more arrays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pointersarrays.html#id3">8.1. Pointers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pointersarrays.html#advanced-c-arrays-and-pointer-arithmetic">8.2. Advanced C Arrays and Pointer Arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pointersarrays.html#dynamic-memory-allocation">8.3. Dynamic memory allocation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="programstructure.html">9. Program structure and compilation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="programstructure.html#the-compilation-process">9.1. The compilation process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programstructure.html#invariant-testing-and-assert">9.2. Invariant testing and <code class="docutils literal"><span class="pre">assert</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib.html">10. C Standard Library Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#precedence-and-associativity">10.1. Precedence and Associativity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#standard-library-functions">10.2. Standard Library Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#stdio-h">10.3. stdio.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#ctype-h">10.4. ctype.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#string-h">10.5. string.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#stdlib-h">10.6. stdlib.h</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="thanks">
+<h1>Thanks<a class="headerlink" href="#thanks" title="Permalink to this headline">¶</a></h1>
+<p>Thanks to my COSC 301 students from Fall 2015 and 2016 for test-driving this text and for providing useful feedback.  Thanks also to Aaron Gember-Jacobson for pointing out various typos.</p>
+</div>
+<div class="section" id="copyright">
+<h1>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h1>
+<p>This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License: <a class="reference external" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">http://creativecommons.org/licenses/by-nc-sa/4.0/</a></p>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="1. Introduction: The C Language"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014-2018, Joel Sommers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

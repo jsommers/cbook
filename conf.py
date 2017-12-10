@@ -16,7 +16,7 @@
 import sys
 import os
 
-version = '2017.08'
+version = '2018.01'
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -35,6 +35,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
+    'sphinx.ext.githubpages',
 ]
 
 todo_include_todos = True
@@ -52,8 +53,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'The COSC 301 Book of C'
-copyright = '2014-2016, Joel Sommers'
+project = 'The Book of C'
+copyright = '2014-2018, Joel Sommers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -234,8 +235,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'cbook301.tex', 'The COSC 301 Book of C',
-#   'Joel Sommers', 'memoir'),
+  ('index', 'cbook301.tex', project,
    'Joel Sommers', 'manual'),
 ]
 
@@ -300,10 +300,10 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = 'The COSC 301 Book of C'
+epub_title = project
 epub_author = 'Joel Sommers'
 epub_publisher = 'Joel Sommers'
-epub_copyright = '2014-2017, Joel Sommers'
+epub_copyright = copyright
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = 'cintro'

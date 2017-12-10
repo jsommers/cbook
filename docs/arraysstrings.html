@@ -1,0 +1,467 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>5. Arrays and Strings &#8212; The Book of C (version 2018.01)</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2018.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. Aggregate Data Structures" href="structs.html" />
+    <link rel="prev" title="4. Control Structures" href="control.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="structs.html" title="6. Aggregate Data Structures"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="control.html" title="4. Control Structures"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">5. Arrays and Strings</a><ul>
+<li><a class="reference internal" href="#arrays">5.1. Arrays</a><ul>
+<li><a class="reference internal" href="#array-initialization">5.1.1. Array initialization</a></li>
+<li><a class="reference internal" href="#sizeof-and-arrays">5.1.2. <code class="docutils literal"><span class="pre">sizeof</span></code> and arrays</a></li>
+<li><a class="reference internal" href="#array-bounds-checking-not">5.1.3. Array bounds checking (not!)</a></li>
+<li><a class="reference internal" href="#variable-length-arrays">5.1.4. Variable length arrays</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multidimensional-arrays">5.2. Multidimensional Arrays</a></li>
+<li><a class="reference internal" href="#c-strings">5.3. C Strings</a><ul>
+<li><a class="reference internal" href="#getting-the-length-of-a-string">5.3.1. Getting the length of a string</a></li>
+<li><a class="reference internal" href="#copying-strings">5.3.2. Copying strings</a></li>
+<li><a class="reference internal" href="#comparing-strings">5.3.3. Comparing strings</a></li>
+<li><a class="reference internal" href="#another-example">5.3.4. Another example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="control.html"
+                        title="previous chapter">4. Control Structures</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="structs.html"
+                        title="next chapter">6. Aggregate Data Structures</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arraysstrings.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="arrays-and-strings">
+<h1>5. Arrays and Strings<a class="headerlink" href="#arrays-and-strings" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="arrays">
+<span id="index-0"></span><h2>5.1. Arrays<a class="headerlink" href="#arrays" title="Permalink to this headline">¶</a></h2>
+<p>Arrays in C are declared and used much like they are in Java.  The syntax for using arrays in C is nearly identical to Java, and is very similar to the syntax used for Python lists.  As with both Python and Java, arrays in C are always indexed starting at 0.  Thus, in the following example, the first <code class="docutils literal"><span class="pre">int</span></code> in the <code class="docutils literal"><span class="pre">scores</span></code> array is <code class="docutils literal"><span class="pre">scores[0]</span></code> and the last is <code class="docutils literal"><span class="pre">scores[99]</span></code>:</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kt">int</span> <span class="n">scores</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+ <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>           <span class="c1">// set first element</span>
+ <span class="n">scores</span><span class="p">[</span><span class="mi">99</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>           <span class="c1">// set last element</span>
+</pre></div>
+</td></tr></table></div>
+<p>The name of the array refers, in some sense, to the <em>whole array</em> but in actuality, the array name refers to the <em>memory address</em> at which the array storage begins.  As in Java, elements of an array in C are stored <em>contiguously</em>.  Thus, for the above array, if the first element in the array is stored at memory address <em>x</em>, the next element is stored at <em>x+4</em> (since the <code class="docutils literal"><span class="pre">int</span></code> is 4 bytes on most machines today), as depicted in <a class="reference internal" href="#array-figure"><span class="std std-ref">A memory diagram of the scores array.</span></a>, below.</p>
+<div class="figure align-center" id="id5">
+<span id="array-figure"></span><img alt="A diagram of an array in C" src="_images/array.png" />
+<p class="caption"><span class="caption-text">A memory diagram of the scores array.</span></p>
+</div>
+<div class="section" id="array-initialization">
+<span id="index-1"></span><h3>5.1.1. Array initialization<a class="headerlink" href="#array-initialization" title="Permalink to this headline">¶</a></h3>
+<p>Note that because C does not do any automatic initialization of variables, the array has undefined contents at the point of declaration (line 1, above).  A common practice is to use either a simple <code class="docutils literal"><span class="pre">for</span></code> loop construct to set all values in the array to a specific value, e.g.,:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">scores</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Another common practice is to use the <code class="docutils literal"><span class="pre">memset</span></code> function or <code class="docutils literal"><span class="pre">bzero</span></code> function to set everything in an array to zeroes.  The <code class="docutils literal"><span class="pre">memset</span></code> function is declared in <code class="docutils literal"><span class="pre">strings.h</span></code> (so you need to <code class="docutils literal"><span class="pre">#include</span></code> it), and takes three parameters: a memory address (which can just be the name of the array), the character that should be written into each byte of the memory address, and the number of bytes to set.  Thus, the above <code class="docutils literal"><span class="pre">for</span></code> loop could be replaced with the following:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// at the top of your source code</span>
+<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="n">scores</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="n">memset</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Note that we need to specify the number of <em>bytes</em> we want to set to 0, thus we say <code class="docutils literal"><span class="pre">sizeof(int)</span></code> multiplied by the number of array elements.  It's always good practice to use <code class="docutils literal"><span class="pre">sizeof</span></code>, even if you think you can assume that the size of an <code class="docutils literal"><span class="pre">int</span></code> is 4.  Don't make that assumption; use <code class="docutils literal"><span class="pre">sizeof</span></code>.</p>
+<p>One last way that array contents can be initialized is to use C initializer syntax. Say that we just want to create an array of 10 scores.  We could initialize the array as follows:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">scores</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">};</span>
+</pre></div>
+</div>
+<p>The initializer syntax in C is just a set of curly braces, within which are comma-separate values.  You can even leave off the array size if you give an initializer, and the compiler will figure out how large to make the array:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">scores</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">};</span> <span class="c1">// equivalent to above</span>
+</pre></div>
+</div>
+<p>The initializer syntax is especially useful for small-ish arrays for which the initial values are not all identical.</p>
+</div>
+<div class="section" id="sizeof-and-arrays">
+<span id="index-2"></span><h3>5.1.2. <code class="docutils literal"><span class="pre">sizeof</span></code> and arrays<a class="headerlink" href="#sizeof-and-arrays" title="Permalink to this headline">¶</a></h3>
+<p>The built-in <code class="docutils literal"><span class="pre">sizeof</span></code> function works with arrays.  Specifically, it will return the number of bytes occupied by the array, which is quite helpful.  So, the <code class="docutils literal"><span class="pre">memset</span></code> code we wrote earlier could be replaced with:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// at the top of your source code</span>
+<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="n">scores</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="n">memset</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">scores</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="array-bounds-checking-not">
+<span id="index-3"></span><h3>5.1.3. Array bounds checking (not!)<a class="headerlink" href="#array-bounds-checking-not" title="Permalink to this headline">¶</a></h3>
+<p>It is a very common error to try to refer to a non-existent array element. Unlike Java or Python, in which an out-of-bounds array (or list) reference will result in an exception, C will happily attempt to access the non-existent element.  The program behavior in such a case is <em>undefined</em>, which basically means that anything can happen.  Your program might crash, but it might not.  It might behave as you expect, but it might not.  Yuck.  Welcome to C.</p>
+<p>So what you can you do about this?  The best thing is to use good tools for detecting memory corruption and bad array accesses.  The <strong class="command">valgrind</strong> tool <a class="footnote-reference" href="#f1" id="id1">[1]</a> is especially good in this regard, and is highly recommended.  Its output can be somewhat difficult to understand at first, but it is a hugely helpful tool when trying to debug seemingly random program behavior.</p>
+</div>
+<div class="section" id="variable-length-arrays">
+<span id="index-4"></span><h3>5.1.4. Variable length arrays<a class="headerlink" href="#variable-length-arrays" title="Permalink to this headline">¶</a></h3>
+<p>At the point of declaration, the size of an array in C <em>can</em> be specified with a variable, which creates what is called a <em>variable length array</em>.  Variable length arrays were added to C in the C99 standard, so if you use a variable when specifying the size of an array and there is a compile-time error on that line, make sure that you are compiling in C99 mode (<code class="docutils literal"><span class="pre">-std=c99</span></code> on <strong class="command">clang</strong> and <strong class="command">gcc</strong>).  Here is an example with using a variable-length array (notice that we're using the <code class="docutils literal"><span class="pre">atoi</span></code> function to convert a string to an integer):</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;How many scores to input? &quot;</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+    <span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">num_scores</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">scores</span><span class="p">[</span><span class="n">num_scores</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_scores</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Enter score %d: &quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+        <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ... do something with the scores</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="multidimensional-arrays">
+<span id="index-5"></span><h2>5.2. Multidimensional Arrays<a class="headerlink" href="#multidimensional-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Just as in Java, C allows a programmer to declare &quot;multi-dimensional&quot; arrays by using multiple pairs of square braces in the array variable declaration.  For example, a 2-dimensional array of integers with <code class="docutils literal"><span class="pre">r</span></code> rows and <code class="docutils literal"><span class="pre">c</span></code> columns would be declared as <code class="docutils literal"><span class="pre">int</span> <span class="pre">array[r][c]</span></code>.  Thus, if we wanted to declare a 3x3 array to hold the contents of a tic-tac-toe board, we might do something like this:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">char</span> <span class="n">board</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">3</span><span class="p">];</span>
+</pre></div>
+</div>
+<p>You can use array initialization syntax with multi-dimensional arrays, too.  For example, the <code class="docutils literal"><span class="pre">board</span></code> declaration could set each element as follows:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">char</span> <span class="n">board</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{{</span><span class="sc">&#39;O&#39;</span><span class="p">,</span> <span class="sc">&#39;O&#39;</span><span class="p">,</span> <span class="sc">&#39; &#39;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="sc">&#39;X&#39;</span><span class="p">,</span> <span class="sc">&#39;X&#39;</span><span class="p">,</span> <span class="sc">&#39;O&#39;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="sc">&#39;O&#39;</span><span class="p">,</span> <span class="sc">&#39;X&#39;</span><span class="p">}};</span>
+</pre></div>
+</div>
+<p>Note that each nested set of curly braces in the initializer refers to a <em>row</em> in the array.</p>
+<p>The underlying implementation of a multi-dimensional array stores all the elements in a <em>single contiguous block of memory</em>.  The array is arranged with the elements of the rightmost index next to each other. In other words, board[1][8] comes right before board[1][9] in memory.  (This arrangement is called &quot;row-major order&quot; <a class="footnote-reference" href="#f2" id="id2">[2]</a>.)</p>
+<div class="sidebar">
+<p class="first sidebar-title">Memory access efficiency.</p>
+<p class="last">If you know about CPU caches and cache lines, you'll know that it's more efficient to access memory which is near other recently accessed memory.  This means that the most efficient way to read through a chunk of the array is to vary the rightmost index the most frequently since that will access elements that are near each other in memory.</p>
+</div>
+</div>
+<div class="section" id="c-strings">
+<span id="index-6"></span><h2>5.3. C Strings<a class="headerlink" href="#c-strings" title="Permalink to this headline">¶</a></h2>
+<p>C has minimal support of character strings.  A string in C is, in essence, an array of <code class="docutils literal"><span class="pre">char</span></code>s.  C includes a standard library of functions for performing a variety of string operations, but the programmer is ultimately responsible for managing the underlying array (and memory) used by the string.  Computations involving strings is very common, so becoming a competent C programmer requires a level of adeptness at understanding and manipulating C strings.</p>
+<p>A C string is just an array of <code class="docutils literal"><span class="pre">char</span></code> with the one additional convention that a &quot;null&quot; character (<code class="docutils literal"><span class="pre">'\0'</span></code>) is stored after the last character in the array, as an end-of-string marker.  For example, the following code creates and prints the C string <code class="docutils literal"><span class="pre">&quot;go</span> <span class="pre">'gate&quot;</span></code> (using some array initialization syntax introduced above):</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">char</span> <span class="n">string</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="sc">&#39;g&#39;</span><span class="p">,</span> <span class="sc">&#39;o&#39;</span><span class="p">,</span> <span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="sc">&#39;\&#39;&#39;</span><span class="p">,</span> <span class="sc">&#39;g&#39;</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">,</span> <span class="sc">&#39;e&#39;</span><span class="p">,</span> <span class="sc">&#39;\0&#39;</span> <span class="p">};</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Notice a few things about the above line of code: (1) we don't need to specify the size of the array (the compiler can figure that out), (2) we need to &quot;escape&quot; the apostrophe (the 4th character), since we need to distinguish it from the character delimiters, and (3) we need to explicitly specify the end-of-string marker (null character).</p>
+<p>Another way to initialize a C string is to use double-quotes.  The following code is identical to above:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">char</span> <span class="n">string</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;go &#39;gate&quot;</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The compiler <em>automatically</em> adds the null termination character as the last character in <code class="docutils literal"><span class="pre">string</span></code>, giving an identical in-memory representation as the previous code example.</p>
+<p>Since a C string is just an array of <code class="docutils literal"><span class="pre">char</span></code>, it is totally mutable (which should be, hopefully, an obvious point).  As a result, we can tamper directly with the contents of the array to change the string.  For example, building on the last example, we could write:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">string</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;s&#39;</span><span class="p">;</span>
+<span class="n">string</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;k&#39;</span><span class="p">;</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>to change the string to <code class="docutils literal"><span class="pre">&quot;go</span> <span class="pre">skate&quot;</span></code> and print it.</p>
+<div class="section" id="getting-the-length-of-a-string">
+<span id="index-7"></span><h3>5.3.1. Getting the length of a string<a class="headerlink" href="#getting-the-length-of-a-string" title="Permalink to this headline">¶</a></h3>
+<p>It is often necessary in programs to obtain the length of a string.  There is a built-in <code class="docutils literal"><span class="pre">strlen</span></code> function just for this purpose.  <code class="docutils literal"><span class="pre">strlen</span></code> takes a single C string as a parameter, and returns an <code class="docutils literal"><span class="pre">size_t</span></code> type, which is typically the same size as a <code class="docutils literal"><span class="pre">long</span></code> (either 4 or 8 bytes, depending whether you're on a 32-bit or 64-bit machine, respectively).  <code class="docutils literal"><span class="pre">strlen</span></code> is declared in the <code class="docutils literal"><span class="pre">string.h</span></code> header file, so don't forget to include that file when using any built-in string functions like <code class="docutils literal"><span class="pre">strlen</span></code>.</p>
+<p>Here's a brief example:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Please type your name: &quot;</span><span class="p">);</span>
+    <span class="n">fgets</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Your name is %d characters long.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+        <span class="c1">// why strlen(name) - 1?</span>
+        <span class="c1">// fgets includes the \n (newline) character that the user types in</span>
+        <span class="c1">// the string filled in name, and we don&#39;t want to include that</span>
+        <span class="c1">// character as part of the length of the name.</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="topic" id="index-8">
+<p class="topic-title first">Which header file do I need to include?</p>
+<p>For pretty much <em>all</em> C programs you write you will need to <code class="docutils literal"><span class="pre">#include</span></code> some header files.  Which header file will you need?  One of the easiest ways to find out is to use the <code class="docutils literal"><span class="pre">man</span></code> program in a Linux (or <em>NIX) shell to read the manual page for a particular C library function.  For example, if you need to find out what include file to use for the function ``atoi``, you could simply type ``man atoi`` at the command line.  At the top of the man page the appropriate ``#include`` line will be listed.  You can also use a search engine and search for ``atoi man page`` and *usually</em> you'll get the same results, but different C library versions and compilers may use slightly different header files so its best just to use the <code class="docutils literal"><span class="pre">man</span></code> pages on your system.</p>
+<p>Manual pages can be a little bit difficult to wade through, but they are almost always divided into useful sections so you can (sort of) quickly find what you're looking for.  For finding out what header file to include, look in a section at the top of the man page called &quot;SYNOPSIS&quot;.  That section also contains the function &quot;prototypes&quot; (which we'll discuss in a later chapter on functions), which provides the data types of any parameters and return values.</p>
+<p>To navigate a man page, you can usually type <code class="docutils literal"><span class="pre">'d'</span></code> to go down a page, <code class="docutils literal"><span class="pre">'u'</span></code> to go up a page, and <code class="docutils literal"><span class="pre">'q'</span></code> to quit (type <code class="docutils literal"><span class="pre">'h'</span></code> or <code class="docutils literal"><span class="pre">'?'</span></code> for help on navigating).
+One confusing aspect of looking up a <code class="docutils literal"><span class="pre">man</span></code> page is that the same <em>name</em> can appear in multiple <em>sections</em> of the manual pages system.  For example, there's a <code class="docutils literal"><span class="pre">printf</span></code> C library function, and there is also a <code class="docutils literal"><span class="pre">printf</span></code> function available for writing shell scripts.  If you just type <code class="docutils literal"><span class="pre">man</span> <span class="pre">printf</span></code>, you'll get the shell command reference, which may not be what you want.  To get the right man page, you can type <code class="docutils literal"><span class="pre">man</span> <span class="pre">&lt;sectionnumber&gt;</span> <span class="pre">&lt;symbol&gt;</span></code>, as in <code class="docutils literal"><span class="pre">man</span> <span class="pre">3</span> <span class="pre">printf</span></code> (the C library function <code class="docutils literal"><span class="pre">printf</span></code> is in manual section 3).  To find out the manual section number, you can search the manual pages by typing <code class="docutils literal"><span class="pre">man</span> <span class="pre">-k</span> <span class="pre">printf</span></code>, which will give a list of all man pages that contain the string <code class="docutils literal"><span class="pre">printf</span></code>.  The section number is shown in parens after the function name.</p>
+</div>
+</div>
+<div class="section" id="copying-strings">
+<span id="index-9"></span><h3>5.3.2. Copying strings<a class="headerlink" href="#copying-strings" title="Permalink to this headline">¶</a></h3>
+<p>Recall that an array variable really just holds the memory address of the beginning of the array.  Thus, <code class="docutils literal"><span class="pre">=</span></code> (direct assignment) cannot be used to copy strings.  Instead, the characters must be copied one-by-one from one string to another.  Fortunately, the pain of doing this is (somewhat) alleviated by a number of built-in C library functions to do the work for us.  The best function to use for copying strings is called <code class="docutils literal"><span class="pre">strlcpy</span></code>, which takes three parameters: the destination string buffer, the source string, and the size (number of bytes) in the destination string buffer.  For example, if we wanted to make a copy of a string that a user typed in, we could do the following:</p>
+<div class="highlight-c" id="strlcpy-example"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Gimme a string: &quot;</span><span class="p">);</span>
+    <span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+    <span class="kt">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// add 1 for the null termination character!</span>
+    <span class="kt">char</span> <span class="n">copy</span><span class="p">[</span><span class="n">size</span><span class="p">];</span>
+    <span class="n">strlcpy</span><span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p id="index-10">Why, you may ask, do we need to pass the size of the destination string buffer as the third argument?  Can't the compiler figure it out?  Sadly, it cannot, especially in the case of variable length arrays and pointers (which we will encounter in a later chapter).  There is an &quot;older&quot; C library function called <code class="docutils literal"><span class="pre">strcpy</span></code> which only takes two parameters: the destination and the source strings.  One seriously bad thing that can happen with <code class="docutils literal"><span class="pre">strcpy</span></code> is exemplified by the following code:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">char</span> <span class="n">source</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;this is a fairly long string, isn&#39;t it?&quot;</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">dest</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>  <span class="c1">// this is a rather small buffer, isn&#39;t it?</span>
+<span class="n">strcpy</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">source</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">strcpy</span></code> function will happily copy the string referred to by <code class="docutils literal"><span class="pre">source</span></code> into the string referred to by <code class="docutils literal"><span class="pre">dest</span></code>.  That's bad.  The length of <code class="docutils literal"><span class="pre">source</span></code> is <em>way</em> longer than <code class="docutils literal"><span class="pre">dest</span></code>, so what happens is a <em>buffer overflow</em>.  That is, the <code class="docutils literal"><span class="pre">strcpy</span></code> function ends up blowing past the end of the 8 bytes we allocated to <code class="docutils literal"><span class="pre">dest</span></code>, and starts writing data into what ever comes next (which happens to be on the stack of what ever function is executing).  Again, clearly bad stuff.  Even worse, the program may crash ... or it might not.  It's impossible to tell from the source code, because the behavior (according to the C language specification) is <em>undefined</em> <a class="footnote-reference" href="#f3" id="id3">[3]</a>.  The moral of the story: always use <code class="docutils literal"><span class="pre">strlcpy</span></code>.</p>
+</div>
+<div class="section" id="comparing-strings">
+<span id="index-11"></span><h3>5.3.3. Comparing strings<a class="headerlink" href="#comparing-strings" title="Permalink to this headline">¶</a></h3>
+<p>Just as <code class="docutils literal"><span class="pre">=</span></code> cannot be used to copy strings, <code class="docutils literal"><span class="pre">==</span></code> cannot be used to compare strings.  The reason is very similar to why <code class="docutils literal"><span class="pre">==</span></code> cannot be used in the Java language to compare strings: the comparison for equality will just compare string <em>references</em> (or &quot;pointers&quot;, which we will encounter soon) instead of comparing the <em>contents</em> of the strings.</p>
+<p>There are four C library functions that are commonly used to compare two strings.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">strcmp(s1,</span> <span class="pre">s2)</span></code></dt>
+<dd>Compare C strings referred to by parameters s1 and s2. Return 0 if the string contents are equivalent, -1 if s1 lexicographically precedes s2, and 1 if s2 lexicographically precedes s1.</dd>
+<dt><code class="docutils literal"><span class="pre">strcasecmp(s1,</span> <span class="pre">s2)</span></code></dt>
+<dd>Same as <code class="docutils literal"><span class="pre">strcmp</span></code>, but compare the strings in a case-insensitive manner.</dd>
+<dt><code class="docutils literal"><span class="pre">strncmp(s1,</span> <span class="pre">s2,</span> <span class="pre">n)</span></code></dt>
+<dd>Same as <code class="docutils literal"><span class="pre">strcmp</span></code>, but only compare the first <code class="docutils literal"><span class="pre">n</span></code> characters of the two strings.  (Technically <code class="docutils literal"><span class="pre">strncmp</span></code> only compares the first min(n, strlen(s1), strlen(s2)) characters).</dd>
+<dt><code class="docutils literal"><span class="pre">strncasecmp(s1,</span> <span class="pre">s2,</span> <span class="pre">n)</span></code></dt>
+<dd>Same as <code class="docutils literal"><span class="pre">strncmp</span></code>, but compare the strings in a case-insensitive manner.</dd>
+</dl>
+</div>
+<div class="section" id="another-example">
+<span id="index-12"></span><h3>5.3.4. Another example<a class="headerlink" href="#another-example" title="Permalink to this headline">¶</a></h3>
+<p>Let's look at one more example of a string manipulation program.  In this program, we ask the user for a string, then convert all characters in the string to lowercase.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;ctype.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;Gimme a string: &quot;</span><span class="p">);</span>
+    <span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isupper</span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="p">{</span>
+            <span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tolower</span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;Here&#39;s your string, lower-cased: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>An example run of the program might look like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Gimme a string: AbCDERX!!! whY?!
+Here&#39;s your string, lower-cased: abcderx!!! why?!
+</pre></div>
+</div>
+<p>The core of the function is a for loop that iterates through all indexes of the string, checking whether each character should be lower-cased. The code above also demonstrates a couple functions from the <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;ctype.h&gt;</span></code> header file (<code class="docutils literal"><span class="pre">isupper</span></code> and <code class="docutils literal"><span class="pre">tolower</span></code>).  The <code class="docutils literal"><span class="pre">isupper</span></code> test (line 10) is, strictly speaking, unnecessary; calling <code class="docutils literal"><span class="pre">tolower</span></code> on an already-lowercased letter still results in a lowercase letter.  Otherwise, those two new functions behave as one might expect: given a character, they return either a new character, or a (quasi-)Boolean value <a class="footnote-reference" href="#f4" id="id4">[4]</a>.</p>
+<p>There are quite a few functions defined in <code class="docutils literal"><span class="pre">ctype.h</span></code>.  On MacOS X you can type <strong class="command">man ctype</strong> to get a list of those functions, and on Linux, you can type <strong class="command">man islower</strong> (or <strong class="command">man &lt;any ctype function&gt;</strong>) to get a catalog of all the various functions in <code class="docutils literal"><span class="pre">ctype.h</span></code>.   The following is an incomplete list; see <strong class="command">man</strong> pages for gory details:</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><code class="docutils literal"><span class="pre">isalnum</span></code></li>
+<li><code class="docutils literal"><span class="pre">isalpha</span></code></li>
+<li><code class="docutils literal"><span class="pre">isdigit</span></code></li>
+</ul>
+</td><td><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ishexnumber</span></code></li>
+<li><code class="docutils literal"><span class="pre">islower</span></code></li>
+<li><code class="docutils literal"><span class="pre">isnumber</span></code></li>
+</ul>
+</td><td><ul class="simple">
+<li><code class="docutils literal"><span class="pre">isprint</span></code></li>
+<li><code class="docutils literal"><span class="pre">ispunct</span></code></li>
+<li><code class="docutils literal"><span class="pre">isspace</span></code></li>
+</ul>
+</td><td><ul class="simple">
+<li><code class="docutils literal"><span class="pre">isupper</span></code></li>
+<li><code class="docutils literal"><span class="pre">tolower</span></code></li>
+<li><code class="docutils literal"><span class="pre">toupper</span></code></li>
+</ul>
+</td></tr></table>
+<p class="rubric">Exercises</p>
+<ol class="arabic simple">
+<li>Run the following program, which has a bad array index.  What is its behavior?  What if you change the <code class="docutils literal"><span class="pre">for</span></code> loop so that the second part of the for loop reads <code class="docutils literal"><span class="pre">i</span> <span class="pre">&lt;=</span> <span class="pre">max*100</span></code> --- what happens then?</li>
+</ol>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+
+ <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+     <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+     <span class="kt">int</span> <span class="n">array</span><span class="p">[</span><span class="n">max</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">55</span> <span class="p">};</span>
+
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">max</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+         <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Array index %d contains %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li>Write some code that computes the length of a string without using the built-in <code class="docutils literal"><span class="pre">strlen</span></code> function.  (Defining new functions is described in a later chapter, but with some Java and/or Python knowledge, you can probably make a good guess at how to define a new function in C.)</li>
+<li>Implement your own version of <code class="docutils literal"><span class="pre">strlcpy</span></code>.   Instead of calling <code class="docutils literal"><span class="pre">strlcpy</span></code> on the second to last line of the <a class="reference internal" href="#strlcpy-example"><span class="std std-ref">strlcpy example above</span></a>, write your own <code class="docutils literal"><span class="pre">for</span></code> loop (or some other kind of loop) to accomplish the same thing.</li>
+<li>Write a program that asks for a string from a user and &quot;strips&quot; all whitespace characters from the end of the string (spaces, tabs and newlines).  To do that, you can simply assign a null character to the character array index that follows the last non-whitespace character of the string.</li>
+<li>Write a program that asks for a string from a user and prints the string in reverse.</li>
+</ol>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://valgrind.org">http://valgrind.org</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Row-major_order">http://en.wikipedia.org/wiki/Row-major_order</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Undefined_behavior">http://en.wikipedia.org/wiki/Undefined_behavior</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>The <code class="docutils literal"><span class="pre">isupper</span></code> function returns an <code class="docutils literal"><span class="pre">int</span></code>, not <code class="docutils literal"><span class="pre">bool</span></code>, which is fairly common in C. Since the <code class="docutils literal"><span class="pre">bool</span></code> type didn't get added to the language until fairly recently, most predicate functions return an integer representing True (1) or False (0).</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="structs.html" title="6. Aggregate Data Structures"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="control.html" title="4. Control Structures"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014-2018, Joel Sommers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

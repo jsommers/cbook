@@ -1,0 +1,160 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>1. Introduction: The C Language &#8212; The Book of C (version 2018.01)</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2018.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Getting your feet wet in the C" href="tutorial.html" />
+    <link rel="prev" title="The Book of C" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="2. Getting your feet wet in the C"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Book of C"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">The Book of C</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="next chapter">2. Getting your feet wet in the C</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/intro.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction-the-c-language">
+<h1>1. Introduction: The C Language<a class="headerlink" href="#introduction-the-c-language" title="Permalink to this headline">¶</a></h1>
+<p>C is a professional programmer's language.  It is a <em>systems implementation language</em>, and was originally designed by Dennis Ritchie at Bell Labs in the 1960s.  Prior to the development of C, most operating systems were developed in assembly language <a class="footnote-reference" href="#f1" id="id1">[1]</a>!  The C language (and its predecessor, the B language) were designed to provide some level of portability of the operating system source code (i.e., it could be recompiled for a new processor architecture), while still allowing a programmer to manipulate low-level resources such as memory and I/O devices.  If you are interested in some the history behind the development of UNIX, see <a class="reference internal" href="#evolution" id="id2">[Evolution]</a> by Dennis Ritchie.</p>
+<p>C was designed to get in one's way as little as possible.  It is a high-level programming language (i.e., not assembly), but is quite minimal in design and scope.  Its minimalism can make it feel difficult to work with.  Its syntax is somewhat terse, and its runtime environment does not contain the sort of &quot;guardrails&quot; available in other programming languages such as Python or Java.  There are no classes, objects, or methods, only functions.  C's type system and error checks exist only at compile-time.  The compiled code runs with no safety checks for bad type casts, bad array indexes, or bad memory accesses.  There is no garbage collector to manage memory as in Java and Python.  Instead, the programmer must manage heap memory manually.  All this makes C fast but fragile.</p>
+<p>Some languages, like Python, are forgiving.  The programmer needs only a basic sense of how things work.  Errors in the code are flagged by the compile-time or run-time system, and a programmer can muddle through and eventually fix things up to work correctly.  The C language is not like that.  The C programming model assumes that the programmer knows exactly what he or she wants to do, and how to use the language constructs to achieve that goal. The language lets the expert programmer express what they want in the minimum time by staying out of their way.</p>
+<p>As a result, C can be hard to work with at first.  A feature can work fine in one context, but crash in another. The programmer needs to understand how the features work and use them correctly.  On the other hand, the number of features is pretty small, and the simplicity of C has a certain beauty to it.  What seem like limitations at first can feel liberating as you gain more experience with the language.</p>
+<p>As you start to learn and use C, a good piece of advice is to just <em>be careful</em>.  Don't write code that you don't understand.  Debugging can be challenging in C, and the language is unforgiving.  Create a mental (or real) picture of how your program is using memory.  That's good advice for writing code in any language, but in C it is critical.</p>
+<div class="sidebar">
+<p class="first sidebar-title">C's popularity</p>
+<p class="last">Although introduced over 40 years ago, C is one of the most popular programming languages in use today <a class="footnote-reference" href="#f2" id="id3">[2]</a>.Moreover, C's syntax has highly influenced the design of other programming languages (Java syntax is largely based on C).  All modern operating systems today are written largely in C (or a combination of C and C++) due to the fact that low-level resources (memory and I/O devices) can be directly manipulated with a minimum of assembly.</p>
+</div>
+<p>This book is intended to be a short, though mostly complete introduction to the C programming language.  For an in-depth treatment of the language and language features, there are two other books to recommend.  The mostly widely used C book is one simply referred to as &quot;K&amp;R&quot;, written by the designers of the language, Brian Kernighan and Dennis Ritchie <a class="reference internal" href="#kr" id="id4">[KR]</a>.  It is an excellent (though somewhat dated) reference to the language.  An excellent, if lengthy, introduction to C can be found in Stephen Prata's <em>C Primer Plus</em> <a class="reference internal" href="#cpp" id="id5">[CPP]</a>.  It contains a more modern treatment of C than K&amp;R, with lots of detail and exercises.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="kr" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[KR]</a></td><td><ol class="first last upperalpha simple" start="2">
+<li>Kernighan and D. Ritchie.  <em>The C Programming Language, 2nd ed.</em>.  Prentice-Hall, 1988.  <a class="reference external" href="http://cm.bell-labs.com/cm/cs/cbook/">http://cm.bell-labs.com/cm/cs/cbook/</a></li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="cpp" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[CPP]</a></td><td><ol class="first last upperalpha simple" start="19">
+<li>Prata.  <em>C Primer Plus (5th ed.)</em>.  S. Prata.  SAMS Publishing (2005).</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="evolution" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[Evolution]</a></td><td><ol class="first last upperalpha simple" start="4">
+<li>Ritchie. <em>The Evolution of the Unix Time-sharing System</em>, AT&amp;T Bell Laboratories Technical Journal 63 No. 6 Part 2, October 1984, pp. 1577-93.  Available at: <a class="reference external" href="http://cm.bell-labs.com/who/dmr/hist.html">http://cm.bell-labs.com/who/dmr/hist.html</a></li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Take a moment and consider how difficult it must have been to develop a new OS!</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>See <a class="reference external" href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html</a> for one ranking of programming language popularity.</td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="2. Getting your feet wet in the C"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Book of C"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014-2018, Joel Sommers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>

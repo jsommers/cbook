@@ -1,0 +1,416 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>9. Program structure and compilation &#8212; The Book of C (version 2018.01)</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2018.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="10. C Standard Library Functions" href="stdlib.html" />
+    <link rel="prev" title="8. Pointers and more arrays" href="pointersarrays.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="stdlib.html" title="10. C Standard Library Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pointersarrays.html" title="8. Pointers and more arrays"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9. Program structure and compilation</a><ul>
+<li><a class="reference internal" href="#the-compilation-process">9.1. The compilation process</a><ul>
+<li><a class="reference internal" href="#the-preprocessing-step">9.1.1. The preprocessing step</a><ul>
+<li><a class="reference internal" href="#header-h-and-source-c-files">9.1.1.1. Header (<code class="docutils literal"><span class="pre">.h</span></code>) and source (<code class="docutils literal"><span class="pre">.c</span></code>) files</a></li>
+<li><a class="reference internal" href="#preprocessor-directives">9.1.1.2. Preprocessor directives</a></li>
+<li><a class="reference internal" href="#include">9.1.1.3. <code class="docutils literal"><span class="pre">#include</span></code></a></li>
+<li><a class="reference internal" href="#define">9.1.1.4. <code class="docutils literal"><span class="pre">#define</span></code></a></li>
+<li><a class="reference internal" href="#if">9.1.1.5. #if</a></li>
+<li><a class="reference internal" href="#multiple-includes">9.1.1.6. Multiple #includes</a></li>
+<li><a class="reference internal" href="#invoking-the-preprocessor">9.1.1.7. Invoking the preprocessor</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-compilation-step">9.1.2. The compilation step</a></li>
+<li><a class="reference internal" href="#the-linking-phase">9.1.3. The linking phase</a><ul>
+<li><a class="reference internal" href="#options-for-linking">9.1.3.1. Options for linking</a></li>
+<li><a class="reference internal" href="#the-main-function">9.1.3.2. The main function</a></li>
+<li><a class="reference internal" href="#command-line-arguments-to-a-program">9.1.3.3. Command-line arguments to a program</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#invariant-testing-and-assert">9.2. Invariant testing and <code class="docutils literal"><span class="pre">assert</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pointersarrays.html"
+                        title="previous chapter">8. Pointers and more arrays</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="stdlib.html"
+                        title="next chapter">10. C Standard Library Functions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/programstructure.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="program-structure-and-compilation">
+<span id="compilation-and-program-structure"></span><h1>9. Program structure and compilation<a class="headerlink" href="#program-structure-and-compilation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-compilation-process">
+<h2>9.1. The compilation process<a class="headerlink" href="#the-compilation-process" title="Permalink to this headline">¶</a></h2>
+<p>For a C program of any reasonable size, it is convenient to separate the functions that comprise the program into different text files. There are standard ways to organize source code in order to allow the functions in separate files to cooperate, and yet allow the compiler to <em>build</em> a single executable.</p>
+<p>The process of compiling C programs is different than with Java, and has important implications for how source code must be organized within files.  In particular, <strong>C compilers make a single (top-to-bottom) pass over source code files.</strong>   This process is <em>very much unlike the Java compiler</em>, which may make multiple passes over the same file, and which may automatically compile <em>multiple</em> files in order to resolve code dependencies (e.g., if a class is used in one file but defined in another, the compiler will compile <em>both</em> files).  In C, it is entirely up to the programmer to decide which files need to be compiled and linked to produce an executable program.</p>
+<p id="compilation-phases">There are three basic steps involved in compiling a C program: <em>preprocessing</em>, <em>compilation</em> of C source code to machine code (or assembly) (also called <em>object code</em>), and <em>linking</em> of multiple object files into a single binary executable program.  Each of these steps are described below.</p>
+<div class="figure align-center" id="id2">
+<img alt="_images/compilesteps.png" src="_images/compilesteps.png" />
+<p class="caption"><span class="caption-text">The three basic steps when compiling C programs are <em>preprocessing</em>, <em>compilation</em>, and <em>linking</em>.</span></p>
+</div>
+<div class="section" id="the-preprocessing-step">
+<span id="preprocessing"></span><h3>9.1.1. The preprocessing step<a class="headerlink" href="#the-preprocessing-step" title="Permalink to this headline">¶</a></h3>
+<p>The preprocessing step happens just prior to the compilation phase.  The C preprocessor looks for any <em>preprocessor directives</em> in the source code, which are any lines starting with <code class="docutils literal"><span class="pre">#</span></code>.  The preprocessor then performs some actions specified by the directive.  The text resulting from the preprocessor's action is then fed directly (and automatically) to the compilation phase.</p>
+<p>Since a C compiler makes a single pass over a <code class="docutils literal"><span class="pre">.c</span></code> file, it must be made aware of all the types and signatures in order to correctly and successfully complete the compilation process.  That is, if an unknown data type is encountered in the single top-to-bottom pass, the compiler will report an error.  For example, here is some source code that will <em>not</em> compile correctly:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">function</span> <span class="n">f1</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">function</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">numerator</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">denominator</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Why does it fail?  Simply because the definition of <code class="docutils literal"><span class="pre">struct</span> <span class="pre">function</span></code> comes <em>after</em> its first use.  To make the code correctly compile, the <code class="docutils literal"><span class="pre">struct</span></code> definition must precede <code class="docutils literal"><span class="pre">main</span></code>.</p>
+<div class="section" id="header-h-and-source-c-files">
+<h4>9.1.1.1. Header (<code class="docutils literal"><span class="pre">.h</span></code>) and source (<code class="docutils literal"><span class="pre">.c</span></code>) files<a class="headerlink" href="#header-h-and-source-c-files" title="Permalink to this headline">¶</a></h4>
+<p>Because of the single-pass top-to-bottom operation of C compilers, each source file (each <code class="docutils literal"><span class="pre">.c</span></code> file) must identify all data types and function signatures that are used in that file in order to make the code successfully compile.  The standard practice in C is to define any types and declare any functions in <strong>header</strong> files (<code class="docutils literal"><span class="pre">.h</span></code> files) in order to facilitate the compilation process.  In one sense, you can think of the <code class="docutils literal"><span class="pre">.h</span></code> files as containing the &quot;external interfaces&quot; (i.e., the API) and data types used for a set of functions, and the corresponding <code class="docutils literal"><span class="pre">.c</span></code> file as containing the actual function definitions.</p>
+<p>For example, say that we want to define the <code class="docutils literal"><span class="pre">struct</span> <span class="pre">fraction</span></code> type and a couple utility functions that can be used in other <code class="docutils literal"><span class="pre">.c</span></code> files.  We might define a <code class="docutils literal"><span class="pre">fraction.h</span></code> file that contains the following:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="n">fraction</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">numerator</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">denominator</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">print_fraction</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">fraction</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">invert_fraction</span><span class="p">(</span><span class="k">struct</span> <span class="n">fraction</span> <span class="o">*</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Notice that this header file contains the <code class="docutils literal"><span class="pre">struct</span></code> definition, and two <strong>function prototypes</strong>.  A &quot;prototype&quot; for a function gives its name and arguments but not its body.  The function parameters do not even have to have variable names (as they're shown above), but there's no problem if they <em>do</em> include the parameter names.</p>
+<p>The corresponding <code class="docutils literal"><span class="pre">fraction.c</span></code> file might contain the following:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;fraction.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">print_fraction</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="n">fraction</span> <span class="o">*</span><span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Fraction: %d/%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span><span class="p">,</span> <span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">invert_fraction</span><span class="p">(</span><span class="k">struct</span> <span class="n">fraction</span> <span class="o">*</span><span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span><span class="p">;</span>
+    <span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span> <span class="o">=</span> <span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span><span class="p">;</span>
+    <span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Notice that the first line of code in <code class="docutils literal"><span class="pre">fraction.c</span></code> is <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&quot;fraction.h&quot;</span></code>.  Any line of code that begins <code class="docutils literal"><span class="pre">#</span></code> is called a <strong>preprocessor directive</strong>.  We have used <code class="docutils literal"><span class="pre">#include</span></code> quite a bit so far.  Its meaning is simply to <em>directly replace</em> the <code class="docutils literal"><span class="pre">#include</span></code> directive with the text in the specified file name.</p>
+<p>A file that <em>uses</em> the fraction utility functions in a file called <code class="docutils literal"><span class="pre">test.c</span></code> might look like the following:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;fraction.h&quot;  // include struct fraction definition and</span><span class="cp"></span>
+                       <span class="c1">// fraction utility function prototypes</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="n">fraction</span> <span class="n">f</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+    <span class="n">invert_fraction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">print_fraction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">f</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="preprocessor-directives">
+<h4>9.1.1.2. Preprocessor directives<a class="headerlink" href="#preprocessor-directives" title="Permalink to this headline">¶</a></h4>
+<p>There are several preprocessor directives that can be listed in C source code.  <code class="docutils literal"><span class="pre">#include</span></code> and <code class="docutils literal"><span class="pre">#define</span></code> are the two most common, but there are others.</p>
+</div>
+<div class="section" id="include">
+<h4>9.1.1.3. <code class="docutils literal"><span class="pre">#include</span></code><a class="headerlink" href="#include" title="Permalink to this headline">¶</a></h4>
+<p>As we've already seen, the <code class="docutils literal"><span class="pre">#include</span></code> directive reads in text from different files during the preprocessing step.  <code class="docutils literal"><span class="pre">#include</span></code> is a very unintelligent directive --- the action is simply to paste in the text from the given file.  The file name given to <code class="docutils literal"><span class="pre">#include</span></code> may be included in angle brackets or quotes.  The difference is that <em>system</em> files should be enclosed in angle brackets and any <em>user</em> files should be enclosed in quotes.</p>
+</div>
+<div class="section" id="define">
+<h4>9.1.1.4. <code class="docutils literal"><span class="pre">#define</span></code><a class="headerlink" href="#define" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal"><span class="pre">#define</span></code> directive can be used to set up symbolic replacements in the source. As with all preprocessor operations, <code class="docutils literal"><span class="pre">#define</span></code> is extremely unintelligent --- it just does textual replacement without any code evaluation.  <code class="docutils literal"><span class="pre">#define</span></code> statements are used as a crude way of establishing symbolic constants or <em>macros</em>.  Generally speaking, you should prefer to use <code class="docutils literal"><span class="pre">const</span></code> values over <code class="docutils literal"><span class="pre">#define</span></code> directives.</p>
+<p>Here are examples of quasi-constant definitions:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#define MAX 100</span>
+<span class="cp">#define SEVEN_WORDS that_symbol_expands_to_all_these_words</span>
+</pre></div>
+</div>
+<p>Later code can use the symbols <code class="docutils literal"><span class="pre">MAX</span></code> or <code class="docutils literal"><span class="pre">SEVEN_WORDS</span></code> which will be replaced by the text to the right of each symbol in its <code class="docutils literal"><span class="pre">#define</span></code>.</p>
+<p>Simplistic <em>macro</em> functions can also be defined with <code class="docutils literal"><span class="pre">#define</span></code> directives.  For example, a commonly used macro is <code class="docutils literal"><span class="pre">MAX</span></code>, which takes two parameters and can be used to determine the larger of two values:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#define MAX(a,b) (a &gt; b ? a : b)</span>
+</pre></div>
+</div>
+<p>Again, the <code class="docutils literal"><span class="pre">#define</span></code> directive is incredibly unintelligent: it is simply smart enough to do textual replacement.  For example, the following code:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">MAX</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>would be replaced by the preprocessor with the following:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="o">&gt;</span> <span class="n">d</span> <span class="o">?</span> <span class="nl">c</span> <span class="p">:</span> <span class="n">d</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>While <code class="docutils literal"><span class="pre">MAX</span></code> is often referred to as a <em>macro function</em> (or simply macro), it does not operate as a function at all.  The programmer can (somewhat) treat the macro as a function, but the effect is just an illusion created by the C preprocessor.</p>
+</div>
+<div class="section" id="if">
+<h4>9.1.1.5. #if<a class="headerlink" href="#if" title="Permalink to this headline">¶</a></h4>
+<p>At the preprocessing phase, the symbolic names (and values) defined by <code class="docutils literal"><span class="pre">#define</span></code> statements and predefined by the compiler can be tested and evaluated using <code class="docutils literal"><span class="pre">#if</span></code> directives.  The <code class="docutils literal"><span class="pre">#if</span></code> test can be used at the preprocessing phase to determine whether code is included or excluded in what is passed on to the compilation phase. The following example depends on the value of the <code class="docutils literal"><span class="pre">FOO</span></code> <code class="docutils literal"><span class="pre">#define</span></code> symbol.  If it is true (i.e., non-zero), then the <code class="docutils literal"><span class="pre">&quot;aaa&quot;</span></code> lines (whatever they are) are compiled, and the <code class="docutils literal"><span class="pre">&quot;bbb&quot;</span></code> lines are ignored.  If <code class="docutils literal"><span class="pre">FOO</span></code> is false (i.e., 0), then the reverse is true.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#define FOO 1</span>
+
+<span class="p">...</span>
+
+<span class="cp">#if FOO</span>
+    <span class="n">aaa</span>
+    <span class="n">aaa</span>
+<span class="cp">#else</span>
+    <span class="n">bbb</span>
+    <span class="n">bbb</span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<p>Interestingly (and usefully), you can use <code class="docutils literal"><span class="pre">#if</span> <span class="pre">0</span> <span class="pre">...#endif</span></code> to effectively comment out areas of code you don't want to compile, but which you want to keep in the source file.</p>
+</div>
+<div class="section" id="multiple-includes">
+<h4>9.1.1.6. Multiple #includes<a class="headerlink" href="#multiple-includes" title="Permalink to this headline">¶</a></h4>
+<p>It is invalid in C to declare the same variable or <code class="docutils literal"><span class="pre">struct</span></code> twice.  This can easily happen if a header file is <code class="docutils literal"><span class="pre">#include</span></code>d twice.  For example, if a source code file includes header file A and B, and header file B <em>also</em> includes header file A, the contents of header file A will be included <em>twice</em>, which may cause problems.</p>
+<p>A standard practice to avoid this problem is to use the <code class="docutils literal"><span class="pre">#ifndef</span></code> directive, which means &quot;if the following symbol is not defined, do the following&quot;.  The <code class="docutils literal"><span class="pre">#define</span></code> symbol is often  based on the header file name (as in the following), and this practice</p>
+<p>This largely solves multiple <code class="docutils literal"><span class="pre">#include</span></code> problems.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#ifndef __FOO_H__</span>
+<span class="cp">#define __FOO_H__  </span><span class="c1">// we only get here if the symbol __FOO_H__ has not been previously defined</span>
+
+<span class="o">&lt;</span><span class="n">rest</span> <span class="n">of</span> <span class="n">foo</span><span class="p">.</span><span class="n">h</span> <span class="p">...</span><span class="o">&gt;</span>
+
+<span class="cp">#endif </span><span class="c1">// __FOO_H__</span>
+</pre></div>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title"><code class="docutils literal"><span class="pre">static</span></code> functions</p>
+<p>There is yet another meaning to the keyword <code class="docutils literal"><span class="pre">static</span></code> in the context of global variables and functions.  Specifically:</p>
+<ol class="arabic simple">
+<li>A function may be declared <code class="docutils literal"><span class="pre">static</span></code>, in which case it can only be used in the same file, below the point of its declaration.   The meaning of <code class="docutils literal"><span class="pre">static</span></code> in this case is essentially that the function is &quot;private&quot; to the file.  That is, it can only be used by other functions within the same file, but not from within another <code class="docutils literal"><span class="pre">.c</span></code> file.</li>
+<li>The <code class="docutils literal"><span class="pre">static</span></code> keyword can also be used with global variables in a <code class="docutils literal"><span class="pre">.c</span></code> file (i.e., variables defined outside any function).  The meaning in this case is the same with <code class="docutils literal"><span class="pre">static</span></code> functions:  the variable is &quot;private&quot; to the <code class="docutils literal"><span class="pre">.c</span></code> file and cannot be accessed or used from other <code class="docutils literal"><span class="pre">.c</span></code> files.</li>
+</ol>
+<p>For example, here are definitions of a static (private) variable and static (private) function within a <code class="docutils literal"><span class="pre">.c</span></code> source file:</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">this</span> <span class="n">variable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="s2">&quot;visible&quot;</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">functions</span> <span class="ow">in</span> <span class="n">some</span> <span class="n">other</span> <span class="o">.</span><span class="n">c</span> <span class="n">file</span>
+<span class="n">static</span> <span class="nb">int</span> <span class="n">private_counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="o">//</span> <span class="n">this</span> <span class="n">function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="s2">&quot;visible&quot;</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">functions</span> <span class="ow">in</span> <span class="n">some</span> <span class="n">other</span> <span class="o">.</span><span class="n">c</span> <span class="n">file</span>
+<span class="n">static</span> <span class="n">void</span> <span class="n">add_to_counter</span><span class="p">(</span><span class="nb">int</span> <span class="n">increment</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">ok</span> <span class="n">to</span> <span class="n">use</span> <span class="n">the</span> <span class="n">private</span><span class="o">/</span><span class="n">static</span> <span class="n">variable</span> <span class="kn">from</span> <span class="nn">this</span> <span class="n">function</span><span class="p">,</span>
+    <span class="o">//</span> <span class="n">since</span> <span class="n">it</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">same</span> <span class="n">file</span>
+    <span class="n">private_counter</span> <span class="o">+=</span> <span class="n">increment</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="invoking-the-preprocessor">
+<h4>9.1.1.7. Invoking the preprocessor<a class="headerlink" href="#invoking-the-preprocessor" title="Permalink to this headline">¶</a></h4>
+<p>Normally, you do not need to do anything special to invoke the preprocessing phase when compiling a program.  It is, however, possible to <em>only</em> invoke the preprocessing phase (i.e., no compilation or anything else), and also to define new preprocessor symbols on the command line.</p>
+<p>To invoke just the preprocessor in <strong class="command">clang</strong>, you can use the command <strong class="command">clang -E sourcefile.c</strong>.  <strong class="command">clang</strong> has another command line option to just run the preprocessor and check code syntax: <strong class="command">clang -fsyntax-only sourcefile.c</strong>.</p>
+<p>To define new preprocessor symbols (i.e., just like <code class="docutils literal"><span class="pre">#define</span></code>), the -D option can be used with <strong class="command">clang</strong>, as in <strong class="command">clang -DSYMBOL</strong>, or <strong class="command">clang -DSYMBOL=VALUE</strong>.</p>
+</div>
+</div>
+<div class="section" id="the-compilation-step">
+<h3>9.1.2. The compilation step<a class="headerlink" href="#the-compilation-step" title="Permalink to this headline">¶</a></h3>
+<p>The compilation step takes as input the result from the preprocessing stage.  Thus, any <code class="docutils literal"><span class="pre">#</span></code> directives have been processed and are removed in the source code seen by the compiler.</p>
+<p>The compilation stage can produce either assembly code or an <em>object file</em> as output.  Typically, the object code is all that is desired; it contains the binary machine code that is generated from compiling the C source.  There are a few different relevant compiler options at this stage:</p>
+<dl class="docutils">
+<dt><strong class="command">clang -S sourcefile.c</strong></dt>
+<dd>Produces assembly code in sourcefile.s</dd>
+<dt><strong class="command">clang -c sourcefile.c</strong></dt>
+<dd>Produce object file (binary machine code) in sourcefile.  This is the more common option to employ for the compilation stage.  When all source files have been compiled to object code (<code class="docutils literal"><span class="pre">.o</span></code> files), all the <code class="docutils literal"><span class="pre">.o</span></code> files can be <em>linked</em> to produce a binary executable program.</dd>
+</dl>
+<p>Some additional compiler options that are useful at this stage:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">option</th>
+<th class="head">meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>-g</td>
+<td>include information to facilitate debugging using a program like <strong class="command">gdb</strong>.</td>
+</tr>
+<tr class="row-odd"><td>-Wall</td>
+<td>Warn about any potentially problematic constructs in the code.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="the-linking-phase">
+<h3>9.1.3. The linking phase<a class="headerlink" href="#the-linking-phase" title="Permalink to this headline">¶</a></h3>
+<p>The linking stage takes 1 or more object files and produces a binary executable program (i.e., a program that can be directly executed on the processor).  It requires two things: that the implementations for any functions referenced in any part of the code have been defined, and that there is exactly one <code class="docutils literal"><span class="pre">main</span></code> function defined.</p>
+<div class="section" id="options-for-linking">
+<h4>9.1.3.1. Options for linking<a class="headerlink" href="#options-for-linking" title="Permalink to this headline">¶</a></h4>
+<p>In the simplest case, there is only one source file to preprocess, compile, and link.  In that case, the same command line we've used with <strong class="command">clang</strong> so far does the trick:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">clang</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">Wall</span> <span class="n">inputfile</span><span class="o">.</span><span class="n">c</span> <span class="o">-</span><span class="n">o</span> <span class="n">myprogram</span>
+</pre></div>
+</div>
+<p>or, if you've already compiled inputfile.c to inputfile.o, just:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">clang</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">Wall</span> <span class="n">inputfile</span><span class="o">.</span><span class="n">o</span> <span class="o">-</span><span class="n">o</span> <span class="n">myprogram</span>
+</pre></div>
+</div>
+<p>In a more &quot;interesting&quot; case, there is more than one file to compile and link together.  For each source file, you must compile it to object code.  Following that, you can link all the object files together to produce the executable:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">clang</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">Wall</span> <span class="n">file1</span><span class="o">.</span><span class="n">c</span> <span class="o">-</span><span class="n">c</span>
+<span class="n">clang</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">Wall</span> <span class="n">file2</span><span class="o">.</span><span class="n">c</span> <span class="o">-</span><span class="n">c</span>
+<span class="n">clang</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">Wall</span> <span class="n">file3</span><span class="o">.</span><span class="n">c</span> <span class="o">-</span><span class="n">c</span>
+<span class="n">clang</span> <span class="o">-</span><span class="n">g</span> <span class="n">file1</span><span class="o">.</span><span class="n">o</span> <span class="n">file2</span><span class="o">.</span><span class="n">o</span> <span class="n">file3</span><span class="o">.</span><span class="n">o</span> <span class="o">-</span><span class="n">o</span> <span class="n">myprogram</span>
+</pre></div>
+</div>
+<p>If you use functions from the standard C library, you don't need to do anything special to link in the code that implements the functions in that library.  If, however, your program uses a function from an <em>external</em> library like the <code class="docutils literal"><span class="pre">math</span></code> library (see <strong class="command">man 3 math</strong>; it contains functions such as <code class="docutils literal"><span class="pre">log2</span></code>, <code class="docutils literal"><span class="pre">sqrt</span></code>, <code class="docutils literal"><span class="pre">fmod</span></code>, <code class="docutils literal"><span class="pre">ceil</span></code>, and <code class="docutils literal"><span class="pre">floor</span></code>), the library to be linked with must be specified on the command line.  The basic command is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">clang</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">Wall</span> <span class="n">inputfile</span><span class="o">.</span><span class="n">o</span> <span class="o">-</span><span class="n">o</span> <span class="n">outputfile</span> <span class="o">-</span><span class="n">lmath</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">-l</span></code> option indicates that some external library must be linked to the program, in this case the <code class="docutils literal"><span class="pre">math</span></code> library.</p>
+</div>
+<div class="section" id="the-main-function">
+<span id="id1"></span><h4>9.1.3.2. The main function<a class="headerlink" href="#the-main-function" title="Permalink to this headline">¶</a></h4>
+<p>The execution of a C program begins with the function named <code class="docutils literal"><span class="pre">main</span></code>. All of the files and libraries for the C program are compiled together to build a single program file. That file must contain exactly one <code class="docutils literal"><span class="pre">main</span></code> function which the operating system uses as the starting point for the program.  <code class="docutils literal"><span class="pre">main</span></code> returns an int which, by convention, is 0 if the program completed successfully and non-zero if the program exited due to some error condition. This is just a convention which makes sense in shell oriented environments such as UNIX.</p>
+</div>
+<div class="section" id="command-line-arguments-to-a-program">
+<h4>9.1.3.3. Command-line arguments to a program<a class="headerlink" href="#command-line-arguments-to-a-program" title="Permalink to this headline">¶</a></h4>
+<p>For many C programs, it is useful to be able to pass various command-line arguments to the program through the shell.  For example, if we had a program named <code class="docutils literal"><span class="pre">myprogram</span></code> and we wanted to give it the names of several text files for it to process, we might use the following command line:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ ./myprogram file1.txt file2.txt file3.txt
+</pre></div>
+</div>
+<p>Each of the file names (file1-3.txt) is a command-line parameter to the program, and can be collected through two parameters to <code class="docutils literal"><span class="pre">main</span></code> which are classically called <code class="docutils literal"><span class="pre">argc</span></code> and <code class="docutils literal"><span class="pre">argv</span></code> and are declared as follows:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The meaning of these parameters is:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">argc</span></code></dt>
+<dd>The number of command-line arguments given to the program, <em>including</em> the program name</dd>
+<dt><code class="docutils literal"><span class="pre">argv</span></code></dt>
+<dd>An array of C strings which refer to each of the command-line parameters.  Note that <code class="docutils literal"><span class="pre">argv[0]</span></code> is <em>always</em> the name of the program itself.  For example, in the above command line, <code class="docutils literal"><span class="pre">argv[0]</span></code> would be <code class="docutils literal"><span class="pre">&quot;./myprogram&quot;</span></code>.</dd>
+</dl>
+<p>A simple program that traverses the array of command-line arguments and prints each one out could be written as follows:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;argument %d is %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>There is a C library function called <code class="docutils literal"><span class="pre">getopt</span></code> that enables parsing of options in more flexible ways.  See <strong class="command">man 3 getopt</strong> for more information.</p>
+</div>
+</div>
+</div>
+<div class="section" id="invariant-testing-and-assert">
+<h2>9.2. Invariant testing and <code class="docutils literal"><span class="pre">assert</span></code><a class="headerlink" href="#invariant-testing-and-assert" title="Permalink to this headline">¶</a></h2>
+<p>Array out of bounds references are an extremely common form of C run-time error. You can use the <code class="docutils literal"><span class="pre">assert()</span></code> function to sprinkle your code with your own bounds checks. A few seconds putting in <code class="docutils literal"><span class="pre">assert</span></code> statements can save you hours of debugging.</p>
+<p>Getting out all the bugs is the hardest and scariest part of writing a large piece of software.  Adding <code class="docutils literal"><span class="pre">assert</span></code> statements are one of the easiest and most effective helpers for that difficult phase.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;assert.h&gt;</span><span class="cp"></span>
+<span class="cp">#define MAX_INTS 100</span>
+
+<span class="kt">void</span> <span class="nf">somefunction</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="kt">int</span> <span class="n">ints</span><span class="p">[</span><span class="n">MAX_INTS</span><span class="p">];</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="o">&lt;</span><span class="n">something</span> <span class="n">complicated</span><span class="o">&gt;</span><span class="p">);</span>
+    <span class="c1">// i should be in bounds,</span>
+    <span class="c1">// but is it really?</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">);</span>           <span class="c1">// safety assertions</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_INTS</span><span class="p">);</span>
+    <span class="n">ints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>Depending on the options specified at compile time, the <code class="docutils literal"><span class="pre">assert()</span></code> expressions will be left in the code for testing, or may be ignored. For that reason, it is important to only put expressions in <code class="docutils literal"><span class="pre">assert()</span></code> tests which do not need to be evaluated for the proper functioning of the program.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">errCode</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span>      <span class="c1">// yes --- ok</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">errCode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">assertfoo</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">...</span> <span class="c1">// NO, foo() will not be called if</span>
+                          <span class="c1">// the compiler removes the assert()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="stdlib.html" title="10. C Standard Library Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pointersarrays.html" title="8. Pointers and more arrays"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014-2018, Joel Sommers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+  </body>
+</html>
