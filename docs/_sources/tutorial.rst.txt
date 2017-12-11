@@ -135,9 +135,11 @@ Ugh.  Not only are there *more* errors reported than actually exist, the output 
 
 1.  A common error is to fail to include a null-termination character in a C string.  Modify the code example above to remove the ``'\0'``.  What does ``printf`` do?  What do you think is happening?  (Note: you actually have to work a bit to remove any null-termination character, since ``fgets`` will automatically null-terminate a string. You can either overwrite the null-termination character added by ``fgets`` with some other character, or devise some other method.)
 
-2.  Line 8 in our example program above can squash a non-newline character if the user types more than 31 characters for a name.  Fix the program so that the last character of the string is *only* overwritten if it is a newline (``\n``).  Note that, as with Java and Python, characters can be compared using ``==`` (double-equals), and that ``if`` statements work very similarly in C as they do in Java.
+2.  Revise the program above to change the size of the array to something small (e.g., 4 characters), then recompile and re-run it.  What happens when you input a string that's longer than 4 characters?  Exactly 4 characters?  
 
-3.  Revisit your fabulous time in COSC 101 by writing a program that asks for a dog's name, its age in human years, then prints its age in dog years (human years multiplied by 7).  A couple hints to help accomplish this:
+3.  Line 8 in our example program above can squash a non-newline character if the user types more than 31 characters for a name.  Fix the program so that the last character of the string is *only* overwritten if it is a newline (``\n``).  Note that, as with Java and Python, characters can be compared using ``==`` (double-equals), and that ``if`` statements work very similarly in C as they do in Java.
+
+4.  Revisit your fabulous time in COSC 101 by writing a program that asks for a dog's name, its age in human years, then prints its age in dog years (human years multiplied by 7).  A couple hints to help accomplish this:
 
     * You can use ``fgets`` to collect each input, but note that you'll need to convert the dog age to an integer (you can just do the computations as integers).  You can use the ``atoi`` function to convert a string to an integer; ``atoi`` takes a C string as a parameter and returns an ``int``.  You'll need to ``#include <stdlib.h>`` to use the ``atoi`` function.
 
@@ -145,7 +147,7 @@ Ugh.  Not only are there *more* errors reported than actually exist, the output 
 
     * Try to make the output look nicely formatted using ``printf``.  To format a decimal integer for output, you can use the ``%d`` placeholder in the ``printf`` format string (i.e., the first parameter).
 
-4.  Write a simple "race-pace" calculator.  Ask a user to type the race distance (in miles), and a string representing the time they want to finish the race in, using a format like "HH:MM:SS".  Compute and return the pace per-mile required to achieve the finish time.  A few notes and hints about this problem:
+5.  Write a simple "race-pace" calculator.  Ask a user to type the race distance (in miles), and a string representing the time they want to finish the race in, using a format like "HH:MM:SS".  Compute and return the pace per-mile required to achieve the finish time.  A few notes and hints about this problem:
 
     * You should accept the miles value as a floating point value.  You can use the standard library function ``atof`` to convert a string to a floating point value.  Any floating point variables can be declared as either ``float`` or ``double`` (just like Java).
 
