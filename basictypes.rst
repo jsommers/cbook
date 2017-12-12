@@ -36,13 +36,14 @@ There are several integer types in C, differing primarily in their bit widths an
 
 The integer types can be preceded by the qualifier ``unsigned`` which disallows representing negative numbers and doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, while ``unsigned short`` can store 0..65535.
 
-.. You can think of pointers as being a form of unsigned long on a machine with 4 byte pointers. In my opinion, it's best to avoid using unsigned unless you really need to. It tends to cause more misunderstandings and problems than it is worth.
+Although it may be tempting to use ``unsigned`` integer types in various situations, you should generally just use signed integers unless you really need an unsigned type.  Why?  The main reason is that it is common to write comparisons like ``x < 0``, but if ``x`` is unsigned, this expression *can never be true*!  A good compiler will warn you in such a situation, but it's best to avoid it to begin with.  So, unless you really need an unsigned type (e.g., for creating a bitfield), just use a signed type.  
 
 .. sidebar:: Integers in Python and Java compared with C
 
    In Python, an integer can be arbitrarily large (negative or positive).  Any limit on the maximum size of an int is due to available memory, not restrictions related to processor architecture.  C is, of course, very much *unlike* that.  Issues of overflow and underflow come into play with C, and can be very tricky to detect and debug (a sidebar below discusses the overflow issue).
 
    Java contains (almost) the same basic integer types as in C.  It has ``short``, ``int``, and ``long``, which are 2 bytes, 4 bytes, and 8 bytes respectively (i.e., generally as they are in C).  Java also has a ``byte`` type, which is like ``char`` in C: a 1-byte integer.  A ``char`` in Java is **not** treated as an integer: it is a single Unicode character. Also, all integer types in Java are signed; unsigned integer types don't exist.
+
 
 The ``sizeof`` keyword
 ----------------------
@@ -125,11 +126,13 @@ The integral types may be mixed together in arithmetic expressions since they ar
 
 .. sidebar:: Pitfall: ``int`` overflow
 
+   .. index:: overflow, undefined values
+
    Remember that wonderful algorithm called "binary search"?  As an engineer at Google discovered some time ago, nearly all implementations of binary search are coded incorrectly [#f3]_.  The problem is usually on the line that computes the midpoint of an array, which often looks like this::
 
        int mid = (low + high) / 2;
 
-   So what's the problem?  The issue is that for very large arrays, the expression ``low + high`` may exceed the size of a 32-bit integer, resulting in "overflow": the high-order bit(s) are simply lost.  In C, the result is that the array index (``mid``) overflows to a negative value, resulting in incorrect program behavior.  See the footnote reference ([#f2]_) for ways to fix the code in both Java and C/C++.
+   So what's the problem?  The issue is that for very large arrays, the expression ``low + high`` may exceed the size of a 32-bit integer, resulting in "overflow", and the value resulting from an overflow is *undefined*!  There is no guarantee that the high-order bit(s) will simply be truncated.  In C, the result is that the array index (``mid``) overflows to an undefined value, resulting in undefined and likely incorrect program behavior.  See the footnote reference ([#f2]_) for ways to fix the code in both Java and C/C++.
 
 
 Floating point types
@@ -231,12 +234,20 @@ As in most languages, a variable declaration reserves and names an area in memor
 
 A variable corresponds to an area of memory which can store a value of the given type. Making a drawing is an excellent way to think about the variables in a program. Draw each variable as box with the current value inside the box. This may seem like a "newbie" technique,  but when you are buried in some horribly complex programming problem, it will almost certainly help to draw things out as a way to think through the problem.  Embrace your inner noob.
 
+.. sidebar:: Initial values in variables and *undefined* values
 
-.. sidebar:: Initial values in variables
-
-   .. index:: initialization, =
+   .. index:: initialization, =, undefined values
 
    Unlike Java, **variables in C do not have their memory cleared or set in any way when they are allocated at run time**.  The value in a variable at the time it is declared is *undefined*: it is likely to be filled with what ever variable or value previously occupied that particular location in memory.  Or it might be zeroes.  Or it might be filled with fuzzy pink pandas.  The point is that you should never assume that a variable has any value stored in it at the time of declaration.  As a result, you should almost always *explicitly initialize variables* at the point of declaration.  A good compiler will (usually) tell you when you're playing with fire with respect to variable initialization, but it is good to get into the habit of explicitly initializing variables to avoid this pitfall.
+
+   Undefined values in C come up in a few other places.  For example, although you'd like to *think* that the following assignment results in ``-128`` being stored in ``c``::
+       
+       char c = 127 + 1; 
+
+   you cannot assume that it has any particular value since the result of an overflow is *undefined*.  Although the ``gcc`` has a special flag ``-fwrapv`` which forces overflow to result in two's complement wraparound, there's no guarantee of this behavior in the absence of the flag.  
+
+   For lots of good discussion on undefined behaviors in C, see [Regehr]_ and [Lattner]_.
+
 
 Names in C are *case sensitive* so "x" and "X" refer to different variables. Names can contain digits and underscores (_), but may not begin with a digit. Multiple variables can be declared after the type by separating them with commas.  C is a classical "compile time" language --- the names of the variables, their types, and their implementations are all flushed out by the compiler at compile time (as opposed to figuring such details out at run time like an interpreter).
 
@@ -260,20 +271,12 @@ The assignment operator copies the value from its right hand side to the variabl
 
 .. index:: truncation
 
-Truncation on assignment
-^^^^^^^^^^^^^^^^^^^^^^^^
+Demotion on assignment
+^^^^^^^^^^^^^^^^^^^^^^
 
-The opposite of promotion, truncation moves a value from a type to a smaller type.  In that case, the compiler just drops the extra bits.  A good compiler will generate a compile time warning of the loss of information. Assigning from an integer to a smaller integer (e.g., ``long`` to ``int``, or ``int`` to ``char``) drops the most significant bits.  Assigning from a floating point type to an integer drops the fractional part of the number:
+The opposite of promotion, demotion moves a value from a type to a smaller type.  This is a situation to be avoided, because strictly speaking the result is *implementation and compiler-defined*.  In other words, there's no guarantee what will happen, and it may be different depending on the compiler used.  A common behavior is for any extra bits to be truncated, but you should not depend on that.  At least a good compiler (like ``clang``) will generate a compile time warning in this type of situation.  
 
-.. code-block:: c
-
-    int i = 321;
-    char ch = i;     // truncation of an int value to fit in a char
-    // ch is now 65
-
-The assignment will drop the upper bits of the ``int`` 321. The lower 8 bits of the number 321 represents the number 65 (321 - 256). So the value of ``ch`` will be (char)65 which happens to be 'A'.
-
-The assignment of a floating point type to an integer type will drop the fractional part of the number. The following code will set ``i`` to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  Most modern compilers will warn about an implicit conversion like this, but not all.
+The assignment of a floating point type to an integer type will *truncate* the fractional part of the number. The following code will set ``i`` to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  If the integer portion of a floating point number is too big to be represented in the integer being assigned to, the result is the ghastly *undefined* (see [#f4]_).  Most modern compilers will warn about implicit conversions like in the code below, but not all.
 
 .. code-block:: c
 
@@ -451,6 +454,28 @@ Operator       Meaning
 ============== =============================================================
 
 
+.. rubric:: Exercises
+
+The theme for the following exercises is *dates and times*, which often involve lots of interesting calculations (sometimes using truncating integer arithmetic, sometimes using modular arithmetic, sometimes both), and thus good opportunities to use various types of arithmetic operations, comparisons, and assignments.
+
+#. Write a C program that asks for a year and prints whether the year is a leap year.  See the Wikipedia page on `leap year <https://en.wikipedia.org/wiki/Leap_year>`_ for how to test whether a given year is a leap year.  Study the first program in the :ref:`tutorial <tutorial>` chapter for how to collect a value from keyboard input, and use the ``atoi`` function to convert a C string (char array) value to an integer.
+
+#. Write a program that asks for year, month, and day values and compute the corresponding Julian Day value.  See the Wikipedia page on `Julian Day <https://en.wikipedia.org/wiki/Julian_day>`_ for an algorithm for doing that.  (See specifically the expression titled "Converting Gregorian calendar date to Julian Day Number".)
+
+#. Extend the previous program to compute the Julian date value (a floating point value), using the computation described in "Finding Julian date given Julian day number and time of day" on the Wikipedia page linked in the previous problem.  Note that you'll need to additionally ask for the current hour, minute and second from the keyboard.
+
+#. Write a program that asks for a year value and computes and prints the month and day of Easter in that year.  The Wikipedia page on `Computus <https://en.wikipedia.org/wiki/Computus>`_ provides more than one algorithm for doing so.  Try using the "Anonymous Gregorian algorithm" or the "Gauss algorithm", which is a personal favorite.  
+
+.. #. Last one: write a program that asks for a year in the Gregorian calendar (i.e., the calendar typically used in the Western world), and compute and print the date (month and day) of the first day of the Jewish holiday Hanukkah.  Although the first day of Hanukkah is always the 25th day of Kislev according to the Hebrew calendar, it can vary between November and December in the Gregorian calendar.  You'll need to first compute 
+
+
+.. rubric:: References
+
+.. [Regehr] J. Regehr.  A Guide to Undefined Behavior in C and C++, Part 1.  https://blog.regehr.org/archives/213
+
+.. [Lattner]  C. Lattner.  What Every C Programmer Should Know About Undefined Behavior #1/3.  http://blog.llvm.org/2011/05/what-every-c-programmer-should-know.html
+
+
 .. rubric:: Footnotes
 
 .. [#f1] Non-ASCII characters can also be represented in C, such as characters in Cyrillic, Hangul, Simplified Chinese, and Emoji, but not in a single 8-bit data type.  See http://en.wikipedia.org/wiki/Wide_character for some information on data types to support these character types.
@@ -458,3 +483,6 @@ Operator       Meaning
 .. [#f2] To find out whether your machine is 64 bit or 32 bit, you can do the following.  On Linux, just type ``uname -p`` at a terminal.  If the output is ``i386``, you have a 32-bit OS.  If it is ``x86_64``, it is 64 bits.  All recent versions of MacOS X are 64 bits, so unless you're running something extremely old, you've got 64.
 
 .. [#f3] http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html
+
+.. [#f4] See the C11 standard: https://port70.net/~nsz/c/c11/
+

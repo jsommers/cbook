@@ -63,7 +63,7 @@
 <li><a class="reference internal" href="#comments">3.4.1. Comments</a></li>
 <li><a class="reference internal" href="#variables">3.4.2. Variables</a></li>
 <li><a class="reference internal" href="#assignment-operator">3.4.3. Assignment Operator <code class="docutils literal"><span class="pre">=</span></code></a><ul>
-<li><a class="reference internal" href="#truncation-on-assignment">3.4.3.1. Truncation on assignment</a></li>
+<li><a class="reference internal" href="#demotion-on-assignment">3.4.3.1. Demotion on assignment</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#arithmetic-operations">3.4.4. Arithmetic operations</a></li>
@@ -131,6 +131,7 @@
 <dd>Modern C compilers also support <code class="docutils literal"><span class="pre">long</span> <span class="pre">long</span></code> as an integer type, which is a 64-bit integer.</dd>
 </dl>
 <p>The integer types can be preceded by the qualifier <code class="docutils literal"><span class="pre">unsigned</span></code> which disallows representing negative numbers and doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, while <code class="docutils literal"><span class="pre">unsigned</span> <span class="pre">short</span></code> can store 0..65535.</p>
+<p>Although it may be tempting to use <code class="docutils literal"><span class="pre">unsigned</span></code> integer types in various situations, you should generally just use signed integers unless you really need an unsigned type.  Why?  The main reason is that it is common to write comparisons like <code class="docutils literal"><span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, but if <code class="docutils literal"><span class="pre">x</span></code> is unsigned, this expression <em>can never be true</em>!  A good compiler will warn you in such a situation, but it's best to avoid it to begin with.  So, unless you really need an unsigned type (e.g., for creating a bitfield), just use a signed type.</p>
 <div class="sidebar">
 <p class="first sidebar-title">Integers in Python and Java compared with C</p>
 <p>In Python, an integer can be arbitrarily large (negative or positive).  Any limit on the maximum size of an int is due to available memory, not restrictions related to processor architecture.  C is, of course, very much <em>unlike</em> that.  Issues of overflow and underflow come into play with C, and can be very tricky to detect and debug (a sidebar below discusses the overflow issue).</p>
@@ -222,11 +223,11 @@
 <p>The integral types may be mixed together in arithmetic expressions since they are all basically just integers.  That includes the <code class="docutils literal"><span class="pre">char</span></code> type (unlike Java, in which the <code class="docutils literal"><span class="pre">byte</span></code> type would need to be used to specify a single-byte integer). For example, <code class="docutils literal"><span class="pre">char</span></code> and <code class="docutils literal"><span class="pre">int</span></code> can be combined in arithmetic expressions such as (<code class="docutils literal"><span class="pre">'b'</span> <span class="pre">+</span> <span class="pre">5</span></code>). How does the compiler deal with the different widths present in such an expression?  In such a case, the compiler &quot;promotes&quot; the smaller type (<code class="docutils literal"><span class="pre">char</span></code>) to be the same size as the larger type (<code class="docutils literal"><span class="pre">int</span></code>) before combining the values.  Promotions are determined at compile time based purely on the types of the values in the expressions. Promotions do not lose information --- they always convert from one type to a compatible, larger type to avoid losing information.  However, an assignment (or explicit cast) from a larger type to smaller type (e.g., assigning an <code class="docutils literal"><span class="pre">int</span></code> value to a <code class="docutils literal"><span class="pre">short</span></code> variable) may indeed lose information.</p>
 <div class="sidebar">
 <p class="first sidebar-title">Pitfall: <code class="docutils literal"><span class="pre">int</span></code> overflow</p>
-<p>Remember that wonderful algorithm called &quot;binary search&quot;?  As an engineer at Google discovered some time ago, nearly all implementations of binary search are coded incorrectly <a class="footnote-reference" href="#f3" id="id3">[3]</a>.  The problem is usually on the line that computes the midpoint of an array, which often looks like this:</p>
+<p id="index-2">Remember that wonderful algorithm called &quot;binary search&quot;?  As an engineer at Google discovered some time ago, nearly all implementations of binary search are coded incorrectly <a class="footnote-reference" href="#f3" id="id3">[3]</a>.  The problem is usually on the line that computes the midpoint of an array, which often looks like this:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">low</span> <span class="o">+</span> <span class="n">high</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
 </pre></div>
 </div>
-<p class="last">So what's the problem?  The issue is that for very large arrays, the expression <code class="docutils literal"><span class="pre">low</span> <span class="pre">+</span> <span class="pre">high</span></code> may exceed the size of a 32-bit integer, resulting in &quot;overflow&quot;: the high-order bit(s) are simply lost.  In C, the result is that the array index (<code class="docutils literal"><span class="pre">mid</span></code>) overflows to a negative value, resulting in incorrect program behavior.  See the footnote reference (<a class="footnote-reference" href="#f2" id="id4">[2]</a>) for ways to fix the code in both Java and C/C++.</p>
+<p class="last">So what's the problem?  The issue is that for very large arrays, the expression <code class="docutils literal"><span class="pre">low</span> <span class="pre">+</span> <span class="pre">high</span></code> may exceed the size of a 32-bit integer, resulting in &quot;overflow&quot;, and the value resulting from an overflow is <em>undefined</em>!  There is no guarantee that the high-order bit(s) will simply be truncated.  In C, the result is that the array index (<code class="docutils literal"><span class="pre">mid</span></code>) overflows to an undefined value, resulting in undefined and likely incorrect program behavior.  See the footnote reference (<a class="footnote-reference" href="#f2" id="id4">[2]</a>) for ways to fix the code in both Java and C/C++.</p>
 </div>
 </div>
 </div>
@@ -250,7 +251,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 <p>The sum may or may not be 1.0 exactly, and it may vary from one type of machine to another. For this reason, you should never compare floating numbers to each other for equality (<code class="docutils literal"><span class="pre">==</span></code>) --- use inequality (<code class="docutils literal"><span class="pre">&lt;</span></code>) comparisons instead.  Realize that a correct C program run on different computers may produce slightly different outputs in the rightmost digits of its floating point computations.</p>
 </div>
 <div class="section" id="boolean-type">
-<span id="index-2"></span><h2>3.3. Boolean type<a class="headerlink" href="#boolean-type" title="Permalink to this headline">¶</a></h2>
+<span id="index-3"></span><h2>3.3. Boolean type<a class="headerlink" href="#boolean-type" title="Permalink to this headline">¶</a></h2>
 <p>In C prior to the C99 standard, there was no distinct Boolean type.  Instead, integer values were used to indicate true or false: zero (0) means false, and anything non-zero means true.  So, the following code:</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
@@ -280,7 +281,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 <div class="section" id="basic-syntactic-elements">
 <h2>3.4. Basic syntactic elements<a class="headerlink" href="#basic-syntactic-elements" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="comments">
-<span id="index-3"></span><h3>3.4.1. Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h3>
+<span id="index-4"></span><h3>3.4.1. Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h3>
 <p>Comments in C are enclosed by slash/star pairs:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="o">..</span> <span class="n">comments</span> <span class="o">..</span> <span class="o">*/</span>
 </pre></div>
@@ -298,19 +299,25 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
 </pre></div>
 </div>
-<div class="figure align-center" id="id5">
+<div class="figure align-center" id="id8">
 <img alt="Memory box diagram" src="_images/numbox.png" />
 <p class="caption"><span class="caption-text">A simple memory diagram for <code class="docutils literal"><span class="pre">int</span> <span class="pre">num</span> <span class="pre">=</span> <span class="pre">42;</span></code>.</span></p>
 </div>
 <p>A variable corresponds to an area of memory which can store a value of the given type. Making a drawing is an excellent way to think about the variables in a program. Draw each variable as box with the current value inside the box. This may seem like a &quot;newbie&quot; technique,  but when you are buried in some horribly complex programming problem, it will almost certainly help to draw things out as a way to think through the problem.  Embrace your inner noob.</p>
 <div class="sidebar">
-<p class="first sidebar-title">Initial values in variables</p>
-<p class="last" id="index-4">Unlike Java, <strong>variables in C do not have their memory cleared or set in any way when they are allocated at run time</strong>.  The value in a variable at the time it is declared is <em>undefined</em>: it is likely to be filled with what ever variable or value previously occupied that particular location in memory.  Or it might be zeroes.  Or it might be filled with fuzzy pink pandas.  The point is that you should never assume that a variable has any value stored in it at the time of declaration.  As a result, you should almost always <em>explicitly initialize variables</em> at the point of declaration.  A good compiler will (usually) tell you when you're playing with fire with respect to variable initialization, but it is good to get into the habit of explicitly initializing variables to avoid this pitfall.</p>
+<p class="first sidebar-title">Initial values in variables and <em>undefined</em> values</p>
+<p id="index-5">Unlike Java, <strong>variables in C do not have their memory cleared or set in any way when they are allocated at run time</strong>.  The value in a variable at the time it is declared is <em>undefined</em>: it is likely to be filled with what ever variable or value previously occupied that particular location in memory.  Or it might be zeroes.  Or it might be filled with fuzzy pink pandas.  The point is that you should never assume that a variable has any value stored in it at the time of declaration.  As a result, you should almost always <em>explicitly initialize variables</em> at the point of declaration.  A good compiler will (usually) tell you when you're playing with fire with respect to variable initialization, but it is good to get into the habit of explicitly initializing variables to avoid this pitfall.</p>
+<p>Undefined values in C come up in a few other places.  For example, although you'd like to <em>think</em> that the following assignment results in <code class="docutils literal"><span class="pre">-128</span></code> being stored in <code class="docutils literal"><span class="pre">c</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">char</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">127</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>you cannot assume that it has any particular value since the result of an overflow is <em>undefined</em>.  Although the <code class="docutils literal"><span class="pre">gcc</span></code> has a special flag <code class="docutils literal"><span class="pre">-fwrapv</span></code> which forces overflow to result in two's complement wraparound, there's no guarantee of this behavior in the absence of the flag.</p>
+<p class="last">For lots of good discussion on undefined behaviors in C, see <a class="reference internal" href="#regehr" id="id5">[Regehr]</a> and <a class="reference internal" href="#lattner" id="id6">[Lattner]</a>.</p>
 </div>
 <p>Names in C are <em>case sensitive</em> so &quot;x&quot; and &quot;X&quot; refer to different variables. Names can contain digits and underscores (_), but may not begin with a digit. Multiple variables can be declared after the type by separating them with commas.  C is a classical &quot;compile time&quot; language --- the names of the variables, their types, and their implementations are all flushed out by the compiler at compile time (as opposed to figuring such details out at run time like an interpreter).</p>
 </div>
 <div class="section" id="assignment-operator">
-<span id="index-5"></span><h3>3.4.3. Assignment Operator <code class="docutils literal"><span class="pre">=</span></code><a class="headerlink" href="#assignment-operator" title="Permalink to this headline">¶</a></h3>
+<span id="index-6"></span><h3>3.4.3. Assignment Operator <code class="docutils literal"><span class="pre">=</span></code><a class="headerlink" href="#assignment-operator" title="Permalink to this headline">¶</a></h3>
 <p>The assignment operator is the single equals sign (<code class="docutils literal"><span class="pre">=</span></code>):</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
 <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
@@ -320,16 +327,10 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// double x, and also put x&#39;s new value in y</span>
 </pre></div>
 </div>
-<div class="section" id="truncation-on-assignment">
-<span id="index-6"></span><h4>3.4.3.1. Truncation on assignment<a class="headerlink" href="#truncation-on-assignment" title="Permalink to this headline">¶</a></h4>
-<p>The opposite of promotion, truncation moves a value from a type to a smaller type.  In that case, the compiler just drops the extra bits.  A good compiler will generate a compile time warning of the loss of information. Assigning from an integer to a smaller integer (e.g., <code class="docutils literal"><span class="pre">long</span></code> to <code class="docutils literal"><span class="pre">int</span></code>, or <code class="docutils literal"><span class="pre">int</span></code> to <code class="docutils literal"><span class="pre">char</span></code>) drops the most significant bits.  Assigning from a floating point type to an integer drops the fractional part of the number:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">321</span><span class="p">;</span>
-<span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>     <span class="c1">// truncation of an int value to fit in a char</span>
-<span class="c1">// ch is now 65</span>
-</pre></div>
-</div>
-<p>The assignment will drop the upper bits of the <code class="docutils literal"><span class="pre">int</span></code> 321. The lower 8 bits of the number 321 represents the number 65 (321 - 256). So the value of <code class="docutils literal"><span class="pre">ch</span></code> will be (char)65 which happens to be 'A'.</p>
-<p>The assignment of a floating point type to an integer type will drop the fractional part of the number. The following code will set <code class="docutils literal"><span class="pre">i</span></code> to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  Most modern compilers will warn about an implicit conversion like this, but not all.</p>
+<div class="section" id="demotion-on-assignment">
+<span id="index-7"></span><h4>3.4.3.1. Demotion on assignment<a class="headerlink" href="#demotion-on-assignment" title="Permalink to this headline">¶</a></h4>
+<p>The opposite of promotion, demotion moves a value from a type to a smaller type.  This is a situation to be avoided, because strictly speaking the result is <em>implementation and compiler-defined</em>.  In other words, there's no guarantee what will happen, and it may be different depending on the compiler used.  A common behavior is for any extra bits to be truncated, but you should not depend on that.  At least a good compiler (like <code class="docutils literal"><span class="pre">clang</span></code>) will generate a compile time warning in this type of situation.</p>
+<p>The assignment of a floating point type to an integer type will <em>truncate</em> the fractional part of the number. The following code will set <code class="docutils literal"><span class="pre">i</span></code> to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  If the integer portion of a floating point number is too big to be represented in the integer being assigned to, the result is the ghastly <em>undefined</em> (see <a class="footnote-reference" href="#f4" id="id7">[4]</a>).  Most modern compilers will warn about implicit conversions like in the code below, but not all.</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
 <span class="n">i</span> <span class="o">=</span> <span class="mf">3.14159</span><span class="p">;</span> <span class="c1">// truncation of a float value to int</span>
 </pre></div>
@@ -337,7 +338,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </div>
 </div>
 <div class="section" id="arithmetic-operations">
-<span id="index-7"></span><h3>3.4.4. Arithmetic operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this headline">¶</a></h3>
+<span id="index-8"></span><h3>3.4.4. Arithmetic operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this headline">¶</a></h3>
 <p>C includes the usual binary and unary arithmetic operators.  It is good practice to use parentheses if there is ever any question or ambiguity surrounding order of operations.  The compiler will optimize the expression anyway, so as a programmer you should always strive for <em>maximum readability</em> rather than some perceived notion of what is efficient or not.  The operators are sensitive to the type of the operands. So division (<code class="docutils literal"><span class="pre">/</span></code>) with two integer arguments will do integer division.  If either argument is a float, it does floating point division. So (<code class="docutils literal"><span class="pre">6/4</span></code>) evaluates to 1 while (<code class="docutils literal"><span class="pre">6/4.0</span></code>) evaluates to 1.5 --- the 6 is promoted to 6.0 before the division.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -367,7 +368,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </tr>
 </tbody>
 </table>
-<div class="sidebar" id="index-8">
+<div class="sidebar" id="index-9">
 <p class="first sidebar-title">Pitfall: int vs. float Arithmetic</p>
 <p>Here's an example of the sort of code where <code class="docutils literal"><span class="pre">int</span></code> vs. <code class="docutils literal"><span class="pre">float</span></code> arithmetic can cause problems.  Suppose the following code is supposed to scale a homework score in the range 0..20 to be in the range 0..100:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -389,7 +390,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </div>
 </div>
 <div class="section" id="unary-increment-operators-and">
-<span id="index-9"></span><h3>3.4.5. Unary Increment Operators: <code class="docutils literal"><span class="pre">++</span></code> and <code class="docutils literal"><span class="pre">--</span></code><a class="headerlink" href="#unary-increment-operators-and" title="Permalink to this headline">¶</a></h3>
+<span id="index-10"></span><h3>3.4.5. Unary Increment Operators: <code class="docutils literal"><span class="pre">++</span></code> and <code class="docutils literal"><span class="pre">--</span></code><a class="headerlink" href="#unary-increment-operators-and" title="Permalink to this headline">¶</a></h3>
 <p>The unary <code class="docutils literal"><span class="pre">++</span></code> and <code class="docutils literal"><span class="pre">--</span></code> operators increment or decrement the value in a variable. There are &quot;pre&quot; and &quot;post&quot; variants for both operators which do slightly different things (explained below).</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -440,7 +441,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </div>
 </div>
 <div class="section" id="relational-operators">
-<span id="index-10"></span><h3>3.4.6. Relational Operators<a class="headerlink" href="#relational-operators" title="Permalink to this headline">¶</a></h3>
+<span id="index-11"></span><h3>3.4.6. Relational Operators<a class="headerlink" href="#relational-operators" title="Permalink to this headline">¶</a></h3>
 <p>These operate on integer or floating point values and return a 0 or 1 boolean value.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -483,7 +484,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </div>
 </div>
 <div class="section" id="logical-operators">
-<span id="index-11"></span><h3>3.4.7. Logical Operators<a class="headerlink" href="#logical-operators" title="Permalink to this headline">¶</a></h3>
+<span id="index-12"></span><h3>3.4.7. Logical Operators<a class="headerlink" href="#logical-operators" title="Permalink to this headline">¶</a></h3>
 <p>The value 0 is false, anything else is true. The operators evaluate left to right and stop as soon as the truth or falsity of the expression can be deduced. (Such operators are called &quot;short circuiting&quot;) In ANSI C, these are furthermore guaranteed to use 1 to represent true, and not just some random non-zero bit pattern. However, there are many C programs out there which use values other than 1 for true (non-zero pointers for example), so when programming, do not assume that a true boolean is necessarily 1 exactly.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -509,7 +510,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </table>
 </div>
 <div class="section" id="bitwise-operators">
-<span id="index-12"></span><h3>3.4.8. Bitwise Operators<a class="headerlink" href="#bitwise-operators" title="Permalink to this headline">¶</a></h3>
+<span id="index-13"></span><h3>3.4.8. Bitwise Operators<a class="headerlink" href="#bitwise-operators" title="Permalink to this headline">¶</a></h3>
 <p>C includes operators to manipulate memory at the bit level. This is useful for writing low-level hardware or operating system code where the ordinary abstractions of numbers, characters, pointers, etc... are insufficient -- an increasingly rare need. Bit manipulation code tends to be less &quot;portable&quot;. Code is &quot;portable&quot; if with no programmer intervention it compiles and runs correctly on different types of processors. The bitwise operations are typically used with unsigned types. In particular, the shift operations are guaranteed to shift zeroes into the newly vacated positions when used on unsigned values.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -545,7 +546,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 <p>Do not confuse the bitwise operators with the logical operators. The bitwise connectives are one character wide (<code class="docutils literal"><span class="pre">&amp;</span></code>, <code class="docutils literal"><span class="pre">|</span></code>) while the boolean connectives are two characters wide (<code class="docutils literal"><span class="pre">&amp;&amp;</span></code>, <code class="docutils literal"><span class="pre">||</span></code>). The bitwise operators have higher precedence than the boolean operators.  The compiler will usually not help you out with a type error if you use <code class="docutils literal"><span class="pre">&amp;</span></code> when you meant <code class="docutils literal"><span class="pre">&amp;&amp;</span></code>.</p>
 </div>
 <div class="section" id="other-assignment-operators">
-<span id="index-13"></span><h3>3.4.9. Other Assignment Operators<a class="headerlink" href="#other-assignment-operators" title="Permalink to this headline">¶</a></h3>
+<span id="index-14"></span><h3>3.4.9. Other Assignment Operators<a class="headerlink" href="#other-assignment-operators" title="Permalink to this headline">¶</a></h3>
 <p>In addition to the plain <code class="docutils literal"><span class="pre">=</span></code> operator, C includes many shorthand operators which represents variations on the basic <code class="docutils literal"><span class="pre">=</span></code>. For example <code class="docutils literal"><span class="pre">+=</span></code> adds the right hand side to the left hand side. <code class="docutils literal"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">10</span></code> can be reduced to <code class="docutils literal"><span class="pre">x</span> <span class="pre">+=</span> <span class="pre">10</span></code>.   Note that these operators are much like similar operators in other languages, like Python and Java.
 Here is the list of assignment shorthand operators:</p>
 <table border="1" class="docutils">
@@ -579,6 +580,33 @@ Here is the list of assignment shorthand operators:</p>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Exercises</p>
+<p>The theme for the following exercises is <em>dates and times</em>, which often involve lots of interesting calculations (sometimes using truncating integer arithmetic, sometimes using modular arithmetic, sometimes both), and thus good opportunities to use various types of arithmetic operations, comparisons, and assignments.</p>
+<ol class="arabic simple">
+<li>Write a C program that asks for a year and prints whether the year is a leap year.  See the Wikipedia page on <a class="reference external" href="https://en.wikipedia.org/wiki/Leap_year">leap year</a> for how to test whether a given year is a leap year.  Study the first program in the <span class="xref std std-ref">tutorial</span> chapter for how to collect a value from keyboard input, and use the <code class="docutils literal"><span class="pre">atoi</span></code> function to convert a C string (char array) value to an integer.</li>
+<li>Write a program that asks for year, month, and day values and compute the corresponding Julian Day value.  See the Wikipedia page on <a class="reference external" href="https://en.wikipedia.org/wiki/Julian_day">Julian Day</a> for an algorithm for doing that.  (See specifically the expression titled &quot;Converting Gregorian calendar date to Julian Day Number&quot;.)</li>
+<li>Extend the previous program to compute the Julian date value (a floating point value), using the computation described in &quot;Finding Julian date given Julian day number and time of day&quot; on the Wikipedia page linked in the previous problem.  Note that you'll need to additionally ask for the current hour, minute and second from the keyboard.</li>
+<li>Write a program that asks for a year value and computes and prints the month and day of Easter in that year.  The Wikipedia page on <a class="reference external" href="https://en.wikipedia.org/wiki/Computus">Computus</a> provides more than one algorithm for doing so.  Try using the &quot;Anonymous Gregorian algorithm&quot; or the &quot;Gauss algorithm&quot;, which is a personal favorite.</li>
+</ol>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="regehr" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[Regehr]</a></td><td><ol class="first last upperalpha simple" start="10">
+<li>Regehr.  A Guide to Undefined Behavior in C and C++, Part 1.  <a class="reference external" href="https://blog.regehr.org/archives/213">https://blog.regehr.org/archives/213</a></li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="lattner" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[Lattner]</a></td><td><ol class="first last upperalpha simple" start="3">
+<li>Lattner.  What Every C Programmer Should Know About Undefined Behavior #1/3.  <a class="reference external" href="http://blog.llvm.org/2011/05/what-every-c-programmer-should-know.html">http://blog.llvm.org/2011/05/what-every-c-programmer-should-know.html</a></li>
+</ol>
+</td></tr>
+</tbody>
+</table>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
@@ -596,6 +624,12 @@ Here is the list of assignment shorthand operators:</p>
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html">http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[4]</a></td><td>See the C11 standard: <a class="reference external" href="https://port70.net/~nsz/c/c11/">https://port70.net/~nsz/c/c11/</a></td></tr>
 </tbody>
 </table>
 </div>
