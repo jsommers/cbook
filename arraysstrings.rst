@@ -30,7 +30,7 @@ The name of the array refers, in some sense, to the *whole array* but in actuali
 Array initialization
 --------------------
 
-Note that because C does not do any automatic initialization of variables, the array has undefined contents at the point of declaration (line 1, above).  A common practice is to use either a simple ``for`` loop construct to set all values in the array to a specific value, e.g.,:
+Note that because C does not do any automatic initialization of variables, the array has *undefined* contents at the point of declaration (line 1, above).  A common practice is to use either a simple ``for`` loop construct to set all values in the array to a specific value, e.g.,:
 
 .. code-block:: c
 
@@ -82,12 +82,39 @@ The built-in ``sizeof`` function works with arrays.  Specifically, it will retur
 
 .. index:: array bounds checking (lack of)
 
-Array bounds checking (not!)
-----------------------------
+No array bounds checking!
+-------------------------
 
-It is a very common error to try to refer to a non-existent array element. Unlike Java or Python, in which an out-of-bounds array (or list) reference will result in an exception, C will happily attempt to access the non-existent element.  The program behavior in such a case is *undefined*, which basically means that anything can happen.  Your program might crash, but it might not.  It might behave as you expect, but it might not.  Yuck.  Welcome to C.  
+It is a very common error to try to refer to a non-existent array element. Unlike Java or Python, in which an out-of-bounds array (or list) reference will result in an exception, C will happily attempt to access the non-existent element.  The program behavior in such a case is *undefined*, which basically means that anything can happen.  Your program might crash, but it might not.  It might behave as you expect, but it might not.  It might cause your computer to levitate or to spontaneously combust.  Who knows?  Yuck.  Welcome to C.  
 
-So what you can you do about this?  The best thing is to use good tools for detecting memory corruption and bad array accesses.  The :command:`valgrind` tool [#f1]_ is especially good in this regard, and is highly recommended.  Its output can be somewhat difficult to understand at first, but it is a hugely helpful tool when trying to debug seemingly random program behavior.
+So what you can you do about this?  The best thing is to use good tools for detecting memory corruption and bad array accesses.  The :command:`valgrind` tool [#f1a]_ is especially good in this regard, and is highly recommended.  Its output can be somewhat difficult to understand at first, but it is a hugely helpful tool when trying to debug seemingly random program behavior.
+
+Besides :command:`valgrind`, you can use the :command:`clang` *static analyzer*.  This tool analyzes your code to find potential bugs, too, but it is pretty fast (it doesn't actually execute your code) and the output is a little easier to grasp than :command:`valgrind`.  The tool to invoke is called :command:`scan-build` [#f1b]_, and can be used on the command line *before* any compiler tols that you invoke.  For example, consider the following program that increments an uninitialized variable (thus leading to undefined behavior):
+
+.. code-block:: c
+
+    #include <stdio.h>
+    #include <stdlib.h> 
+    
+    int main() {
+        int x;
+        x += 10;
+        printf("%d\n", x);
+        return EXIT_SUCCESS; 
+    }
+
+Running :command:`scan-build` on this code results in the following::
+
+    $ scan-build clang uninit.c 
+    scan-build: Using '/usr/lib/llvm-3.8/bin/clang' for static analysis
+    uninit.c:6:7: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage
+        x += 10;
+        ~ ^ 
+    1 warning generated.
+    scan-build: 1 bug found.
+
+This is helpful!  It's something that ordinary compilation will *not* uncover (:command:`clang` compiles this program without warning or error, ordinarily), and errors like this are pretty easy to make for inexperienced C programmers, especially when it comes to arrays and pointers (a topic coming soon).  Advice: run :command:`scan-build` as part of your C regimen.
+
 
 .. index:: variable length arrays
 
@@ -157,7 +184,7 @@ Another way to initialize a C string is to use double-quotes.  The following cod
 
 The compiler *automatically* adds the null termination character as the last character in ``string``, giving an identical in-memory representation as the previous code example.
 
-Since a C string is just an array of ``char``, it is totally mutable (which should be, hopefully, an obvious point).  As a result, we can tamper directly with the contents of the array to change the string.  For example, building on the last example, we could write:
+Since a C string is just an array of ``char``, it is totally *mutable* (which should be, hopefully, an obvious point).  As a result, we can tamper directly with the contents of the array to change the string.  For example, building on the last example, we could write:
 
 .. code-block:: c
   
@@ -198,7 +225,7 @@ Here's a brief example:
 
 .. topic:: Which header file do I need to include?
 
-    For pretty much *all* C programs you write you will need to ``#include`` some header files.  Which header file will you need?  One of the easiest ways to find out is to use the ``man`` program in a Linux (or *NIX) shell to read the manual page for a particular C library function.  For example, if you need to find out what include file to use for the function ``atoi``, you could simply type ``man atoi`` at the command line.  At the top of the man page the appropriate ``#include`` line will be listed.  You can also use a search engine and search for ``atoi man page`` and *usually* you'll get the same results, but different C library versions and compilers may use slightly different header files so its best just to use the ``man`` pages on your system.
+    For pretty much *all* C programs you write you will need to ``#include`` some header files (headers are discussed in more detail in :ref:`compilation-and-program-structure`).  Which header file will you need?  One of the easiest ways to find out is to use the ``man`` program in a Linux (or \*NIX) shell to read the manual page for a particular C library function.  For example, if you need to find out what include file to use for the function ``atoi``, you could simply type ``man atoi`` at the command line.  At the top of the man page the appropriate ``#include`` line will be listed.  You can also use a search engine and search for ``atoi man page`` and *usually* you'll get the same results, but different C library versions and compilers may use slightly different header files so its best just to use the ``man`` pages on your system.
 
     Manual pages can be a little bit difficult to wade through, but they are almost always divided into useful sections so you can (sort of) quickly find what you're looking for.  For finding out what header file to include, look in a section at the top of the man page called "SYNOPSIS".  That section also contains the function "prototypes" (which we'll discuss in a later chapter on functions), which provides the data types of any parameters and return values.
 
@@ -240,7 +267,7 @@ Why, you may ask, do we need to pass the size of the destination string buffer a
     char dest[8];  // this is a rather small buffer, isn't it?
     strcpy(dest, source);
 
-The ``strcpy`` function will happily copy the string referred to by ``source`` into the string referred to by ``dest``.  That's bad.  The length of ``source`` is *way* longer than ``dest``, so what happens is a *buffer overflow*.  That is, the ``strcpy`` function ends up blowing past the end of the 8 bytes we allocated to ``dest``, and starts writing data into what ever comes next (which happens to be on the stack of what ever function is executing).  Again, clearly bad stuff.  Even worse, the program may crash ... or it might not.  It's impossible to tell from the source code, because the behavior (according to the C language specification) is *undefined* [#f3]_.  The moral of the story: always use ``strlcpy``.
+The ``strcpy`` function will happily copy the string referred to by ``source`` into the string referred to by ``dest``.  That's bad.  The length of ``source`` is *way* longer than ``dest``, so what happens is a *buffer overflow*.  That is, the ``strcpy`` function ends up blowing past the end of the 8 bytes we allocated to ``dest``, and starts writing data into what ever comes next (which happens to be on the stack of what ever function is executing).  Again, clearly bad stuff.  Even worse, the program may crash ... or it might not.  It's impossible to tell from the source code, because the behavior (according to the C language specification) is *undefined* [#f3]_.  The moral of the story: always use ``strlcpy``.  Also, it may be useful to note that :command:`scan-build`, described above, detects and prints a warning about this buffer overflow.
 
 .. index:: comparing strings, strcmp, strncmp, strcasecmp, strncasecmp
 
@@ -326,10 +353,16 @@ There are quite a few functions defined in ``ctype.h``.  On MacOS X you can type
 4.  Write a program that asks for a string from a user and "strips" all whitespace characters from the end of the string (spaces, tabs and newlines).  To do that, you can simply assign a null character to the character array index that follows the last non-whitespace character of the string.
 
 5.  Write a program that asks for a string from a user and prints the string in reverse.  
+6.  Write a program that asks for a string from a user and prints whether the string is a palindrome.  Don't implement this problem recursively; check the characters within the string in some type of loop structure.  In your implementation, ignore non-letters and treating the string in a case-insensitive manner.  For example, "A man, a plan, a canal, Panama!" should be considered a valid palindrome.
+
+7.  Write a program that asks for two strings and prints whether the two strings are anagrams of each other.  This is somewhat challenging to do given what has been covered in C thus far, but good practice!
+
 
 .. rubric:: Footnotes
 
-.. [#f1] http://valgrind.org
+.. [#f1a] http://valgrind.org
+
+.. [#f1b] https://clang-analyzer.llvm.org/scan-build.html
 
 .. [#f2] http://en.wikipedia.org/wiki/Row-major_order
 
