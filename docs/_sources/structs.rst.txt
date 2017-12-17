@@ -165,6 +165,14 @@ The padding inserted by the compiler is not usually something one needs to pay c
 
        $ ./sreader < students.txt
 
+2.  Extend the above program to do the following.  After all the student records are loaded, repeatedly ask for a student first name until the special string ``DONE`` is entered.  For each valid name entered, search for the name in the array of records and print the values within the relevant records found (note that more than one student may match the query).  If no student is found matching the name, print a message to that effect.  You should allow the search (name) entered to be compared in a case-insensitive way.  For example, the string "Bob" should match the 2nd record shown above.  As another example, the string "E" should match both "Alice Z." and "Chelsea X." (both have "e"'s, but the other two names do not).  Consider using the built-in ``strcasestr`` function [#f2]_ to compare strings.  
+
+
+3.  Write a program that asks for values for two fractions (numerator and denominator for each), and computes and prints the sum of the fractions.  Store the result of the sum in a new ``struct fraction`` prior to printing the sum.
+
+
 .. rubric:: Footnotes
 
 .. [#f1] http://en.wikipedia.org/wiki/Data_structure_alignment
+
+.. [#f2] http://man7.org/linux/man-pages/man3/strstr.3.html

@@ -202,7 +202,7 @@
 </div>
 <p>Consider the size reported by the program, 36, and remember that a <code class="docutils literal"><span class="pre">short</span></code> is 2 bytes and <code class="docutils literal"><span class="pre">char</span></code> is 1 byte.  Last time I checked, <span class="math">\(32 + 2 + 1 = 35\)</span>!  What's happening?!</p>
 <p>When the compiler allocates memory on the stack or the heap for a <code class="docutils literal"><span class="pre">struct</span></code>, it may introduce &quot;padding&quot; bytes to ensure that the entire <code class="docutils literal"><span class="pre">struct</span></code> fits within an even multiple of machine words.  If the word size is 4 bytes, then the compiler will silently add <code class="docutils literal"><span class="pre">sizeof(struct)</span> <span class="pre">%</span> <span class="pre">4</span></code> bytes as &quot;padding&quot; to the end of the struct <a class="footnote-reference" href="#f1" id="id1">[1]</a>.  So, in the <code class="docutils literal"><span class="pre">struct</span> <span class="pre">student</span></code> definition starting on line 3, above, there is one extra byte added by the compiler to make the entire structure occupy a &quot;word-aligned&quot; number of bytes.  A picture of how an actual <code class="docutils literal"><span class="pre">struct</span> <span class="pre">student</span></code> looks in memory is thus like the following:</p>
-<div class="figure align-center" id="id2">
+<div class="figure align-center" id="id3">
 <img alt="_images/structalign.png" src="_images/structalign.png" />
 <p class="caption"><span class="caption-text">An struct that has &quot;padding&quot; inserted by the compiler.</span></p>
 </div>
@@ -223,12 +223,22 @@
 </pre></div>
 </div>
 </li>
+<li><p class="first">Extend the above program to do the following.  After all the student records are loaded, repeatedly ask for a student first name until the special string <code class="docutils literal"><span class="pre">DONE</span></code> is entered.  For each valid name entered, search for the name in the array of records and print the values within the relevant records found (note that more than one student may match the query).  If no student is found matching the name, print a message to that effect.  You should allow the search (name) entered to be compared in a case-insensitive way.  For example, the string &quot;Bob&quot; should match the 2nd record shown above.  As another example, the string &quot;E&quot; should match both &quot;Alice Z.&quot; and &quot;Chelsea X.&quot; (both have &quot;e&quot;'s, but the other two names do not).  Consider using the built-in <code class="docutils literal"><span class="pre">strcasestr</span></code> function <a class="footnote-reference" href="#f2" id="id2">[2]</a> to compare strings.</p>
+</li>
+<li><p class="first">Write a program that asks for values for two fractions (numerator and denominator for each), and computes and prints the sum of the fractions.  Store the result of the sum in a new <code class="docutils literal"><span class="pre">struct</span> <span class="pre">fraction</span></code> prior to printing the sum.</p>
+</li>
 </ol>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Data_structure_alignment">http://en.wikipedia.org/wiki/Data_structure_alignment</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://man7.org/linux/man-pages/man3/strstr.3.html">http://man7.org/linux/man-pages/man3/strstr.3.html</a></td></tr>
 </tbody>
 </table>
 </div>
