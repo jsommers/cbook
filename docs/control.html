@@ -56,6 +56,7 @@
 <li><a class="reference internal" href="#for-loop">4.6. <code class="docutils literal"><span class="pre">for</span></code> loop</a><ul>
 <li><a class="reference internal" href="#break">4.6.1. <code class="docutils literal"><span class="pre">break</span></code></a></li>
 <li><a class="reference internal" href="#continue">4.6.2. <code class="docutils literal"><span class="pre">continue</span></code></a></li>
+<li><a class="reference internal" href="#statement-labels-and-goto">4.6.3. Statement labels and <code class="docutils literal"><span class="pre">goto</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -78,7 +79,7 @@
     </form>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script><h4>Got issues?</h4>
-  <p>If you find a bug or have a suggestion for improvement, please <a href="https://github.com/jsommers/cbook/issues">report it!</a></p>
+  <p>If you find a bug or have a suggestion for improvement, please <a href="https://github.com/jsommers/cbook/issues">report it</a>.</p>
         </div>
       </div>
 
@@ -96,10 +97,12 @@
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>    <span class="c1">// simple form with no {}&#39;s or else clause</span>
 </pre></div>
 </div>
-<p>I <strong>strongly</strong> recommend against using the above form of curly brace-free <code class="docutils literal"><span class="pre">if</span></code> statement.  <strong>Always use the curly braces</strong>, even if you only have a single statement as part of an <code class="docutils literal"><span class="pre">if</span></code> or some other control structure.  Why, you ask, should I type those additional characters?  See the sidebar on the Apple SSL bug for why.</p>
-<div class="sidebar">
-<p class="first sidebar-title">Why you should always use curly braces, even when they're optional</p>
-<p class="last">For <code class="docutils literal"><span class="pre">if</span></code> statements and loop constructs that only contain a single line of code in the body, C allows the programmer <em>not</em> to include the curly braces.  Curly braces are only required in the case of multiple statements in the body of one of these constructs.  Using the curly braces, however, is very strongly recommended.  Just ask an unfortunate engineering group at Apple who introduced the &quot;goto fail&quot; bug into their SSL (secure sockets layer) library: a bug that affected MacOS X and iOS operating systems quite severely <a class="footnote-reference" href="#f1" id="id1">[1]</a>.</p>
+<p>You should <strong>always</strong> use curly braces around the statement block associated with an <code class="docutils literal"><span class="pre">if</span></code> statement.  Although C allows a programmer <em>not</em> to include the curly braces in the case of <code class="docutils literal"><span class="pre">if</span></code> statements and other control structures when there is only a single statement in the statement block, you should <strong>always use the curly braces</strong>.  Why, you ask, should I type those additional characters?  Just ask the unfortunate engineering group at Apple that introduced the &quot;goto fail&quot; bug into their SSL (secure sockets layer) library: a bug that affected the macOS and iOS operating systems quite severely <a class="footnote-reference" href="#f1" id="id1">[1]</a>.  The upshot of this security failure is that it could have been prevented with the rigorous use of curly braces for all statement blocks.</p>
+<p>So, for the simple form of the <code class="docutils literal"><span class="pre">if</span></code> statement shown above, you should <em>really</em> write:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span> <span class="p">}</span>   <span class="c1">// simple form with no {}&#39;s or else clause</span>
+                                    <span class="c1">// note the curly braces around the statement</span>
+                                    <span class="c1">// block!</span>
+</pre></div>
 </div>
 <div class="topic" id="index-1">
 <p class="topic-title first">Code blocks use curly braces (<code class="docutils literal"><span class="pre">{}</span></code>)</p>
@@ -132,8 +135,8 @@ generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, wi
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">expression1</span><span class="o">&gt;</span> <span class="o">?</span> <span class="o">&lt;</span><span class="n">expression2</span><span class="o">&gt;</span> <span class="o">:</span> <span class="o">&lt;</span><span class="n">expression3</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>This is an expression, not a statement, so it represents a value. The operator works by evaluating expression1. If it is true (non-zero), it evaluates and returns expression2 . Otherwise, it evaluates and returns expression3.</p>
-<p>The classic example of the ternary operator is to return the smaller of two variables. Every once in a while, the following form is just what you needed. Instead of:</p>
+<p>This is an <em>expression</em>, not a <em>statement</em>, so it represents a value. The operator works by evaluating <code class="docutils literal"><span class="pre">expression1</span></code>. If it is true (non-zero), it evaluates and returns <code class="docutils literal"><span class="pre">expression2</span></code>. Otherwise, it evaluates and returns <code class="docutils literal"><span class="pre">expression3</span></code>.</p>
+<p>The classic example of the ternary operator is to return the smaller of two variables. Instead of writing:</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">min</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -145,11 +148,11 @@ generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, wi
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">min</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">)</span> <span class="o">?</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">y</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The ternary operator is viewed by some programmers as &quot;excessively tricky&quot; since expressions with such operators can be hard to read.  Use your best judgment, and don't do something this <a class="reference external" href="http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another">horrific</a>.</p>
+<p>The ternary operator is viewed by some programmers as &quot;excessively tricky&quot; since expressions with such operators can be hard to read.  Use your best judgment, and don't do something this <a class="reference internal" href="#horrific" id="id2">[Horrific]</a> example.</p>
 </div>
 <div class="section" id="switch-statement">
 <span id="index-3"></span><h2>4.3. <code class="docutils literal"><span class="pre">switch</span></code> statement<a class="headerlink" href="#switch-statement" title="Permalink to this headline">¶</a></h2>
-<p>The switch statement is a sort of specialized form of <code class="docutils literal"><span class="pre">if</span></code> used to efficiently separate different blocks of code based on the value of an integer.  The <code class="docutils literal"><span class="pre">switch</span></code> expression is evaluated, and then the flow of control jumps to the matching const-expression <code class="docutils literal"><span class="pre">case</span></code>. The <code class="docutils literal"><span class="pre">case</span></code> expressions are typically <code class="docutils literal"><span class="pre">int</span></code> or <code class="docutils literal"><span class="pre">char</span></code> constants (unfortunately, you cannot use strings as <code class="docutils literal"><span class="pre">case</span></code> expressions).  The <code class="docutils literal"><span class="pre">switch</span></code> statement is probably the single most syntactically awkward and error-prone feature of the C language:</p>
+<p>The switch statement is a sort of specialized form of <code class="docutils literal"><span class="pre">if</span></code> with the goal of efficiently separating different blocks of code based on the value of an integer.  The <code class="docutils literal"><span class="pre">switch</span></code> expression is evaluated, and then the flow of control jumps to the matching const-expression <code class="docutils literal"><span class="pre">case</span></code>. The <code class="docutils literal"><span class="pre">case</span></code> expressions are typically <code class="docutils literal"><span class="pre">int</span></code> or <code class="docutils literal"><span class="pre">char</span></code> constants (unfortunately, you cannot use strings as <code class="docutils literal"><span class="pre">case</span></code> expressions).  The <code class="docutils literal"><span class="pre">switch</span></code> statement is probably the single most syntactically awkward and error-prone feature of the C language:</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">switch</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="o">&lt;</span><span class="k">const</span><span class="o">-</span><span class="n">expression</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;:</span>
         <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
@@ -166,22 +169,22 @@ generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, wi
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Each constant needs its own <code class="docutils literal"><span class="pre">case</span></code> keyword and a trailing colon (:).  Once execution has jumped to a particular case, the program will keep running through all the cases from that point down --- this so called <em>fall through</em> operation is used in the above example so that <code class="docutils literal"><span class="pre">expression-3</span></code> and <code class="docutils literal"><span class="pre">expression-4</span></code> run the same statements. The explicit <code class="docutils literal"><span class="pre">break</span></code> statements are necessary to exit the <code class="docutils literal"><span class="pre">switch</span></code>. Omitting the <code class="docutils literal"><span class="pre">break</span></code> statements is a common error --- it compiles, but leads to inadvertent fall-through behavior.</p>
-<p>Why does the <code class="docutils literal"><span class="pre">switch</span></code> statement fall-through behavior work the way it does? The best explanation might be that C was originally developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a jump table with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.</p>
+<p>Each constant needs its own <code class="docutils literal"><span class="pre">case</span></code> keyword and a trailing colon (:).  Once execution has jumped to a particular case, the program will keep running through all the cases from that point down --- this so called <em>fall through</em> operation is used in the above example so that <code class="docutils literal"><span class="pre">expression-3</span></code> and <code class="docutils literal"><span class="pre">expression-4</span></code> run the same statements. The explicit <code class="docutils literal"><span class="pre">break</span></code> statements are necessary to exit the <code class="docutils literal"><span class="pre">switch</span></code>. Omitting the <code class="docutils literal"><span class="pre">break</span></code> statements is a common error --- it compiles, but leads to inadvertent, unexpected, and likely erroneous fall-through behavior.</p>
+<p>Why does the <code class="docutils literal"><span class="pre">switch</span></code> statement fall-through behavior work the way it does? The best explanation might be that C was originally developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a &quot;jump table&quot; with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.</p>
 </div>
 <div class="section" id="while-loop">
 <span id="index-4"></span><h2>4.4. <code class="docutils literal"><span class="pre">while</span></code> loop<a class="headerlink" href="#while-loop" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal"><span class="pre">while</span></code> loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parenthesis like the if:</p>
+<p>The <code class="docutils literal"><span class="pre">while</span></code> loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parentheses like the if:</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
     <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Although the curly braces are not technically required if there is only one statement in the body of the <code class="docutils literal"><span class="pre">while</span></code> loop, you should <em>always</em> use the curly braces.  Again, see <a class="footnote-reference" href="#f1" id="id2">[1]</a> for why.</p>
+<p>Although the curly braces are not technically required if there is only one statement in the body of the <code class="docutils literal"><span class="pre">while</span></code> loop, you should <em>always</em> use the curly braces.  Again, see <a class="footnote-reference" href="#f1" id="id3">[1]</a> for why.</p>
 </div>
 <div class="section" id="do-while-loop">
 <span id="index-5"></span><h2>4.5. <code class="docutils literal"><span class="pre">do-while</span></code> loop<a class="headerlink" href="#do-while-loop" title="Permalink to this headline">¶</a></h2>
-<p>Like a <code class="docutils literal"><span class="pre">while</span></code>, but with the test condition at the bottom of the loop. The loop body will always execute at least once. The <code class="docutils literal"><span class="pre">do-while</span></code> tends to be an unpopular area of the language, most everyone tries to use the straight <code class="docutils literal"><span class="pre">while</span></code> if possible:</p>
+<p>Like a <code class="docutils literal"><span class="pre">while</span></code> loop, but with the test condition at the <em>bottom</em> of the loop. The loop body will always execute at least once. The <code class="docutils literal"><span class="pre">do-while</span></code> tends to be an unpopular area of the language.  Although many users of C use the straight <code class="docutils literal"><span class="pre">while</span></code> if possible, a <code class="docutils literal"><span class="pre">do-while</span></code> loop can be very useful in some situations:</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">do</span> <span class="p">{</span>
     <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
 <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">);</span>
@@ -256,11 +259,92 @@ forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
 <span class="p">}</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="statement-labels-and-goto">
+<h3>4.6.3. Statement labels and <code class="docutils literal"><span class="pre">goto</span></code><a class="headerlink" href="#statement-labels-and-goto" title="Permalink to this headline">¶</a></h3>
+<p>Continuing the theme of statements that have a tendency of being a bit vulgar, we come to the king of vulgarity, the infamous <code class="docutils literal"><span class="pre">goto</span></code> statement <a class="reference internal" href="#goto" id="id4">[Goto]</a>.  The structure of a <code class="docutils literal"><span class="pre">goto</span></code> statement in C is to <em>unconditionally</em> jump to a statement label, and continue execution from there.  The basic structure is:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="nl">label</span><span class="p">:</span>
+  <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
+  <span class="p">..</span>
+  <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
+  <span class="k">goto</span> <span class="n">label</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">goto</span></code> statement is not uncommon to encounter in operating systems code when there is a legitimate need to handle complex errors that can happen.  A pattern that you might see is something like:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">complex_function</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">initialize_1</span><span class="p">()</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span> <span class="p">{</span> <span class="k">goto</span> <span class="n">out1</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">initialize_2</span><span class="p">()</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span> <span class="p">{</span> <span class="k">goto</span> <span class="n">out2</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">initialize_3</span><span class="p">()</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span> <span class="p">{</span> <span class="k">goto</span> <span class="n">out3</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="cm">/* other statements */</span>
+
+    <span class="k">return</span> <span class="n">SUCCESS</span><span class="p">;</span>
+
+  <span class="nl">out3</span><span class="p">:</span>
+    <span class="n">deinitialize_3</span><span class="p">();</span>
+  <span class="nl">out2</span><span class="p">:</span>
+    <span class="n">deinitialize_2</span><span class="p">();</span>
+  <span class="nl">out1</span><span class="p">:</span>
+    <span class="n">deinitialize_1</span><span class="p">();</span>
+  <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Notice the structure above: there are multiple steps being performed to carry out some initialization for an operation <a class="footnote-reference" href="#f2" id="id5">[2]</a>.  If one of those initialization operations fails, code execution transfers to a statement to handle <em>deinitialization</em>, and those de-init operations happen in <em>reverse order of initialization</em>.  It is possible to rewrite the above code to use <code class="docutils literal"><span class="pre">if</span></code>/<code class="docutils literal"><span class="pre">else</span></code> structures, but the structure becomes much more complex (see an exercise below).  Although <code class="docutils literal"><span class="pre">goto</span></code> has the reputation of leading to &quot;spaghetti code&quot;, judicious use of this statement in situations like the above makes for cleaner and clearer code.</p>
+<p class="rubric">Exercises</p>
+<ol class="arabic">
+<li><p class="first">Rewrite the <code class="docutils literal"><span class="pre">goto</span></code> example code above (the last code example, above) to use <code class="docutils literal"><span class="pre">if</span></code>/<code class="docutils literal"><span class="pre">else</span></code> instead.  Which code do you think exhibits a more clear structure?</p>
+</li>
+<li><p class="first">Consider the following program snippet:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Enter an integer: &quot;</span><span class="p">);</span>
+<span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="c1">// convert the string to an integer</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">val</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="n">val</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div>What is printed if the number 3 is entered?</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Say that you want to write a program that repeatedly asks for a snowfall amount, and that you want to keep asking for another value until the sum of all values exceeds a certain value.  What control structure would work best to facilitate entry of the snowfall values, and why?</li>
+<li>Say you want to write a program that computes the average of quiz scores.  You have a big stack of quizzes, so you do not know the number of quizzes up front.  What control structure would work best to facilitate entry of the scores, and why?</li>
+<li>Say that you want to simulate rolling a die (singular of dice) a fixed number of times and to compute and print the average value for the die rolls.  What control structure would work best for this problem, and why?</li>
+</ol>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="horrific" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[Horrific]</a></td><td><a class="reference external" href="http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another">http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="goto" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[Goto]</a></td><td><ol class="first last upperalpha simple" start="5">
+<li><ol class="first upperalpha" start="23">
+<li>Dijkstra.  Letters to the editor: go to statement considered harmful.  Communications of the ACM, Volume 11, Issue 3, March 1968.  <a class="reference external" href="https://dl.acm.org/citation.cfm?id=362947">https://dl.acm.org/citation.cfm?id=362947</a></li>
+</ol>
+</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> See <a class="reference external" href="https://gotofail.com">https://gotofail.com</a> for a variety of information about the bug, and <a class="reference external" href="https://www.imperialviolet.org/2014/02/22/applebug.html">https://www.imperialviolet.org/2014/02/22/applebug.html</a> for detailed analysis of the source code that caused the problem.</td></tr>
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> See <a class="reference external" href="https://gotofail.com">https://gotofail.com</a> for a variety of information about the bug, and <a class="reference external" href="https://www.imperialviolet.org/2014/02/22/applebug.html">https://www.imperialviolet.org/2014/02/22/applebug.html</a> for detailed analysis of the source code that caused the problem.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[2]</a></td><td>This example was adapted from <a class="reference external" href="https://blog.regehr.org/archives/894">https://blog.regehr.org/archives/894</a>, where you can find additional discussion on tasteful use of <code class="docutils literal"><span class="pre">goto</span></code> in systems code.</td></tr>
 </tbody>
 </table>
 </div>

@@ -14,12 +14,19 @@ Both an ``if`` and an ``if-else`` are available in C.  The ``<expression>`` can 
 
     if (<expression>) <statement>    // simple form with no {}'s or else clause
 
-I **strongly** recommend against using the above form of curly brace-free ``if`` statement.  **Always use the curly braces**, even if you only have a single statement as part of an ``if`` or some other control structure.  Why, you ask, should I type those additional characters?  See the sidebar on the Apple SSL bug for why.
+You should **always** use curly braces around the statement block associated with an ``if`` statement.  Although C allows a programmer *not* to include the curly braces in the case of ``if`` statements and other control structures when there is only a single statement in the statement block, you should **always use the curly braces**.  Why, you ask, should I type those additional characters?  Just ask the unfortunate engineering group at Apple that introduced the "goto fail" bug into their SSL (secure sockets layer) library: a bug that affected the macOS and iOS operating systems quite severely [#f1]_.  The upshot of this security failure is that it could have been prevented with the rigorous use of curly braces for all statement blocks.
 
+So, for the simple form of the ``if`` statement shown above, you should *really* write:
 
-.. sidebar:: Why you should always use curly braces, even when they're optional
-    
-   For ``if`` statements and loop constructs that only contain a single line of code in the body, C allows the programmer *not* to include the curly braces.  Curly braces are only required in the case of multiple statements in the body of one of these constructs.  Using the curly braces, however, is very strongly recommended.  Just ask an unfortunate engineering group at Apple who introduced the "goto fail" bug into their SSL (secure sockets layer) library: a bug that affected MacOS X and iOS operating systems quite severely [#f1]_.
+.. code-block:: c
+
+    if (<expression>) { <statement> }   // simple form with no {}'s or else clause
+                                        // note the curly braces around the statement
+                                        // block!
+
+..   For ``if`` statements and loop constructs that only contain a single line of code in the body, 
+..   Curly braces are only required in the case of multiple statements in the body of one of these constructs.  Using the curly braces, however, is very strongly recommended.  
+   
 
 
 .. index:: curly braces
@@ -63,9 +70,9 @@ The conditional expression can be used as a shorthand for some if-else statement
 
     <expression1> ? <expression2> : <expression3>
 
-This is an expression, not a statement, so it represents a value. The operator works by evaluating expression1. If it is true (non-zero), it evaluates and returns expression2 . Otherwise, it evaluates and returns expression3.
+This is an *expression*, not a *statement*, so it represents a value. The operator works by evaluating ``expression1``. If it is true (non-zero), it evaluates and returns ``expression2``. Otherwise, it evaluates and returns ``expression3``.
 
-The classic example of the ternary operator is to return the smaller of two variables. Every once in a while, the following form is just what you needed. Instead of:
+The classic example of the ternary operator is to return the smaller of two variables. Instead of writing:
 
 .. code-block:: c
 
@@ -81,14 +88,14 @@ you can write:
 
     min = (x < y) ? x : y;
 
-The ternary operator is viewed by some programmers as "excessively tricky" since expressions with such operators can be hard to read.  Use your best judgment, and don't do something this horrific_.
+The ternary operator is viewed by some programmers as "excessively tricky" since expressions with such operators can be hard to read.  Use your best judgment, and don't do something this [Horrific]_ example.
 
 .. index:: switch statement
 
 ``switch`` statement
 ====================
 
-The switch statement is a sort of specialized form of ``if`` used to efficiently separate different blocks of code based on the value of an integer.  The ``switch`` expression is evaluated, and then the flow of control jumps to the matching const-expression ``case``. The ``case`` expressions are typically ``int`` or ``char`` constants (unfortunately, you cannot use strings as ``case`` expressions).  The ``switch`` statement is probably the single most syntactically awkward and error-prone feature of the C language:
+The switch statement is a sort of specialized form of ``if`` with the goal of efficiently separating different blocks of code based on the value of an integer.  The ``switch`` expression is evaluated, and then the flow of control jumps to the matching const-expression ``case``. The ``case`` expressions are typically ``int`` or ``char`` constants (unfortunately, you cannot use strings as ``case`` expressions).  The ``switch`` statement is probably the single most syntactically awkward and error-prone feature of the C language:
 
 .. code-block:: c
 
@@ -107,16 +114,16 @@ The switch statement is a sort of specialized form of ``if`` used to efficiently
             <statement>
     }
 
-Each constant needs its own ``case`` keyword and a trailing colon (:).  Once execution has jumped to a particular case, the program will keep running through all the cases from that point down --- this so called *fall through* operation is used in the above example so that ``expression-3`` and ``expression-4`` run the same statements. The explicit ``break`` statements are necessary to exit the ``switch``. Omitting the ``break`` statements is a common error --- it compiles, but leads to inadvertent fall-through behavior.
+Each constant needs its own ``case`` keyword and a trailing colon (:).  Once execution has jumped to a particular case, the program will keep running through all the cases from that point down --- this so called *fall through* operation is used in the above example so that ``expression-3`` and ``expression-4`` run the same statements. The explicit ``break`` statements are necessary to exit the ``switch``. Omitting the ``break`` statements is a common error --- it compiles, but leads to inadvertent, unexpected, and likely erroneous fall-through behavior.
 
-Why does the ``switch`` statement fall-through behavior work the way it does? The best explanation might be that C was originally developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a jump table with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.
+Why does the ``switch`` statement fall-through behavior work the way it does? The best explanation might be that C was originally developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a "jump table" with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.
 
 .. index:: while loop
 
 ``while`` loop
 ==============
 
-The ``while`` loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parenthesis like the if:
+The ``while`` loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parentheses like the if:
 
 .. code-block:: c
 
@@ -131,7 +138,7 @@ Although the curly braces are not technically required if there is only one stat
 ``do-while`` loop
 =================
 
-Like a ``while``, but with the test condition at the bottom of the loop. The loop body will always execute at least once. The ``do-while`` tends to be an unpopular area of the language, most everyone tries to use the straight ``while`` if possible:
+Like a ``while`` loop, but with the test condition at the *bottom* of the loop. The loop body will always execute at least once. The ``do-while`` tends to be an unpopular area of the language.  Although many users of C use the straight ``while`` if possible, a ``do-while`` loop can be very useful in some situations:
 
 .. code-block:: c
 
@@ -211,9 +218,78 @@ The ``continue`` statement causes control to jump to the bottom of the loop, eff
         // control jumps here on the continue
     }
 
+Statement labels and ``goto``
+-----------------------------
+
+Continuing the theme of statements that have a tendency of being a bit vulgar, we come to the king of vulgarity, the infamous ``goto`` statement [Goto]_.  The structure of a ``goto`` statement in C is to *unconditionally* jump to a statement label, and continue execution from there.  The basic structure is:
+
+.. code-block:: c
+
+   label:
+     <statement>
+     ..
+     <statement>
+     goto label;
+
+The ``goto`` statement is not uncommon to encounter in operating systems code when there is a legitimate need to handle complex errors that can happen.  A pattern that you might see is something like:
+
+.. code-block:: c
+
+    int complex_function(void) {
+        if (initialize_1() != SUCCESS) { goto out1; }
+        if (initialize_2() != SUCCESS) { goto out2; }
+        if (initialize_3() != SUCCESS) { goto out3; }
+
+        /* other statements */
+
+        return SUCCESS;
+      
+      out3:
+        deinitialize_3();
+      out2:
+        deinitialize_2();
+      out1:
+        deinitialize_1();
+      return ERROR;
+    }
+
+Notice the structure above: there are multiple steps being performed to carry out some initialization for an operation [#f2]_.  If one of those initialization operations fails, code execution transfers to a statement to handle *deinitialization*, and those de-init operations happen in *reverse order of initialization*.  It is possible to rewrite the above code to use ``if``/``else`` structures, but the structure becomes much more complex (see an exercise below).  Although ``goto`` has the reputation of leading to "spaghetti code", judicious use of this statement in situations like the above makes for cleaner and clearer code.  
+
+
+.. rubric:: Exercises
+
+1. Rewrite the ``goto`` example code above (the last code example, above) to use ``if``/``else`` instead.  Which code do you think exhibits a more clear structure?  
+
+2. Consider the following program snippet:
+
+   .. code-block:: c
+
+     char buffer[64];
+     printf("Enter an integer: ");
+     fgets(buffer, 64, stdin);
+     int val = atoi(buffer); // convert the string to an integer
+     if (val % 2 == 1)
+       val *= 2;
+       val += 1
+     printf("%d\n", val);
+
+  What is printed if the number 3 is entered?
+
+3.  Say that you want to write a program that repeatedly asks for a snowfall amount, and that you want to keep asking for another value until the sum of all values exceeds a certain value.  What control structure would work best to facilitate entry of the snowfall values, and why?
+
+4.  Say you want to write a program that computes the average of quiz scores.  You have a big stack of quizzes, so you do not know the number of quizzes up front.  What control structure would work best to facilitate entry of the scores, and why?  
+
+5.  Say that you want to simulate rolling a die (singular of dice) a fixed number of times and to compute and print the average value for the die rolls.  What control structure would work best for this problem, and why?
+
+
+.. rubric:: References
+
+.. [Horrific] http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another
+
+.. [Goto] E. W. Dijkstra.  Letters to the editor: go to statement considered harmful.  Communications of the ACM, Volume 11, Issue 3, March 1968.  https://dl.acm.org/citation.cfm?id=362947
 
 .. rubric:: Footnotes
 
-.. _horrific: http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another
-
 .. [#f1] See https://gotofail.com for a variety of information about the bug, and https://www.imperialviolet.org/2014/02/22/applebug.html for detailed analysis of the source code that caused the problem.
+
+.. [#f2] This example was adapted from https://blog.regehr.org/archives/894, where you can find additional discussion on tasteful use of ``goto`` in systems code.
