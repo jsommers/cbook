@@ -223,7 +223,7 @@ How does this jive with pass-by-value?  What happens here is that ``s`` in ``mai
 .. figure:: figures/arrayparam.*
    :align: center
    
-   An array parameter gets a copy of the *memory* address of the array passed into the function, and thus "points" back to the same array contents as can be observed outside the function.
+   An array parameter gets a *copy of the memory address* of the array passed into the function, and thus "points" back to the same array contents as can be observed outside the function.
 
 
 .. topic:: No function overloading or default parameters in C

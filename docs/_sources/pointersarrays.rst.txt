@@ -157,6 +157,8 @@ The key to this code is that we declare the ``swap`` function to take two *point
         int *p = &q; // p now is initialized to hold the address of q
         *p = 13;     
 
+    It is worth noting that the :command:`scan-build` (see :ref:`an earlier discussion on scan-build <scan-build>`) static analysis tool can detect problems with uninitialized pointers.  
+
  
 Pointers to ``struct``\'s
 -------------------------
@@ -354,11 +356,14 @@ A *dangling pointer* is a pointer that refers to a invalid block of memory, eith
                             // since it pointed to the same memory block!
 
 
-.. sidebar:: The valgrind tool
+
+.. topic:: :command:`scan-build` and :command:`valgrind`
 
    Valgrind is a pretty excellent tool for helping to ferret out memory leaks, memory trashing, and any other type of memory corruption error that can happen in C programs.  To run a program with valgrind, you can just type :command:`valgrind <program>`.  
    
-    There are *many* command-line options to change the behavior or output of valgrind.  Type :command:`valgrind -h` for help (or :command:`man valgrind`).  See http://valgrind.org for more information on this great tool.
+   There are *many* command-line options to change the behavior or output of valgrind.  Type :command:`valgrind -h` for help (or :command:`man valgrind`).  See http://valgrind.org for more information on this great tool.
+
+   Besides :command:`valgrind`, the :command:`scan-build` tool is also incredibly helpful.  It is also usually faster and with better (easier to understand) output.  See a :ref:`previous description of scan-build <scan-build>` as well as https://clang-analyzer.llvm.org/scan-build.html for more information.
 
 
 Advantages and disadvantages of heap-allocated memory
@@ -524,6 +529,26 @@ Outside the function, we declare a normal ``char *`` string variable (``ptr``), 
 #.  Rewrite the ``escapehtml`` function so that it accepts a *pointer to a pointer to a char* (``char **``), allocates a new string that contains the escaped string and *assigns* the newly allocated string to the C string pointer to by the pointer argument to the function.  For example, if the parameter is ``char **str``, the variable ``*str`` refers to the C string containing the HTML text to be escaped.  When the function concludes, ``*str`` should *now* refer to the C string containing the escaped HTML text.  You should be sure to ``free`` the original unescaped C string.
 
 #.  Rewrite the ``escapehtml`` function so that it accepts a *pointer to a char* (not a *const* pointer), and modifies the string *in place* to escape each ``<`` and ``>``.  You should use the built-in C library function ``realloc`` to dynamically reallocate heap memory allocated to the string passed into the function.  You'll need to read the ``man`` page for ``realloc`` to understand how this function works.
+
+#.  Create a couple C structs to implement a dynamically growable/shrinkable stack data structure (a stack of integers) like the following::
+
+      struct intnode {
+        int value;
+        struct intnode *next;
+      };
+    
+      typedef struct {
+        struct intnode *top;
+      } stack_t;
+
+    Write five functions to create, destroy/deallocate, and perform standard operations on a stack with these definitions.  Notice that the ``stack_t`` structure just contains a pointer to the top of the stack, and that stack is just implemented as a linked list of ``struct intnode``.  For the ``pop`` function, you can assume in your implementation that the stack is non-empty (i.e., it would be an error on the part of the user of the stack if ``pop`` was called on an empty stack).
+
+      * ``stack_t* allocate_stack(void);``
+      * ``void deallocate_stack(stack_t *);``
+      * ``int empty(stack_t *);``
+      * ``int pop(stack_t *);``
+      * ``void push(stack_t *, int);``
+
 
 .. rubric:: Footnotes
 

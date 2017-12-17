@@ -206,6 +206,7 @@ of <code class="docutils literal"><span class="pre">x</span></code> (likewise, <
 <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>
 </pre></div>
 </div>
+<p>It is worth noting that the <strong class="command">scan-build</strong> (see <a class="reference internal" href="arraysstrings.html#scan-build"><span class="std std-ref">an earlier discussion on scan-build</span></a>) static analysis tool can detect problems with uninitialized pointers.</p>
 </div>
 </div>
 <div class="section" id="pointers-to-struct-s">
@@ -484,11 +485,11 @@ of <code class="docutils literal"><span class="pre">x</span></code> (likewise, <
                         <span class="c1">// since it pointed to the same memory block!</span>
 </pre></div>
 </div>
-<div class="sidebar">
-<p class="first sidebar-title">The valgrind tool</p>
+<div class="topic">
+<p class="topic-title first"><strong class="command">scan-build</strong> and <strong class="command">valgrind</strong></p>
 <p>Valgrind is a pretty excellent tool for helping to ferret out memory leaks, memory trashing, and any other type of memory corruption error that can happen in C programs.  To run a program with valgrind, you can just type <strong class="command">valgrind &lt;program&gt;</strong>.</p>
-<blockquote class="last">
-<div>There are <em>many</em> command-line options to change the behavior or output of valgrind.  Type <strong class="command">valgrind -h</strong> for help (or <strong class="command">man valgrind</strong>).  See <a class="reference external" href="http://valgrind.org">http://valgrind.org</a> for more information on this great tool.</div></blockquote>
+<p>There are <em>many</em> command-line options to change the behavior or output of valgrind.  Type <strong class="command">valgrind -h</strong> for help (or <strong class="command">man valgrind</strong>).  See <a class="reference external" href="http://valgrind.org">http://valgrind.org</a> for more information on this great tool.</p>
+<p>Besides <strong class="command">valgrind</strong>, the <strong class="command">scan-build</strong> tool is also incredibly helpful.  It is also usually faster and with better (easier to understand) output.  See a <a class="reference internal" href="arraysstrings.html#scan-build"><span class="std std-ref">previous description of scan-build</span></a> as well as <a class="reference external" href="https://clang-analyzer.llvm.org/scan-build.html">https://clang-analyzer.llvm.org/scan-build.html</a> for more information.</p>
 </div>
 </div>
 <div class="section" id="advantages-and-disadvantages-of-heap-allocated-memory">
@@ -721,6 +722,28 @@ of <code class="docutils literal"><span class="pre">x</span></code> (likewise, <
 <li><p class="first">Rewrite the <code class="docutils literal"><span class="pre">escapehtml</span></code> function so that it accepts a <em>pointer to a pointer to a char</em> (<code class="docutils literal"><span class="pre">char</span> <span class="pre">**</span></code>), allocates a new string that contains the escaped string and <em>assigns</em> the newly allocated string to the C string pointer to by the pointer argument to the function.  For example, if the parameter is <code class="docutils literal"><span class="pre">char</span> <span class="pre">**str</span></code>, the variable <code class="docutils literal"><span class="pre">*str</span></code> refers to the C string containing the HTML text to be escaped.  When the function concludes, <code class="docutils literal"><span class="pre">*str</span></code> should <em>now</em> refer to the C string containing the escaped HTML text.  You should be sure to <code class="docutils literal"><span class="pre">free</span></code> the original unescaped C string.</p>
 </li>
 <li><p class="first">Rewrite the <code class="docutils literal"><span class="pre">escapehtml</span></code> function so that it accepts a <em>pointer to a char</em> (not a <em>const</em> pointer), and modifies the string <em>in place</em> to escape each <code class="docutils literal"><span class="pre">&lt;</span></code> and <code class="docutils literal"><span class="pre">&gt;</span></code>.  You should use the built-in C library function <code class="docutils literal"><span class="pre">realloc</span></code> to dynamically reallocate heap memory allocated to the string passed into the function.  You'll need to read the <code class="docutils literal"><span class="pre">man</span></code> page for <code class="docutils literal"><span class="pre">realloc</span></code> to understand how this function works.</p>
+</li>
+<li><p class="first">Create a couple C structs to implement a dynamically growable/shrinkable stack data structure (a stack of integers) like the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">intnode</span> <span class="p">{</span>
+  <span class="nb">int</span> <span class="n">value</span><span class="p">;</span>
+  <span class="n">struct</span> <span class="n">intnode</span> <span class="o">*</span><span class="nb">next</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">typedef</span> <span class="n">struct</span> <span class="p">{</span>
+  <span class="n">struct</span> <span class="n">intnode</span> <span class="o">*</span><span class="n">top</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">stack_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Write five functions to create, destroy/deallocate, and perform standard operations on a stack with these definitions.  Notice that the <code class="docutils literal"><span class="pre">stack_t</span></code> structure just contains a pointer to the top of the stack, and that stack is just implemented as a linked list of <code class="docutils literal"><span class="pre">struct</span> <span class="pre">intnode</span></code>.  For the <code class="docutils literal"><span class="pre">pop</span></code> function, you can assume in your implementation that the stack is non-empty (i.e., it would be an error on the part of the user of the stack if <code class="docutils literal"><span class="pre">pop</span></code> was called on an empty stack).</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">stack_t*</span> <span class="pre">allocate_stack(void);</span></code></li>
+<li><code class="docutils literal"><span class="pre">void</span> <span class="pre">deallocate_stack(stack_t</span> <span class="pre">*);</span></code></li>
+<li><code class="docutils literal"><span class="pre">int</span> <span class="pre">empty(stack_t</span> <span class="pre">*);</span></code></li>
+<li><code class="docutils literal"><span class="pre">int</span> <span class="pre">pop(stack_t</span> <span class="pre">*);</span></code></li>
+<li><code class="docutils literal"><span class="pre">void</span> <span class="pre">push(stack_t</span> <span class="pre">*,</span> <span class="pre">int);</span></code></li>
+</ul>
+</div></blockquote>
 </li>
 </ol>
 <p class="rubric">Footnotes</p>

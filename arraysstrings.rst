@@ -89,6 +89,8 @@ It is a very common error to try to refer to a non-existent array element. Unlik
 
 So what you can you do about this?  The best thing is to use good tools for detecting memory corruption and bad array accesses.  The :command:`valgrind` tool [#f1a]_ is especially good in this regard, and is highly recommended.  Its output can be somewhat difficult to understand at first, but it is a hugely helpful tool when trying to debug seemingly random program behavior.
 
+.. _scan-build:
+
 Besides :command:`valgrind`, you can use the :command:`clang` *static analyzer*.  This tool analyzes your code to find potential bugs, too, but it is pretty fast (it doesn't actually execute your code) and the output is a little easier to grasp than :command:`valgrind`.  The tool to invoke is called :command:`scan-build` [#f1b]_, and can be used on the command line *before* any compiler tols that you invoke.  For example, consider the following program that increments an uninitialized variable (thus leading to undefined behavior):
 
 .. code-block:: c
