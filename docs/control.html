@@ -68,13 +68,6 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="arraysstrings.html"
                         title="next chapter">5. Arrays and Strings</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/control.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -84,7 +77,8 @@
       <input type="hidden" name="area" value="default" />
     </form>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script><h4>Got issues?</h4>
+  <p>If you find a bug or have a suggestion for improvement, please <a href="https://github.com/jsommers/cbook/issues">report it!</a></p>
         </div>
       </div>
 
@@ -98,7 +92,7 @@
 <p>In this chapter, we encounter the set of &quot;control&quot; structures in C, such as conditional statements and looping constructs.  As a preview, the control structures in C are nearly identical to those found in Java (since Java syntax is heavily based on C), and bear strong resemblance to control structures found in other programming languages.</p>
 <div class="section" id="if-statement">
 <span id="index-0"></span><h2>4.1. <code class="docutils literal"><span class="pre">if</span></code> Statement<a class="headerlink" href="#if-statement" title="Permalink to this headline">¶</a></h2>
-<p>Both an <code class="docutils literal"><span class="pre">if</span></code> and an <code class="docutils literal"><span class="pre">if-else</span></code> are available in C.  The <code class="docutils literal"><span class="pre">&lt;expression&gt;</span></code> can be any valid expression. The parentheses around the expression are required, even if it is just a single variable:</p>
+<p>Both an <code class="docutils literal"><span class="pre">if</span></code> and an <code class="docutils literal"><span class="pre">if-else</span></code> are available in C.  The <code class="docutils literal"><span class="pre">&lt;expression&gt;</span></code> can be any valid C expression.  The parentheses around the expression are required, even if it is just a single variable:</p>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>    <span class="c1">// simple form with no {}&#39;s or else clause</span>
 </pre></div>
 </div>
@@ -296,7 +290,6 @@ forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014-2018, Joel Sommers.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
     </div>
   </body>
 </html>

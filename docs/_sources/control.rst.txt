@@ -8,7 +8,7 @@ In this chapter, we encounter the set of "control" structures in C, such as cond
 ``if`` Statement
 ================
 
-Both an ``if`` and an ``if-else`` are available in C.  The ``<expression>`` can be any valid expression. The parentheses around the expression are required, even if it is just a single variable:
+Both an ``if`` and an ``if-else`` are available in C.  The ``<expression>`` can be any valid C expression.  The parentheses around the expression are required, even if it is just a single variable:
 
 .. code-block:: c
 
