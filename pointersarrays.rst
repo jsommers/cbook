@@ -461,7 +461,7 @@ A function to traverse a list and print each value out might look like the follo
 
     void print_list(struct node *head) {
         int i = 0;
-        while (head->next != NULL) {
+        while (head != NULL) {
             printf ("Node %d has the value %d\n", i+1, head->value); 
             head = head->next;  // advance the list pointer
             i += 1;
