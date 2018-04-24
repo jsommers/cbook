@@ -45,7 +45,7 @@ This book is also available in `PDF form <cbook.pdf>`_.
 Thanks
 ======
 
-Thanks to my COSC 301 students from Fall 2015 and 2016 for test-driving this text and for providing useful feedback.  Thanks also to Aaron Gember-Jacobson for pointing out various typos. 
+Thanks to my COSC 301 students from Fall 2015 and 2016 for test-driving this text and for providing useful feedback.  Thanks also to Aaron Gember-Jacobson and Chris Nevison for pointing out various typos. 
 
 If you find any errors or typos in the book, or wish to make a suggestion for improvement, please file a bug report and/or make a pull request at https://github.com/jsommers/cbook/issues.
 
