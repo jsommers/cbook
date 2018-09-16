@@ -4,29 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>10. C Standard Library Functions &#8212; The Book of C (version 2018.01)</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '2018.01',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="9. Program structure and compilation" href="programstructure.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -41,7 +32,7 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">10. C Standard Library Functions</a><ul>
 <li><a class="reference internal" href="#precedence-and-associativity">10.1. Precedence and Associativity</a></li>
@@ -59,12 +50,14 @@
                         title="previous chapter">9. Program structure and compilation</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script><h4>Got issues?</h4>
   <p>If you find a bug or have a suggestion for improvement, please <a href="https://github.com/jsommers/cbook/issues">report it</a>.</p>
@@ -97,14 +90,14 @@
 <li></li>
 </ol>
 </td>
-<td>function-call(), <code class="docutils literal"><span class="pre">[]</span>&#160; <span class="pre">-&gt;</span>&#160; <span class="pre">.</span></code></td>
+<td>function-call(), <code class="docutils literal notranslate"><span class="pre">[]</span>&#160; <span class="pre">-&gt;</span>&#160; <span class="pre">.</span></code></td>
 <td>L to R</td>
 </tr>
 <tr class="row-odd"><td><ol class="first last arabic simple" start="2">
 <li></li>
 </ol>
 </td>
-<td><code class="docutils literal"><span class="pre">!</span> <span class="pre">~</span> <span class="pre">++</span> <span class="pre">--</span> <span class="pre">+</span> <span class="pre">-</span> <span class="pre">*``(ptr</span> <span class="pre">deref)</span> <span class="pre">``sizeof</span> <span class="pre">&amp;</span></code> (addr of)
+<td><code class="docutils literal notranslate"><span class="pre">!</span> <span class="pre">~</span> <span class="pre">++</span> <span class="pre">--</span> <span class="pre">+</span> <span class="pre">-</span> <span class="pre">*``(ptr</span> <span class="pre">deref)</span> <span class="pre">``sizeof</span> <span class="pre">&amp;</span></code> (addr of)
 (all unary operations are the same precedence)</td>
 <td><em>R to L</em></td>
 </tr>
@@ -112,57 +105,57 @@
 <li></li>
 </ol>
 </td>
-<td><code class="docutils literal"><span class="pre">*</span> <span class="pre">/</span> <span class="pre">%</span></code> (the top tier arithmetic binary ops)</td>
+<td><code class="docutils literal notranslate"><span class="pre">*</span> <span class="pre">/</span> <span class="pre">%</span></code> (the top tier arithmetic binary ops)</td>
 <td>L to R</td>
 </tr>
 <tr class="row-odd"><td><ol class="first last arabic simple" start="4">
 <li></li>
 </ol>
 </td>
-<td><code class="docutils literal"><span class="pre">+</span> <span class="pre">-</span></code> (second tier arithmetic binary ops)</td>
+<td><code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">-</span></code> (second tier arithmetic binary ops)</td>
 <td>L to R</td>
 </tr>
 <tr class="row-even"><td><ol class="first last arabic simple" start="5">
 <li></li>
 </ol>
 </td>
-<td><code class="docutils literal"><span class="pre">&lt;</span> <span class="pre">&lt;=</span> <span class="pre">&gt;</span> <span class="pre">&gt;=</span> <span class="pre">==</span> <span class="pre">!=</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">&lt;=</span> <span class="pre">&gt;</span> <span class="pre">&gt;=</span> <span class="pre">==</span> <span class="pre">!=</span></code></td>
 <td>L to R</td>
 </tr>
 <tr class="row-odd"><td><ol class="first last arabic simple" start="6">
 <li></li>
 </ol>
 </td>
-<td>in order: <code class="docutils literal"><span class="pre">&amp;</span> <span class="pre">^</span> <span class="pre">|</span> <span class="pre">&amp;&amp;</span> <span class="pre">||</span></code> (bitwise before Boolean)</td>
+<td>in order: <code class="docutils literal notranslate"><span class="pre">&amp;</span> <span class="pre">^</span> <span class="pre">|</span> <span class="pre">&amp;&amp;</span> <span class="pre">||</span></code> (bitwise before Boolean)</td>
 <td>L to R</td>
 </tr>
 <tr class="row-even"><td><ol class="first last arabic simple" start="7">
 <li></li>
 </ol>
 </td>
-<td><code class="docutils literal"><span class="pre">=</span></code> and all its variants</td>
+<td><code class="docutils literal notranslate"><span class="pre">=</span></code> and all its variants</td>
 <td><em>R to L</em></td>
 </tr>
 <tr class="row-odd"><td><ol class="first last arabic simple" start="8">
 <li></li>
 </ol>
 </td>
-<td><code class="docutils literal"><span class="pre">,</span></code> (comma)</td>
+<td><code class="docutils literal notranslate"><span class="pre">,</span></code> (comma)</td>
 <td>L to R</td>
 </tr>
 </tbody>
 </table>
 <p>One common pitfall with the above precedence fields is that:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span><span class="n">structptr</span><span class="o">.</span><span class="n">field</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span><span class="n">structptr</span><span class="o">.</span><span class="n">field</span>
 </pre></div>
 </div>
-<p>never works.  The field selection operator (<code class="docutils literal"><span class="pre">.</span></code>) has higher precedence
-than the dereference operator (<code class="docutils literal"><span class="pre">*</span></code>), thus the expression is evaluated
-as <code class="docutils literal"><span class="pre">*(structptr.field)</span></code> instead of the (usually) desired <code class="docutils literal"><span class="pre">(*structptr).field</span></code>.  A way to avoid this problem altogether is to write <code class="docutils literal"><span class="pre">structptr-&gt;field</span></code>.</p>
+<p>never works.  The field selection operator (<code class="docutils literal notranslate"><span class="pre">.</span></code>) has higher precedence
+than the dereference operator (<code class="docutils literal notranslate"><span class="pre">*</span></code>), thus the expression is evaluated
+as <code class="docutils literal notranslate"><span class="pre">*(structptr.field)</span></code> instead of the (usually) desired <code class="docutils literal notranslate"><span class="pre">(*structptr).field</span></code>.  A way to avoid this problem altogether is to write <code class="docutils literal notranslate"><span class="pre">structptr-&gt;field</span></code>.</p>
 </div>
 <div class="section" id="standard-library-functions">
 <span id="id1"></span><span id="index-1"></span><h2>10.2. Standard Library Functions<a class="headerlink" href="#standard-library-functions" title="Permalink to this headline">¶</a></h2>
-<p>Many basic housekeeping funcions are available to a C program in form of standard library functions. To call these, a program must <code class="docutils literal"><span class="pre">#include</span></code> the appropriate header file. All modern compilers link in the standard library code by default, so all that is needed is to include the correct header file.  The functions listed in the next most commonly used ones, but there are many more which are not listed here.</p>
+<p>Many basic housekeeping funcions are available to a C program in form of standard library functions. To call these, a program must <code class="docutils literal notranslate"><span class="pre">#include</span></code> the appropriate header file. All modern compilers link in the standard library code by default, so all that is needed is to include the correct header file.  The functions listed in the next most commonly used ones, but there are many more which are not listed here.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="21%" />
@@ -175,22 +168,22 @@ as <code class="docutils literal"><span class="pre">*(structptr.field)</span></c
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>stdio.h</td>
-<td>file input and output, e.g., <code class="docutils literal"><span class="pre">printf</span></code></td>
+<td>file input and output, e.g., <code class="docutils literal notranslate"><span class="pre">printf</span></code></td>
 </tr>
 <tr class="row-odd"><td>ctype.h</td>
-<td>character tests, e.g., <code class="docutils literal"><span class="pre">isspace</span></code></td>
+<td>character tests, e.g., <code class="docutils literal notranslate"><span class="pre">isspace</span></code></td>
 </tr>
 <tr class="row-even"><td>string.h</td>
 <td>string operations</td>
 </tr>
 <tr class="row-odd"><td>stdlib.h</td>
-<td>utility functions, e.g., <code class="docutils literal"><span class="pre">atoi</span></code>, <code class="docutils literal"><span class="pre">rand</span></code>, <code class="docutils literal"><span class="pre">abs</span></code></td>
+<td>utility functions, e.g., <code class="docutils literal notranslate"><span class="pre">atoi</span></code>, <code class="docutils literal notranslate"><span class="pre">rand</span></code>, <code class="docutils literal notranslate"><span class="pre">abs</span></code></td>
 </tr>
 <tr class="row-even"><td>math.h</td>
-<td>mathematical functions, e.g., <code class="docutils literal"><span class="pre">sin</span></code>, <code class="docutils literal"><span class="pre">pow</span></code></td>
+<td>mathematical functions, e.g., <code class="docutils literal notranslate"><span class="pre">sin</span></code>, <code class="docutils literal notranslate"><span class="pre">pow</span></code></td>
 </tr>
 <tr class="row-odd"><td>assert.h</td>
-<td>the <code class="docutils literal"><span class="pre">assert</span></code> debugging macro</td>
+<td>the <code class="docutils literal notranslate"><span class="pre">assert</span></code> debugging macro</td>
 </tr>
 <tr class="row-even"><td>stdarg.h</td>
 <td>support to create functions that take a variable
@@ -200,19 +193,19 @@ number of parameters</td>
 <td>support for exceptional condition signals</td>
 </tr>
 <tr class="row-even"><td>time.h</td>
-<td>date and time, e.g., <code class="docutils literal"><span class="pre">time</span></code></td>
+<td>date and time, e.g., <code class="docutils literal notranslate"><span class="pre">time</span></code></td>
 </tr>
 <tr class="row-odd"><td>sys/time.h</td>
-<td>other date/time functions, e.g., <code class="docutils literal"><span class="pre">gettimeofday</span></code></td>
+<td>other date/time functions, e.g., <code class="docutils literal notranslate"><span class="pre">gettimeofday</span></code></td>
 </tr>
 <tr class="row-even"><td>limits.h</td>
 <td>constants which define type range values such</td>
 </tr>
 <tr class="row-odd"><td>float.h</td>
-<td>as <code class="docutils literal"><span class="pre">INT_MAX</span></code>, <code class="docutils literal"><span class="pre">FLOAT_MAX</span></code></td>
+<td>as <code class="docutils literal notranslate"><span class="pre">INT_MAX</span></code>, <code class="docutils literal notranslate"><span class="pre">FLOAT_MAX</span></code></td>
 </tr>
 <tr class="row-even"><td>stdbool.h</td>
-<td><code class="docutils literal"><span class="pre">bool</span></code> type (requires <code class="docutils literal"><span class="pre">-std=c99</span></code> compiler flag)</td>
+<td><code class="docutils literal notranslate"><span class="pre">bool</span></code> type (requires <code class="docutils literal notranslate"><span class="pre">-std=c99</span></code> compiler flag)</td>
 </tr>
 </tbody>
 </table>
@@ -220,23 +213,23 @@ number of parameters</td>
 <div class="section" id="stdio-h">
 <span id="index-2"></span><h2>10.3. stdio.h<a class="headerlink" href="#stdio-h" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><code class="docutils literal"><span class="pre">stdio.h</span></code> is a very common file to include.  It includes functions to print and read strings from files and to open and close files in the file system.</div></blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">stdio.h</span></code> is a very common file to include.  It includes functions to print and read strings from files and to open and close files in the file system.</div></blockquote>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">FILE*</span> <span class="pre">fopen(const</span> <span class="pre">char*</span> <span class="pre">fname,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">mode);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">FILE*</span> <span class="pre">fopen(const</span> <span class="pre">char*</span> <span class="pre">fname,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">mode);</span></code></dt>
 <dd>Open a file named in the filesystem and return a FILE* for it. Mode = &quot;r&quot; read, &quot;w&quot; write, &quot;a&quot; append, returns NULL on error. The standard files stdout, stdin, stderr are automatically opened and closed for you by the system.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">fclose(FILE*</span> <span class="pre">file);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fclose(FILE*</span> <span class="pre">file);</span></code></dt>
 <dd>Close a previously opened file. Returns EOF on error. The operating system closes all of a program's files when it exits, but it's tidy to do it beforehand. Also, there is typically a limit to the number of files which a program may have open simultaneously.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">fgetc(FILE*</span> <span class="pre">in);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fgetc(FILE*</span> <span class="pre">in);</span></code></dt>
 <dd>Read and return the next unsigned char out of a file, or EOF if the file has been exhausted. (detail) This and other file functions return ints instead of a chars because the EOF constant they potentially is not a char, but is an int. getc() is an alternate, faster version implemented as a macro which may evaluate the FILE* expression more than once.</dd>
-<dt><code class="docutils literal"><span class="pre">char*</span> <span class="pre">fgets(char*</span> <span class="pre">dest,</span> <span class="pre">int</span> <span class="pre">n,</span> <span class="pre">FILE*</span> <span class="pre">in)</span></code></dt>
-<dd>Reads the next line of text into a string supplied by the caller. Reads at most n-1 characters from the file, stopping at the first 'n' character. In any case, the string is '0' terminated. The 'n' is included in the string. Returns NULL on EOF or error.  There's also a <code class="docutils literal"><span class="pre">gets</span></code> function, but <em>you should never use it!</em> (read the <code class="docutils literal"><span class="pre">man</span></code> page for why).</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">fputc(int</span> <span class="pre">ch,</span> <span class="pre">FILE*</span> <span class="pre">out);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">char*</span> <span class="pre">fgets(char*</span> <span class="pre">dest,</span> <span class="pre">int</span> <span class="pre">n,</span> <span class="pre">FILE*</span> <span class="pre">in)</span></code></dt>
+<dd>Reads the next line of text into a string supplied by the caller. Reads at most n-1 characters from the file, stopping at the first 'n' character. In any case, the string is '0' terminated. The 'n' is included in the string. Returns NULL on EOF or error.  There's also a <code class="docutils literal notranslate"><span class="pre">gets</span></code> function, but <em>you should never use it!</em> (read the <code class="docutils literal notranslate"><span class="pre">man</span></code> page for why).</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fputc(int</span> <span class="pre">ch,</span> <span class="pre">FILE*</span> <span class="pre">out);</span></code></dt>
 <dd>Write the char to the file as an unsigned char. Returns ch, or EOF on err. putc() is an alternate, faster version implemented as a macro which may evaluate the FILE* expression more than once.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">ungetc(int</span> <span class="pre">ch,</span> <span class="pre">FILE*</span> <span class="pre">in);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">ungetc(int</span> <span class="pre">ch,</span> <span class="pre">FILE*</span> <span class="pre">in);</span></code></dt>
 <dd>Push the most recent fgetc() char back onto the file. EOF may not be pushed back. Returns ch or EOF on error.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">printf(const</span> <span class="pre">char*</span> <span class="pre">format_string,</span> <span class="pre">...);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">printf(const</span> <span class="pre">char*</span> <span class="pre">format_string,</span> <span class="pre">...);</span></code></dt>
 <dd><p class="first">Prints a string with values possibly inserted into it to standard output. Takes a variable number of arguments -- first a format string followed by a number of matching arguments. The format string contains text mixed with % directives which mark things to be inserted in the output. %d = int, %Ld=long int, %s=string, %f=double, %c=char. Every % directive must have a matching argument of the correct type after the format string. Returns the number of characters written, or negative on error. If the percent directives do not match the number and type of arguments, printf() tends to crash or otherwise do the wrong thing at run time. fprintf() is a variant which takes an additional FILE* argument which specifies the file to print to. Examples:</p>
-<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">printf</span><span class="p">(</span><span class="s2">&quot;hello</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">printf</span><span class="p">(</span><span class="s2">&quot;hello</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
         <span class="o">//</span> <span class="n">prints</span><span class="p">:</span> <span class="n">hello</span>
 <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;hello </span><span class="si">%d</span><span class="s2"> there </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
         <span class="o">//</span> <span class="n">prints</span><span class="p">:</span> <span class="n">hello</span> <span class="mi">13</span> <span class="n">there</span> <span class="mi">2</span>
@@ -245,9 +238,9 @@ number of parameters</td>
 </pre></div>
 </div>
 </dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">scanf(const</span> <span class="pre">char*</span> <span class="pre">format,</span> <span class="pre">...)</span></code></dt>
-<dd><p class="first">Opposite of printf() -- reads characters from standard input trying to match elements in the format string. Each percent directive in the format string must have a matching pointer in the argument list which scanf() uses to store the values it finds. scanf() skips whitespace as it tries to read in each percent directive. Returns the number of percent directives processed successfully, or EOF on error. scanf() is famously sensitive to programmer errors. If scanf() is called with anything but the correct pointers after the format string, it tends to crash or otherwise do the wrong thing at run time. sscanf() is a variant which takes an additional initial string from which it does its reading. <code class="docutils literal"><span class="pre">fscanf()</span></code> is a variant which takes an additional initial FILE* from which it does its reading. Example:</p>
-<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">scanf(const</span> <span class="pre">char*</span> <span class="pre">format,</span> <span class="pre">...)</span></code></dt>
+<dd><p class="first">Opposite of printf() -- reads characters from standard input trying to match elements in the format string. Each percent directive in the format string must have a matching pointer in the argument list which scanf() uses to store the values it finds. scanf() skips whitespace as it tries to read in each percent directive. Returns the number of percent directives processed successfully, or EOF on error. scanf() is famously sensitive to programmer errors. If scanf() is called with anything but the correct pointers after the format string, it tends to crash or otherwise do the wrong thing at run time. sscanf() is a variant which takes an additional initial string from which it does its reading. <code class="docutils literal notranslate"><span class="pre">fscanf()</span></code> is a variant which takes an additional initial FILE* from which it does its reading. Example:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nb">int</span> <span class="n">num</span><span class="p">;</span>
     <span class="n">char</span> <span class="n">s1</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
     <span class="n">char</span> <span class="n">s2</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
@@ -257,79 +250,79 @@ number of parameters</td>
 </div>
 </dd>
 </dl>
-<p>The above code looks for the word &quot;hello&quot; followed by a number and two words (all separated by whitespace).  <code class="docutils literal"><span class="pre">scanf()</span></code> uses the pointers &amp;num, s1, and s2 to store what it finds into the local variables.</p>
+<p>The above code looks for the word &quot;hello&quot; followed by a number and two words (all separated by whitespace).  <code class="docutils literal notranslate"><span class="pre">scanf()</span></code> uses the pointers &amp;num, s1, and s2 to store what it finds into the local variables.</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">snprintf(char*</span> <span class="pre">buffer,</span> <span class="pre">size_t</span> <span class="pre">size,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*format,</span> <span class="pre">...)</span></code></dt>
-<dd>A version of <code class="docutils literal"><span class="pre">printf</span></code> that fills a char buffer with the resulting formatted string.  The first two arguments of <code class="docutils literal"><span class="pre">snprintf</span></code> are the buffer to file and the size of the buffer.  The remaining arguments are exactly like <code class="docutils literal"><span class="pre">printf</span></code>: a format string followed by any arguments to be formatted in the resulting string.  There is also a <code class="docutils literal"><span class="pre">sprintf</span></code> function, but it is not &quot;safe&quot; since it does not include the buffer size in the set of parameters, which makes buffer overflows <a class="footnote-reference" href="#f1" id="id2">[1]</a> easily possible.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">fprintf(FILE</span> <span class="pre">*stream,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*format,</span> <span class="pre">...)</span></code></dt>
-<dd>A version of <code class="docutils literal"><span class="pre">printf</span></code> that causes output to be sent to a file instead of to the default standard output.  <code class="docutils literal"><span class="pre">printf</span></code> works exactly like <code class="docutils literal"><span class="pre">fprintf(stdout,</span> <span class="pre">...)</span></code> since <code class="docutils literal"><span class="pre">stdout</span></code> is predefined in <code class="docutils literal"><span class="pre">stdio.h</span></code> as a <code class="docutils literal"><span class="pre">FILE</span> <span class="pre">*</span></code> that results in console output.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">snprintf(char*</span> <span class="pre">buffer,</span> <span class="pre">size_t</span> <span class="pre">size,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*format,</span> <span class="pre">...)</span></code></dt>
+<dd>A version of <code class="docutils literal notranslate"><span class="pre">printf</span></code> that fills a char buffer with the resulting formatted string.  The first two arguments of <code class="docutils literal notranslate"><span class="pre">snprintf</span></code> are the buffer to file and the size of the buffer.  The remaining arguments are exactly like <code class="docutils literal notranslate"><span class="pre">printf</span></code>: a format string followed by any arguments to be formatted in the resulting string.  There is also a <code class="docutils literal notranslate"><span class="pre">sprintf</span></code> function, but it is not &quot;safe&quot; since it does not include the buffer size in the set of parameters, which makes buffer overflows <a class="footnote-reference" href="#f1" id="id2">[1]</a> easily possible.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fprintf(FILE</span> <span class="pre">*stream,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*format,</span> <span class="pre">...)</span></code></dt>
+<dd>A version of <code class="docutils literal notranslate"><span class="pre">printf</span></code> that causes output to be sent to a file instead of to the default standard output.  <code class="docutils literal notranslate"><span class="pre">printf</span></code> works exactly like <code class="docutils literal notranslate"><span class="pre">fprintf(stdout,</span> <span class="pre">...)</span></code> since <code class="docutils literal notranslate"><span class="pre">stdout</span></code> is predefined in <code class="docutils literal notranslate"><span class="pre">stdio.h</span></code> as a <code class="docutils literal notranslate"><span class="pre">FILE</span> <span class="pre">*</span></code> that results in console output.</dd>
 </dl>
 </div>
 <div class="section" id="ctype-h">
 <span id="index-3"></span><h2>10.4. ctype.h<a class="headerlink" href="#ctype-h" title="Permalink to this headline">¶</a></h2>
 <p>ctype.h includes macros for doing simple tests and operations on characters</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">isalpha(ch)</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">isalpha(ch)</span></code></dt>
 <dd>Check whether ch is an upper or lower case letter</dd>
-<dt><code class="docutils literal"><span class="pre">islower(ch),</span> <span class="pre">isupper(ch)</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">islower(ch),</span> <span class="pre">isupper(ch)</span></code></dt>
 <dd>Same as above, but upper/lower specific</dd>
-<dt><code class="docutils literal"><span class="pre">isspace(ch)</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">isspace(ch)</span></code></dt>
 <dd>Check whether ch is a whitepace character such as tab, space, newline, etc.</dd>
-<dt><code class="docutils literal"><span class="pre">isdigit(ch)</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">isdigit(ch)</span></code></dt>
 <dd>Check whether ch is a digit such as '0'..'9'</dd>
-<dt><code class="docutils literal"><span class="pre">toupper(ch),</span> <span class="pre">tolower(ch)</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">toupper(ch),</span> <span class="pre">tolower(ch)</span></code></dt>
 <dd>Return the lower or upper case version of a alphabetic character, otherwise pass it through unchanged.</dd>
 </dl>
 </div>
 <div class="section" id="string-h">
 <span id="index-4"></span><h2>10.5. string.h<a class="headerlink" href="#string-h" title="Permalink to this headline">¶</a></h2>
-<p>None of these string routines allocate memory or check that the passed in memory is the right size. The caller is responsible for making sure there is &quot;enough&quot; memory for the operation. The type <code class="docutils literal"><span class="pre">size_t</span></code> is an unsigned integer wide enough for the computer's address space (most likely an <code class="docutils literal"><span class="pre">unsigned</span> <span class="pre">long</span></code>).</p>
+<p>None of these string routines allocate memory or check that the passed in memory is the right size. The caller is responsible for making sure there is &quot;enough&quot; memory for the operation. The type <code class="docutils literal notranslate"><span class="pre">size_t</span></code> is an unsigned integer wide enough for the computer's address space (most likely an <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span></code>).</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">size_t</span> <span class="pre">strlen(const</span> <span class="pre">char*</span> <span class="pre">string);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">strlen(const</span> <span class="pre">char*</span> <span class="pre">string);</span></code></dt>
 <dd>Return the number of chars in a C string. EG strlen(&quot;abc&quot;)==3</dd>
-<dt><code class="docutils literal"><span class="pre">char*</span> <span class="pre">strcpy(char*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">source);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">char*</span> <span class="pre">strcpy(char*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">source);</span></code></dt>
 <dd>Copy the characters from the source string to the destination string.</dd>
-<dt><code class="docutils literal"><span class="pre">size_t</span> <span class="pre">strlcpy(char*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">source,</span> <span class="pre">size_t</span> <span class="pre">dest_size);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">strlcpy(char*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">source,</span> <span class="pre">size_t</span> <span class="pre">dest_size);</span></code></dt>
 <dd>Like strcpy(), but knows the size of the dest. Truncates if necessary. Use this to avoid memory errors and buffer-overflow security problems. This function is not as standard as strcpy(), but most sytems have it.  Do not use the old strncpy() function -- it is difficult to use correctly.</dd>
-<dt><code class="docutils literal"><span class="pre">char</span> <span class="pre">*strlcat(char*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">source,</span> <span class="pre">size_t</span> <span class="pre">dest_size);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*strlcat(char*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">source,</span> <span class="pre">size_t</span> <span class="pre">dest_size);</span></code></dt>
 <dd>Append the characters from the source string to the end of destination string.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">strcmp(const</span> <span class="pre">char*</span> <span class="pre">a,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">b);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">strcmp(const</span> <span class="pre">char*</span> <span class="pre">a,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">b);</span></code></dt>
 <dd>Compare two strings and return an int which encodes their ordering. zero:a==b, negative:a&lt;b, positive:a&gt;b. It is a common error to think of the result of strcmp() as being boolean true if the strings are equal which is, unfortunately, exactly backwards.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">strncmp(const</span> <span class="pre">char</span> <span class="pre">*a,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*b,</span> <span class="pre">size_t</span> <span class="pre">n);</span></code></dt>
-<dd>Just like <code class="docutils literal"><span class="pre">strcmp</span></code>, except only the minimum of the lengths of <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code>, and the value <code class="docutils literal"><span class="pre">n</span></code> characters are compared.  There's also <code class="docutils literal"><span class="pre">strncasecmp</span></code> and <code class="docutils literal"><span class="pre">strcasecmp</span></code> which compare strings in a case-insensitive manner.</dd>
-<dt><code class="docutils literal"><span class="pre">char*</span> <span class="pre">strchr(const</span> <span class="pre">char*</span> <span class="pre">searchIn,</span> <span class="pre">char</span> <span class="pre">ch);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">strncmp(const</span> <span class="pre">char</span> <span class="pre">*a,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*b,</span> <span class="pre">size_t</span> <span class="pre">n);</span></code></dt>
+<dd>Just like <code class="docutils literal notranslate"><span class="pre">strcmp</span></code>, except only the minimum of the lengths of <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>, and the value <code class="docutils literal notranslate"><span class="pre">n</span></code> characters are compared.  There's also <code class="docutils literal notranslate"><span class="pre">strncasecmp</span></code> and <code class="docutils literal notranslate"><span class="pre">strcasecmp</span></code> which compare strings in a case-insensitive manner.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">char*</span> <span class="pre">strchr(const</span> <span class="pre">char*</span> <span class="pre">searchIn,</span> <span class="pre">char</span> <span class="pre">ch);</span></code></dt>
 <dd>Search the given string for the first occurence of the given character. Returns a pointer to the character, or NULL if none is found.</dd>
-<dt><code class="docutils literal"><span class="pre">char*</span> <span class="pre">strstr(const</span> <span class="pre">char*</span> <span class="pre">searchIn,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">searchFor);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">char*</span> <span class="pre">strstr(const</span> <span class="pre">char*</span> <span class="pre">searchIn,</span> <span class="pre">const</span> <span class="pre">char*</span> <span class="pre">searchFor);</span></code></dt>
 <dd>Similar to strchr(), but searches for an entire string instead of a single character. The search is case sensitive.</dd>
-<dt><code class="docutils literal"><span class="pre">void*</span> <span class="pre">memcpy(void*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">void*</span> <span class="pre">source,</span> <span class="pre">size_t</span> <span class="pre">n);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">void*</span> <span class="pre">memcpy(void*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">void*</span> <span class="pre">source,</span> <span class="pre">size_t</span> <span class="pre">n);</span></code></dt>
 <dd>Copy the given number of bytes from the source to the destination. The source and destination must not overlap. This may be implemented in a specialized but highly optimized way for a particular computer.</dd>
-<dt><code class="docutils literal"><span class="pre">void*</span> <span class="pre">memmove(void*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">void*</span> <span class="pre">source,</span> <span class="pre">size_t</span> <span class="pre">n);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">void*</span> <span class="pre">memmove(void*</span> <span class="pre">dest,</span> <span class="pre">const</span> <span class="pre">void*</span> <span class="pre">source,</span> <span class="pre">size_t</span> <span class="pre">n);</span></code></dt>
 <dd>Similar to memcpy() but allows the areas to overlap. This probably runs slightly slower than memcpy().</dd>
 </dl>
 </div>
 <div class="section" id="stdlib-h">
 <span id="index-5"></span><h2>10.6. stdlib.h<a class="headerlink" href="#stdlib-h" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">rand();</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">rand();</span></code></dt>
 <dd>Returns a pseudo random integer in the range 0..RAND_MAX (limits.h) which is at least 32767.</dd>
-<dt><code class="docutils literal"><span class="pre">void</span> <span class="pre">srand(unsigned</span> <span class="pre">int</span> <span class="pre">seed);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">srand(unsigned</span> <span class="pre">int</span> <span class="pre">seed);</span></code></dt>
 <dd>The sequence of random numbers returned by rand() is initially controlled by a global &quot;seed&quot; variable. srand() sets this seed which, by default, starts with the value 1. Pass the expression time(NULL) (time.h) to set the seed to a value based on the current time to ensure that the random sequence is different from one run to the next.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">abs(int</span> <span class="pre">i);</span></code></dt>
-<dd>Return the absolute value of <code class="docutils literal"><span class="pre">i</span></code>.</dd>
-<dt><code class="docutils literal"><span class="pre">void*</span> <span class="pre">malloc(size_t</span> <span class="pre">size);</span></code></dt>
-<dd>Allocate a heap block of the given size in bytes. Returns a pointer to the block or NULL on failure. A cast may be required to store the void* pointer into a regular typed pointer.  There is also a <code class="docutils literal"><span class="pre">realloc</span></code> function which can <em>change</em> the size of a heap-allocated block of memory.  See the <code class="docutils literal"><span class="pre">man</span></code> page for details.</dd>
-<dt><code class="docutils literal"><span class="pre">void</span> <span class="pre">free(void*</span> <span class="pre">block);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">abs(int</span> <span class="pre">i);</span></code></dt>
+<dd>Return the absolute value of <code class="docutils literal notranslate"><span class="pre">i</span></code>.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void*</span> <span class="pre">malloc(size_t</span> <span class="pre">size);</span></code></dt>
+<dd>Allocate a heap block of the given size in bytes. Returns a pointer to the block or NULL on failure. A cast may be required to store the void* pointer into a regular typed pointer.  There is also a <code class="docutils literal notranslate"><span class="pre">realloc</span></code> function which can <em>change</em> the size of a heap-allocated block of memory.  See the <code class="docutils literal notranslate"><span class="pre">man</span></code> page for details.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">free(void*</span> <span class="pre">block);</span></code></dt>
 <dd>Opposite of malloc(). Returns a previous malloc block to the system for reuse</dd>
-<dt><code class="docutils literal"><span class="pre">void</span> <span class="pre">exit(int</span> <span class="pre">status);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">exit(int</span> <span class="pre">status);</span></code></dt>
 <dd>Halt and exit the program and pass a condition int back to the operating sytem. Pass 0 to signal normal program termination, non-zero otherwise.</dd>
-<dt><code class="docutils literal"><span class="pre">void*</span> <span class="pre">bsearch(const</span> <span class="pre">void*</span> <span class="pre">key,</span> <span class="pre">const</span> <span class="pre">void*</span> <span class="pre">base,</span> <span class="pre">size_t</span> <span class="pre">len,</span> <span class="pre">size_t</span> <span class="pre">elem_size,</span> <span class="pre">&lt;compare_function&gt;);</span></code></dt>
-<dd>Do a binary search in an array of elements. The last argument is a function which takes pointers to the two elements to compare. Its prototype should be: <code class="docutils literal"><span class="pre">int</span> <span class="pre">compare(const</span> <span class="pre">void*</span> <span class="pre">a,</span> <span class="pre">const</span> <span class="pre">void*</span> <span class="pre">b);</span></code>, and it should return 0, -1, or 1 as strcmp() does. Returns a pointer to a found element, or NULL otherwise. Note that strcmp() itself cannot be used directly as a compare function for bsearch() on an array of char* strings because strcmp() takes char* arguments and bsearch() will need a comparator that takes pointers to the array elements -- char**.</dd>
-<dt><code class="docutils literal"><span class="pre">void</span> <span class="pre">qsort(void*</span> <span class="pre">base,</span> <span class="pre">size_t</span> <span class="pre">len,</span> <span class="pre">size_t</span> <span class="pre">elem_size,</span> <span class="pre">&lt;compare_function&gt;);</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">void*</span> <span class="pre">bsearch(const</span> <span class="pre">void*</span> <span class="pre">key,</span> <span class="pre">const</span> <span class="pre">void*</span> <span class="pre">base,</span> <span class="pre">size_t</span> <span class="pre">len,</span> <span class="pre">size_t</span> <span class="pre">elem_size,</span> <span class="pre">&lt;compare_function&gt;);</span></code></dt>
+<dd>Do a binary search in an array of elements. The last argument is a function which takes pointers to the two elements to compare. Its prototype should be: <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">compare(const</span> <span class="pre">void*</span> <span class="pre">a,</span> <span class="pre">const</span> <span class="pre">void*</span> <span class="pre">b);</span></code>, and it should return 0, -1, or 1 as strcmp() does. Returns a pointer to a found element, or NULL otherwise. Note that strcmp() itself cannot be used directly as a compare function for bsearch() on an array of char* strings because strcmp() takes char* arguments and bsearch() will need a comparator that takes pointers to the array elements -- char**.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">qsort(void*</span> <span class="pre">base,</span> <span class="pre">size_t</span> <span class="pre">len,</span> <span class="pre">size_t</span> <span class="pre">elem_size,</span> <span class="pre">&lt;compare_function&gt;);</span></code></dt>
 <dd>Sort an array of elements. Takes a function pointer just like bsearch().</dd>
-<dt><code class="docutils literal"><span class="pre">int</span> <span class="pre">atoi(const</span> <span class="pre">char</span> <span class="pre">*s)</span></code></dt>
-<dd>Return an integer parsed from the string s.  This function is somewhat problematic since it cannot return errors if the string does not contain a parseable integer.  You should generally use <code class="docutils literal"><span class="pre">strtol</span></code> (and related functions) which can return errors.  See the <code class="docutils literal"><span class="pre">man</span></code> page on <code class="docutils literal"><span class="pre">strtol</span></code> for more.</dd>
-<dt><code class="docutils literal"><span class="pre">double</span> <span class="pre">atof(const</span> <span class="pre">char</span> <span class="pre">*)</span></code></dt>
-<dd>Return a floating point number in <code class="docutils literal"><span class="pre">double</span></code> format parsed from the string s.  Like <code class="docutils literal"><span class="pre">atoi</span></code> this function is somewhat problematic since it cannot return errors if the string does not contain a parseable floating point number.  You should generally use <code class="docutils literal"><span class="pre">strtod</span></code> (and related functions) instead.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">atoi(const</span> <span class="pre">char</span> <span class="pre">*s)</span></code></dt>
+<dd>Return an integer parsed from the string s.  This function is somewhat problematic since it cannot return errors if the string does not contain a parseable integer.  You should generally use <code class="docutils literal notranslate"><span class="pre">strtol</span></code> (and related functions) which can return errors.  See the <code class="docutils literal notranslate"><span class="pre">man</span></code> page on <code class="docutils literal notranslate"><span class="pre">strtol</span></code> for more.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">double</span> <span class="pre">atof(const</span> <span class="pre">char</span> <span class="pre">*)</span></code></dt>
+<dd>Return a floating point number in <code class="docutils literal notranslate"><span class="pre">double</span></code> format parsed from the string s.  Like <code class="docutils literal notranslate"><span class="pre">atoi</span></code> this function is somewhat problematic since it cannot return errors if the string does not contain a parseable floating point number.  You should generally use <code class="docutils literal notranslate"><span class="pre">strtod</span></code> (and related functions) instead.</dd>
 </dl>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">

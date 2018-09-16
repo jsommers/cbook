@@ -4,30 +4,21 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>3. Basic Types and Operators &#8212; The Book of C (version 2018.01)</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '2018.01',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Control Structures" href="control.html" />
     <link rel="prev" title="2. Getting your feet wet in the C" href="tutorial.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -45,13 +36,13 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">3. Basic Types and Operators</a><ul>
 <li><a class="reference internal" href="#integer-types">3.1. Integer types</a><ul>
-<li><a class="reference internal" href="#the-sizeof-keyword">3.1.1. The <code class="docutils literal"><span class="pre">sizeof</span></code> keyword</a></li>
-<li><a class="reference internal" href="#char-literals">3.1.2. <code class="docutils literal"><span class="pre">char</span></code> literals</a></li>
-<li><a class="reference internal" href="#int-literals">3.1.3. <code class="docutils literal"><span class="pre">int</span></code> literals</a><ul>
+<li><a class="reference internal" href="#the-sizeof-keyword">3.1.1. The <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> keyword</a></li>
+<li><a class="reference internal" href="#char-literals">3.1.2. <code class="docutils literal notranslate"><span class="pre">char</span></code> literals</a></li>
+<li><a class="reference internal" href="#int-literals">3.1.3. <code class="docutils literal notranslate"><span class="pre">int</span></code> literals</a><ul>
 <li><a class="reference internal" href="#type-combination-and-promotion">3.1.3.1. Type combination and promotion</a></li>
 </ul>
 </li>
@@ -62,12 +53,12 @@
 <li><a class="reference internal" href="#basic-syntactic-elements">3.4. Basic syntactic elements</a><ul>
 <li><a class="reference internal" href="#comments">3.4.1. Comments</a></li>
 <li><a class="reference internal" href="#variables">3.4.2. Variables</a></li>
-<li><a class="reference internal" href="#assignment-operator">3.4.3. Assignment Operator <code class="docutils literal"><span class="pre">=</span></code></a><ul>
+<li><a class="reference internal" href="#assignment-operator">3.4.3. Assignment Operator <code class="docutils literal notranslate"><span class="pre">=</span></code></a><ul>
 <li><a class="reference internal" href="#demotion-on-assignment">3.4.3.1. Demotion on assignment</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#arithmetic-operations">3.4.4. Arithmetic operations</a></li>
-<li><a class="reference internal" href="#unary-increment-operators-and">3.4.5. Unary Increment Operators: <code class="docutils literal"><span class="pre">++</span></code> and <code class="docutils literal"><span class="pre">--</span></code></a><ul>
+<li><a class="reference internal" href="#unary-increment-operators-and">3.4.5. Unary Increment Operators: <code class="docutils literal notranslate"><span class="pre">++</span></code> and <code class="docutils literal notranslate"><span class="pre">--</span></code></a><ul>
 <li><a class="reference internal" href="#pre-and-post-variations">3.4.5.1. Pre- and post- variations</a></li>
 </ul>
 </li>
@@ -89,12 +80,14 @@
                         title="next chapter">4. Control Structures</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script><h4>Got issues?</h4>
   <p>If you find a bug or have a suggestion for improvement, please <a href="https://github.com/jsommers/cbook/issues">report it</a>.</p>
@@ -111,30 +104,30 @@
 <p>C provides a standard, though minimal, set of basic data types.  Sometimes these are called &quot;primitive&quot; types. This chapter focuses on defining and showing examples of using the various types, including operators and expressions that can be used. More complex data structures can be built up from the basic types described below, as we will see in later chapters.</p>
 <div class="section" id="integer-types">
 <span id="index-0"></span><h2>3.1. Integer types<a class="headerlink" href="#integer-types" title="Permalink to this headline">¶</a></h2>
-<p>There are several integer types in C, differing primarily in their bit widths and thus the range of values they can accommodate.  Each integer type can also be <em>signed</em> or <em>unsigned</em>.  Signed integer types have a range <span class="math">\(-2^{width-1}..2^{width-1}-1\)</span>, and unsigned integers have a range <span class="math">\(0..2^{width}-1\)</span>.  There are five basic integer types:</p>
+<p>There are several integer types in C, differing primarily in their bit widths and thus the range of values they can accommodate.  Each integer type can also be <em>signed</em> or <em>unsigned</em>.  Signed integer types have a range <span class="math notranslate nohighlight">\(-2^{width-1}..2^{width-1}-1\)</span>, and unsigned integers have a range <span class="math notranslate nohighlight">\(0..2^{width}-1\)</span>.  There are five basic integer types:</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">char</span></code>: One ASCII character</dt>
-<dd>The size of a <code class="docutils literal"><span class="pre">char</span></code> is almost always 8 bits, or 1 byte.  8 bits provides a signed range of -128..127 or an unsigned range is 0..255, which is enough to hold a single ASCII character <a class="footnote-reference" href="#f1" id="id1">[1]</a>. <code class="docutils literal"><span class="pre">char</span></code> is also required to be the &quot;smallest addressable unit&quot; for the machine --- each byte in memory has its own address.</dd>
-<dt><code class="docutils literal"><span class="pre">short</span></code>: A &quot;small&quot; integer</dt>
-<dd>A <code class="docutils literal"><span class="pre">short</span></code> is typically 16 bits, which provides a signed range of -32768..32767.  It is less common to use a <code class="docutils literal"><span class="pre">short</span></code> than a <code class="docutils literal"><span class="pre">char</span></code>, <code class="docutils literal"><span class="pre">int</span></code>, or something larger.</dd>
-<dt><code class="docutils literal"><span class="pre">int</span></code>: A &quot;default&quot; integer size</dt>
-<dd>An <code class="docutils literal"><span class="pre">int</span></code> is typically 32 bits (4 bytes), though it is only guaranteed to be at least 16 bits.  It is defined to be the &quot;most comfortable&quot; size for the computer architecture for which the compiler is targetted.  If you do not really care about the range for an integer variable, declare it <code class="docutils literal"><span class="pre">int</span></code> since that is likely to be an appropriate size which works well for that machine.</dd>
-<dt><code class="docutils literal"><span class="pre">long</span></code>: A large integer</dt>
+<dt><code class="docutils literal notranslate"><span class="pre">char</span></code>: One ASCII character</dt>
+<dd>The size of a <code class="docutils literal notranslate"><span class="pre">char</span></code> is almost always 8 bits, or 1 byte.  8 bits provides a signed range of -128..127 or an unsigned range is 0..255, which is enough to hold a single ASCII character <a class="footnote-reference" href="#f1" id="id1">[1]</a>. <code class="docutils literal notranslate"><span class="pre">char</span></code> is also required to be the &quot;smallest addressable unit&quot; for the machine --- each byte in memory has its own address.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">short</span></code>: A &quot;small&quot; integer</dt>
+<dd>A <code class="docutils literal notranslate"><span class="pre">short</span></code> is typically 16 bits, which provides a signed range of -32768..32767.  It is less common to use a <code class="docutils literal notranslate"><span class="pre">short</span></code> than a <code class="docutils literal notranslate"><span class="pre">char</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, or something larger.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">int</span></code>: A &quot;default&quot; integer size</dt>
+<dd>An <code class="docutils literal notranslate"><span class="pre">int</span></code> is typically 32 bits (4 bytes), though it is only guaranteed to be at least 16 bits.  It is defined to be the &quot;most comfortable&quot; size for the computer architecture for which the compiler is targetted.  If you do not really care about the range for an integer variable, declare it <code class="docutils literal notranslate"><span class="pre">int</span></code> since that is likely to be an appropriate size which works well for that machine.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">long</span></code>: A large integer</dt>
 <dd>A least 32 bits.  On a 32-bit machine, it will usually be 32 bits, but on a 64 bit machine, it will usually be 64 bits.</dd>
-<dt><code class="docutils literal"><span class="pre">long</span> <span class="pre">long</span></code></dt>
-<dd>Modern C compilers also support <code class="docutils literal"><span class="pre">long</span> <span class="pre">long</span></code> as an integer type, which is a 64-bit integer.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code></dt>
+<dd>Modern C compilers also support <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code> as an integer type, which is a 64-bit integer.</dd>
 </dl>
-<p>The integer types can be preceded by the qualifier <code class="docutils literal"><span class="pre">unsigned</span></code> which disallows representing negative numbers and doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, while <code class="docutils literal"><span class="pre">unsigned</span> <span class="pre">short</span></code> can store 0..65535.</p>
-<p>Although it may be tempting to use <code class="docutils literal"><span class="pre">unsigned</span></code> integer types in various situations, you should generally just use signed integers unless you really need an unsigned type.  Why?  The main reason is that it is common to write comparisons like <code class="docutils literal"><span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, but if <code class="docutils literal"><span class="pre">x</span></code> is unsigned, this expression <em>can never be true</em>!  A good compiler will warn you in such a situation, but it's best to avoid it to begin with.  So, unless you really need an unsigned type (e.g., for creating a bitfield), just use a signed type.</p>
+<p>The integer types can be preceded by the qualifier <code class="docutils literal notranslate"><span class="pre">unsigned</span></code> which disallows representing negative numbers and doubles the largest positive number representable. For example, a 16 bit implementation of short can store numbers in the range -32768..32767, while <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">short</span></code> can store 0..65535.</p>
+<p>Although it may be tempting to use <code class="docutils literal notranslate"><span class="pre">unsigned</span></code> integer types in various situations, you should generally just use signed integers unless you really need an unsigned type.  Why?  The main reason is that it is common to write comparisons like <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, but if <code class="docutils literal notranslate"><span class="pre">x</span></code> is unsigned, this expression <em>can never be true</em>!  A good compiler will warn you in such a situation, but it's best to avoid it to begin with.  So, unless you really need an unsigned type (e.g., for creating a bitfield), just use a signed type.</p>
 <div class="sidebar">
 <p class="first sidebar-title">Integers in Python and Java compared with C</p>
 <p>In Python, an integer can be arbitrarily large (negative or positive).  Any limit on the maximum size of an int is due to available memory, not restrictions related to processor architecture.  C is, of course, very much <em>unlike</em> that.  Issues of overflow and underflow come into play with C, and can be very tricky to detect and debug (a sidebar below discusses the overflow issue).</p>
-<p class="last">Java contains (almost) the same basic integer types as in C.  It has <code class="docutils literal"><span class="pre">short</span></code>, <code class="docutils literal"><span class="pre">int</span></code>, and <code class="docutils literal"><span class="pre">long</span></code>, which are 2 bytes, 4 bytes, and 8 bytes respectively (i.e., generally as they are in C).  Java also has a <code class="docutils literal"><span class="pre">byte</span></code> type, which is like <code class="docutils literal"><span class="pre">char</span></code> in C: a 1-byte integer.  A <code class="docutils literal"><span class="pre">char</span></code> in Java is <strong>not</strong> treated as an integer: it is a single Unicode character. Also, all integer types in Java are signed; unsigned integer types don't exist.</p>
+<p class="last">Java contains (almost) the same basic integer types as in C.  It has <code class="docutils literal notranslate"><span class="pre">short</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, and <code class="docutils literal notranslate"><span class="pre">long</span></code>, which are 2 bytes, 4 bytes, and 8 bytes respectively (i.e., generally as they are in C).  Java also has a <code class="docutils literal notranslate"><span class="pre">byte</span></code> type, which is like <code class="docutils literal notranslate"><span class="pre">char</span></code> in C: a 1-byte integer.  A <code class="docutils literal notranslate"><span class="pre">char</span></code> in Java is <strong>not</strong> treated as an integer: it is a single Unicode character. Also, all integer types in Java are signed; unsigned integer types don't exist.</p>
 </div>
 <div class="section" id="the-sizeof-keyword">
-<h3>3.1.1. The <code class="docutils literal"><span class="pre">sizeof</span></code> keyword<a class="headerlink" href="#the-sizeof-keyword" title="Permalink to this headline">¶</a></h3>
-<p>There is a keyword in C called <code class="docutils literal"><span class="pre">sizeof</span></code> that works like a function and returns the number of bytes occupied by a type or variable.  If there is ever a need to know the size of something, just use <code class="docutils literal"><span class="pre">sizeof</span></code>.  Here is an example of how <code class="docutils literal"><span class="pre">sizeof</span></code> can be used to print out the sizes of the various integer types on any computer system.  Note that the <code class="docutils literal"><span class="pre">%lu</span></code> format placeholder in each of the format strings to <code class="docutils literal"><span class="pre">printf</span></code> means &quot;unsigned long integer&quot;, which is what <code class="docutils literal"><span class="pre">sizeof</span></code> returns.  (As an exercise, change <code class="docutils literal"><span class="pre">%lu</span></code> to <code class="docutils literal"><span class="pre">%d</span></code> and recompile with <strong class="command">clang</strong>.  It will helpfully tell you that something is fishy with the <code class="docutils literal"><span class="pre">printf</span></code> call.)</p>
-<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<h3>3.1.1. The <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> keyword<a class="headerlink" href="#the-sizeof-keyword" title="Permalink to this headline">¶</a></h3>
+<p>There is a keyword in C called <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> that works like a function and returns the number of bytes occupied by a type or variable.  If there is ever a need to know the size of something, just use <code class="docutils literal notranslate"><span class="pre">sizeof</span></code>.  Here is an example of how <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> can be used to print out the sizes of the various integer types on any computer system.  Note that the <code class="docutils literal notranslate"><span class="pre">%lu</span></code> format placeholder in each of the format strings to <code class="docutils literal notranslate"><span class="pre">printf</span></code> means &quot;unsigned long integer&quot;, which is what <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> returns.  (As an exercise, change <code class="docutils literal notranslate"><span class="pre">%lu</span></code> to <code class="docutils literal notranslate"><span class="pre">%d</span></code> and recompile with <strong class="command">clang</strong>.  It will helpfully tell you that something is fishy with the <code class="docutils literal notranslate"><span class="pre">printf</span></code> call.)</p>
+<div class="highlight-c notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -168,7 +161,7 @@
 </pre></div>
 </td></tr></table></div>
 <p>When the above program is run on a 32-bit machine <a class="footnote-reference" href="#f2" id="id2">[2]</a>, the output is:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">char</span> <span class="ow">is</span> <span class="mi">1</span> <span class="nb">bytes</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">char</span> <span class="ow">is</span> <span class="mi">1</span> <span class="nb">bytes</span>
 <span class="n">A</span> <span class="n">short</span> <span class="ow">is</span> <span class="mi">2</span> <span class="nb">bytes</span>
 <span class="n">An</span> <span class="nb">int</span> <span class="ow">is</span> <span class="mi">4</span> <span class="nb">bytes</span>
 <span class="n">A</span> <span class="n">long</span> <span class="ow">is</span> <span class="mi">4</span> <span class="nb">bytes</span>
@@ -176,52 +169,52 @@
 </pre></div>
 </div>
 <p>and when the program is run on a 64-bit machine, the output is:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">char</span> <span class="ow">is</span> <span class="mi">1</span> <span class="nb">bytes</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">char</span> <span class="ow">is</span> <span class="mi">1</span> <span class="nb">bytes</span>
 <span class="n">A</span> <span class="n">short</span> <span class="ow">is</span> <span class="mi">2</span> <span class="nb">bytes</span>
 <span class="n">An</span> <span class="nb">int</span> <span class="ow">is</span> <span class="mi">4</span> <span class="nb">bytes</span>
 <span class="n">A</span> <span class="n">long</span> <span class="ow">is</span> <span class="mi">8</span> <span class="nb">bytes</span>
 <span class="n">A</span> <span class="n">long</span> <span class="n">long</span> <span class="ow">is</span> <span class="mi">8</span> <span class="nb">bytes</span>
 </pre></div>
 </div>
-<p>Notice that the key difference above is that on a 64-bit platform, the <code class="docutils literal"><span class="pre">long</span></code> type is 8 bytes (64 bits), but only 4 bytes (32 bits) on a 32-bit platform.</p>
+<p>Notice that the key difference above is that on a 64-bit platform, the <code class="docutils literal notranslate"><span class="pre">long</span></code> type is 8 bytes (64 bits), but only 4 bytes (32 bits) on a 32-bit platform.</p>
 <div class="sidebar">
 <p class="first sidebar-title">Integer sizes and source code portability</p>
-<p>Instead of defining the exact sizes of the integer types, C defines lower bounds. This makes it easier to implement C compilers on a wide range of hardware. Unfortunately it occasionally leads to bugs where a program runs differently on a 32-bit machine than it runs on a 64-bit machine.  In particular, if you are designing a function that will be implemented on several different machines, it is best to explicitly specify the sizes of integral types.  If you <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;stdint.h&gt;</span></code>, you can use types that explicitly indicate their bit-widths: <code class="docutils literal"><span class="pre">int8_t</span></code>, <code class="docutils literal"><span class="pre">int16_t</span></code>, <code class="docutils literal"><span class="pre">int32_t</span></code>, and <code class="docutils literal"><span class="pre">int64_t</span></code>.  There are also <code class="docutils literal"><span class="pre">unsigned</span></code> variants of these types: <code class="docutils literal"><span class="pre">uint8_t</span></code>, <code class="docutils literal"><span class="pre">uint16_t</span></code>, <code class="docutils literal"><span class="pre">uint32_t</span></code>, and <code class="docutils literal"><span class="pre">uint64_t</span></code>.</p>
+<p>Instead of defining the exact sizes of the integer types, C defines lower bounds. This makes it easier to implement C compilers on a wide range of hardware. Unfortunately it occasionally leads to bugs where a program runs differently on a 32-bit machine than it runs on a 64-bit machine.  In particular, if you are designing a function that will be implemented on several different machines, it is best to explicitly specify the sizes of integral types.  If you <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;stdint.h&gt;</span></code>, you can use types that explicitly indicate their bit-widths: <code class="docutils literal notranslate"><span class="pre">int8_t</span></code>, <code class="docutils literal notranslate"><span class="pre">int16_t</span></code>, <code class="docutils literal notranslate"><span class="pre">int32_t</span></code>, and <code class="docutils literal notranslate"><span class="pre">int64_t</span></code>.  There are also <code class="docutils literal notranslate"><span class="pre">unsigned</span></code> variants of these types: <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code>, <code class="docutils literal notranslate"><span class="pre">uint16_t</span></code>, <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code>, and <code class="docutils literal notranslate"><span class="pre">uint64_t</span></code>.</p>
 <p class="last">For some operating systems-related functions it is extremely important to be sure that a variable is <em>exactly</em> of a given size. These types come in handy in those situations, too.</p>
 </div>
 <span class="target" id="character-literals"></span></div>
 <div class="section" id="char-literals">
-<span id="index-1"></span><h3>3.1.2. <code class="docutils literal"><span class="pre">char</span></code> literals<a class="headerlink" href="#char-literals" title="Permalink to this headline">¶</a></h3>
-<p>A <code class="docutils literal"><span class="pre">char</span></code> literal is written with single quotes (') like <code class="docutils literal"><span class="pre">'A'</span></code> or <code class="docutils literal"><span class="pre">'z'</span></code>.  The char constant <code class="docutils literal"><span class="pre">'A'</span></code> is really just a synonym for the ordinary integer value 65, which is the ASCII value for uppercase 'A'. There are also special case <code class="docutils literal"><span class="pre">char</span></code> constants for certain characters, such as <code class="docutils literal"><span class="pre">'\t'</span></code> for tab, and <code class="docutils literal"><span class="pre">'\n'</span></code> for newline.</p>
+<span id="index-1"></span><h3>3.1.2. <code class="docutils literal notranslate"><span class="pre">char</span></code> literals<a class="headerlink" href="#char-literals" title="Permalink to this headline">¶</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">char</span></code> literal is written with single quotes (') like <code class="docutils literal notranslate"><span class="pre">'A'</span></code> or <code class="docutils literal notranslate"><span class="pre">'z'</span></code>.  The char constant <code class="docutils literal notranslate"><span class="pre">'A'</span></code> is really just a synonym for the ordinary integer value 65, which is the ASCII value for uppercase 'A'. There are also special case <code class="docutils literal notranslate"><span class="pre">char</span></code> constants for certain characters, such as <code class="docutils literal notranslate"><span class="pre">'\t'</span></code> for tab, and <code class="docutils literal notranslate"><span class="pre">'\n'</span></code> for newline.</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">'A'</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">'A'</span></code></dt>
 <dd>Uppercase 'A' character</dd>
-<dt><code class="docutils literal"><span class="pre">'\n'</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">'\n'</span></code></dt>
 <dd>Newline character</dd>
-<dt><code class="docutils literal"><span class="pre">'\t'</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">'\t'</span></code></dt>
 <dd>Tab character</dd>
-<dt><code class="docutils literal"><span class="pre">'\0'</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">'\0'</span></code></dt>
 <dd>The &quot;null&quot; character --- integer value 0 (totally different from the char digit '0'!).  Remember that this is the special character used to terminal strings in C.</dd>
-<dt><code class="docutils literal"><span class="pre">'\012'</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">'\012'</span></code></dt>
 <dd>The character with value 12 in octal, which is decimal 10 (and corresponds to the newline character).  Octal representations of chars and integers shows up here and there, but is not especially common any more.</dd>
-<dt><code class="docutils literal"><span class="pre">0x20</span></code></dt>
-<dd>The character with hexadecimal value 20, which is 32 in decimal (and corresponds to the space <code class="docutils literal"><span class="pre">'</span> <span class="pre">'</span></code> character).  Hexadecimal representations of chars and integers is fairly common in operating systems code.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">0x20</span></code></dt>
+<dd>The character with hexadecimal value 20, which is 32 in decimal (and corresponds to the space <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">'</span></code> character).  Hexadecimal representations of chars and integers is fairly common in operating systems code.</dd>
 </dl>
 </div>
 <div class="section" id="int-literals">
-<h3>3.1.3. <code class="docutils literal"><span class="pre">int</span></code> literals<a class="headerlink" href="#int-literals" title="Permalink to this headline">¶</a></h3>
-<p>Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long, such as 42L.  Similarly, an integer literal may be followed by 'LL' to indicate that it is of type <code class="docutils literal"><span class="pre">long</span> <span class="pre">long</span></code>.  Adding a 'U' before 'L' or 'LL' can be used to specify that the value is unsigned, e.g., 42ULL is an <code class="docutils literal"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></code> type.</p>
+<h3>3.1.3. <code class="docutils literal notranslate"><span class="pre">int</span></code> literals<a class="headerlink" href="#int-literals" title="Permalink to this headline">¶</a></h3>
+<p>Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long, such as 42L.  Similarly, an integer literal may be followed by 'LL' to indicate that it is of type <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code>.  Adding a 'U' before 'L' or 'LL' can be used to specify that the value is unsigned, e.g., 42ULL is an <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></code> type.</p>
 <p>An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal (base 16) --- 0x10 is way of expressing the decimal number 16.  Similarly, a constant may be written in octal (base 8) by preceding it with &quot;0&quot; --- 012 is a way of expressing the decimal number 10.</p>
 <div class="section" id="type-combination-and-promotion">
 <h4>3.1.3.1. Type combination and promotion<a class="headerlink" href="#type-combination-and-promotion" title="Permalink to this headline">¶</a></h4>
-<p>The integral types may be mixed together in arithmetic expressions since they are all basically just integers.  That includes the <code class="docutils literal"><span class="pre">char</span></code> type (unlike Java, in which the <code class="docutils literal"><span class="pre">byte</span></code> type would need to be used to specify a single-byte integer). For example, <code class="docutils literal"><span class="pre">char</span></code> and <code class="docutils literal"><span class="pre">int</span></code> can be combined in arithmetic expressions such as (<code class="docutils literal"><span class="pre">'b'</span> <span class="pre">+</span> <span class="pre">5</span></code>). How does the compiler deal with the different widths present in such an expression?  In such a case, the compiler &quot;promotes&quot; the smaller type (<code class="docutils literal"><span class="pre">char</span></code>) to be the same size as the larger type (<code class="docutils literal"><span class="pre">int</span></code>) before combining the values.  Promotions are determined at compile time based purely on the types of the values in the expressions. Promotions do not lose information --- they always convert from one type to a compatible, larger type to avoid losing information.  However, an assignment (or explicit cast) from a larger type to smaller type (e.g., assigning an <code class="docutils literal"><span class="pre">int</span></code> value to a <code class="docutils literal"><span class="pre">short</span></code> variable) may indeed lose information.</p>
+<p>The integral types may be mixed together in arithmetic expressions since they are all basically just integers.  That includes the <code class="docutils literal notranslate"><span class="pre">char</span></code> type (unlike Java, in which the <code class="docutils literal notranslate"><span class="pre">byte</span></code> type would need to be used to specify a single-byte integer). For example, <code class="docutils literal notranslate"><span class="pre">char</span></code> and <code class="docutils literal notranslate"><span class="pre">int</span></code> can be combined in arithmetic expressions such as (<code class="docutils literal notranslate"><span class="pre">'b'</span> <span class="pre">+</span> <span class="pre">5</span></code>). How does the compiler deal with the different widths present in such an expression?  In such a case, the compiler &quot;promotes&quot; the smaller type (<code class="docutils literal notranslate"><span class="pre">char</span></code>) to be the same size as the larger type (<code class="docutils literal notranslate"><span class="pre">int</span></code>) before combining the values.  Promotions are determined at compile time based purely on the types of the values in the expressions. Promotions do not lose information --- they always convert from one type to a compatible, larger type to avoid losing information.  However, an assignment (or explicit cast) from a larger type to smaller type (e.g., assigning an <code class="docutils literal notranslate"><span class="pre">int</span></code> value to a <code class="docutils literal notranslate"><span class="pre">short</span></code> variable) may indeed lose information.</p>
 <div class="sidebar">
-<p class="first sidebar-title">Pitfall: <code class="docutils literal"><span class="pre">int</span></code> overflow</p>
+<p class="first sidebar-title">Pitfall: <code class="docutils literal notranslate"><span class="pre">int</span></code> overflow</p>
 <p id="index-2">Remember that wonderful algorithm called &quot;binary search&quot;?  As an engineer at Google discovered some time ago, nearly all implementations of binary search are coded incorrectly <a class="footnote-reference" href="#f3" id="id3">[3]</a>.  The problem is usually on the line that computes the midpoint of an array, which often looks like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">low</span> <span class="o">+</span> <span class="n">high</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">low</span> <span class="o">+</span> <span class="n">high</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
 </pre></div>
 </div>
-<p class="last">So what's the problem?  The issue is that for very large arrays, the expression <code class="docutils literal"><span class="pre">low</span> <span class="pre">+</span> <span class="pre">high</span></code> may exceed the size of a 32-bit integer, resulting in &quot;overflow&quot;, and the value resulting from an overflow is <em>undefined</em>!  There is no guarantee that the high-order bit(s) will simply be truncated.  In C, the result is that the array index (<code class="docutils literal"><span class="pre">mid</span></code>) overflows to an undefined value, resulting in undefined and likely incorrect program behavior.  See the footnote reference (<a class="footnote-reference" href="#f2" id="id4">[2]</a>) for ways to fix the code in both Java and C/C++.</p>
+<p class="last">So what's the problem?  The issue is that for very large arrays, the expression <code class="docutils literal notranslate"><span class="pre">low</span> <span class="pre">+</span> <span class="pre">high</span></code> may exceed the size of a 32-bit integer, resulting in &quot;overflow&quot;, and the value resulting from an overflow is <em>undefined</em>!  There is no guarantee that the high-order bit(s) will simply be truncated.  In C, the result is that the array index (<code class="docutils literal notranslate"><span class="pre">mid</span></code>) overflows to an undefined value, resulting in undefined and likely incorrect program behavior.  See the footnote reference (<a class="footnote-reference" href="#f2" id="id4">[2]</a>) for ways to fix the code in both Java and C/C++.</p>
 </div>
 </div>
 </div>
@@ -229,25 +222,25 @@
 <div class="section" id="floating-point-types">
 <h2>3.2. Floating point types<a class="headerlink" href="#floating-point-types" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">float</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">float</span></code></dt>
 <dd>Single precision floating point number typical size: 32 bits (4 bytes)</dd>
-<dt><code class="docutils literal"><span class="pre">double</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">double</span></code></dt>
 <dd>Double precision floating point number typical size: 64 bits (8 bytes)</dd>
-<dt><code class="docutils literal"><span class="pre">long</span> <span class="pre">double</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code></dt>
 <dd>A &quot;quad-precision&quot; floating point number.  128 bits on modern Linux and MacOS X machines (16 bytes).
 Possibly even bigger floating point number (somewhat obscure)</dd>
 </dl>
-<p>Constants in the source code such as 3.14 default to type <code class="docutils literal"><span class="pre">double</span></code> unless they are suffixed with an 'f' (<code class="docutils literal"><span class="pre">float</span></code>) or 'l' (<code class="docutils literal"><span class="pre">long</span> <span class="pre">double</span></code>). Single precision equates to about 6 digits of precision and double is about 15 digits of precision.  Most C programs use <code class="docutils literal"><span class="pre">double</span></code> for their computations, since the additional precision is usually well worth the additional 4 bytes of memory usage.  The only reason to use <code class="docutils literal"><span class="pre">float</span></code> is to save on memory consumption, but in normal user programs the tradeoff just isn't worth it.</p>
+<p>Constants in the source code such as 3.14 default to type <code class="docutils literal notranslate"><span class="pre">double</span></code> unless they are suffixed with an 'f' (<code class="docutils literal notranslate"><span class="pre">float</span></code>) or 'l' (<code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code>). Single precision equates to about 6 digits of precision and double is about 15 digits of precision.  Most C programs use <code class="docutils literal notranslate"><span class="pre">double</span></code> for their computations, since the additional precision is usually well worth the additional 4 bytes of memory usage.  The only reason to use <code class="docutils literal notranslate"><span class="pre">float</span></code> is to save on memory consumption, but in normal user programs the tradeoff just isn't worth it.</p>
 <p>The main thing to remember about floating point computations is that they are <em>inexact</em>. For example, what is the value of the following double expression?</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span> <span class="o">+</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span> <span class="o">+</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span> <span class="c1">// is this equal to 1.0 exactly?</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span> <span class="o">+</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span> <span class="o">+</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span> <span class="c1">// is this equal to 1.0 exactly?</span>
 </pre></div>
 </div>
-<p>The sum may or may not be 1.0 exactly, and it may vary from one type of machine to another. For this reason, you should never compare floating numbers to each other for equality (<code class="docutils literal"><span class="pre">==</span></code>) --- use inequality (<code class="docutils literal"><span class="pre">&lt;</span></code>) comparisons instead.  Realize that a correct C program run on different computers may produce slightly different outputs in the rightmost digits of its floating point computations.</p>
+<p>The sum may or may not be 1.0 exactly, and it may vary from one type of machine to another. For this reason, you should never compare floating numbers to each other for equality (<code class="docutils literal notranslate"><span class="pre">==</span></code>) --- use inequality (<code class="docutils literal notranslate"><span class="pre">&lt;</span></code>) comparisons instead.  Realize that a correct C program run on different computers may produce slightly different outputs in the rightmost digits of its floating point computations.</p>
 </div>
 <div class="section" id="boolean-type">
 <span id="index-3"></span><h2>3.3. Boolean type<a class="headerlink" href="#boolean-type" title="Permalink to this headline">¶</a></h2>
 <p>In C prior to the C99 standard, there was no distinct Boolean type.  Instead, integer values were used to indicate true or false: zero (0) means false, and anything non-zero means true.  So, the following code:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="c1">// ...</span>
@@ -255,9 +248,9 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>will execute until the variable <code class="docutils literal"><span class="pre">i</span></code> takes on the value 10 at which time the expression (i - 10) will become false (i.e., 0).</p>
-<p>In the C99 revision, a <code class="docutils literal"><span class="pre">bool</span></code> type was added to the language, but the vast majority of existing C code uses integers as quasi-Boolean values. In C99, you must add <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;stdbool.h&gt;</span></code> to your code to gain access to the <code class="docutils literal"><span class="pre">bool</span></code> type.  Using the C99 <code class="docutils literal"><span class="pre">bool</span></code> type, we could modify the above code to use a Boolean flag variable as follows:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp"></span>
+<p>will execute until the variable <code class="docutils literal notranslate"><span class="pre">i</span></code> takes on the value 10 at which time the expression (i - 10) will become false (i.e., 0).</p>
+<p>In the C99 revision, a <code class="docutils literal notranslate"><span class="pre">bool</span></code> type was added to the language, but the vast majority of existing C code uses integers as quasi-Boolean values. In C99, you must add <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;stdbool.h&gt;</span></code> to your code to gain access to the <code class="docutils literal notranslate"><span class="pre">bool</span></code> type.  Using the C99 <code class="docutils literal notranslate"><span class="pre">bool</span></code> type, we could modify the above code to use a Boolean flag variable as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdbool.h&gt;</span><span class="cp"></span>
 
 <span class="c1">// ...</span>
 
@@ -277,55 +270,55 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 <div class="section" id="comments">
 <span id="index-4"></span><h3>3.4.1. Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h3>
 <p>Comments in C are enclosed by slash/star pairs:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="o">..</span> <span class="n">comments</span> <span class="o">..</span> <span class="o">*/</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="o">..</span> <span class="n">comments</span> <span class="o">..</span> <span class="o">*/</span>
 </pre></div>
 </div>
 <dl class="docutils">
 <dt>which may cross multiple lines. C++ introduced a form of comment started by two slashes and extending to the end of the line::</dt>
 <dd>// comment until the line end</dd>
 </dl>
-<p>The <code class="docutils literal"><span class="pre">//</span></code> comment form is so handy that many C compilers now also support it, although it is not technically part of the C language.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">//</span></code> comment form is so handy that many C compilers now also support it, although it is not technically part of the C language.</p>
 <p>Along with well-chosen function names, comments are an important part of well written code.  Comments should not just repeat what the code says.  Comments should describe what the code accomplishes which is much more interesting than a translation of what each statement does.  Comments should also narrate what is tricky or non-obvious about a section of code.</p>
 </div>
 <div class="section" id="variables">
 <h3>3.4.2. Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h3>
-<p>As in most languages, a variable declaration reserves and names an area in memory at run time to hold a value of particular type.  Syntactically, C puts the type first followed by the name of the variable.  The following declares an <code class="docutils literal"><span class="pre">int</span></code> variable named &quot;num&quot; and the 2nd line stores the value 42 into num:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+<p>As in most languages, a variable declaration reserves and names an area in memory at run time to hold a value of particular type.  Syntactically, C puts the type first followed by the name of the variable.  The following declares an <code class="docutils literal notranslate"><span class="pre">int</span></code> variable named &quot;num&quot; and the 2nd line stores the value 42 into num:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
 </pre></div>
 </div>
 <div class="figure align-center" id="id8">
 <img alt="Memory box diagram" src="_images/numbox.png" />
-<p class="caption"><span class="caption-text">A simple memory diagram for <code class="docutils literal"><span class="pre">int</span> <span class="pre">num</span> <span class="pre">=</span> <span class="pre">42;</span></code>.</span></p>
+<p class="caption"><span class="caption-text">A simple memory diagram for <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">num</span> <span class="pre">=</span> <span class="pre">42;</span></code>.</span></p>
 </div>
 <p>A variable corresponds to an area of memory which can store a value of the given type. Making a drawing is an excellent way to think about the variables in a program. Draw each variable as box with the current value inside the box. This may seem like a &quot;newbie&quot; technique,  but when you are buried in some horribly complex programming problem, it will almost certainly help to draw things out as a way to think through the problem.  Embrace your inner noob.</p>
 <div class="sidebar">
 <p class="first sidebar-title">Initial values in variables and <em>undefined</em> values</p>
 <p id="index-5">Unlike Java, <strong>variables in C do not have their memory cleared or set in any way when they are allocated at run time</strong>.  The value in a variable at the time it is declared is <em>undefined</em>: it is likely to be filled with what ever variable or value previously occupied that particular location in memory.  Or it might be zeroes.  Or it might be filled with fuzzy pink pandas.  The point is that you should never assume that a variable has any value stored in it at the time of declaration.  As a result, you should almost always <em>explicitly initialize variables</em> at the point of declaration.  A good compiler will (usually) tell you when you're playing with fire with respect to variable initialization, but it is good to get into the habit of explicitly initializing variables to avoid this pitfall.</p>
-<p>Undefined values in C come up in a few other places.  For example, although you'd like to <em>think</em> that the following assignment results in <code class="docutils literal"><span class="pre">-128</span></code> being stored in <code class="docutils literal"><span class="pre">c</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">char</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">127</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<p>Undefined values in C come up in a few other places.  For example, although you'd like to <em>think</em> that the following assignment results in <code class="docutils literal notranslate"><span class="pre">-128</span></code> being stored in <code class="docutils literal notranslate"><span class="pre">c</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">char</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">127</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>you cannot assume that it has any particular value since the result of an overflow is <em>undefined</em>.  Although the <code class="docutils literal"><span class="pre">gcc</span></code> has a special flag <code class="docutils literal"><span class="pre">-fwrapv</span></code> which forces overflow to result in two's complement wraparound, there's no guarantee of this behavior in the absence of the flag.</p>
+<p>you cannot assume that it has any particular value since the result of an overflow is <em>undefined</em>.  Although the <code class="docutils literal notranslate"><span class="pre">gcc</span></code> has a special flag <code class="docutils literal notranslate"><span class="pre">-fwrapv</span></code> which forces overflow to result in two's complement wraparound, there's no guarantee of this behavior in the absence of the flag.</p>
 <p class="last">For lots of good discussion on undefined behaviors in C, see <a class="reference internal" href="#regehr" id="id5">[Regehr]</a> and <a class="reference internal" href="#lattner" id="id6">[Lattner]</a>.</p>
 </div>
 <p>Names in C are <em>case sensitive</em> so &quot;x&quot; and &quot;X&quot; refer to different variables. Names can contain digits and underscores (_), but may not begin with a digit. Multiple variables can be declared after the type by separating them with commas.  C is a classical &quot;compile time&quot; language --- the names of the variables, their types, and their implementations are all flushed out by the compiler at compile time (as opposed to figuring such details out at run time like an interpreter).</p>
 </div>
 <div class="section" id="assignment-operator">
-<span id="index-6"></span><h3>3.4.3. Assignment Operator <code class="docutils literal"><span class="pre">=</span></code><a class="headerlink" href="#assignment-operator" title="Permalink to this headline">¶</a></h3>
-<p>The assignment operator is the single equals sign (<code class="docutils literal"><span class="pre">=</span></code>):</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+<span id="index-6"></span><h3>3.4.3. Assignment Operator <code class="docutils literal notranslate"><span class="pre">=</span></code><a class="headerlink" href="#assignment-operator" title="Permalink to this headline">¶</a></h3>
+<p>The assignment operator is the single equals sign (<code class="docutils literal notranslate"><span class="pre">=</span></code>):</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
 <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>The assignment operator copies the value from its right hand side to the variable on its left hand side. The assignment also acts as an expression which returns the newly assigned value. Some programmers will use that feature to write things like the following:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// double x, and also put x&#39;s new value in y</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// double x, and also put x&#39;s new value in y</span>
 </pre></div>
 </div>
 <div class="section" id="demotion-on-assignment">
 <span id="index-7"></span><h4>3.4.3.1. Demotion on assignment<a class="headerlink" href="#demotion-on-assignment" title="Permalink to this headline">¶</a></h4>
-<p>The opposite of promotion, demotion moves a value from a type to a smaller type.  This is a situation to be avoided, because strictly speaking the result is <em>implementation and compiler-defined</em>.  In other words, there's no guarantee what will happen, and it may be different depending on the compiler used.  A common behavior is for any extra bits to be truncated, but you should not depend on that.  At least a good compiler (like <code class="docutils literal"><span class="pre">clang</span></code>) will generate a compile time warning in this type of situation.</p>
-<p>The assignment of a floating point type to an integer type will <em>truncate</em> the fractional part of the number. The following code will set <code class="docutils literal"><span class="pre">i</span></code> to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  If the integer portion of a floating point number is too big to be represented in the integer being assigned to, the result is the ghastly <em>undefined</em> (see <a class="footnote-reference" href="#f4" id="id7">[4]</a>).  Most modern compilers will warn about implicit conversions like in the code below, but not all.</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+<p>The opposite of promotion, demotion moves a value from a type to a smaller type.  This is a situation to be avoided, because strictly speaking the result is <em>implementation and compiler-defined</em>.  In other words, there's no guarantee what will happen, and it may be different depending on the compiler used.  A common behavior is for any extra bits to be truncated, but you should not depend on that.  At least a good compiler (like <code class="docutils literal notranslate"><span class="pre">clang</span></code>) will generate a compile time warning in this type of situation.</p>
+<p>The assignment of a floating point type to an integer type will <em>truncate</em> the fractional part of the number. The following code will set <code class="docutils literal notranslate"><span class="pre">i</span></code> to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  If the integer portion of a floating point number is too big to be represented in the integer being assigned to, the result is the ghastly <em>undefined</em> (see <a class="footnote-reference" href="#f4" id="id7">[4]</a>).  Most modern compilers will warn about implicit conversions like in the code below, but not all.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
 <span class="n">i</span> <span class="o">=</span> <span class="mf">3.14159</span><span class="p">;</span> <span class="c1">// truncation of a float value to int</span>
 </pre></div>
 </div>
@@ -333,7 +326,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </div>
 <div class="section" id="arithmetic-operations">
 <span id="index-8"></span><h3>3.4.4. Arithmetic operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this headline">¶</a></h3>
-<p>C includes the usual binary and unary arithmetic operators.  It is good practice to use parentheses if there is ever any question or ambiguity surrounding order of operations.  The compiler will optimize the expression anyway, so as a programmer you should always strive for <em>maximum readability</em> rather than some perceived notion of what is efficient or not.  The operators are sensitive to the type of the operands. So division (<code class="docutils literal"><span class="pre">/</span></code>) with two integer arguments will do integer division.  If either argument is a float, it does floating point division. So (<code class="docutils literal"><span class="pre">6/4</span></code>) evaluates to 1 while (<code class="docutils literal"><span class="pre">6/4.0</span></code>) evaluates to 1.5 --- the 6 is promoted to 6.0 before the division.</p>
+<p>C includes the usual binary and unary arithmetic operators.  It is good practice to use parentheses if there is ever any question or ambiguity surrounding order of operations.  The compiler will optimize the expression anyway, so as a programmer you should always strive for <em>maximum readability</em> rather than some perceived notion of what is efficient or not.  The operators are sensitive to the type of the operands. So division (<code class="docutils literal notranslate"><span class="pre">/</span></code>) with two integer arguments will do integer division.  If either argument is a float, it does floating point division. So (<code class="docutils literal notranslate"><span class="pre">6/4</span></code>) evaluates to 1 while (<code class="docutils literal notranslate"><span class="pre">6/4.0</span></code>) evaluates to 1.5 --- the 6 is promoted to 6.0 before the division.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="38%" />
@@ -345,27 +338,27 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">+</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">+</span></code></td>
 <td>Addition</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">-</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">-</span></code></td>
 <td>Subtraction</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">/</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/</span></code></td>
 <td>Division</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">*</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">*</span></code></td>
 <td>Multiplication</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">%</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">%</span></code></td>
 <td>Remainder (mod)</td>
 </tr>
 </tbody>
 </table>
 <div class="sidebar" id="index-9">
 <p class="first sidebar-title">Pitfall: int vs. float Arithmetic</p>
-<p>Here's an example of the sort of code where <code class="docutils literal"><span class="pre">int</span></code> vs. <code class="docutils literal"><span class="pre">float</span></code> arithmetic can cause problems.  Suppose the following code is supposed to scale a homework score in the range 0..20 to be in the range 0..100:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+<p>Here's an example of the sort of code where <code class="docutils literal notranslate"><span class="pre">int</span></code> vs. <code class="docutils literal notranslate"><span class="pre">float</span></code> arithmetic can cause problems.  Suppose the following code is supposed to scale a homework score in the range 0..20 to be in the range 0..100:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nb">int</span> <span class="n">score</span><span class="p">;</span>
     <span class="o">...</span>  <span class="o">//</span> <span class="n">suppose</span> <span class="n">score</span> <span class="n">gets</span> <span class="nb">set</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">range</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">20</span> <span class="n">somehow</span>
     <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">score</span> <span class="o">/</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span>         <span class="o">//</span> <span class="n">NO</span> <span class="o">--</span> <span class="n">score</span><span class="o">/</span><span class="mi">20</span> <span class="n">truncates</span> <span class="n">to</span> <span class="mi">0</span>
@@ -374,18 +367,18 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </pre></div>
 </div>
 <p>Unfortunately, score will almost always be set to 0 for this code because the integer division in the expression (score/20) will be 0 for every value of score less than 20. The fix is to force the quotient to be computed as a floating point number:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">score</span> <span class="o">=</span> <span class="p">((</span><span class="n">double</span><span class="p">)</span><span class="n">score</span> <span class="o">/</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span> <span class="o">//</span> <span class="n">OK</span> <span class="o">--</span> <span class="n">floating</span> <span class="n">point</span> <span class="n">division</span> <span class="kn">from</span> <span class="nn">cast</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">score</span> <span class="o">=</span> <span class="p">((</span><span class="n">double</span><span class="p">)</span><span class="n">score</span> <span class="o">/</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span> <span class="o">//</span> <span class="n">OK</span> <span class="o">--</span> <span class="n">floating</span> <span class="n">point</span> <span class="n">division</span> <span class="kn">from</span> <span class="nn">cast</span>
 <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">score</span> <span class="o">/</span> <span class="mf">20.0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span>       <span class="o">//</span> <span class="n">OK</span> <span class="o">--</span> <span class="n">floating</span> <span class="n">point</span> <span class="n">division</span> <span class="kn">from</span> <span class="mf">20.0</span>
 <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">)(</span><span class="n">score</span> <span class="o">/</span> <span class="mf">20.0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span>  <span class="o">//</span> <span class="n">NO</span> <span class="o">--</span> <span class="n">the</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="n">truncates</span> <span class="n">the</span> <span class="n">floating</span>
                                     <span class="o">//</span> <span class="n">quotient</span> <span class="n">back</span> <span class="n">to</span> <span class="mi">0</span>
 </pre></div>
 </div>
-<p class="last">Note that these problems are similar to <code class="docutils literal"><span class="pre">int</span></code> versus <code class="docutils literal"><span class="pre">float</span></code> problems in Python (version 2).  In Python 3, division using <code class="docutils literal"><span class="pre">/</span></code> <em>always</em> returns a floating point type, which eliminates the problem.  (If integer division is desired in Python 3, the <code class="docutils literal"><span class="pre">//</span></code> operator can be used.)</p>
+<p class="last">Note that these problems are similar to <code class="docutils literal notranslate"><span class="pre">int</span></code> versus <code class="docutils literal notranslate"><span class="pre">float</span></code> problems in Python (version 2).  In Python 3, division using <code class="docutils literal notranslate"><span class="pre">/</span></code> <em>always</em> returns a floating point type, which eliminates the problem.  (If integer division is desired in Python 3, the <code class="docutils literal notranslate"><span class="pre">//</span></code> operator can be used.)</p>
 </div>
 </div>
 <div class="section" id="unary-increment-operators-and">
-<span id="index-10"></span><h3>3.4.5. Unary Increment Operators: <code class="docutils literal"><span class="pre">++</span></code> and <code class="docutils literal"><span class="pre">--</span></code><a class="headerlink" href="#unary-increment-operators-and" title="Permalink to this headline">¶</a></h3>
-<p>The unary <code class="docutils literal"><span class="pre">++</span></code> and <code class="docutils literal"><span class="pre">--</span></code> operators increment or decrement the value in a variable. There are &quot;pre&quot; and &quot;post&quot; variants for both operators which do slightly different things (explained below).</p>
+<span id="index-10"></span><h3>3.4.5. Unary Increment Operators: <code class="docutils literal notranslate"><span class="pre">++</span></code> and <code class="docutils literal notranslate"><span class="pre">--</span></code><a class="headerlink" href="#unary-increment-operators-and" title="Permalink to this headline">¶</a></h3>
+<p>The unary <code class="docutils literal notranslate"><span class="pre">++</span></code> and <code class="docutils literal notranslate"><span class="pre">--</span></code> operators increment or decrement the value in a variable. There are &quot;pre&quot; and &quot;post&quot; variants for both operators which do slightly different things (explained below).</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="26%" />
@@ -397,22 +390,22 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">var++</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">var++</span></code></td>
 <td>increment &quot;post&quot; variant</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">++var</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">++var</span></code></td>
 <td>increment &quot;pre&quot; variant</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">var--</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">var--</span></code></td>
 <td>decrement &quot;post&quot; variant</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">--var</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--var</span></code></td>
 <td>decrement &quot;pre&quot; variant</td>
 </tr>
 </tbody>
 </table>
 <p>An example using post increment/decrement:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
 <span class="n">i</span><span class="o">++</span><span class="p">;</span>     <span class="c1">// increment on i</span>
 <span class="c1">// i is now 43</span>
 <span class="n">i</span><span class="o">--</span><span class="p">;</span>     <span class="c1">// decrement on i</span>
@@ -422,7 +415,7 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 <div class="section" id="pre-and-post-variations">
 <h4>3.4.5.1. Pre- and post- variations<a class="headerlink" href="#pre-and-post-variations" title="Permalink to this headline">¶</a></h4>
 <p>The pre-/post- variation has to do with nesting a variable with the increment or decrement operator inside an expression --- should the entire expression represent the value of the variable <em>before</em> or <em>after</em> the change?  These operators can be confusing to read in code and are often best avoided, but here is an example:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
 <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
 <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">++</span> <span class="o">+</span> <span class="mi">10</span><span class="p">);</span>
 <span class="c1">// i is now 43</span>
@@ -448,32 +441,32 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">==</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">==</span></code></td>
 <td>Equal</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">!=</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">!=</span></code></td>
 <td>Not Equal</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">&gt;</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">&gt;</span></code></td>
 <td>Greater Than</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&lt;</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&lt;</span></code></td>
 <td>Less Than</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">&gt;=</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">&gt;=</span></code></td>
 <td>Greater or Equal</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&lt;=</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&lt;=</span></code></td>
 <td>Less or Equal</td>
 </tr>
 </tbody>
 </table>
-<p>To see if <code class="docutils literal"><span class="pre">x</span></code> equals three, write something like <code class="docutils literal"><span class="pre">if</span> <span class="pre">(x==3)</span> <span class="pre">...</span></code>.</p>
+<p>To see if <code class="docutils literal notranslate"><span class="pre">x</span></code> equals three, write something like <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(x==3)</span> <span class="pre">...</span></code>.</p>
 <div class="sidebar">
-<p class="first sidebar-title">pitfall: <code class="docutils literal"><span class="pre">=</span> <span class="pre">!=</span> <span class="pre">==</span></code></p>
-<p>An absolutely classic pitfall is to write assignment (<code class="docutils literal"><span class="pre">=</span></code>) when you mean comparison (<code class="docutils literal"><span class="pre">==</span></code>). This would not be such a problem, except the incorrect assignment version compiles fine because the compiler assumes you mean to use the value returned by the assignment.  This is rarely what you want: <code class="docutils literal"><span class="pre">if</span> <span class="pre">(x=3)</span> <span class="pre">...</span></code>.</p>
-<p>This does not test if <code class="docutils literal"><span class="pre">x</span></code> is 3!  It sets <code class="docutils literal"><span class="pre">x</span></code> to the value 3, and then returns the 3 to the <code class="docutils literal"><span class="pre">if</span> <span class="pre">statement</span></code> for testing.  3 is not 0, so it counts as &quot;true&quot; every time.</p>
-<p>Some compilers will emit warnings for these types of expressions, but a better technique that many C programmers use to avoid such problems is to put the literal value on the <em>left hand side</em> of the expression as in: <code class="docutils literal"><span class="pre">if</span> <span class="pre">(3=x)...</span></code></p>
+<p class="first sidebar-title">pitfall: <code class="docutils literal notranslate"><span class="pre">=</span> <span class="pre">!=</span> <span class="pre">==</span></code></p>
+<p>An absolutely classic pitfall is to write assignment (<code class="docutils literal notranslate"><span class="pre">=</span></code>) when you mean comparison (<code class="docutils literal notranslate"><span class="pre">==</span></code>). This would not be such a problem, except the incorrect assignment version compiles fine because the compiler assumes you mean to use the value returned by the assignment.  This is rarely what you want: <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(x=3)</span> <span class="pre">...</span></code>.</p>
+<p>This does not test if <code class="docutils literal notranslate"><span class="pre">x</span></code> is 3!  It sets <code class="docutils literal notranslate"><span class="pre">x</span></code> to the value 3, and then returns the 3 to the <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">statement</span></code> for testing.  3 is not 0, so it counts as &quot;true&quot; every time.</p>
+<p>Some compilers will emit warnings for these types of expressions, but a better technique that many C programmers use to avoid such problems is to put the literal value on the <em>left hand side</em> of the expression as in: <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(3=x)...</span></code></p>
 <p class="last">In this case, a compile-time error would result (you can't assign anything to a literal).</p>
 </div>
 </div>
@@ -491,13 +484,13 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">!</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">!</span></code></td>
 <td>Boolean not (unary)</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&amp;&amp;</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&amp;&amp;</span></code></td>
 <td>Boolean and</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">||</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">||</span></code></td>
 <td>Boolean or</td>
 </tr>
 </tbody>
@@ -517,31 +510,31 @@ Possibly even bigger floating point number (somewhat obscure)</dd>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">~</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">~</span></code></td>
 <td>Bitwise Negation (unary) – flip 0 to 1 and 1 to 0 throughout</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&amp;</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&amp;</span></code></td>
 <td>Bitwise And</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">|</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">|</span></code></td>
 <td>Bitwise Or</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">^</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">^</span></code></td>
 <td>Bitwise Exclusive Or</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">&gt;&gt;</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code></td>
 <td>Right Shift by right hand side (RHS) (divide by power of 2)</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&lt;&lt;</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code></td>
 <td>Left Shift by RHS (multiply by power of 2)</td>
 </tr>
 </tbody>
 </table>
-<p>Do not confuse the bitwise operators with the logical operators. The bitwise connectives are one character wide (<code class="docutils literal"><span class="pre">&amp;</span></code>, <code class="docutils literal"><span class="pre">|</span></code>) while the boolean connectives are two characters wide (<code class="docutils literal"><span class="pre">&amp;&amp;</span></code>, <code class="docutils literal"><span class="pre">||</span></code>). The bitwise operators have higher precedence than the boolean operators.  The compiler will usually not help you out with a type error if you use <code class="docutils literal"><span class="pre">&amp;</span></code> when you meant <code class="docutils literal"><span class="pre">&amp;&amp;</span></code>.</p>
+<p>Do not confuse the bitwise operators with the logical operators. The bitwise connectives are one character wide (<code class="docutils literal notranslate"><span class="pre">&amp;</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code>) while the boolean connectives are two characters wide (<code class="docutils literal notranslate"><span class="pre">&amp;&amp;</span></code>, <code class="docutils literal notranslate"><span class="pre">||</span></code>). The bitwise operators have higher precedence than the boolean operators.  The compiler will usually not help you out with a type error if you use <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> when you meant <code class="docutils literal notranslate"><span class="pre">&amp;&amp;</span></code>.</p>
 </div>
 <div class="section" id="other-assignment-operators">
 <span id="index-14"></span><h3>3.4.9. Other Assignment Operators<a class="headerlink" href="#other-assignment-operators" title="Permalink to this headline">¶</a></h3>
-<p>In addition to the plain <code class="docutils literal"><span class="pre">=</span></code> operator, C includes many shorthand operators which represents variations on the basic <code class="docutils literal"><span class="pre">=</span></code>. For example <code class="docutils literal"><span class="pre">+=</span></code> adds the right hand side to the left hand side. <code class="docutils literal"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">10</span></code> can be reduced to <code class="docutils literal"><span class="pre">x</span> <span class="pre">+=</span> <span class="pre">10</span></code>.   Note that these operators are much like similar operators in other languages, like Python and Java.
+<p>In addition to the plain <code class="docutils literal notranslate"><span class="pre">=</span></code> operator, C includes many shorthand operators which represents variations on the basic <code class="docutils literal notranslate"><span class="pre">=</span></code>. For example <code class="docutils literal notranslate"><span class="pre">+=</span></code> adds the right hand side to the left hand side. <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">10</span></code> can be reduced to <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+=</span> <span class="pre">10</span></code>.   Note that these operators are much like similar operators in other languages, like Python and Java.
 Here is the list of assignment shorthand operators:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -554,22 +547,22 @@ Here is the list of assignment shorthand operators:</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">+=,</span> <span class="pre">-=</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">+=,</span> <span class="pre">-=</span></code></td>
 <td>Increment or decrement by RHS</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">*=,</span> <span class="pre">/=</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">*=,</span> <span class="pre">/=</span></code></td>
 <td>Multiply or divide by RHS</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">%=</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">%=</span></code></td>
 <td>Mod by RHS</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&gt;&gt;=</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&gt;&gt;=</span></code></td>
 <td>Bitwise right shift by RHS (divide by power of 2)</td>
 </tr>
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">&lt;&lt;=</span></code></td>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">&lt;&lt;=</span></code></td>
 <td>Bitwise left shift by RHS (multiply by power of 2)</td>
 </tr>
-<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&amp;=,</span> <span class="pre">|=,</span> <span class="pre">^=</span></code></td>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">&amp;=,</span> <span class="pre">|=,</span> <span class="pre">^=</span></code></td>
 <td>Bitwise and, or, xor by RHS</td>
 </tr>
 </tbody>
@@ -577,7 +570,7 @@ Here is the list of assignment shorthand operators:</p>
 <p class="rubric">Exercises</p>
 <p>The theme for the following exercises is <em>dates and times</em>, which often involve lots of interesting calculations (sometimes using truncating integer arithmetic, sometimes using modular arithmetic, sometimes both), and thus good opportunities to use various types of arithmetic operations, comparisons, and assignments.</p>
 <ol class="arabic simple">
-<li>Write a C program that asks for a year and prints whether the year is a leap year.  See the Wikipedia page on <a class="reference external" href="https://en.wikipedia.org/wiki/Leap_year">leap year</a> for how to test whether a given year is a leap year.  Study the first program in the <span class="xref std std-ref">tutorial</span> chapter for how to collect a value from keyboard input, and use the <code class="docutils literal"><span class="pre">atoi</span></code> function to convert a C string (char array) value to an integer.</li>
+<li>Write a C program that asks for a year and prints whether the year is a leap year.  See the Wikipedia page on <a class="reference external" href="https://en.wikipedia.org/wiki/Leap_year">leap year</a> for how to test whether a given year is a leap year.  Study the first program in the <span class="xref std std-ref">tutorial</span> chapter for how to collect a value from keyboard input, and use the <code class="docutils literal notranslate"><span class="pre">atoi</span></code> function to convert a C string (char array) value to an integer.</li>
 <li>Write a program that asks for year, month, and day values and compute the corresponding Julian Day value.  See the Wikipedia page on <a class="reference external" href="https://en.wikipedia.org/wiki/Julian_day">Julian Day</a> for an algorithm for doing that.  (See specifically the expression titled &quot;Converting Gregorian calendar date to Julian Day Number&quot;.)</li>
 <li>Extend the previous program to compute the Julian date value (a floating point value), using the computation described in &quot;Finding Julian date given Julian day number and time of day&quot; on the Wikipedia page linked in the previous problem.  Note that you'll need to additionally ask for the current hour, minute and second from the keyboard.</li>
 <li>Write a program that asks for a year value and computes and prints the month and day of Easter in that year.  The Wikipedia page on <a class="reference external" href="https://en.wikipedia.org/wiki/Computus">Computus</a> provides more than one algorithm for doing so.  Try using the &quot;Anonymous Gregorian algorithm&quot; or the &quot;Gauss algorithm&quot;, which is a personal favorite.</li>
@@ -611,7 +604,7 @@ Here is the list of assignment shorthand operators:</p>
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> To find out whether your machine is 64 bit or 32 bit, you can do the following.  On Linux, just type <code class="docutils literal"><span class="pre">uname</span> <span class="pre">-p</span></code> at a terminal.  If the output is <code class="docutils literal"><span class="pre">i386</span></code>, you have a 32-bit OS.  If it is <code class="docutils literal"><span class="pre">x86_64</span></code>, it is 64 bits.  All recent versions of MacOS X are 64 bits, so unless you're running something extremely old, you've got 64.</td></tr>
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> To find out whether your machine is 64 bit or 32 bit, you can do the following.  On Linux, just type <code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-p</span></code> at a terminal.  If the output is <code class="docutils literal notranslate"><span class="pre">i386</span></code>, you have a 32-bit OS.  If it is <code class="docutils literal notranslate"><span class="pre">x86_64</span></code>, it is 64 bits.  All recent versions of MacOS X are 64 bits, so unless you're running something extremely old, you've got 64.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f3" rules="none">

@@ -4,30 +4,21 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>7. Functions &#8212; The Book of C (version 2018.01)</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '2018.01',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="8. Pointers and more arrays" href="pointersarrays.html" />
     <link rel="prev" title="6. Aggregate Data Structures" href="structs.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -45,18 +36,18 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">7. Functions</a><ul>
 <li><a class="reference internal" href="#function-syntax">7.1. Function syntax</a><ul>
-<li><a class="reference internal" href="#main-is-where-it-all-begins">7.1.1. <code class="docutils literal"><span class="pre">main</span></code> is where it all begins</a></li>
+<li><a class="reference internal" href="#main-is-where-it-all-begins">7.1.1. <code class="docutils literal notranslate"><span class="pre">main</span></code> is where it all begins</a></li>
 <li><a class="reference internal" href="#function-naming-restrictions-and-conventions">7.1.2. Function naming restrictions and conventions</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#data-types-for-parameters-and-return-values">7.2. Data types for parameters and return values</a><ul>
 <li><a class="reference internal" href="#parameters-to-functions-are-passed-by-value">7.2.1. Parameters to functions are passed by value</a></li>
 <li><a class="reference internal" href="#example-1-an-anti-example-of-swapping-two-values">7.2.2. Example 1: an anti-example of swapping two values</a></li>
-<li><a class="reference internal" href="#example-2-passing-a-struct-to-and-from-a-function">7.2.3. Example 2: passing a <code class="docutils literal"><span class="pre">struct</span></code> to and from a function</a></li>
+<li><a class="reference internal" href="#example-2-passing-a-struct-to-and-from-a-function">7.2.3. Example 2: passing a <code class="docutils literal notranslate"><span class="pre">struct</span></code> to and from a function</a></li>
 <li><a class="reference internal" href="#example-3-passing-an-array-to-a-function">7.2.4. Example 3: passing an array to a function</a></li>
 <li><a class="reference internal" href="#a-longer-example">7.2.5. A longer example</a></li>
 </ul>
@@ -74,12 +65,14 @@
                         title="next chapter">8. Pointers and more arrays</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script><h4>Got issues?</h4>
   <p>If you find a bug or have a suggestion for improvement, please <a href="https://github.com/jsommers/cbook/issues">report it</a>.</p>
@@ -103,11 +96,11 @@
 <div class="section" id="function-syntax">
 <span id="index-0"></span><h2>7.1. Function syntax<a class="headerlink" href="#function-syntax" title="Permalink to this headline">¶</a></h2>
 <p>A function has a name, a comma-separated list of parameters, the block of code it executes when called, and, optionally, a return value.  The basic function definition syntax is:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">return</span><span class="o">-</span><span class="nb">type</span> <span class="n">function</span><span class="o">-</span><span class="n">name</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span> <span class="p">}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">return</span><span class="o">-</span><span class="nb">type</span> <span class="n">function</span><span class="o">-</span><span class="n">name</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span> <span class="p">}</span>
 </pre></div>
 </div>
-<p>For example, here is a function that computes and returns <span class="math">\(n!\)</span> (n factorial):</p>
-<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<p>For example, here is a function that computes and returns <span class="math notranslate nohighlight">\(n!\)</span> (n factorial):</p>
+<div class="highlight-c notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -136,16 +129,16 @@
  <span class="p">}</span>
 </pre></div>
 </td></tr></table></div>
-<p>We have seen most of this syntax already (with the <code class="docutils literal"><span class="pre">main</span></code> function), but it is worth reviewing.</p>
+<p>We have seen most of this syntax already (with the <code class="docutils literal notranslate"><span class="pre">main</span></code> function), but it is worth reviewing.</p>
 <ol class="arabic simple">
-<li>On line 5, the type declaration of the function is given, and shows that the data type of the return value of the function is <code class="docutils literal"><span class="pre">int</span></code>, and that the function takes a single <code class="docutils literal"><span class="pre">int</span></code> parameter, named <code class="docutils literal"><span class="pre">n</span></code>.  The function is, of course, named <code class="docutils literal"><span class="pre">factorial</span></code>.</li>
-<li>There can be any number of parameters to a function (though a small number of parameters is strongly preferable).  Each parameter is separated by a comma, and follows the basic syntax of a variable declaration, which is: <code class="docutils literal"><span class="pre">type-name</span> <span class="pre">variable-name</span></code>.</li>
+<li>On line 5, the type declaration of the function is given, and shows that the data type of the return value of the function is <code class="docutils literal notranslate"><span class="pre">int</span></code>, and that the function takes a single <code class="docutils literal notranslate"><span class="pre">int</span></code> parameter, named <code class="docutils literal notranslate"><span class="pre">n</span></code>.  The function is, of course, named <code class="docutils literal notranslate"><span class="pre">factorial</span></code>.</li>
+<li>There can be any number of parameters to a function (though a small number of parameters is strongly preferable).  Each parameter is separated by a comma, and follows the basic syntax of a variable declaration, which is: <code class="docutils literal notranslate"><span class="pre">type-name</span> <span class="pre">variable-name</span></code>.</li>
 <li>Any parameters to the function are <em>passed by value</em>.  This means that the function receives <em>copies</em> of the arguments passed to it by the caller.  If any modifications are made to those copies, they have <em>zero effect</em> on the variables or values passed to the function --- any changes are confined (<em>local</em>) to the function.  We will have more to say about pass-by-value function call semantics, below.</li>
-<li>The <code class="docutils literal"><span class="pre">return</span></code> statement delivers a value from the function back to the caller of the function.  There are <code class="docutils literal"><span class="pre">return</span></code> statements on lines 7 and 13 of this function.  The first <code class="docutils literal"><span class="pre">return</span></code> handles the special case where <code class="docutils literal"><span class="pre">n</span></code> is less than 0, thus <span class="math">\(n!\)</span> is undefined.</li>
-<li>Any variables declared inside the function are <em>local</em> to the function, just as with Java, Python, and many other programming languages.  Thus, the parameter variable <code class="docutils literal"><span class="pre">n</span></code> and the local variable <code class="docutils literal"><span class="pre">result</span></code> only exist while the function is being executed.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">return</span></code> statement delivers a value from the function back to the caller of the function.  There are <code class="docutils literal notranslate"><span class="pre">return</span></code> statements on lines 7 and 13 of this function.  The first <code class="docutils literal notranslate"><span class="pre">return</span></code> handles the special case where <code class="docutils literal notranslate"><span class="pre">n</span></code> is less than 0, thus <span class="math notranslate nohighlight">\(n!\)</span> is undefined.</li>
+<li>Any variables declared inside the function are <em>local</em> to the function, just as with Java, Python, and many other programming languages.  Thus, the parameter variable <code class="docutils literal notranslate"><span class="pre">n</span></code> and the local variable <code class="docutils literal notranslate"><span class="pre">result</span></code> only exist while the function is being executed.</li>
 </ol>
-<p>To call the <code class="docutils literal"><span class="pre">factorial</span></code> function, a programmer uses parentheses after the function name, passing any required arguments between the parens:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<p>To call the <code class="docutils literal notranslate"><span class="pre">factorial</span></code> function, a programmer uses parentheses after the function name, passing any required arguments between the parens:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 
 <span class="c1">// ...</span>
@@ -158,24 +151,24 @@
 <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;%d! is %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>So far, none of this should be particularly surprising.  You may have already seen &quot;public static methods&quot; in Java (e.g., <code class="docutils literal"><span class="pre">main</span></code>!), which are very similar to C functions, or you may have already seen functions in Python (defined using the <code class="docutils literal"><span class="pre">def</span></code> keyword).  Both public static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters.</p>
+<p>So far, none of this should be particularly surprising.  You may have already seen &quot;public static methods&quot; in Java (e.g., <code class="docutils literal notranslate"><span class="pre">main</span></code>!), which are very similar to C functions, or you may have already seen functions in Python (defined using the <code class="docutils literal notranslate"><span class="pre">def</span></code> keyword).  Both public static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters.</p>
 <div class="section" id="main-is-where-it-all-begins">
-<span id="index-1"></span><h3>7.1.1. <code class="docutils literal"><span class="pre">main</span></code> is where it all begins<a class="headerlink" href="#main-is-where-it-all-begins" title="Permalink to this headline">¶</a></h3>
-<p>Every C program <strong>must</strong> have a <code class="docutils literal"><span class="pre">main</span></code> function.  An attempt to compile a program in C which does not have a <code class="docutils literal"><span class="pre">main</span></code> function defined somewhere will result in an error.  Unlike Java, where any number of class definitions can have a <code class="docutils literal"><span class="pre">public</span> <span class="pre">static</span> <span class="pre">void</span> <span class="pre">main</span></code> definition, it's a highlander situation in C: <em>there can be only one</em> <a class="footnote-reference" href="#f5" id="id6">[5]</a>.</p>
+<span id="index-1"></span><h3>7.1.1. <code class="docutils literal notranslate"><span class="pre">main</span></code> is where it all begins<a class="headerlink" href="#main-is-where-it-all-begins" title="Permalink to this headline">¶</a></h3>
+<p>Every C program <strong>must</strong> have a <code class="docutils literal notranslate"><span class="pre">main</span></code> function.  An attempt to compile a program in C which does not have a <code class="docutils literal notranslate"><span class="pre">main</span></code> function defined somewhere will result in an error.  Unlike Java, where any number of class definitions can have a <code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">static</span> <span class="pre">void</span> <span class="pre">main</span></code> definition, it's a highlander situation in C: <em>there can be only one</em> <a class="footnote-reference" href="#f5" id="id6">[5]</a>.</p>
 </div>
 <div class="section" id="function-naming-restrictions-and-conventions">
 <span id="index-2"></span><h3>7.1.2. Function naming restrictions and conventions<a class="headerlink" href="#function-naming-restrictions-and-conventions" title="Permalink to this headline">¶</a></h3>
 <p>The only <em>requirement</em> for naming C functions is similar to many programming languages: function names must either begin with a letter or underscore, and can only include numbers, letters, and underscores.  Conventionally, function names that start with an underscore typically mean that the function should be treated as a &quot;private&quot; library function, off limits to other programmers.</p>
-<p>As far as naming conventions, there are a wide variety of practices in existence.  Some programmers like to name their functions using <code class="docutils literal"><span class="pre">lowerCamelCase</span></code>, which is common in languages such as Java, or using <code class="docutils literal"><span class="pre">snake_case</span></code>, which is common in Python and Ruby.  In the C standard library, a common practice is to use short, abbreviated names consisting of a single word (e.g., <code class="docutils literal"><span class="pre">tolower</span></code>).  Still others like to use the abomination referred to as Hungarian Notation <a class="footnote-reference" href="#f6" id="id7">[6]</a>.  A fairly widely used convention in C is <code class="docutils literal"><span class="pre">snake_case</span></code>, which is the practice followed in this book.</p>
+<p>As far as naming conventions, there are a wide variety of practices in existence.  Some programmers like to name their functions using <code class="docutils literal notranslate"><span class="pre">lowerCamelCase</span></code>, which is common in languages such as Java, or using <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>, which is common in Python and Ruby.  In the C standard library, a common practice is to use short, abbreviated names consisting of a single word (e.g., <code class="docutils literal notranslate"><span class="pre">tolower</span></code>).  Still others like to use the abomination referred to as Hungarian Notation <a class="footnote-reference" href="#f6" id="id7">[6]</a>.  A fairly widely used convention in C is <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>, which is the practice followed in this book.</p>
 </div>
 </div>
 <div class="section" id="data-types-for-parameters-and-return-values">
 <span id="index-3"></span><h2>7.2. Data types for parameters and return values<a class="headerlink" href="#data-types-for-parameters-and-return-values" title="Permalink to this headline">¶</a></h2>
-<p>There are, technically speaking, no restrictions on the data types of parameters or return values for functions in C.  Functions in C can accept all the basic data types as parameters, as well as <code class="docutils literal"><span class="pre">struct</span></code> types, arrays, and as we will see soon, memory pointers to any data type.</p>
-<p>Likewise, there are no syntactic restrictions on the data type of the return value from a function.  C does not permit <em>multiple</em> return values, unlike some other languages, but it is permissible to return a <code class="docutils literal"><span class="pre">struct</span></code> type that contains multiple fields (or, as we will later see, a pointer to a memory block containing multiple data items).</p>
+<p>There are, technically speaking, no restrictions on the data types of parameters or return values for functions in C.  Functions in C can accept all the basic data types as parameters, as well as <code class="docutils literal notranslate"><span class="pre">struct</span></code> types, arrays, and as we will see soon, memory pointers to any data type.</p>
+<p>Likewise, there are no syntactic restrictions on the data type of the return value from a function.  C does not permit <em>multiple</em> return values, unlike some other languages, but it is permissible to return a <code class="docutils literal notranslate"><span class="pre">struct</span></code> type that contains multiple fields (or, as we will later see, a pointer to a memory block containing multiple data items).</p>
 <div class="topic" id="index-4">
-<p class="topic-title first">C-ing and Nothingness --- <code class="docutils literal"><span class="pre">void</span></code></p>
-<p><code class="docutils literal"><span class="pre">void</span></code> is a type formalized in ANSI C which means &quot;nothing&quot;. To indicate that a function does not return anything, use <code class="docutils literal"><span class="pre">void</span></code> as the return type.  If a function does not take any parameters, its parameter list may either be empty (i.e., <code class="docutils literal"><span class="pre">()</span></code>), or it can contain the keyword <code class="docutils literal"><span class="pre">void</span></code> to indicate that the function does not take parameters.  It is more common and conventional in C to use an empty parameter list for functions that don't take parameters.</p>
+<p class="topic-title first">C-ing and Nothingness --- <code class="docutils literal notranslate"><span class="pre">void</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">void</span></code> is a type formalized in ANSI C which means &quot;nothing&quot;. To indicate that a function does not return anything, use <code class="docutils literal notranslate"><span class="pre">void</span></code> as the return type.  If a function does not take any parameters, its parameter list may either be empty (i.e., <code class="docutils literal notranslate"><span class="pre">()</span></code>), or it can contain the keyword <code class="docutils literal notranslate"><span class="pre">void</span></code> to indicate that the function does not take parameters.  It is more common and conventional in C to use an empty parameter list for functions that don't take parameters.</p>
 </div>
 <div class="section" id="parameters-to-functions-are-passed-by-value">
 <span id="index-5"></span><h3>7.2.1. Parameters to functions are passed by value<a class="headerlink" href="#parameters-to-functions-are-passed-by-value" title="Permalink to this headline">¶</a></h3>
@@ -192,8 +185,8 @@
 </div>
 <div class="section" id="example-1-an-anti-example-of-swapping-two-values">
 <h3>7.2.2. Example 1: an anti-example of swapping two values<a class="headerlink" href="#example-1-an-anti-example-of-swapping-two-values" title="Permalink to this headline">¶</a></h3>
-<p>As mentioned above, a key implication of pass-by-value function parameters is that the function gets <em>local</em> copies of any parameter values.  Say that we want to exchange two values via a function.  For example, we want to swap the numerator and denominator in a fraction <code class="docutils literal"><span class="pre">struct</span></code>.  This is some code that would <em>not</em> work:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<p>As mentioned above, a key implication of pass-by-value function parameters is that the function gets <em>local</em> copies of any parameter values.  Say that we want to exchange two values via a function.  For example, we want to swap the numerator and denominator in a fraction <code class="docutils literal notranslate"><span class="pre">struct</span></code>.  This is some code that would <em>not</em> work:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 
 <span class="k">typedef</span> <span class="k">struct</span> <span class="n">fraction</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">numerator</span><span class="p">;</span>
@@ -220,19 +213,19 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Epic fail, times 2.  For each of the swap functions, the exchange happens only <em>inside</em> the function; the caller will <em>never</em> see any swap of nancy and donkey.  The fact that the function takes a <code class="docutils literal"><span class="pre">struct</span></code> here is irrelevant for attempt 1; even if we wrote a <code class="docutils literal"><span class="pre">swap</span></code> to take two <code class="docutils literal"><span class="pre">int</span></code> parameters (i.e., attempt 2), there is no way this is going to happen.  Sorry.  In the next chapter on <a class="reference internal" href="pointersarrays.html#pointers"><span class="std std-ref">Pointers and more arrays</span></a>, we will solve this problem.</p>
+<p>Epic fail, times 2.  For each of the swap functions, the exchange happens only <em>inside</em> the function; the caller will <em>never</em> see any swap of nancy and donkey.  The fact that the function takes a <code class="docutils literal notranslate"><span class="pre">struct</span></code> here is irrelevant for attempt 1; even if we wrote a <code class="docutils literal notranslate"><span class="pre">swap</span></code> to take two <code class="docutils literal notranslate"><span class="pre">int</span></code> parameters (i.e., attempt 2), there is no way this is going to happen.  Sorry.  In the next chapter on <a class="reference internal" href="pointersarrays.html#pointers"><span class="std std-ref">Pointers and more arrays</span></a>, we will solve this problem.</p>
 </div>
 <div class="section" id="example-2-passing-a-struct-to-and-from-a-function">
-<h3>7.2.3. Example 2: passing a <code class="docutils literal"><span class="pre">struct</span></code> to and from a function<a class="headerlink" href="#example-2-passing-a-struct-to-and-from-a-function" title="Permalink to this headline">¶</a></h3>
-<p>Ok, enough of the anti-examples.  Here is an example of passing <em>and</em> returning a <code class="docutils literal"><span class="pre">struct</span></code>.  We'll write a function to add two fractions together and return a new fraction.  A few things to note about the code below:</p>
+<h3>7.2.3. Example 2: passing a <code class="docutils literal notranslate"><span class="pre">struct</span></code> to and from a function<a class="headerlink" href="#example-2-passing-a-struct-to-and-from-a-function" title="Permalink to this headline">¶</a></h3>
+<p>Ok, enough of the anti-examples.  Here is an example of passing <em>and</em> returning a <code class="docutils literal notranslate"><span class="pre">struct</span></code>.  We'll write a function to add two fractions together and return a new fraction.  A few things to note about the code below:</p>
 <blockquote>
 <div><ul class="simple">
 <li>The computation of the greatest common divisor is recursive.</li>
-<li>The use of <code class="docutils literal"><span class="pre">abs</span></code> in the least common multiple function requires <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;stdlib.h&gt;</span></code> at the top of the source code.</li>
-<li>The <code class="docutils literal"><span class="pre">add_fractions</span></code> function separately computes the denominator and numerator of the result of the addition, then just constructs and returns a new <code class="docutils literal"><span class="pre">fraction_t</span></code>.  For both the <code class="docutils literal"><span class="pre">fraction_t</span></code> parameters <em>and</em> the return value, entire copies are made to get the arguments &quot;in&quot; to the function and to get the result &quot;out&quot;.</li>
+<li>The use of <code class="docutils literal notranslate"><span class="pre">abs</span></code> in the least common multiple function requires <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;stdlib.h&gt;</span></code> at the top of the source code.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">add_fractions</span></code> function separately computes the denominator and numerator of the result of the addition, then just constructs and returns a new <code class="docutils literal notranslate"><span class="pre">fraction_t</span></code>.  For both the <code class="docutils literal notranslate"><span class="pre">fraction_t</span></code> parameters <em>and</em> the return value, entire copies are made to get the arguments &quot;in&quot; to the function and to get the result &quot;out&quot;.</li>
 </ul>
 </div></blockquote>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// compute the greatest common divisor, recursive style</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// compute the greatest common divisor, recursive style</span>
 <span class="kt">int</span> <span class="nf">gcd</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
@@ -267,7 +260,7 @@
 </li>
 </ol>
 </div></blockquote>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">fraction_t</span> <span class="nf">multiply_fractions</span><span class="p">(</span><span class="n">fraction_t</span> <span class="n">fraclist</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">num_fractions</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">fraction_t</span> <span class="nf">multiply_fractions</span><span class="p">(</span><span class="n">fraction_t</span> <span class="n">fraclist</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">num_fractions</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">fraction_t</span> <span class="n">result</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_fractions</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">result</span><span class="p">.</span><span class="n">numerator</span> <span class="o">*=</span> <span class="n">fraclist</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">numerator</span><span class="p">;</span>
@@ -279,10 +272,10 @@
 </div>
 <blockquote>
 <div><ol class="arabic simple" start="2">
-<li>The second issue that makes array parameters somewhat different than any other data type we've seen thus far is that an array variable refers to the <em>memory address</em> of the first element in the array.  As a result, <strong>it is possible to modify the contents of an array that is passed to a function</strong>.  Pass-by-value semantics still apply; the function simply receives a <em>copy</em> of the memory address at which the array begins. Here is an example of a function that modifies a C string by overwriting any <em>trailing</em> whitespace characters with the null-character.  Notice that for C strings we do <em>not</em> need to pass the size of the string, since, by convention, the null character marks the end of the string (and thus we can just use the built-in <code class="docutils literal"><span class="pre">strlen</span></code> function).</li>
+<li>The second issue that makes array parameters somewhat different than any other data type we've seen thus far is that an array variable refers to the <em>memory address</em> of the first element in the array.  As a result, <strong>it is possible to modify the contents of an array that is passed to a function</strong>.  Pass-by-value semantics still apply; the function simply receives a <em>copy</em> of the memory address at which the array begins. Here is an example of a function that modifies a C string by overwriting any <em>trailing</em> whitespace characters with the null-character.  Notice that for C strings we do <em>not</em> need to pass the size of the string, since, by convention, the null character marks the end of the string (and thus we can just use the built-in <code class="docutils literal notranslate"><span class="pre">strlen</span></code> function).</li>
 </ol>
 </div></blockquote>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 
 <span class="kt">void</span> <span class="nf">strip_trailing_whitespace</span><span class="p">(</span><span class="kt">char</span> <span class="n">string</span><span class="p">[])</span> <span class="p">{</span>
@@ -307,7 +300,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>How does this jive with pass-by-value?  What happens here is that <code class="docutils literal"><span class="pre">s</span></code> in <code class="docutils literal"><span class="pre">main</span></code> holds the memory address of the array, which is allocated on the stack of <code class="docutils literal"><span class="pre">main</span></code>.  When the <code class="docutils literal"><span class="pre">strip_trailing_whitespace</span></code> function is called, the value of <code class="docutils literal"><span class="pre">s</span></code> is copied to the parameter <code class="docutils literal"><span class="pre">string</span></code>, but <em>the value itself is a memory address</em>.  So the <code class="docutils literal"><span class="pre">string</span></code> array inside <code class="docutils literal"><span class="pre">strip_trailing_whitespace</span></code> holds the same memory address as <code class="docutils literal"><span class="pre">s</span></code> back in <code class="docutils literal"><span class="pre">main</span></code>.  Thus, these two variables <em>refer to the same array in memory</em>, as depicted in the figure below.  As a result, when we modify the string inside the function, the changes can be observed when we return back to <code class="docutils literal"><span class="pre">main</span></code>.</p>
+<p>How does this jive with pass-by-value?  What happens here is that <code class="docutils literal notranslate"><span class="pre">s</span></code> in <code class="docutils literal notranslate"><span class="pre">main</span></code> holds the memory address of the array, which is allocated on the stack of <code class="docutils literal notranslate"><span class="pre">main</span></code>.  When the <code class="docutils literal notranslate"><span class="pre">strip_trailing_whitespace</span></code> function is called, the value of <code class="docutils literal notranslate"><span class="pre">s</span></code> is copied to the parameter <code class="docutils literal notranslate"><span class="pre">string</span></code>, but <em>the value itself is a memory address</em>.  So the <code class="docutils literal notranslate"><span class="pre">string</span></code> array inside <code class="docutils literal notranslate"><span class="pre">strip_trailing_whitespace</span></code> holds the same memory address as <code class="docutils literal notranslate"><span class="pre">s</span></code> back in <code class="docutils literal notranslate"><span class="pre">main</span></code>.  Thus, these two variables <em>refer to the same array in memory</em>, as depicted in the figure below.  As a result, when we modify the string inside the function, the changes can be observed when we return back to <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
 <div class="figure align-center" id="id9">
 <img alt="_images/arrayparam.png" src="_images/arrayparam.png" />
 <p class="caption"><span class="caption-text">An array parameter gets a <em>copy of the memory address</em> of the array passed into the function, and thus &quot;points&quot; back to the same array contents as can be observed outside the function.</span></p>
@@ -322,14 +315,14 @@
 <p>We'll wrap up this section with one more example.  A few things to note:</p>
 <blockquote>
 <div><ul class="simple">
-<li>The <code class="docutils literal"><span class="pre">struct</span> <span class="pre">student</span></code> has an <em>embedded</em> struct field (<code class="docutils literal"><span class="pre">struct</span> <span class="pre">course_grade</span></code>).  Actually, an array of <code class="docutils literal"><span class="pre">struct</span> <span class="pre">course_grade</span></code>.  One <code class="docutils literal"><span class="pre">struct</span> <span class="pre">student</span></code> would occupy a pretty large chunk of memory.  It is left to you to compute how many bytes, and where any padding is silently inserted by the compiler.</li>
-<li>In <code class="docutils literal"><span class="pre">struct</span> <span class="pre">student</span></code> we need to keep the field <code class="docutils literal"><span class="pre">num_courses_completed</span></code> to know how many array elements in <code class="docutils literal"><span class="pre">courses_completed</span></code> are meaningful.</li>
-<li>The <code class="docutils literal"><span class="pre">typedef</span></code>s on lines 16-17 help to save a few keystrokes with the <code class="docutils literal"><span class="pre">struct</span></code> usage.</li>
-<li>In <code class="docutils literal"><span class="pre">compute_gpa</span></code>, we don't need to specify the size of the <code class="docutils literal"><span class="pre">grade_t</span></code> array, but we do need an additional parameter to tell us how many entries in the array we should consider.</li>
-<li>The initialization syntax for the array of <code class="docutils literal"><span class="pre">student_t</span></code> just follows the rules we've discussed for array and struct initialization.  It is perfectly valid to nest the curly braces where necessary to achieve the correct field initializations.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">student</span></code> has an <em>embedded</em> struct field (<code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">course_grade</span></code>).  Actually, an array of <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">course_grade</span></code>.  One <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">student</span></code> would occupy a pretty large chunk of memory.  It is left to you to compute how many bytes, and where any padding is silently inserted by the compiler.</li>
+<li>In <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">student</span></code> we need to keep the field <code class="docutils literal notranslate"><span class="pre">num_courses_completed</span></code> to know how many array elements in <code class="docutils literal notranslate"><span class="pre">courses_completed</span></code> are meaningful.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">typedef</span></code>s on lines 16-17 help to save a few keystrokes with the <code class="docutils literal notranslate"><span class="pre">struct</span></code> usage.</li>
+<li>In <code class="docutils literal notranslate"><span class="pre">compute_gpa</span></code>, we don't need to specify the size of the <code class="docutils literal notranslate"><span class="pre">grade_t</span></code> array, but we do need an additional parameter to tell us how many entries in the array we should consider.</li>
+<li>The initialization syntax for the array of <code class="docutils literal notranslate"><span class="pre">student_t</span></code> just follows the rules we've discussed for array and struct initialization.  It is perfectly valid to nest the curly braces where necessary to achieve the correct field initializations.</li>
 </ul>
 </div></blockquote>
-<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-c notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -447,7 +440,7 @@
 </pre></div>
 </td></tr></table></div>
 <p>Compiling and running this code gives the following output:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">.</span> <span class="n">Student</span><span class="p">,</span> <span class="n">Class</span> <span class="n">of</span> <span class="mi">2019</span><span class="p">,</span> <span class="n">GPA</span><span class="p">:</span> <span class="mf">3.00</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">.</span> <span class="n">Student</span><span class="p">,</span> <span class="n">Class</span> <span class="n">of</span> <span class="mi">2019</span><span class="p">,</span> <span class="n">GPA</span><span class="p">:</span> <span class="mf">3.00</span>
 <span class="n">B</span><span class="o">.</span> <span class="n">Smart</span><span class="p">,</span> <span class="n">Class</span> <span class="n">of</span> <span class="mi">2018</span><span class="p">,</span> <span class="n">GPA</span><span class="p">:</span> <span class="mf">2.25</span>
 </pre></div>
 </div>
@@ -457,25 +450,25 @@
 <h2>7.3. Storage classes, the stack and the heap<a class="headerlink" href="#storage-classes-the-stack-and-the-heap" title="Permalink to this headline">¶</a></h2>
 <div class="sidebar">
 <p class="first sidebar-title">Static variables and the static storage class</p>
-<p>The keyword <code class="docutils literal"><span class="pre">static</span></code> has two, somewhat different, meanings and usages in C.</p>
-<p>The first usage is that variables within functions can be prefixed with the <code class="docutils literal"><span class="pre">static</span></code> keyword to indicate that their value is retained across invocations of the function.  For example, consider the following function:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">myfunction</span><span class="p">()</span> <span class="p">{</span>
+<p>The keyword <code class="docutils literal notranslate"><span class="pre">static</span></code> has two, somewhat different, meanings and usages in C.</p>
+<p>The first usage is that variables within functions can be prefixed with the <code class="docutils literal notranslate"><span class="pre">static</span></code> keyword to indicate that their value is retained across invocations of the function.  For example, consider the following function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">myfunction</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">static</span> <span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;i is now </span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Because of the <code class="docutils literal"><span class="pre">static</span></code> keyword, the value stored in <code class="docutils literal"><span class="pre">i</span></code> is retained across multiple calls of <code class="docutils literal"><span class="pre">myfunction</span></code>.  Without the <code class="docutils literal"><span class="pre">static</span></code> keyword, the output of the function would <em>always</em> be <code class="docutils literal"><span class="pre">i</span> <span class="pre">is</span> <span class="pre">now</span> <span class="pre">1</span></code>.</p>
-<p class="last">The second meaning of <code class="docutils literal"><span class="pre">static</span></code> in C is to indicate that functions or variables defined outside any function should be <em>local</em> to the source file in which they are defined.  In <a class="reference internal" href="programstructure.html#compilation-and-program-structure"><span class="std std-ref">Program structure and compilation</span></a> we will discuss header files, compilation, and issues related to this usage of <code class="docutils literal"><span class="pre">static</span></code> in more detail.</p>
+<p>Because of the <code class="docutils literal notranslate"><span class="pre">static</span></code> keyword, the value stored in <code class="docutils literal notranslate"><span class="pre">i</span></code> is retained across multiple calls of <code class="docutils literal notranslate"><span class="pre">myfunction</span></code>.  Without the <code class="docutils literal notranslate"><span class="pre">static</span></code> keyword, the output of the function would <em>always</em> be <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">is</span> <span class="pre">now</span> <span class="pre">1</span></code>.</p>
+<p class="last">The second meaning of <code class="docutils literal notranslate"><span class="pre">static</span></code> in C is to indicate that functions or variables defined outside any function should be <em>local</em> to the source file in which they are defined.  In <a class="reference internal" href="programstructure.html#compilation-and-program-structure"><span class="std std-ref">Program structure and compilation</span></a> we will discuss header files, compilation, and issues related to this usage of <code class="docutils literal notranslate"><span class="pre">static</span></code> in more detail.</p>
 </div>
 <p>There are two essential &quot;storage classes&quot; in C: <em>automatic</em> and <em>static</em>.  Static storage is somewhat of an advanced concept, and you can refer to the sidebar for a brief discussion.</p>
 <p>&quot;Automatic&quot; variables are what we have used exclusively thus far: they are variables that come into existence when a code block is entered, and which are discarded when a code block is exited.  This type of allocation and deallocation is done on the call stack of the running program.  Recall that all parameters and local variables are allocated on the stack in a last-in, first-out manner.  This is exactly the idea behind the &quot;automatic&quot; storage class --- memory is <em>automatically</em> assigned on the stack <a class="footnote-reference" href="#f7" id="id8">[7]</a>.</p>
-<p>It's worth repeating that all variables in examples we've considered to this point are &quot;automatic&quot; and allocated on the stack.  That goes for strings, arrays of various sorts, structures, etc.  Most often, we've declared some local variables in <code class="docutils literal"><span class="pre">main</span></code> (which are allocated on the stack of <code class="docutils literal"><span class="pre">main</span></code>), and passed parameters into functions (which results in the creation of copies of those parameters in the stack frame of the called function).</p>
+<p>It's worth repeating that all variables in examples we've considered to this point are &quot;automatic&quot; and allocated on the stack.  That goes for strings, arrays of various sorts, structures, etc.  Most often, we've declared some local variables in <code class="docutils literal notranslate"><span class="pre">main</span></code> (which are allocated on the stack of <code class="docutils literal notranslate"><span class="pre">main</span></code>), and passed parameters into functions (which results in the creation of copies of those parameters in the stack frame of the called function).</p>
 <p class="rubric">Exercises</p>
 <ol class="arabic simple">
-<li>Write a function that takes two <code class="docutils literal"><span class="pre">struct</span> <span class="pre">fraction</span></code>s, <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code> and compares them for equality.  Return -1 if <code class="docutils literal"><span class="pre">a</span></code> is less than <code class="docutils literal"><span class="pre">b</span></code>, 0 if they are equal, and 1 if <code class="docutils literal"><span class="pre">a</span></code> is greater than <code class="docutils literal"><span class="pre">b</span></code>.</li>
-<li>Refactor and modularize the code in exercise 1 in the <code class="docutils literal"><span class="pre">struct</span></code> chapter.  At the very least, write functions to parse a single line into a struct, and to print out a struct.</li>
+<li>Write a function that takes two <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">fraction</span></code>s, <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> and compares them for equality.  Return -1 if <code class="docutils literal notranslate"><span class="pre">a</span></code> is less than <code class="docutils literal notranslate"><span class="pre">b</span></code>, 0 if they are equal, and 1 if <code class="docutils literal notranslate"><span class="pre">a</span></code> is greater than <code class="docutils literal notranslate"><span class="pre">b</span></code>.</li>
+<li>Refactor and modularize the code in exercise 1 in the <code class="docutils literal notranslate"><span class="pre">struct</span></code> chapter.  At the very least, write functions to parse a single line into a struct, and to print out a struct.</li>
 <li>Write a text-based program to play hangperson.  Many of you have probably written this sort of program in Python.  Test your mettle by writing it in C.</li>
 </ol>
 <p class="rubric">Footnotes</p>

@@ -264,7 +264,7 @@ A somewhat longer example of adding a pointer and integer together is shown belo
 .. code-block:: c
 
     int fibarray[] = { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 };
-    int *fibptr = fibarray;
+    int *fibptr1 = fibarray;
 
     int a = *(fibptr + 0);  // add 0*sizeof(int) to fibptr address, then dereference (yields the value 1)
     int b = *(fibptr + 2);  // add 2*sizeof(int) to fibptr address, then dereference (yields the value 2)
@@ -275,7 +275,7 @@ In fact, array indexing syntax works identically to pointer arithmetic.  As a re
 
 .. code-block:: c
 
-    int c = fibptr[5]  // add 5*sizeof(int) to fibptr address, 
+    int c = fibptr1[5]  // add 5*sizeof(int) to fibptr1 address, 
                         // then dereference (automatically!) (yields 8)
 
 
