@@ -345,5 +345,5 @@ Depending on the options specified at compile time, the ``assert()`` expressions
 
     int errCode = foo();      // yes --- ok
     assert(errCode == 0);
-    if (assertfoo() == 0) ... // NO, foo() will not be called if
+    if (assert(foo() == 0)) ... // NO, foo() will not be called if
                               // the compiler removes the assert()
