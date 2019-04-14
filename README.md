@@ -14,6 +14,6 @@ Please file bug reports or create pull requests for any bugs or typos found, or 
 
 ## Copyright Notice
 
-Copyright (c) 2014-2018  Joel Sommers.  All rights reserved.
+Copyright (c) 2014-2019  Joel Sommers.  All rights reserved.
 
 This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License: http://creativecommons.org/licenses/by-nc-sa/4.0/
