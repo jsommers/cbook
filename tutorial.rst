@@ -6,47 +6,48 @@ In this first chapter, we'll get wet in the C by way of a tutorial that examines
 Hello, somebody
 ---------------
 
-We first start out by examining a simple "hello, world"-style program, but with a twist to make it somewhat more interesting.  The following program asks a user for his or her name, then prints ``Hello, <name>!``.  Here is the code:
+We first start out by examining a simple "hello, world"-style program: a program that simply echoes (prints) what ever is typed on the keyboard, until end-of-file is reached.
+Here is the code:
 
-.. index:: #include, main, printf, arrays, fgets
+.. index:: #include, main, getchar, putchar
 
-.. literalinclude:: code/hello.c
+.. literalinclude:: code/echo.c
    :language: c
    :linenos:
 
+.. sidebar:: C and stdio when targeting microcontrollers
+
+    When writing C to compile and run on embedded devices (e.g., microcontrollers) there are generally no I/O functions like ``printf``, ``fgets``, and the like.  Any I/O is typically either bit- or byte-/character-oriented.  In this first example program, we are using the built-in ``getchar`` and ``putchar`` functions, which are character-oriented.  These functions are also not typically available as-is in microcontroller programming environments, but they at least have some similarity to how I/O works in these constrained settings.
+
 Since this may be the first C program you've seen, we'll walk through it line by line:
 
-  1.  The first line (``#include <stdio.h>``) tells the C compiler that we intend to use functions that are in the *C standard library* and declared in a *header file* called ``stdio.h``.  This line is (somewhat) analogous to saying ``import`` in Python or Java.  The file ``stdio.h`` contains declarations for input/output functions in C, such as ``printf`` and ``fgets``, which we will use to print text to the console and get input from a user, respectively.  Including those declarations in our program lets the compiler know the type signatures of the functions we want to use (i.e., the data types of the function parameters, and the return type). See :ref:`preprocessing <preprocessing>` for more discussion of ``#include`` files.
+  1.  The first line (``#include <stdio.h>``) tells the C compiler that we intend to use functions that are in the *C standard library* and declared in a *header file* called ``stdio.h``.  This line is (somewhat) analogous to saying ``import`` in Python or Java.  The file ``stdio.h`` contains declarations for input/output functions in C, such as ``getchar`` and ``putchar``, which are used to print a character to the console or read a character from the keyboard, respectively.  The ``stdio.h`` header also has declarations for the more commonly used ``printf`` and ``fgets`` which are used in generic C programs, as well as many other related functions.  Including those declarations in our program lets the compiler know the type signatures of the functions we want to use (i.e., the data types of the function parameters, and the return type). See :ref:`preprocessing <preprocessing>` for more discussion of ``#include`` files.
 
   2.  The second line includes another source of standard function declarations and definitions (``#include <stdlib.h>``).  We include this file specifically for the ``EXIT_SUCCESS`` value returned on the last line of the ``main`` function (as discussed below).
 
-  3.  The third line is another ``#include`` line to tell the C compiler that we want to use some string-related functions.  In particular, we use ``#include <string.h>`` because we want to use a function called ``strlen``, which is used to compute the length of a string.
+  3.  Whitespace is generally ignored in C, just as it is ignored in Java.
 
-  4.  Whitespace is generally ignored in C, just as it is ignored in Java.
+  4.  Line 4 starts a function called ``main``, which is the function in which every C program **must** start.  If you don't define a ``main`` function, the compiler will complain loudly.  Notice that the return value of ``main`` is of type ``int``.  In UNIX-based systems (and C), it is common for functions to return an integer value indicating whether the function "succeeded" or not.  Weirdly enough 0 usually means "success" and some non-zero value (sometimes 1, or -1, or some other value) means "failure".  The symbol ``EXIT_SUCCESS`` is defined (inside ``<stdlib.h>``) to be 0; there is also a symbol ``EXIT_FAILURE`` that is defined to be 1.  If you look at line 11, you'll see that we unconditionally return ``EXIT_SUCCESS`` to indicate that the program successfully completes.  (The ``main`` function can also take two parameters; see :ref:`the main function <the-main-function>` for more about ``main``.)
 
-  5.  Line 5 starts a function called ``main``, which is the function in which every C program **must** start.  If you don't define a ``main`` function, the compiler will complain loudly.  Notice that the return value of ``main`` is of type ``int``.  In UNIX-based systems (and C), it is common for functions to return an integer value indicating whether the function "succeeded" or not.  Weirdly enough 0 usually means "success" and some non-zero value (sometimes 1, or -1, or some other value) means "failure".  The symbol ``EXIT_SUCCESS`` is defined (inside ``<stdlib.h>``) to be 0; there is also a symbol ``EXIT_FAILURE`` that is defined to be 1.  If you look at line 11, you'll see that we unconditionally return ``EXIT_SUCCESS`` to indicate that the program successfully completes.  (The ``main`` function can also take two parameters; see :ref:`the main function <the-main-function>` for more about ``main``.)
+  5.  On line 5, we declare a variable called ``character`` of type ``int``.  This might look like an ordinary declaration you'd find in Java, but what may not be obvious is that this line *only declares the variable*: **there is no automatic initialization of variables in C**.  There is no way to know what would be stored in ``character`` following that line of code since we did not explicitly assign it to anything --- it will hold whatever random character that may have resided in the memory location occupied by ``character`` prior to its being brought to life.
 
-  6.  We print a prompt for a user using the ``printf`` function.  There shouldn't be anything particularly surprising about this function call: as in Java, the string we print out is delimited with double quotes (``"``).  In C, all strings **must** be delimited with double quotes, unlike Python which has three different ways of enclosing text (single, double, and triple quotes).  (Note that, like Java, single characters must be enclosed in single quotes in C.)  You can also see on line 5 that the ``printf`` statement is terminated with a semicolon.  As with Java, all statements in C must end with a semicolon.   The ``printf`` function can take any number of parameters, and a "format" string can define how to display different data types.  See :ref:`stdio reference <stdio>` for more.
+  6.  On line 6, we call the built-in function ``getchar`` to read a character from the keyboard (technically, from the input stream ``stdin``).  The program will pause until a character is typed [#f0]_.  Once something is typed, the *integer representation of the character* will be assigned to the variable ``character``.
 
-  7.  On line 7, we declare a variable called ``name``, which is an array of length 32 of ``char``.  A string in C is represented as an array of characters, where character after the last valid character of the string contains the special character ``'\0'``.  This character is referred to as the "null" character and is used to delimit strings.  The string termination character must fit within the array we've declared here, so the array we've declared can hold a maximum of 31 characters plus the null termination character.  (Note: don't confuse the null character with the ``NULL`` pointer, which we'll encounter later --- they're totally different.)  Unlike any other language you have probably encountered so far, the *representation* of a string in C is completely transparent: there is no "information hiding" or abstraction here --- it is all visible.  Thus, unlike strings in Python and Java which are *immutable*, strings in C are completely mutable.  Changing a string in C boils down to modifying individual characters of the string.  You just need to be sure that the string is terminated with the special ``'\0'`` (null) character.  See :ref:`character literals <character-literals>` for more information on character literals and the null character.
+  7.  Line 7 starts a ``while`` loop, in which we will continue to loop until the program reaches "end of file" (EOF) on the input stream.  If running this program interactively, you can give an EOF on the keyboard by typing Ctrl+D.  The ``EOF`` constant comes from the ``<stdio.h>`` header file (see description for line 1, above).
 
-    One thing that may not be obvious on line 7 is that this statement only declares the variable ``name``.  The C compiler and runtime environment do not do any automatic initialization of the string.  So at the point of declaration, the programmer cannot assume that there is anything known about the contents of ``name`` --- it is currently what ever random characters that may have resided in the memory location occupied by ``name`` prior to its being brought to life.
+  8. Since we did not get ``EOF``, we can write the character most recently read out to the console (``stdout``) using the ``putchar`` function.
 
-  8.  The next statement calls the ``fgets`` C library function to get input from the keyboard.  There are three parameters we pass: the string variable (i.e., the array of characters) we created on line 7 (``name``), the maximum number of characters that ``name`` can hold (32), and the "input stream" that we wish to read from.  The variable name ``stdin`` is predefined in the ``<stdio.h>`` header file, so we can just use it directly as the third parameter.  ``stdin`` means "standard input", and (usually) refers to input that can be collected from the keyboard.  As you'll see later on in this book, you can also use ``fgets`` to read from files that you open.  See :ref:`stdio reference <stdio>` for more.
-
-    One note about the way ``fgets`` works: it will read up to *one less* than the number of characters you specify as the second parameter.  It must reserve space for the final null termination character (since all C strings must end with ``'\0'``).  If a user types more than 31 characters, we'll just get the first 31.
-
-    And one more note about C strings: they have a fixed maximum size.  Unlike Python or Java strings, C strings cannot automatically grow or shrink as needed --- this is left entirely to the programmer to deal with.  As a result, a programmer must assume some reasonable maximum length for string input.  This issue is discussed further in :ref:`dynamic strings <dynamic-strings>`.
-
-
-  9. One more important thing about the way ``fgets`` works is that if a user types a name followed by return, the character emitted when the return key is pressed is also included in the string.  This character happens to be the lowly newline (``'\n'``).  The task of line 9 is to remove this character so that we only have a person's name stored in ``name``, not including the newline character.  To get rid of the newline, we simply overwrite the last character of the string with a ``'\0'`` (remember: in C, strings are totally mutable!)
-
-    This line is not foolproof.  If the user types in more than 31 characters, the newline won't be included in ``name``.  As a result, line 9 will squash a "legitimate" character of the name.  It is left as an exercise to fix this potential problem.
-
-  10. On line 10 the "Hello" statement is printed using the ``printf`` function, which is built into the C standard library of functions.  Two things to note about this line of code: the first parameter defines a *format template*, including the special character sequence ``%s`` that tells ``printf`` that a C string should be substituted at that point in the template.  The string to be substituted is the next parameter supplied to ``printf``, which is just the variable ``name``.  Secondly, we have included an explicit newline character in the format string.  ``printf`` never automatically emits a newline for you: if you want one, you need to remember to include ``'\n'``.  We did not include one in the first ``printf`` statement (line 5) because we wanted the user to be able to type the name on the same line as the prompt. Note that two other common ``printf`` formatting placeholders are ``%d`` for printing a decimal integer, and ``%f`` for printing a floating point number.
+  9.  At the end of the loop, we read the next character from the keyboard for the next time the ``while`` loop condition is evaluated.  
 
   11. See the description of line 5, above.
+
+
+An aside on C strings and string-based I/O
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In ordinary C programs, you'll often used string-based I/O functions instead of character-based ones.  Strings in C are very much unlike strings in Java or Python: they are simply arrays of characters that are terminated with a "null termination character", which is written ``'\0'``.  Notice single quotes are used for literal characters in C and double quotes are used for literal strings.  You can read more later in this book about :ref:`C strings <cstrings>`.
   
+Printing strings is typically handled using the ``printf`` function, and there are a variety of functions used for reading strings (e.g., ``fgets``, ``scanf``).  An example ``printf`` line that could replace line 8 in the program above is ``printf("%c", character);``.  Notice that the first argument to ``printf`` is a string (double quotes), which defines a *format template*.  The special character sequence ``%c`` indicates to ``printf`` that a character should be substituted at that point in the template; the character to be substituted is just the second argument to the function.  Note that two other common ``printf`` formatting placeholders are ``%s`` for printing a string, ``%d`` for printing a decimal integer, and ``%f`` for printing a floating point number.  Read more about printf in the :ref:`stdio reference <stdio>`.
 
 .. index:: clang; compiling
 
@@ -80,10 +81,20 @@ Notice that there are a few command-line flags/options given:
 
 For example, with the "hello, someone" example above, we might compile and run the program as follows::
 
-    $ clang -g -Wall -std=c99 -o hello hello.c
-    $ ./hello
-    Enter your name: fred
-    Hello, fred!
+    $ clang -g -Wall -std=c99 -o echo echo.c
+    $ ./echo
+    hello,
+    hello,
+    world!
+    world!
+    e   
+    e
+    c
+    c
+    h
+    h
+    o
+    o
 
 When invoked like this, :command:`clang` will perform all three basic phases of compilation (see :ref:`compilation phases <compilation-phases>` for details): preprocessing, compiling, and linking.  The final result is a binary executable program that can be executed on a particular processor architecture (e.g., Intel x86 or x86_64).
 
@@ -93,18 +104,19 @@ When invoked like this, :command:`clang` will perform all three basic phases of 
 When :command:`clang` goes "bang!"
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Of course, not all our wonderful source code will compile and run correctly on the first go.  Let's modify our "hello, somebody" program to introduce a bug and see what happens.  Specifically, we will modify two lines: on line 6 we will remove the semicolon at the end of the line, and on line 9, we will remove the second argument to the ``printf`` function call (the line should then read: ``printf("Hello, %s!\n");``).  Here's what :command:`clang`\ 's output looks like::
+Of course, not all our wonderful source code will compile and run correctly on the first go.  Let's modify our "echo" program to introduce a bug and see what happens.  Specifically, we will modify two lines: on line 5 we will remove the semicolon at the end of the line, and on line 8, we will remove the argument to ``putchar``.  Here's what :command:`clang`\ 's output looks like::
 
-    hello.c:6:18: error: expected ';' at end of declaration
-        char name[32]
-                     ^
-                     ;
-    hello.c:9:21: warning: more '%' conversions than data arguments [-Wformat]
-        printf("Hello, %s!\n");
-                       ~^
-    1 warning and 1 error generated.
+    echo.c:5:18: error: expected ';' at end of declaration
+        int character
+                    ^
+                    ;
+    echo.c:8:17: error: too few arguments to function call, expected 1, have 0
+            putchar();
+            ~~~~~~~ ^
 
-:command:`Clang` helpfully tells us that we're missing the semicolon (the 6:18 means the sixth line and 18th character on that line), and that there was an unequal number of arguments to ``printf`` and ``%``-placeholders in the format string [#f5]_.
+    2 errors generated.
+
+:command:`Clang` helpfully tells us that we're missing the semicolon (the 5:18 means the fifth line and 18th character on that line), and that there was an incorrect number of arguments to ``putchar`` [#f5]_.
 
 
 .. index::
@@ -116,44 +128,44 @@ Of course, not all our wonderful source code will compile and run correctly on t
 
 If you use :command:`gcc` instead of :command:`clang` (perhaps because :command:`clang` is not available for some reason), the command-line options are *exactly* the same.  Nothing needs to change there.  The key difference you will notice between :command:`gcc` and :command:`clang` is in the error and warning messages.  If you thought the error messages above weren't very good, ponder the following output of :command:`gcc` for the same example::
 
-    hello.c: In function ‘main’:
-    hello.c:7:5: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘fgets’
-         fgets(name, 32, stdin);
-         ^
-    hello.c:7:11: error: ‘name’ undeclared (first use in this function)
-         fgets(name, 32, stdin);
-               ^
-    hello.c:7:11: note: each undeclared identifier is reported only once for each function it appears in
-    hello.c:9:5: warning: format ‘%s’ expects a matching ‘char *’ argument [-Wformat=]
-         printf("Hello, %s!\n");
-     ^
+    echo.c: In function 'main':
+    echo.c:6:5: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'character'
+        6 |     character = getchar();
+          |     ^~~~~~~~~
+    echo.c:6:5: error: 'character' undeclared (first use in this function)
+    echo.c:6:5: note: each undeclared identifier is reported only once for each function it appears in
+    In file included from code/echo.c:1:
+    echo.c:8:9: error: expected expression before ',' token
+        8 |         putchar();
+          |         ^~~~~~~
 
-Ugh.  Not only are there *more* errors reported than actually exist, the output is simply more cluttered and confusing.  Advice: use :command:`clang` instead of :command:`gcc` if at all possible.
+It's just not quite as nice as what ``clang`` prints.  If possible, a recommendation is to use ``clang``, but ``gcc`` is very widely used and you're likely to use it at some point.  Advice: read the error messages very carefully!
 
 
 .. rubric:: Exercises
 
-1.  A common error is to fail to include a null-termination character in a C string.  Modify the code example above to remove the ``'\0'``.  What does ``printf`` do?  What do you think is happening?  (Note: you actually have to work a bit to remove any null-termination character, since ``fgets`` will automatically null-terminate a string. You can either overwrite the null-termination character added by ``fgets`` with some other character, or devise some other method.)
+1.  Modify the above program to use string-based I/O using ``fgets`` and ``printf``.  To use ``fgets``, you'll need to declare an array of ``char`` with some reasonable size.  If you name the array ``string``, the call to ``fgets`` should be ``fgets(string, 64, stdin);``.  
 
-2.  Revise the program above to change the size of the array to something small (e.g., 4 characters), then recompile and re-run it.  What happens when you input a string that's longer than 4 characters?  Exactly 4 characters?  
+2.  Modify the ``while`` loop in the character-oriented version of the echo program to convert any letters to upper case.  ``if`` statements work similarly as they do in Java, and you can compare variables storing characters to literal characters using standard operators (e.g., ``==``, ``<=``, etc.)
 
-3.  Line 8 in our example program above can squash a non-newline character if the user types more than 31 characters for a name.  Fix the program so that the last character of the string is *only* overwritten if it is a newline (``\n``).  Note that, as with Java and Python, characters can be compared using ``==`` (double-equals), and that ``if`` statements work very similarly in C as they do in Java.
+3.  Revisit your fabulous time in COSC 101 by writing a program that asks for a dog's name, its age in human years, then prints its age in dog years (human years multiplied by 7).  A couple hints to help accomplish this:
 
-4.  Revisit your fabulous time in COSC 101 by writing a program that asks for a dog's name, its age in human years, then prints its age in dog years (human years multiplied by 7).  A couple hints to help accomplish this:
+    * If you use string-based I/O, you can use ``fgets`` to collect each input, but note that you'll need to convert the dog age to an integer (you can just do the computations as integers).  You can use the ``atoi`` function to convert a string to an integer; ``atoi`` takes a C string as a parameter and returns an ``int``.  You'll need to ``#include <stdlib.h>`` to use the ``atoi`` function.  To format a decimal integer for output with ``printf``, you can use the ``%d`` placeholder in the ``printf`` format string (i.e., the first parameter).
 
-    * You can use ``fgets`` to collect each input, but note that you'll need to convert the dog age to an integer (you can just do the computations as integers).  You can use the ``atoi`` function to convert a string to an integer; ``atoi`` takes a C string as a parameter and returns an ``int``.  You'll need to ``#include <stdlib.h>`` to use the ``atoi`` function.
+    * If you use character-based I/O, you could collect input using ``getchar`` *until* receiving a newline character.  As you collect digits, you could convert them directly to an integer, or populate a string and use ``atoi`` as noted above.  Once you do the relevant computation (multiply by 7), you can consider how to take the integer dog years value and print it character by character using ``putchar``.  Hint: use integer division and modulus (mod - ``%``) to extract individual digits, starting with the left-most (largest placeholder).
 
-    * Arithmetic operators in C are virtual identical to those available in Java (and Python).  There is no ``**`` operator as in Python to do exponentiation, but you certainly shouldn't need that to compute the dog's age.
+    * Note that arithmetic operators in C are virtually identical to those available in Java (and Python).  There is no ``**`` operator as in Python to do exponentiation, but you certainly shouldn't need that to compute the dog's age.
 
-    * Try to make the output look nicely formatted using ``printf``.  To format a decimal integer for output, you can use the ``%d`` placeholder in the ``printf`` format string (i.e., the first parameter).
 
-5.  Write a simple "race-pace" calculator.  Ask a user to type the race distance (in miles), and a string representing the time they want to finish the race in, using a format like "HH:MM:SS".  Compute and return the pace per-mile required to achieve the finish time.  A few notes and hints about this problem:
-
-    * You should accept the miles value as a floating point value.  You can use the standard library function ``atof`` to convert a string to a floating point value.  Any floating point variables can be declared as either ``float`` or ``double`` (just like Java).
-
-    * You can assume that the string entered by the user for finish time is *exactly* in the format "HH:MM:SS", for simplicity.  Assume that if the user wants to finish in 31 minutes and 19 seconds, they type "00:31:19".
+.. [#f0] This is not strictly true in practice.  ``stdin`` and ``stdout`` are both *buffered* I/O streams, so if you just type a single character (like ``'a'``) you will *not* see any output.  If you type a character *plus* return/enter, then you will see some output because the newline character (``\n``, emitted from typing return) implicitly flushes the input and output streams.  On UNIX-based computer systems, you can use the ``setbuf`` or ``fflush`` built-in functions (among other possibilities) to either force I/O to be unbuffered, or to flush input and/or output streams.
 
 .. [#f1] The file containing the instructions is in a format known as ELF: http://en.wikipedia.org/wiki/Executable_and_Linkable_Format
+
+.. 5.  Write a simple "race-pace" calculator.  Ask a user to type the race distance (in miles), and a string representing the time they want to finish the race in, using a format like "HH:MM:SS".  Compute and return the pace per-mile required to achieve the finish time.  A few notes and hints about this problem:
+
+..     * You should accept the miles value as a floating point value.  You can use the standard library function ``atof`` to convert a string to a floating point value.  Any floating point variables can be declared as either ``float`` or ``double`` (just like Java).
+
+..     * You can assume that the string entered by the user for finish time is *exactly* in the format "HH:MM:SS", for simplicity.  Assume that if the user wants to finish in 31 minutes and 19 seconds, they type "00:31:19".
 
 .. [#f2] Don't look for any examples related to Windows or Visual C in this book: they don't exist.
 

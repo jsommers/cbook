@@ -169,7 +169,7 @@ scan-build: 1 bug found.
 <p class="sidebar-title">Memory access efficiency.</p>
 <p>If you know about CPU caches and cache lines, you'll know that it's more efficient to access memory which is near other recently accessed memory.  This means that the most efficient way to read through a chunk of the array is to vary the rightmost index the most frequently since that will access elements that are near each other in memory.</p>
 </aside>
-</section>
+<span class="target" id="cstrings"></span></section>
 <section id="c-strings">
 <span id="index-6"></span><h2><span class="section-number">5.3. </span>C Strings<a class="headerlink" href="#c-strings" title="Permalink to this heading">¶</a></h2>
 <p>C has minimal support of character strings.  A string in C is, in essence, an array of <code class="docutils literal notranslate"><span class="pre">char</span></code>s.  C includes a standard library of functions for performing a variety of string operations, but the programmer is ultimately responsible for managing the underlying array (and memory) used by the string.  Computations involving strings is very common, so becoming a competent C programmer requires a level of adeptness at understanding and manipulating C strings.</p>
@@ -337,6 +337,12 @@ Here&#39;s your string, lower-cased: abcderx!!! why?!
 <li><p>Write a program that asks for a string from a user and prints the string in reverse.</p></li>
 <li><p>Write a program that asks for a string from a user and prints whether the string is a palindrome.  Don't implement this problem recursively; check the characters within the string in some type of loop structure.  In your implementation, ignore non-letters and treating the string in a case-insensitive manner.  For example, &quot;A man, a plan, a canal, Panama!&quot; should be considered a valid palindrome.</p></li>
 <li><p>Write a program that asks for two strings and prints whether the two strings are anagrams of each other.  This is somewhat challenging to do given what has been covered in C thus far, but good practice!</p></li>
+<li><p>Write a simple &quot;race-pace&quot; calculator.  Ask a user to type the race distance (in miles), and a string representing the time they want to finish the race in, using a format like &quot;HH:MM:SS&quot;.  Compute and return the pace per-mile required to achieve the finish time.  A few notes and hints about this problem:</p>
+<ul class="simple">
+<li><p>You should accept the miles value as a floating point value.  You can use the standard library function <code class="docutils literal notranslate"><span class="pre">atof</span></code> to convert a string to a floating point value.  Any floating point variables can be declared as either <code class="docutils literal notranslate"><span class="pre">float</span></code> or <code class="docutils literal notranslate"><span class="pre">double</span></code> (just like Java).</p></li>
+<li><p>You can assume that the string entered by the user for finish time is <em>exactly</em> in the format &quot;HH:MM:SS&quot;, for simplicity.  Assume that if the user wants to finish in 31 minutes and 19 seconds, they type &quot;00:31:19&quot;.</p></li>
+</ul>
+</li>
 </ol>
 <p class="rubric">Footnotes</p>
 <aside class="footnote brackets" id="f1a" role="note">

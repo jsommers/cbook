@@ -26,7 +26,7 @@ There are several integer types in C, differing primarily in their bit widths an
     A ``short`` is typically 16 bits, which provides a signed range of -32768..32767.  It is less common to use a ``short`` than a ``char``, ``int``, or something larger.
 
 ``int``: A "default" integer size
-    An ``int`` is typically 32 bits (4 bytes), though it is only guaranteed to be at least 16 bits.  It is defined to be the "most comfortable" size for the computer architecture for which the compiler is targetted.  If you do not really care about the range for an integer variable, declare it ``int`` since that is likely to be an appropriate size which works well for that machine.
+    An ``int`` is typically 32 bits (4 bytes), though it is only guaranteed to be at least 16 bits.  In typical microcontroller environments, an ``int`` is almost always 16 bits!  It is defined to be the "most comfortable" size for the computer architecture for which the compiler is targetted.  If you do not really care about the range for an integer variable, declare it ``int`` since that is likely to be an appropriate size which works well for that machine.
 
 ``long``: A large integer
     A least 32 bits.  On a 32-bit machine, it will usually be 32 bits, but on a 64 bit machine, it will usually be 64 bits.  
@@ -116,7 +116,7 @@ A ``char`` literal is written with single quotes (') like ``'A'`` or ``'z'``.  T
 
 Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long, such as 42L.  Similarly, an integer literal may be followed by 'LL' to indicate that it is of type ``long long``.  Adding a 'U' before 'L' or 'LL' can be used to specify that the value is unsigned, e.g., 42ULL is an ``unsigned long long`` type.
 
-An integer constant can be written with a leading 0x to indicate that it is expressed in hexadecimal (base 16) --- 0x10 is way of expressing the decimal number 16.  Similarly, a constant may be written in octal (base 8) by preceding it with "0" --- 012 is a way of expressing the decimal number 10.
+An integer constant can be written with a leading ``0b`` to indicate that it is expressed in binary (base 2).  For example ``0b00010000`` is the way to express the decimal number 16 in binary.  Similarly, a leading ``0x`` is used to indicate that a value is expressed in hexadecimal (base 16) --- ``0x10`` is way of expressing the decimal number 16.  Lastly, a constant may be written in octal (base 8) by preceding it with ``0`` (single zero) --- ``012`` is a way of expressing the decimal number 10.  A pitfall related to octal notation is that if you accidentally write a decimal value with a leading ``0``, the C compiler will interpret it as a base-8 value!
 
 Type combination and promotion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -418,21 +418,37 @@ Operator  Meaning
 
 Bitwise Operators
 -----------------
-C includes operators to manipulate memory at the bit level. This is useful for writing low-level hardware or operating system code where the ordinary abstractions of numbers, characters, pointers, etc... are insufficient -- an increasingly rare need. Bit manipulation code tends to be less "portable". Code is "portable" if with no programmer intervention it compiles and runs correctly on different types of processors. The bitwise operations are typically used with unsigned types. In particular, the shift operations are guaranteed to shift zeroes into the newly vacated positions when used on unsigned values.
+C includes operators to manipulate memory at the bit level. This is useful for writing low-level hardware or operating system code where the ordinary abstractions of numbers, characters, pointers, etc... are insufficient.  Using bitwise operators is very common in microcontroller programming environments and in some "systems" software.
+
+Bit manipulation code tends to be less "portable". Code is "portable" if with no programmer intervention it compiles and runs correctly on different types of processors. The bitwise operations are typically used with unsigned types. In particular, the shift operations are guaranteed to shift zeroes into the newly vacated positions when used on unsigned values.
 
 ========= =============================================================
 Operator  Meaning
 ========= =============================================================
-``~``     Bitwise Negation (unary) – flip 0 to 1 and 1 to 0 throughout
-``&``     Bitwise And
-``|``     Bitwise Or
-``^``     Bitwise Exclusive Or
+``~``     Bitwise NOT (unary) – flip 0 to 1 and 1 to 0 throughout
+``&``     Bitwise AND
+``|``     Bitwise OR
+``^``     Bitwise XOR (Exclusive OR)
 ``>>``    Right Shift by right hand side (RHS) (divide by power of 2)
 ``<<``    Left Shift by RHS (multiply by power of 2)
 ========= =============================================================
 
-Do not confuse the bitwise operators with the logical operators. The bitwise connectives are one character wide (``&``, ``|``) while the boolean connectives are two characters wide (``&&``, ``||``). The bitwise operators have higher precedence than the boolean operators.  The compiler will usually not help you out with a type error if you use ``&`` when you meant ``&&``.  
+Do not confuse the bitwise operators with the logical operators. The bitwise connectives are one character wide (``&``, ``|``) while the boolean connectives are two characters wide (``&&``, ``||``). The bitwise operators have higher precedence than the boolean operators.  The compiler will not typically help you out with a type error if you use ``&`` when you meant ``&&``.  
 
+Bitwise operation example
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Say we want to set certain bits in a byte.  In particular, say that (starting at 1, on the far right) we want to set the 2nd and 5th bits so that the byte is equal to ``0b00010010`` (hex 0x12).  The following program would do that:
+
+.. literalinclude:: code/enumbits.c
+   :language: c
+   :linenos:
+
+Lines 3 and 4 in the code segment above create two *macro substitutions* (``#define`` is a C preprocessor directive).  During the preprocessing phase of compilation, anywhere ``SECOND`` appears will be replaced with the value ``1``; similarly for the text ``FIFTH``.  So why is ``SECOND`` defined as 1 and not 2 (and similar for ``FIFTH``)?  We will come to that shortly.
+
+In ``main``, the variable ``flags`` is assigned all zeroes (notice the binary literal) on line 7, then on line 8 we assign to ``flags`` by *shifting* a 1 ``SECOND`` places to the left.  Since ``SECOND`` is assigned 1, we shift ``0b00000001`` one place to the left, giving ``0b00000010``.  So perhaps that's an answer to the question above: the value for ``SECOND`` and ``FIFTH`` define *the number of positions to shift a 1 to the left*.  On line 9, we do the same thing for ``FIFTH`` but we also perform a bitwise OR with the existing value of ``flags``.  The bitwise OR operation provides a way to combine (or *union*) two or more values together.  For example ``0x01 | 0xF0`` is ``0xF1``.  
+
+Although not shown in the example above, if we wanted to check whether the fifth bit in a byte (again, starting at 1 counting from the right), we might use the following expression: ``fifth_is_set = flags & (1<<FIFTH);``.  Doing a bitwise AND is referred to as *masking* since ``AND``ing anything with ``0b00010000`` will mask (unset) any bits that may have been set other than the fifth bit.  
 
 .. index:: assignment, +=, -=, *=, /=
 
@@ -485,4 +501,3 @@ The theme for the following exercises is *dates and times*, which often involve 
 .. [#f3] http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html
 
 .. [#f4] See the C11 standard: https://port70.net/~nsz/c/c11/
-

@@ -161,6 +161,8 @@ The underlying implementation of a multi-dimensional array stores all the elemen
 
    If you know about CPU caches and cache lines, you'll know that it's more efficient to access memory which is near other recently accessed memory.  This means that the most efficient way to read through a chunk of the array is to vary the rightmost index the most frequently since that will access elements that are near each other in memory.
 
+.. _cstrings:
+
 .. index:: strings, string initialization
 
 C Strings
@@ -359,6 +361,11 @@ There are quite a few functions defined in ``ctype.h``.  On MacOS X you can type
 
 7.  Write a program that asks for two strings and prints whether the two strings are anagrams of each other.  This is somewhat challenging to do given what has been covered in C thus far, but good practice!
 
+8.  Write a simple "race-pace" calculator.  Ask a user to type the race distance (in miles), and a string representing the time they want to finish the race in, using a format like "HH:MM:SS".  Compute and return the pace per-mile required to achieve the finish time.  A few notes and hints about this problem:
+
+    * You should accept the miles value as a floating point value.  You can use the standard library function ``atof`` to convert a string to a floating point value.  Any floating point variables can be declared as either ``float`` or ``double`` (just like Java).
+
+    * You can assume that the string entered by the user for finish time is *exactly* in the format "HH:MM:SS", for simplicity.  Assume that if the user wants to finish in 31 minutes and 19 seconds, they type "00:31:19".
 
 .. rubric:: Footnotes
 
