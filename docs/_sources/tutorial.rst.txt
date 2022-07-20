@@ -1,3 +1,5 @@
+.. _tutorial:
+
 Getting your feet wet in the C
 ******************************
 
