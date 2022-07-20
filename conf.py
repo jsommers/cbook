@@ -16,7 +16,7 @@
 import sys
 import os
 
-version = '2018.01'
+version = '2022.08'
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -54,7 +54,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'The Book of C'
-copyright = '2014-2018, Joel Sommers'
+copyright = '2014-2022, Joel Sommers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -224,7 +224,7 @@ latex_elements = {
 
 # Additional stuff for the LaTeX preamble.
 #'preamble': '',
-    'preamble': '''
+    'preamble': r'''
 \usepackage{pxfonts}
 ''',
 # The paper size ('letterpaper' or 'a4paper').
@@ -304,10 +304,10 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = project
-epub_author = 'Joel Sommers'
-epub_publisher = 'Joel Sommers'
-epub_copyright = copyright
+#epub_title = project
+#epub_author = 'Joel Sommers'
+#epub_publisher = 'Joel Sommers'
+#epub_copyright = copyright
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = 'cintro'
@@ -333,7 +333,7 @@ epub_copyright = copyright
 #epub_uid = ''
 
 # A tuple containing the cover image and cover page html template filenames.
-epub_cover = ('seaimg.jpg','epub_cover.html')
+#epub_cover = ('seaimg.jpg','epub_cover.html')
 
 # A sequence of (type, uri, title) tuples for the guide element of content.opf.
 #epub_guide = ()
@@ -347,7 +347,7 @@ epub_cover = ('seaimg.jpg','epub_cover.html')
 #epub_post_files = []
 
 # A list of files that should not be packed into the epub file.
-epub_exclude_files = ['search.html']
+#epub_exclude_files = ['search.html']
 
 # The depth of the table of contents in toc.ncx.
 #epub_tocdepth = 3

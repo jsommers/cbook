@@ -1,19 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>4. Control Structures &#8212; The Book of C (version 2018.01)</title>
-    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>4. Control Structures &#8212; The Book of C (version 2022.08)</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="5. Arrays and Strings" href="arraysstrings.html" />
@@ -31,13 +31,275 @@
         <li class="right" >
           <a href="basictypes.html" title="3. Basic Types and Operators"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2022.08)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">4. </span>Control Structures</a></li> 
       </ul>
-    </div>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="control-structures">
+<h1><span class="section-number">4. </span>Control Structures<a class="headerlink" href="#control-structures" title="Permalink to this heading">¶</a></h1>
+<p>In this chapter, we encounter the set of &quot;control&quot; structures in C, such as conditional statements and looping constructs.  As a preview, the control structures in C are nearly identical to those found in Java (since Java syntax is heavily based on C), and bear strong resemblance to control structures found in other programming languages.</p>
+<section id="if-statement">
+<span id="index-0"></span><h2><span class="section-number">4.1. </span><code class="docutils literal notranslate"><span class="pre">if</span></code> Statement<a class="headerlink" href="#if-statement" title="Permalink to this heading">¶</a></h2>
+<p>Both an <code class="docutils literal notranslate"><span class="pre">if</span></code> and an <code class="docutils literal notranslate"><span class="pre">if-else</span></code> are available in C.  The <code class="docutils literal notranslate"><span class="pre">&lt;expression&gt;</span></code> can be any valid C expression.  The parentheses around the expression are required, even if it is just a single variable:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w">    </span><span class="c1">// simple form with no {}&#39;s or else clause</span>
+</pre></div>
+</div>
+<p>You should <strong>always</strong> use curly braces around the statement block associated with an <code class="docutils literal notranslate"><span class="pre">if</span></code> statement.  Although C allows a programmer <em>not</em> to include the curly braces in the case of <code class="docutils literal notranslate"><span class="pre">if</span></code> statements and other control structures when there is only a single statement in the statement block, you should <strong>always use the curly braces</strong>.  Why, you ask, should I type those additional characters?  Just ask the unfortunate engineering group at Apple that introduced the &quot;goto fail&quot; bug into their SSL (secure sockets layer) library: a bug that affected the macOS and iOS operating systems quite severely <a class="footnote-reference brackets" href="#f1" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.  The upshot of this security failure is that it could have been prevented with the rigorous use of curly braces for all statement blocks.</p>
+<p>So, for the simple form of the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement shown above, you should <em>really</em> write:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// simple form with no {}&#39;s or else clause</span>
+<span class="w">                                    </span><span class="c1">// note the curly braces around the statement</span>
+<span class="w">                                    </span><span class="c1">// block!</span>
+</pre></div>
+</div>
+<aside class="topic" id="index-1">
+<p class="topic-title">Code blocks use curly braces (<code class="docutils literal notranslate"><span class="pre">{}</span></code>)</p>
+<p>C uses curly braces (<code class="docutils literal notranslate"><span class="pre">{}</span></code>) to group multiple statements together, very much like Java.  Whitespace is
+generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, within a code block the statements are executed in order.</p>
+<p>Note that older versions of C (pre-C99) required that all variables be declared at the beginning of a code block.  Since the C99 standard, however, variables can be declared on any line of code, as in Java and C++.</p>
+</aside>
+<p>As in Java, the <code class="docutils literal notranslate"><span class="pre">else</span></code> keyword can be used to provide alternative execution for a conditional expression.  Also similar to Java, multiple <code class="docutils literal notranslate"><span class="pre">if</span></code> ... <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statements can be chained together.  There is no <code class="docutils literal notranslate"><span class="pre">elif</span></code> as in Python (or <code class="docutils literal notranslate"><span class="pre">elsif</span></code> as in Ruby).</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// simple form with {}&#39;s to group statements</span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// full then/else form</span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression1</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// chained if/else if</span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression2</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="the-conditional-expression-ternary-operator">
+<span id="index-2"></span><h2><span class="section-number">4.2. </span>The conditional expression (ternary operator)<a class="headerlink" href="#the-conditional-expression-ternary-operator" title="Permalink to this heading">¶</a></h2>
+<p>The conditional expression can be used as a shorthand for some if-else statements. The general syntax of the conditional operator is:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">expression1</span><span class="o">&gt;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">&lt;</span><span class="n">expression2</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">expression3</span><span class="o">&gt;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This is an <em>expression</em>, not a <em>statement</em>, so it represents a value. The operator works by evaluating <code class="docutils literal notranslate"><span class="pre">expression1</span></code>. If it is true (non-zero), it evaluates and returns <code class="docutils literal notranslate"><span class="pre">expression2</span></code>. Otherwise, it evaluates and returns <code class="docutils literal notranslate"><span class="pre">expression3</span></code>.</p>
+<p>The classic example of the ternary operator is to return the smaller of two variables. Instead of writing:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>you can write:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The ternary operator is viewed by some programmers as &quot;excessively tricky&quot; since expressions with such operators can be hard to read.  Use your best judgment, and don't do something this <a class="reference internal" href="#horrific" id="id2"><span>[Horrific]</span></a> example.</p>
+</section>
+<section id="switch-statement">
+<span id="index-3"></span><h2><span class="section-number">4.3. </span><code class="docutils literal notranslate"><span class="pre">switch</span></code> statement<a class="headerlink" href="#switch-statement" title="Permalink to this heading">¶</a></h2>
+<p>The switch statement is a sort of specialized form of <code class="docutils literal notranslate"><span class="pre">if</span></code> with the goal of efficiently separating different blocks of code based on the value of an integer.  The <code class="docutils literal notranslate"><span class="pre">switch</span></code> expression is evaluated, and then the flow of control jumps to the matching const-expression <code class="docutils literal notranslate"><span class="pre">case</span></code>. The <code class="docutils literal notranslate"><span class="pre">case</span></code> expressions are typically <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">char</span></code> constants (unfortunately, you cannot use strings as <code class="docutils literal notranslate"><span class="pre">case</span></code> expressions).  The <code class="docutils literal notranslate"><span class="pre">switch</span></code> statement is probably the single most syntactically awkward and error-prone feature of the C language:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;</span><span class="no">const</span><span class="o">-</span><span class="no">expression</span><span class="mi">-1</span><span class="o">&gt;</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;</span><span class="no">const</span><span class="o">-</span><span class="no">expression</span><span class="mi">-2</span><span class="o">&gt;</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;</span><span class="no">const</span><span class="o">-</span><span class="no">expression</span><span class="mi">-3</span><span class="o">&gt;</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;</span><span class="no">const</span><span class="o">-</span><span class="no">expression</span><span class="mi">-4</span><span class="o">&gt;</span><span class="p">:</span><span class="w">  </span><span class="c1">// here we combine case 3 and 4</span>
+<span class="w">        </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w">    </span><span class="c1">// optional</span>
+<span class="w">        </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Each constant needs its own <code class="docutils literal notranslate"><span class="pre">case</span></code> keyword and a trailing colon (:).  Once execution has jumped to a particular case, the program will keep running through all the cases from that point down --- this so called <em>fall through</em> operation is used in the above example so that <code class="docutils literal notranslate"><span class="pre">expression-3</span></code> and <code class="docutils literal notranslate"><span class="pre">expression-4</span></code> run the same statements. The explicit <code class="docutils literal notranslate"><span class="pre">break</span></code> statements are necessary to exit the <code class="docutils literal notranslate"><span class="pre">switch</span></code>. Omitting the <code class="docutils literal notranslate"><span class="pre">break</span></code> statements is a common error --- it compiles, but leads to inadvertent, unexpected, and likely erroneous fall-through behavior.</p>
+<p>Why does the <code class="docutils literal notranslate"><span class="pre">switch</span></code> statement fall-through behavior work the way it does? The best explanation might be that C was originally developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a &quot;jump table&quot; with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.</p>
+</section>
+<section id="while-loop">
+<span id="index-4"></span><h2><span class="section-number">4.4. </span><code class="docutils literal notranslate"><span class="pre">while</span></code> loop<a class="headerlink" href="#while-loop" title="Permalink to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">while</span></code> loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parentheses like the if:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Although the curly braces are not technically required if there is only one statement in the body of the <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, you should <em>always</em> use the curly braces.  Again, see <a class="footnote-reference brackets" href="#f1" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> for why.</p>
+</section>
+<section id="do-while-loop">
+<span id="index-5"></span><h2><span class="section-number">4.5. </span><code class="docutils literal notranslate"><span class="pre">do-while</span></code> loop<a class="headerlink" href="#do-while-loop" title="Permalink to this heading">¶</a></h2>
+<p>Like a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, but with the test condition at the <em>bottom</em> of the loop. The loop body will always execute at least once. The <code class="docutils literal notranslate"><span class="pre">do-while</span></code> tends to be an unpopular area of the language.  Although many users of C use the straight <code class="docutils literal notranslate"><span class="pre">while</span></code> if possible, a <code class="docutils literal notranslate"><span class="pre">do-while</span></code> loop can be very useful in some situations:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">do</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="for-loop">
+<span id="index-6"></span><h2><span class="section-number">4.6. </span><code class="docutils literal notranslate"><span class="pre">for</span></code> loop<a class="headerlink" href="#for-loop" title="Permalink to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">for</span></code> loop in C contains three components that are often used in looping constructs, making it a fairly convenient statement to use.  The three parts are an initializer, a continuation condition, and an action, as in:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">initializer</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">continuation</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">action</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The initializer is executed once before the body of the loop is entered.  The loop continues to run as long as the continuation condition remains true.  After every execution of the loop, the action is executed. The following example executes 10 times by counting 0..9. Many loops look very much like the following:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="linenos">2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">5</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">6</span><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">7</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">8</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">9</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>C programs often have series of the form 0..(some_number-1). It's idiomatic in C for loops like the example above to start at 0 and use <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> in the test so the series runs up to but not equal to the upper bound. In other languages you might start at 1 and use <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> in the test.</p>
+<p>Each of the three parts of the for loop can be made up of multiple expressions separated by commas. Expressions separated by commas are executed in order, left to right, and represent the value of the last expression.</p>
+<p>Note that in the C standard prior to C99, it was illegal to declare a variable in the initializer part of a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop.  In C99, however, it is perfectly legal.  If you compile the above code using <strong class="command">gcc</strong> without the <code class="docutils literal notranslate"><span class="pre">-std=c99</span></code> flag, you will get the following error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>forloop.c: In function ‘main’:
+forloop.c:4:5: error: ‘for’ loop initial declarations are only allowed in C99 mode
+forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
+</pre></div>
+</div>
+<p>Once the <code class="docutils literal notranslate"><span class="pre">-std=c99</span></code> flag is added, the code compiles correctly, as expected.</p>
+<section id="break">
+<h3><span class="section-number">4.6.1. </span><code class="docutils literal notranslate"><span class="pre">break</span></code><a class="headerlink" href="#break" title="Permalink to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">break</span></code> statement causes execution to exit the current loop or switch statement.  Stylistically speaking, <code class="docutils literal notranslate"><span class="pre">break</span></code> has the potential to be a bit vulgar.  It is preferable to use a straight <code class="docutils literal notranslate"><span class="pre">while</span></code> with a single conditional expression at the top if possible, but sometimes you are forced to use a <code class="docutils literal notranslate"><span class="pre">break</span></code> because the test can occur only somewhere in the midst of the statements in the loop body.  To keep the code readable, be sure to make the <code class="docutils literal notranslate"><span class="pre">break</span></code> obvious --- forgetting to account for the action of a <code class="docutils literal notranslate"><span class="pre">break</span></code> is a traditional source of bugs in loop behavior:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">condition</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">evaluated</span><span class="w"> </span><span class="n">here</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="c1">// control jumps down here on the break</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">break</span></code> does not work with <code class="docutils literal notranslate"><span class="pre">if</span></code>; it only works in loops and switches. Thinking that a <code class="docutils literal notranslate"><span class="pre">break</span></code> refers to an <code class="docutils literal notranslate"><span class="pre">if</span></code> when it really refers to the enclosing <code class="docutils literal notranslate"><span class="pre">while</span></code> has created some high-quality bugs. When using a <code class="docutils literal notranslate"><span class="pre">break</span></code>, it is nice to write the enclosing loop to iterate in the most straightforward, obvious, normal way, and then use the <code class="docutils literal notranslate"><span class="pre">break</span></code> to explicitly catch the exceptional, weird cases.</p>
+</section>
+<section id="continue">
+<h3><span class="section-number">4.6.2. </span><code class="docutils literal notranslate"><span class="pre">continue</span></code><a class="headerlink" href="#continue" title="Permalink to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">continue</span></code> statement causes control to jump to the bottom of the loop, effectively skipping over any code below the <code class="docutils literal notranslate"><span class="pre">continue</span></code>. As with <code class="docutils literal notranslate"><span class="pre">break</span></code>, this has a reputation as being vulgar, so use it sparingly. You can almost always get the effect more clearly using an <code class="docutils literal notranslate"><span class="pre">if</span></code> inside your loop:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">condition</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">continue</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// control jumps here on the continue</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="statement-labels-and-goto">
+<h3><span class="section-number">4.6.3. </span>Statement labels and <code class="docutils literal notranslate"><span class="pre">goto</span></code><a class="headerlink" href="#statement-labels-and-goto" title="Permalink to this heading">¶</a></h3>
+<p>Continuing the theme of statements that have a tendency of being a bit vulgar, we come to the king of vulgarity, the infamous <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement <a class="reference internal" href="#goto" id="id4"><span>[Goto]</span></a>.  The structure of a <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement in C is to <em>unconditionally</em> jump to a statement label, and continue execution from there.  The basic structure is:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="nl">label</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="p">..</span><span class="w"></span>
+<span class="w">  </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="k">goto</span><span class="w"> </span><span class="n">label</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement is not uncommon to encounter in operating systems code when there is a legitimate need to handle complex errors that can happen.  A pattern that you might see is something like:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">complex_function</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initialize_1</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="n">out1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initialize_2</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="n">out2</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initialize_3</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="n">out3</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* other statements */</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">SUCCESS</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="nl">out3</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">deinitialize_3</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="nl">out2</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">deinitialize_2</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="nl">out1</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">deinitialize_1</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">ERROR</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Notice the structure above: there are multiple steps being performed to carry out some initialization for an operation <a class="footnote-reference brackets" href="#f2" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.  If one of those initialization operations fails, code execution transfers to a statement to handle <em>deinitialization</em>, and those de-init operations happen in <em>reverse order of initialization</em>.  It is possible to rewrite the above code to use <code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code> structures, but the structure becomes much more complex (see an exercise below).  Although <code class="docutils literal notranslate"><span class="pre">goto</span></code> has the reputation of leading to &quot;spaghetti code&quot;, judicious use of this statement in situations like the above makes for cleaner and clearer code.</p>
+<p class="rubric">Exercises</p>
+<ol class="arabic">
+<li><p>Rewrite the <code class="docutils literal notranslate"><span class="pre">goto</span></code> example code above (the last code example, above) to use <code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code> instead.  Which code do you think exhibits a more clear structure?</p></li>
+<li><p>Consider the following program snippet:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">char</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span><span class="w"></span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Enter an integer: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="n">stdin</span><span class="p">);</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atoi</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span><span class="w"> </span><span class="c1">// convert the string to an integer</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">val</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">val</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><p>What is printed if the number 3 is entered?</p>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Say that you want to write a program that repeatedly asks for a snowfall amount, and that you want to keep asking for another value until the sum of all values exceeds a certain value.  What control structure would work best to facilitate entry of the snowfall values, and why?</p></li>
+<li><p>Say you want to write a program that computes the average of quiz scores.  You have a big stack of quizzes, so you do not know the number of quizzes up front.  What control structure would work best to facilitate entry of the scores, and why?</p></li>
+<li><p>Say that you want to simulate rolling a die (singular of dice) a fixed number of times and to compute and print the average value for the die rolls.  What control structure would work best for this problem, and why?</p></li>
+</ol>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="horrific" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Horrific</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another">http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another</a></p>
+</div>
+<div class="citation" id="goto" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Goto</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="5">
+<li><ol class="upperalpha simple" start="23">
+<li><p>Dijkstra.  Letters to the editor: go to statement considered harmful.  Communications of the ACM, Volume 11, Issue 3, March 1968.  <a class="reference external" href="https://dl.acm.org/citation.cfm?id=362947">https://dl.acm.org/citation.cfm?id=362947</a></p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<p class="rubric">Footnotes</p>
+<aside class="footnote brackets" id="f1" role="note">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>See <a class="reference external" href="https://gotofail.com">https://gotofail.com</a> for a variety of information about the bug, and <a class="reference external" href="https://www.imperialviolet.org/2014/02/22/applebug.html">https://www.imperialviolet.org/2014/02/22/applebug.html</a> for detailed analysis of the source code that caused the problem.</p>
+</aside>
+<aside class="footnote brackets" id="f2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">2</a><span class="fn-bracket">]</span></span>
+<p>This example was adapted from <a class="reference external" href="https://blog.regehr.org/archives/894">https://blog.regehr.org/archives/894</a>, where you can find additional discussion on tasteful use of <code class="docutils literal notranslate"><span class="pre">goto</span></code> in systems code.</p>
+</aside>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">4. Control Structures</a><ul>
 <li><a class="reference internal" href="#if-statement">4.1. <code class="docutils literal notranslate"><span class="pre">if</span></code> Statement</a></li>
 <li><a class="reference internal" href="#the-conditional-expression-ternary-operator">4.2. The conditional expression (ternary operator)</a></li>
@@ -54,298 +316,28 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="basictypes.html"
-                        title="previous chapter">3. Basic Types and Operators</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="arraysstrings.html"
-                        title="next chapter">5. Arrays and Strings</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="basictypes.html"
+                          title="previous chapter"><span class="section-number">3. </span>Basic Types and Operators</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="arraysstrings.html"
+                          title="next chapter"><span class="section-number">5. </span>Arrays and Strings</a></p>
+  </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script><h4>Got issues?</h4>
+<script>document.getElementById('searchbox').style.display = "block"</script><h4>Got issues?</h4>
   <p>If you find a bug or have a suggestion for improvement, please <a href="https://github.com/jsommers/cbook/issues">report it</a>.</p>
-        </div>
-      </div>
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="control-structures">
-<h1>4. Control Structures<a class="headerlink" href="#control-structures" title="Permalink to this headline">¶</a></h1>
-<p>In this chapter, we encounter the set of &quot;control&quot; structures in C, such as conditional statements and looping constructs.  As a preview, the control structures in C are nearly identical to those found in Java (since Java syntax is heavily based on C), and bear strong resemblance to control structures found in other programming languages.</p>
-<div class="section" id="if-statement">
-<span id="index-0"></span><h2>4.1. <code class="docutils literal notranslate"><span class="pre">if</span></code> Statement<a class="headerlink" href="#if-statement" title="Permalink to this headline">¶</a></h2>
-<p>Both an <code class="docutils literal notranslate"><span class="pre">if</span></code> and an <code class="docutils literal notranslate"><span class="pre">if-else</span></code> are available in C.  The <code class="docutils literal notranslate"><span class="pre">&lt;expression&gt;</span></code> can be any valid C expression.  The parentheses around the expression are required, even if it is just a single variable:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>    <span class="c1">// simple form with no {}&#39;s or else clause</span>
-</pre></div>
-</div>
-<p>You should <strong>always</strong> use curly braces around the statement block associated with an <code class="docutils literal notranslate"><span class="pre">if</span></code> statement.  Although C allows a programmer <em>not</em> to include the curly braces in the case of <code class="docutils literal notranslate"><span class="pre">if</span></code> statements and other control structures when there is only a single statement in the statement block, you should <strong>always use the curly braces</strong>.  Why, you ask, should I type those additional characters?  Just ask the unfortunate engineering group at Apple that introduced the &quot;goto fail&quot; bug into their SSL (secure sockets layer) library: a bug that affected the macOS and iOS operating systems quite severely <a class="footnote-reference" href="#f1" id="id1">[1]</a>.  The upshot of this security failure is that it could have been prevented with the rigorous use of curly braces for all statement blocks.</p>
-<p>So, for the simple form of the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement shown above, you should <em>really</em> write:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span> <span class="p">}</span>   <span class="c1">// simple form with no {}&#39;s or else clause</span>
-                                    <span class="c1">// note the curly braces around the statement</span>
-                                    <span class="c1">// block!</span>
-</pre></div>
-</div>
-<div class="topic" id="index-1">
-<p class="topic-title first">Code blocks use curly braces (<code class="docutils literal notranslate"><span class="pre">{}</span></code>)</p>
-<p>C uses curly braces (<code class="docutils literal notranslate"><span class="pre">{}</span></code>) to group multiple statements together, very much like Java.  Whitespace is
-generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, within a code block the statements are executed in order.</p>
-<p>Note that older versions of C (pre-C99) required that all variables be declared at the beginning of a code block.  Since the C99 standard, however, variables can be declared on any line of code, as in Java and C++.</p>
-</div>
-<p>As in Java, the <code class="docutils literal notranslate"><span class="pre">else</span></code> keyword can be used to provide alternative execution for a conditional expression.  Also similar to Java, multiple <code class="docutils literal notranslate"><span class="pre">if</span></code> ... <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statements can be chained together.  There is no <code class="docutils literal notranslate"><span class="pre">elif</span></code> as in Python (or <code class="docutils literal notranslate"><span class="pre">elsif</span></code> as in Ruby).</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// simple form with {}&#39;s to group statements</span>
-    <span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span>
-<span class="p">}</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// full then/else form</span>
-    <span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span>
-<span class="p">}</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression1</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// chained if/else if</span>
-    <span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span>
-<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression2</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">&lt;</span><span class="n">statements</span><span class="o">&gt;</span>
-<span class="p">}</span> <span class="p">...</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="the-conditional-expression-ternary-operator">
-<span id="index-2"></span><h2>4.2. The conditional expression (ternary operator)<a class="headerlink" href="#the-conditional-expression-ternary-operator" title="Permalink to this headline">¶</a></h2>
-<p>The conditional expression can be used as a shorthand for some if-else statements. The general syntax of the conditional operator is:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">expression1</span><span class="o">&gt;</span> <span class="o">?</span> <span class="o">&lt;</span><span class="n">expression2</span><span class="o">&gt;</span> <span class="o">:</span> <span class="o">&lt;</span><span class="n">expression3</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-<p>This is an <em>expression</em>, not a <em>statement</em>, so it represents a value. The operator works by evaluating <code class="docutils literal notranslate"><span class="pre">expression1</span></code>. If it is true (non-zero), it evaluates and returns <code class="docutils literal notranslate"><span class="pre">expression2</span></code>. Otherwise, it evaluates and returns <code class="docutils literal notranslate"><span class="pre">expression3</span></code>.</p>
-<p>The classic example of the ternary operator is to return the smaller of two variables. Instead of writing:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">min</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="n">min</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>you can write:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">min</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">)</span> <span class="o">?</span> <span class="nl">x</span> <span class="p">:</span> <span class="n">y</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>The ternary operator is viewed by some programmers as &quot;excessively tricky&quot; since expressions with such operators can be hard to read.  Use your best judgment, and don't do something this <a class="reference internal" href="#horrific" id="id2">[Horrific]</a> example.</p>
-</div>
-<div class="section" id="switch-statement">
-<span id="index-3"></span><h2>4.3. <code class="docutils literal notranslate"><span class="pre">switch</span></code> statement<a class="headerlink" href="#switch-statement" title="Permalink to this headline">¶</a></h2>
-<p>The switch statement is a sort of specialized form of <code class="docutils literal notranslate"><span class="pre">if</span></code> with the goal of efficiently separating different blocks of code based on the value of an integer.  The <code class="docutils literal notranslate"><span class="pre">switch</span></code> expression is evaluated, and then the flow of control jumps to the matching const-expression <code class="docutils literal notranslate"><span class="pre">case</span></code>. The <code class="docutils literal notranslate"><span class="pre">case</span></code> expressions are typically <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">char</span></code> constants (unfortunately, you cannot use strings as <code class="docutils literal notranslate"><span class="pre">case</span></code> expressions).  The <code class="docutils literal notranslate"><span class="pre">switch</span></code> statement is probably the single most syntactically awkward and error-prone feature of the C language:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">switch</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="o">&lt;</span><span class="k">const</span><span class="o">-</span><span class="n">expression</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;:</span>
-        <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="o">&lt;</span><span class="k">const</span><span class="o">-</span><span class="n">expression</span><span class="o">-</span><span class="mi">2</span><span class="o">&gt;:</span>
-        <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="o">&lt;</span><span class="k">const</span><span class="o">-</span><span class="n">expression</span><span class="o">-</span><span class="mi">3</span><span class="o">&gt;:</span>
-    <span class="k">case</span> <span class="o">&lt;</span><span class="k">const</span><span class="o">-</span><span class="n">expression</span><span class="o">-</span><span class="mi">4</span><span class="o">&gt;:</span>  <span class="c1">// here we combine case 3 and 4</span>
-        <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">default</span><span class="o">:</span>    <span class="c1">// optional</span>
-        <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Each constant needs its own <code class="docutils literal notranslate"><span class="pre">case</span></code> keyword and a trailing colon (:).  Once execution has jumped to a particular case, the program will keep running through all the cases from that point down --- this so called <em>fall through</em> operation is used in the above example so that <code class="docutils literal notranslate"><span class="pre">expression-3</span></code> and <code class="docutils literal notranslate"><span class="pre">expression-4</span></code> run the same statements. The explicit <code class="docutils literal notranslate"><span class="pre">break</span></code> statements are necessary to exit the <code class="docutils literal notranslate"><span class="pre">switch</span></code>. Omitting the <code class="docutils literal notranslate"><span class="pre">break</span></code> statements is a common error --- it compiles, but leads to inadvertent, unexpected, and likely erroneous fall-through behavior.</p>
-<p>Why does the <code class="docutils literal notranslate"><span class="pre">switch</span></code> statement fall-through behavior work the way it does? The best explanation might be that C was originally developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a &quot;jump table&quot; with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.</p>
-</div>
-<div class="section" id="while-loop">
-<span id="index-4"></span><h2>4.4. <code class="docutils literal notranslate"><span class="pre">while</span></code> loop<a class="headerlink" href="#while-loop" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">while</span></code> loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parentheses like the if:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Although the curly braces are not technically required if there is only one statement in the body of the <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, you should <em>always</em> use the curly braces.  Again, see <a class="footnote-reference" href="#f1" id="id3">[1]</a> for why.</p>
-</div>
-<div class="section" id="do-while-loop">
-<span id="index-5"></span><h2>4.5. <code class="docutils literal notranslate"><span class="pre">do-while</span></code> loop<a class="headerlink" href="#do-while-loop" title="Permalink to this headline">¶</a></h2>
-<p>Like a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, but with the test condition at the <em>bottom</em> of the loop. The loop body will always execute at least once. The <code class="docutils literal notranslate"><span class="pre">do-while</span></code> tends to be an unpopular area of the language.  Although many users of C use the straight <code class="docutils literal notranslate"><span class="pre">while</span></code> if possible, a <code class="docutils literal notranslate"><span class="pre">do-while</span></code> loop can be very useful in some situations:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">do</span> <span class="p">{</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="for-loop">
-<span id="index-6"></span><h2>4.6. <code class="docutils literal notranslate"><span class="pre">for</span></code> loop<a class="headerlink" href="#for-loop" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">for</span></code> loop in C contains three components that are often used in looping constructs, making it a fairly convenient statement to use.  The three parts are an initializer, a continuation condition, and an action, as in:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">initializer</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">&lt;</span><span class="n">continuation</span><span class="o">&gt;</span><span class="p">;</span> <span class="o">&lt;</span><span class="n">action</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>The initializer is executed once before the body of the loop is entered.  The loop continues to run as long as the continuation condition remains true.  After every execution of the loop, the action is executed. The following example executes 10 times by counting 0..9. Many loops look very much like the following:</p>
-<div class="highlight-c notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</td></tr></table></div>
-<p>C programs often have series of the form 0..(some_number-1). It's idiomatic in C for loops like the example above to start at 0 and use <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> in the test so the series runs up to but not equal to the upper bound. In other languages you might start at 1 and use <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> in the test.</p>
-<p>Each of the three parts of the for loop can be made up of multiple expressions separated by commas. Expressions separated by commas are executed in order, left to right, and represent the value of the last expression.</p>
-<p>Note that in the C standard prior to C99, it was illegal to declare a variable in the initializer part of a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop.  In C99, however, it is perfectly legal.  If you compile the above code using <strong class="command">gcc</strong> without the <code class="docutils literal notranslate"><span class="pre">-std=c99</span></code> flag, you will get the following error:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>forloop.c: In function ‘main’:
-forloop.c:4:5: error: ‘for’ loop initial declarations are only allowed in C99 mode
-forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
-</pre></div>
-</div>
-<p>Once the <code class="docutils literal notranslate"><span class="pre">-std=c99</span></code> flag is added, the code compiles correctly, as expected.</p>
-<div class="section" id="break">
-<h3>4.6.1. <code class="docutils literal notranslate"><span class="pre">break</span></code><a class="headerlink" href="#break" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">break</span></code> statement causes execution to exit the current loop or switch statement.  Stylistically speaking, <code class="docutils literal notranslate"><span class="pre">break</span></code> has the potential to be a bit vulgar.  It is preferable to use a straight <code class="docutils literal notranslate"><span class="pre">while</span></code> with a single conditional expression at the top if possible, but sometimes you are forced to use a <code class="docutils literal notranslate"><span class="pre">break</span></code> because the test can occur only somewhere in the midst of the statements in the loop body.  To keep the code readable, be sure to make the <code class="docutils literal notranslate"><span class="pre">break</span></code> obvious --- forgetting to account for the action of a <code class="docutils literal notranslate"><span class="pre">break</span></code> is a traditional source of bugs in loop behavior:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-    <span class="n">statement</span><span class="o">&gt;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">condition</span> <span class="n">which</span> <span class="n">can</span> <span class="n">only</span> <span class="n">be</span> <span class="n">evaluated</span> <span class="n">here</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-<span class="p">}</span>
-<span class="c1">// control jumps down here on the break</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">break</span></code> does not work with <code class="docutils literal notranslate"><span class="pre">if</span></code>; it only works in loops and switches. Thinking that a <code class="docutils literal notranslate"><span class="pre">break</span></code> refers to an <code class="docutils literal notranslate"><span class="pre">if</span></code> when it really refers to the enclosing <code class="docutils literal notranslate"><span class="pre">while</span></code> has created some high-quality bugs. When using a <code class="docutils literal notranslate"><span class="pre">break</span></code>, it is nice to write the enclosing loop to iterate in the most straightforward, obvious, normal way, and then use the <code class="docutils literal notranslate"><span class="pre">break</span></code> to explicitly catch the exceptional, weird cases.</p>
-</div>
-<div class="section" id="continue">
-<h3>4.6.2. <code class="docutils literal notranslate"><span class="pre">continue</span></code><a class="headerlink" href="#continue" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">continue</span></code> statement causes control to jump to the bottom of the loop, effectively skipping over any code below the <code class="docutils literal notranslate"><span class="pre">continue</span></code>. As with <code class="docutils literal notranslate"><span class="pre">break</span></code>, this has a reputation as being vulgar, so use it sparingly. You can almost always get the effect more clearly using an <code class="docutils literal notranslate"><span class="pre">if</span></code> inside your loop:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">condition</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">continue</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-    <span class="c1">// control jumps here on the continue</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="statement-labels-and-goto">
-<h3>4.6.3. Statement labels and <code class="docutils literal notranslate"><span class="pre">goto</span></code><a class="headerlink" href="#statement-labels-and-goto" title="Permalink to this headline">¶</a></h3>
-<p>Continuing the theme of statements that have a tendency of being a bit vulgar, we come to the king of vulgarity, the infamous <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement <a class="reference internal" href="#goto" id="id4">[Goto]</a>.  The structure of a <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement in C is to <em>unconditionally</em> jump to a statement label, and continue execution from there.  The basic structure is:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="nl">label</span><span class="p">:</span>
-  <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-  <span class="p">..</span>
-  <span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
-  <span class="k">goto</span> <span class="n">label</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement is not uncommon to encounter in operating systems code when there is a legitimate need to handle complex errors that can happen.  A pattern that you might see is something like:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">complex_function</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">initialize_1</span><span class="p">()</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span> <span class="p">{</span> <span class="k">goto</span> <span class="n">out1</span><span class="p">;</span> <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">initialize_2</span><span class="p">()</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span> <span class="p">{</span> <span class="k">goto</span> <span class="n">out2</span><span class="p">;</span> <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">initialize_3</span><span class="p">()</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span> <span class="p">{</span> <span class="k">goto</span> <span class="n">out3</span><span class="p">;</span> <span class="p">}</span>
-
-    <span class="cm">/* other statements */</span>
-
-    <span class="k">return</span> <span class="n">SUCCESS</span><span class="p">;</span>
-
-  <span class="nl">out3</span><span class="p">:</span>
-    <span class="n">deinitialize_3</span><span class="p">();</span>
-  <span class="nl">out2</span><span class="p">:</span>
-    <span class="n">deinitialize_2</span><span class="p">();</span>
-  <span class="nl">out1</span><span class="p">:</span>
-    <span class="n">deinitialize_1</span><span class="p">();</span>
-  <span class="k">return</span> <span class="n">ERROR</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Notice the structure above: there are multiple steps being performed to carry out some initialization for an operation <a class="footnote-reference" href="#f2" id="id5">[2]</a>.  If one of those initialization operations fails, code execution transfers to a statement to handle <em>deinitialization</em>, and those de-init operations happen in <em>reverse order of initialization</em>.  It is possible to rewrite the above code to use <code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code> structures, but the structure becomes much more complex (see an exercise below).  Although <code class="docutils literal notranslate"><span class="pre">goto</span></code> has the reputation of leading to &quot;spaghetti code&quot;, judicious use of this statement in situations like the above makes for cleaner and clearer code.</p>
-<p class="rubric">Exercises</p>
-<ol class="arabic">
-<li><p class="first">Rewrite the <code class="docutils literal notranslate"><span class="pre">goto</span></code> example code above (the last code example, above) to use <code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code> instead.  Which code do you think exhibits a more clear structure?</p>
-</li>
-<li><p class="first">Consider the following program snippet:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span>
-<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Enter an integer: &quot;</span><span class="p">);</span>
-<span class="n">fgets</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
-<span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span> <span class="c1">// convert the string to an integer</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-  <span class="n">val</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
-  <span class="n">val</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
-</pre></div>
-</div>
-</li>
-</ol>
-<blockquote>
-<div>What is printed if the number 3 is entered?</div></blockquote>
-<ol class="arabic simple" start="3">
-<li>Say that you want to write a program that repeatedly asks for a snowfall amount, and that you want to keep asking for another value until the sum of all values exceeds a certain value.  What control structure would work best to facilitate entry of the snowfall values, and why?</li>
-<li>Say you want to write a program that computes the average of quiz scores.  You have a big stack of quizzes, so you do not know the number of quizzes up front.  What control structure would work best to facilitate entry of the scores, and why?</li>
-<li>Say that you want to simulate rolling a die (singular of dice) a fixed number of times and to compute and print the average value for the die rolls.  What control structure would work best for this problem, and why?</li>
-</ol>
-<p class="rubric">References</p>
-<table class="docutils citation" frame="void" id="horrific" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[Horrific]</a></td><td><a class="reference external" href="http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another">http://thedailywtf.com/articles/One-Bad-Ternary-Operator-Deserves-Another</a></td></tr>
-</tbody>
-</table>
-<table class="docutils citation" frame="void" id="goto" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[Goto]</a></td><td><ol class="first last upperalpha simple" start="5">
-<li><ol class="first upperalpha" start="23">
-<li>Dijkstra.  Letters to the editor: go to statement considered harmful.  Communications of the ACM, Volume 11, Issue 3, March 1968.  <a class="reference external" href="https://dl.acm.org/citation.cfm?id=362947">https://dl.acm.org/citation.cfm?id=362947</a></li>
-</ol>
-</li>
-</ol>
-</td></tr>
-</tbody>
-</table>
-<p class="rubric">Footnotes</p>
-<table class="docutils footnote" frame="void" id="f1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> See <a class="reference external" href="https://gotofail.com">https://gotofail.com</a> for a variety of information about the bug, and <a class="reference external" href="https://www.imperialviolet.org/2014/02/22/applebug.html">https://www.imperialviolet.org/2014/02/22/applebug.html</a> for detailed analysis of the source code that caused the problem.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="f2" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[2]</a></td><td>This example was adapted from <a class="reference external" href="https://blog.regehr.org/archives/894">https://blog.regehr.org/archives/894</a>, where you can find additional discussion on tasteful use of <code class="docutils literal notranslate"><span class="pre">goto</span></code> in systems code.</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-
-
-          </div>
         </div>
       </div>
       <div class="clearer"></div>
@@ -362,11 +354,12 @@ forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
         <li class="right" >
           <a href="basictypes.html" title="3. Basic Types and Operators"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2018.01)</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">The Book of C (version 2022.08)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">4. </span>Control Structures</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014-2018, Joel Sommers.
+        &#169; Copyright 2014-2022, Joel Sommers.
     </div>
   </body>
 </html>
