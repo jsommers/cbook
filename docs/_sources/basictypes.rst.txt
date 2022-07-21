@@ -448,7 +448,8 @@ Lines 3 and 4 in the code segment above create two *macro substitutions* (``#def
 
 In ``main``, the variable ``flags`` is assigned all zeroes (notice the binary literal) on line 7, then on line 8 we assign to ``flags`` by *shifting* a 1 ``SECOND`` places to the left.  Since ``SECOND`` is assigned 1, we shift ``0b00000001`` one place to the left, giving ``0b00000010``.  So perhaps that's an answer to the question above: the value for ``SECOND`` and ``FIFTH`` define *the number of positions to shift a 1 to the left*.  On line 9, we do the same thing for ``FIFTH`` but we also perform a bitwise OR with the existing value of ``flags``.  The bitwise OR operation provides a way to combine (or *union*) two or more values together.  For example ``0x01 | 0xF0`` is ``0xF1``.  
 
-Although not shown in the example above, if we wanted to check whether the fifth bit in a byte (again, starting at 1 counting from the right), we might use the following expression: ``fifth_is_set = flags & (1<<FIFTH);``.  Doing a bitwise AND is referred to as *masking* since ``AND``ing anything with ``0b00010000`` will mask (unset) any bits that may have been set other than the fifth bit.  
+Although not shown in the example above, if we wanted to check whether the fifth bit in a byte (again, starting at 1 counting from the right), we might use the following expression: ``fifth_is_set = flags & (1<<FIFTH);``.  Doing a bitwise AND is referred to as *masking* since ``AND``ing anything with ``0b00010000`` will mask (unset) any bits that may have been set other than the fifth bit.  Similarly, if we wanted to *unset* a particular bit but leave all others unchanged, we could create a mask like this: ``~(1<<FIFTH)`` which has a bit-level representation of ``0b11101111``.  Performing an ``AND`` with that mask and any byte would leave all bits except the 5th as-is while setting the 5th to 0.
+
 
 .. index:: assignment, +=, -=, *=, /=
 
