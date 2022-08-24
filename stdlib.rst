@@ -35,7 +35,7 @@ as ``*(structptr.field)`` instead of the (usually) desired ``(*structptr).field`
 Standard Library Functions
 --------------------------
 
-Many basic housekeeping funcions are available to a C program in form of standard library functions. To call these, a program must ``#include`` the appropriate header file. All modern compilers link in the standard library code by default, so all that is needed is to include the correct header file.  The functions listed in the next most commonly used ones, but there are many more which are not listed here.
+Many basic housekeeping funcions are available to a C program in form of standard library functions. To call these, a program must ``#include`` the appropriate header file. All modern compilers link in the standard library code by default, so all that is needed is to include the correct header file.  The functions listed in the next table are the most commonly used ones, but there are many more which are not listed here.
 
 ==============  ===================================================
  header file      types of functions available
