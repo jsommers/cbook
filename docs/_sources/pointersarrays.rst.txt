@@ -163,7 +163,7 @@ The key to this code is that we declare the ``swap`` function to take two *point
 Pointers to ``struct``\'s
 -------------------------
 
-Pointer variables can refer to *any* data type, including ``struct`` variables.  For a ``struct``, the syntax for handling pointers can be a bit tricky.  To illustrate the trickiness, here is a function that exchanges (swaps) the numerator and denominator of a ``struct fraction`` (along wht a bit of code to call the function):
+Pointer variables can refer to *any* data type, including ``struct`` variables.  For a ``struct``, the syntax for handling pointers can be a bit tricky.  To illustrate the trickiness, here is a function that exchanges (swaps) the numerator and denominator of a ``struct fraction`` (along with a bit of code to call the function):
 
 .. code-block:: c
 
