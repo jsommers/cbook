@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>3. Basic Types and Operators &#8212; The Book of C (version 2022.08)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -70,22 +67,22 @@
 <section id="the-sizeof-keyword">
 <h3><span class="section-number">3.1.1. </span>The <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> keyword<a class="headerlink" href="#the-sizeof-keyword" title="Permalink to this heading">¶</a></h3>
 <p>There is a keyword in C called <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> that works like a function and returns the number of bytes occupied by a type or variable.  If there is ever a need to know the size of something, just use <code class="docutils literal notranslate"><span class="pre">sizeof</span></code>.  Here is an example of how <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> can be used to print out the sizes of the various integer types on any computer system.  Note that the <code class="docutils literal notranslate"><span class="pre">%lu</span></code> format placeholder in each of the format strings to <code class="docutils literal notranslate"><span class="pre">printf</span></code> means &quot;unsigned long integer&quot;, which is what <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> returns.  (As an exercise, change <code class="docutils literal notranslate"><span class="pre">%lu</span></code> to <code class="docutils literal notranslate"><span class="pre">%d</span></code> and recompile with <strong class="command">clang</strong>.  It will helpfully tell you that something is fishy with the <code class="docutils literal notranslate"><span class="pre">printf</span></code> call.)</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
-<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
 <span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="linenos"> 5</span><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 6</span><span class="w">    </span><span class="kt">short</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xbeef</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 7</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100000</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 8</span><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100000000L</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 9</span><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60000000000L</span><span class="n">L</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">10</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;A char is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">c</span><span class="p">));</span><span class="w"></span>
-<span class="linenos">11</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;A short is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">s</span><span class="p">));</span><span class="w"></span>
-<span class="linenos">12</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;An int is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">i</span><span class="p">));</span><span class="w"></span>
-<span class="linenos">13</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;A long is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">l</span><span class="p">));</span><span class="w"></span>
-<span class="linenos">14</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;A long long is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">ll</span><span class="p">));</span><span class="w"></span>
-<span class="linenos">15</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">16</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="p">;</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="kt">short</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xbeef</span><span class="p">;</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100000</span><span class="p">;</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100000000L</span><span class="p">;</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60000000000L</span><span class="n">L</span><span class="p">;</span>
+<span class="linenos">10</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;A char is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
+<span class="linenos">11</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;A short is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
+<span class="linenos">12</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;An int is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="linenos">13</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;A long is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">l</span><span class="p">));</span>
+<span class="linenos">14</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;A long long is %lu bytes</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">ll</span><span class="p">));</span>
+<span class="linenos">15</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="linenos">16</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>When the above program is run on a 32-bit machine <a class="footnote-reference brackets" href="#f2" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, the output is:</p>
@@ -168,28 +165,28 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <section id="boolean-type">
 <span id="index-3"></span><h2><span class="section-number">3.3. </span>Boolean type<a class="headerlink" href="#boolean-type" title="Permalink to this heading">¶</a></h2>
 <p>In C prior to the C99 standard, there was no distinct Boolean type.  Instead, integer values were used to indicate true or false: zero (0) means false, and anything non-zero means true.  So, the following code:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="c1">// ...</span>
 
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>will execute until the variable <code class="docutils literal notranslate"><span class="pre">i</span></code> takes on the value 10 at which time the expression (i - 10) will become false (i.e., 0).</p>
 <p>In the C99 revision, a <code class="docutils literal notranslate"><span class="pre">bool</span></code> type was added to the language, but the vast majority of existing C code uses integers as quasi-Boolean values. In C99, you must add <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;stdbool.h&gt;</span></code> to your code to gain access to the <code class="docutils literal notranslate"><span class="pre">bool</span></code> type.  Using the C99 <code class="docutils literal notranslate"><span class="pre">bool</span></code> type, we could modify the above code to use a Boolean flag variable as follows:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdbool.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdbool.h&gt;</span>
 
 <span class="c1">// ...</span>
 
-<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="kt">bool</span><span class="w"> </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
-<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="c1">// ...</span>
 
-<span class="w">    </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -236,8 +233,8 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <section id="assignment-operator">
 <span id="index-6"></span><h3><span class="section-number">3.4.3. </span>Assignment Operator <code class="docutils literal notranslate"><span class="pre">=</span></code><a class="headerlink" href="#assignment-operator" title="Permalink to this heading">¶</a></h3>
 <p>The assignment operator is the single equals sign (<code class="docutils literal notranslate"><span class="pre">=</span></code>):</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"></span>
-<span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span>
+<span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>The assignment operator copies the value from its right hand side to the variable on its left hand side. The assignment also acts as an expression which returns the newly assigned value. Some programmers will use that feature to write things like the following:</p>
@@ -248,7 +245,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <span id="index-7"></span><h4><span class="section-number">3.4.3.1. </span>Demotion on assignment<a class="headerlink" href="#demotion-on-assignment" title="Permalink to this heading">¶</a></h4>
 <p>The opposite of promotion, demotion moves a value from a type to a smaller type.  This is a situation to be avoided, because strictly speaking the result is <em>implementation and compiler-defined</em>.  In other words, there's no guarantee what will happen, and it may be different depending on the compiler used.  A common behavior is for any extra bits to be truncated, but you should not depend on that.  At least a good compiler (like <code class="docutils literal notranslate"><span class="pre">clang</span></code>) will generate a compile time warning in this type of situation.</p>
 <p>The assignment of a floating point type to an integer type will <em>truncate</em> the fractional part of the number. The following code will set <code class="docutils literal notranslate"><span class="pre">i</span></code> to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  If the integer portion of a floating point number is too big to be represented in the integer being assigned to, the result is the ghastly <em>undefined</em> (see <a class="footnote-reference brackets" href="#f4" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>).  Most modern compilers will warn about implicit conversions like in the code below, but not all.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
 <span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14159</span><span class="p">;</span><span class="w"> </span><span class="c1">// truncation of a float value to int</span>
 </pre></div>
 </div>
@@ -327,7 +324,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </tbody>
 </table>
 <p>An example using post increment/decrement:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
 <span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w">     </span><span class="c1">// increment on i</span>
 <span class="c1">// i is now 43</span>
 <span class="n">i</span><span class="o">--</span><span class="p">;</span><span class="w">     </span><span class="c1">// decrement on i</span>
@@ -337,12 +334,12 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <section id="pre-and-post-variations">
 <h4><span class="section-number">3.4.5.1. </span>Pre- and post- variations<a class="headerlink" href="#pre-and-post-variations" title="Permalink to this heading">¶</a></h4>
 <p>The pre-/post- variation has to do with nesting a variable with the increment or decrement operator inside an expression --- should the entire expression represent the value of the variable <em>before</em> or <em>after</em> the change?  These operators can be confusing to read in code and are often best avoided, but here is an example:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span><span class="w"></span>
-<span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="p">;</span><span class="w"></span>
-<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">++</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="p">;</span>
+<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">++</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
 <span class="c1">// i is now 43</span>
 <span class="c1">// j is now 52 (NOT 53)</span>
-<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">++</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"></span>
+<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">++</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
 <span class="c1">// i is now 44</span>
 <span class="c1">// j is now 54</span>
 </pre></div>
@@ -445,18 +442,18 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <section id="bitwise-operation-example">
 <h4><span class="section-number">3.4.8.1. </span>Bitwise operation example<a class="headerlink" href="#bitwise-operation-example" title="Permalink to this heading">¶</a></h4>
 <p>Say we want to set certain bits in a byte.  In particular, say that (starting at 1, on the far right) we want to set the 2nd and 5th bits so that the byte is equal to <code class="docutils literal notranslate"><span class="pre">0b00010010</span></code> (hex 0x12).  The following program would do that:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="cp">#define SECOND 1</span>
 <span class="linenos"> 4</span><span class="cp">#define FIFTH 4</span>
 <span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="linenos"> 7</span><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b00000000</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b00000000</span><span class="p">;</span>
 <span class="linenos"> 8</span><span class="w">    </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">SECOND</span><span class="p">);</span><span class="w">          </span><span class="c1">// light up the 2nd bit</span>
 <span class="linenos"> 9</span><span class="w">    </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">FIFTH</span><span class="p">);</span><span class="w"> </span><span class="c1">// and the 5th</span>
-<span class="linenos">10</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;0x%x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w"></span>
-<span class="linenos">11</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">12</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;0x%x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<span class="linenos">11</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">12</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Lines 3 and 4 in the code segment above create two <em>macro substitutions</em> (<code class="docutils literal notranslate"><span class="pre">#define</span></code> is a C preprocessor directive).  During the preprocessing phase of compilation, anywhere <code class="docutils literal notranslate"><span class="pre">SECOND</span></code> appears will be replaced with the value <code class="docutils literal notranslate"><span class="pre">1</span></code>; similarly for the text <code class="docutils literal notranslate"><span class="pre">FIFTH</span></code>.  So why is <code class="docutils literal notranslate"><span class="pre">SECOND</span></code> defined as 1 and not 2 (and similar for <code class="docutils literal notranslate"><span class="pre">FIFTH</span></code>)?  We will come to that shortly.</p>
@@ -519,22 +516,24 @@ Here is the list of assignment shorthand operators:</p>
 </div>
 </div>
 <p class="rubric">Footnotes</p>
-<aside class="footnote brackets" id="f1" role="note">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f1" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>Non-ASCII characters can also be represented in C, such as characters in Cyrillic, Hangul, Simplified Chinese, and Emoji, but not in a single 8-bit data type.  See <a class="reference external" href="http://en.wikipedia.org/wiki/Wide_character">http://en.wikipedia.org/wiki/Wide_character</a> for some information on data types to support these character types.</p>
 </aside>
-<aside class="footnote brackets" id="f2" role="note">
+<aside class="footnote brackets" id="f2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
 <p>To find out whether your machine is 64 bit or 32 bit, you can do the following.  On Linux, just type <code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-p</span></code> at a terminal.  If the output is <code class="docutils literal notranslate"><span class="pre">i386</span></code>, you have a 32-bit OS.  If it is <code class="docutils literal notranslate"><span class="pre">x86_64</span></code>, it is 64 bits.  All recent versions of MacOS X are 64 bits, so unless you're running something extremely old, you've got 64.</p>
 </aside>
-<aside class="footnote brackets" id="f3" role="note">
+<aside class="footnote brackets" id="f3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html">http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html</a></p>
+<p><a class="reference external" href="https://ai.googleblog.com/2006/06/extra-extra-read-all-about-it-nearly.html">https://ai.googleblog.com/2006/06/extra-extra-read-all-about-it-nearly.html</a></p>
 </aside>
-<aside class="footnote brackets" id="f4" role="note">
+<aside class="footnote brackets" id="f4" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">4</a><span class="fn-bracket">]</span></span>
 <p>See the C11 standard: <a class="reference external" href="https://port70.net/~nsz/c/c11/">https://port70.net/~nsz/c/c11/</a></p>
+</aside>
 </aside>
 </section>
 </section>

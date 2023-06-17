@@ -290,20 +290,20 @@ It's worth repeating that all variables in examples we've considered to this poi
 
 2.  Refactor and modularize the code in exercise 1 in the ``struct`` chapter.  At the very least, write functions to parse a single line into a struct, and to print out a struct.  
 
-3.  Write a text-based program to play hangperson.  Many of you have probably written this sort of program in Python.  Test your mettle by writing it in C.
+3.  Write a text-based program to play a version of the game show "Wheel of fortune".  Many of you have probably written a similar program in Python or another language.  Test your mettle by writing it in C.
 
 .. rubric:: Footnotes
 
 .. [#f1] There are advanced techniques that build upon the basic mechanisms available in C to, for example, mimic capabilities found in object-oriented programming languages.  As a introductory text, this book will not go into any of those techniques.  One additional technique we cover in this book is found in the chapter on :ref:`compilation-and-program-structure`, in which we discuss a technique that provides a type of information hiding by enabling functions to remain "hidden" on a per-file basis.
 
-.. [#f2] http://en.wikipedia.org/wiki/Abstraction_principle_(programming)
+.. [#f2] `Abstraction principle entry (Wikipedia) <http://en.wikipedia.org/wiki/Abstraction_principle_(programming)>`_
 
-.. [#f3] http://en.wikipedia.org/wiki/Don%27t_repeat_yourself
+.. [#f3] `Don't repeat yourself (Wikipedia) <http://en.wikipedia.org/wiki/Don%27t_repeat_yourself>`_
 
-.. [#f4] http://en.wikipedia.org/wiki/Structured_programming
+.. [#f4] `Structured programming (Wikipedia) <http://en.wikipedia.org/wiki/Structured_programming>`_
 
-.. [#f5] http://en.wikipedia.org/wiki/Highlander_(film)
+.. [#f5] `Highlander (film) (Wikipedia) <http://en.wikipedia.org/wiki/Highlander_(film)>`_
 
-.. [#f6] http://en.wikipedia.org/wiki/Hungarian_notation
+.. [#f6] `Hungarian notation (Wikipedia) <http://en.wikipedia.org/wiki/Hungarian_notation>`_
 
 .. [#f7] The compiler is responsible for this magic.  It must emit the right code so that the stack is managed correctly and variables come into existence and go away at exactly the right point in execution.

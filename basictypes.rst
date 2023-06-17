@@ -499,6 +499,6 @@ The theme for the following exercises is *dates and times*, which often involve 
 
 .. [#f2] To find out whether your machine is 64 bit or 32 bit, you can do the following.  On Linux, just type ``uname -p`` at a terminal.  If the output is ``i386``, you have a 32-bit OS.  If it is ``x86_64``, it is 64 bits.  All recent versions of MacOS X are 64 bits, so unless you're running something extremely old, you've got 64.
 
-.. [#f3] http://googleresearch.blogspot.com/2006/06/extra-extra-read-all-about-it-nearly.html
+.. [#f3] https://ai.googleblog.com/2006/06/extra-extra-read-all-about-it-nearly.html
 
 .. [#f4] See the C11 standard: https://port70.net/~nsz/c/c11/

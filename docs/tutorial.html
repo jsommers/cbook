@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>2. Getting your feet wet in the C &#8212; The Book of C (version 2022.08)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. Basic Types and Operators" href="basictypes.html" />
@@ -48,18 +45,18 @@
 <h2><span class="section-number">2.1. </span>Hello, somebody<a class="headerlink" href="#hello-somebody" title="Permalink to this heading">¶</a></h2>
 <p>We first start out by examining a simple &quot;hello, world&quot;-style program: a program that simply echoes (prints) what ever is typed on the keyboard, until end-of-file is reached.
 Here is the code:</p>
-<div class="highlight-c notranslate" id="index-0"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
-<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate" id="index-0"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
 <span class="linenos"> 3</span>
-<span class="linenos"> 4</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="linenos"> 5</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">character</span><span class="p">;</span><span class="w"></span>
-<span class="linenos"> 6</span><span class="w">    </span><span class="n">character</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getchar</span><span class="p">();</span><span class="w"></span>
-<span class="linenos"> 7</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">character</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">EOF</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="linenos"> 8</span><span class="w">        </span><span class="n">putchar</span><span class="p">(</span><span class="n">character</span><span class="p">);</span><span class="w"></span>
-<span class="linenos"> 9</span><span class="w">        </span><span class="n">character</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getchar</span><span class="p">();</span><span class="w"></span>
-<span class="linenos">10</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="linenos">11</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span><span class="w"></span>
-<span class="linenos">12</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">character</span><span class="p">;</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="n">character</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getchar</span><span class="p">();</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">character</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">EOF</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="n">putchar</span><span class="p">(</span><span class="n">character</span><span class="p">);</span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="n">character</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getchar</span><span class="p">();</span>
+<span class="linenos">10</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">11</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="linenos">12</span><span class="p">}</span>
 </pre></div>
 </div>
 <aside class="sidebar">
@@ -173,29 +170,33 @@ o
 </ul>
 </li>
 </ol>
-<aside class="footnote brackets" id="f0" role="note">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f0" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 <p>This is not strictly true in practice.  <code class="docutils literal notranslate"><span class="pre">stdin</span></code> and <code class="docutils literal notranslate"><span class="pre">stdout</span></code> are both <em>buffered</em> I/O streams, so if you just type a single character (like <code class="docutils literal notranslate"><span class="pre">'a'</span></code>) you will <em>not</em> see any output.  If you type a character <em>plus</em> return/enter, then you will see some output because the newline character (<code class="docutils literal notranslate"><span class="pre">\n</span></code>, emitted from typing return) implicitly flushes the input and output streams.  On UNIX-based computer systems, you can use the <code class="docutils literal notranslate"><span class="pre">setbuf</span></code> or <code class="docutils literal notranslate"><span class="pre">fflush</span></code> built-in functions (among other possibilities) to either force I/O to be unbuffered, or to flush input and/or output streams.</p>
 </aside>
-<aside class="footnote brackets" id="f1" role="note">
+<aside class="footnote brackets" id="f1" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
 <p>The file containing the instructions is in a format known as ELF: <a class="reference external" href="http://en.wikipedia.org/wiki/Executable_and_Linkable_Format">http://en.wikipedia.org/wiki/Executable_and_Linkable_Format</a></p>
 </aside>
-<aside class="footnote brackets" id="f2" role="note">
+</aside>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
 <p>Don't look for any examples related to Windows or Visual C in this book: they don't exist.</p>
 </aside>
-<aside class="footnote brackets" id="f3" role="note">
+<aside class="footnote brackets" id="f3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
 <p>By default, recent versions of <strong class="command">clang</strong> operate in a &quot;modern&quot; mode (C99 or C11).  To be safe, however, you should specify the C standard to which the code is written.</p>
 </aside>
-<aside class="footnote brackets" id="f4" role="note">
+<aside class="footnote brackets" id="f4" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
 <p><a class="reference external" href="http://en.wikipedia.org/wiki/A.out">http://en.wikipedia.org/wiki/A.out</a></p>
 </aside>
-<aside class="footnote brackets" id="f5" role="note">
+<aside class="footnote brackets" id="f5" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
 <p>If the terminal in which you invoke <strong class="command">clang</strong> is capable, it will even color-highlight the output to help draw your attention to various errors and warnings.</p>
+</aside>
 </aside>
 </section>
 </section>

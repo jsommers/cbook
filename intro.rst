@@ -33,4 +33,4 @@ For an in-depth treatment of the language and language features, there are two o
 
 .. [#f1] Take a moment and consider how difficult it must have been to develop a new OS!
 
-.. [#f2] See http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html for one ranking of programming language popularity.
+.. [#f2] See https://www.tiobe.com/tiobe-index/ for one ranking of programming language popularity.

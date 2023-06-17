@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>9. Program structure and compilation &#8212; The Book of C (version 2022.08)</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="10. C Standard Library Functions" href="stdlib.html" />
@@ -58,17 +55,17 @@
 <span id="preprocessing"></span><h3><span class="section-number">9.1.1. </span>The preprocessing step<a class="headerlink" href="#the-preprocessing-step" title="Permalink to this heading">¶</a></h3>
 <p>The preprocessing step happens just prior to the compilation phase.  The C preprocessor looks for any <em>preprocessor directives</em> in the source code, which are any lines starting with <code class="docutils literal notranslate"><span class="pre">#</span></code>.  The preprocessor then performs some actions specified by the directive.  The text resulting from the preprocessor's action is then fed directly (and automatically) to the compilation phase.</p>
 <p>Since a C compiler makes a single pass over a <code class="docutils literal notranslate"><span class="pre">.c</span></code> file, it must be made aware of all the types and signatures in order to correctly and successfully complete the compilation process.  That is, if an unknown data type is encountered in the single top-to-bottom pass, the compiler will report an error.  For example, here is some source code that will <em>not</em> compile correctly:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
 
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">function</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span><span class="w"></span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">function</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="k">struct</span><span class="w"> </span><span class="nc">function</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">numerator</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">denominator</span><span class="p">;</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">function</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">numerator</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">denominator</span><span class="p">;</span>
+<span class="p">};</span>
 </pre></div>
 </div>
 <p>Why does it fail?  Simply because the definition of <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">function</span></code> comes <em>after</em> its first use.  To make the code correctly compile, the <code class="docutils literal notranslate"><span class="pre">struct</span></code> definition must precede <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
@@ -76,42 +73,42 @@
 <h4><span class="section-number">9.1.1.1. </span>Header (<code class="docutils literal notranslate"><span class="pre">.h</span></code>) and source (<code class="docutils literal notranslate"><span class="pre">.c</span></code>) files<a class="headerlink" href="#header-h-and-source-c-files" title="Permalink to this heading">¶</a></h4>
 <p>Because of the single-pass top-to-bottom operation of C compilers, each source file (each <code class="docutils literal notranslate"><span class="pre">.c</span></code> file) must identify all data types and function signatures that are used in that file in order to make the code successfully compile.  The standard practice in C is to define any types and declare any functions in <strong>header</strong> files (<code class="docutils literal notranslate"><span class="pre">.h</span></code> files) in order to facilitate the compilation process.  In one sense, you can think of the <code class="docutils literal notranslate"><span class="pre">.h</span></code> files as containing the &quot;external interfaces&quot; (i.e., the API) and data types used for a set of functions, and the corresponding <code class="docutils literal notranslate"><span class="pre">.c</span></code> file as containing the actual function definitions.</p>
 <p>For example, say that we want to define the <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">fraction</span></code> type and a couple utility functions that can be used in other <code class="docutils literal notranslate"><span class="pre">.c</span></code> files.  We might define a <code class="docutils literal notranslate"><span class="pre">fraction.h</span></code> file that contains the following:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">numerator</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">denominator</span><span class="p">;</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">numerator</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">denominator</span><span class="p">;</span>
+<span class="p">};</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="nf">print_fraction</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="o">*</span><span class="p">);</span><span class="w"></span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">invert_fraction</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="o">*</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">print_fraction</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">invert_fraction</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Notice that this header file contains the <code class="docutils literal notranslate"><span class="pre">struct</span></code> definition, and two <strong>function prototypes</strong>.  A &quot;prototype&quot; for a function gives its name and arguments but not its body.  The function parameters do not even have to have variable names (as they're shown above), but there's no problem if they <em>do</em> include the parameter names.</p>
 <p>The corresponding <code class="docutils literal notranslate"><span class="pre">fraction.c</span></code> file might contain the following:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fraction.h&quot;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fraction.h&quot;</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="nf">print_fraction</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="o">*</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Fraction: %d/%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">print_fraction</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="o">*</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Fraction: %d/%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span><span class="p">);</span>
+<span class="p">}</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="nf">invert_fraction</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="o">*</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">invert_fraction</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="o">*</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span><span class="p">;</span>
+<span class="w">    </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">numerator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span><span class="p">;</span>
+<span class="w">    </span><span class="n">f</span><span class="o">-&gt;</span><span class="n">denominator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Notice that the first line of code in <code class="docutils literal notranslate"><span class="pre">fraction.c</span></code> is <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;fraction.h&quot;</span></code>.  Any line of code that begins <code class="docutils literal notranslate"><span class="pre">#</span></code> is called a <strong>preprocessor directive</strong>.  We have used <code class="docutils literal notranslate"><span class="pre">#include</span></code> quite a bit so far.  Its meaning is simply to <em>directly replace</em> the <code class="docutils literal notranslate"><span class="pre">#include</span></code> directive with the text in the specified file name.</p>
 <p>A file that <em>uses</em> the fraction utility functions in a file called <code class="docutils literal notranslate"><span class="pre">test.c</span></code> might look like the following:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fraction.h&quot;</span><span class="c1">  // include struct fraction definition and</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fraction.h&quot;</span><span class="c1">  // include struct fraction definition and</span>
 <span class="w">                       </span><span class="c1">// fraction utility function prototypes,</span>
 <span class="w">                       </span><span class="c1">// as well as other headers like stdlib.h</span>
 
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
-<span class="w">    </span><span class="n">invert_fraction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">print_fraction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+<span class="w">    </span><span class="n">invert_fraction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">f</span><span class="p">);</span>
+<span class="w">    </span><span class="n">print_fraction</span><span class="p">(</span><span class="o">&amp;</span><span class="n">f</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -137,11 +134,11 @@
 </pre></div>
 </div>
 <p>Again, the <code class="docutils literal notranslate"><span class="pre">#define</span></code> directive is incredibly unintelligent: it is simply smart enough to do textual replacement.  For example, the following code:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAX</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">);</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAX</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>would be replaced by the preprocessor with the following:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">d</span><span class="p">);</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">d</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>While <code class="docutils literal notranslate"><span class="pre">MAX</span></code> is often referred to as a <em>macro function</em> (or simply macro), it does not operate as a function at all.  The programmer can (somewhat) treat the macro as a function, but the effect is just an illusion created by the C preprocessor.</p>
@@ -151,14 +148,14 @@
 <p>At the preprocessing phase, the symbolic names (and values) defined by <code class="docutils literal notranslate"><span class="pre">#define</span></code> statements and predefined by the compiler can be tested and evaluated using <code class="docutils literal notranslate"><span class="pre">#if</span></code> directives.  The <code class="docutils literal notranslate"><span class="pre">#if</span></code> test can be used at the preprocessing phase to determine whether code is included or excluded in what is passed on to the compilation phase. The following example depends on the value of the <code class="docutils literal notranslate"><span class="pre">FOO</span></code> <code class="docutils literal notranslate"><span class="pre">#define</span></code> symbol.  If it is true (i.e., non-zero), then the <code class="docutils literal notranslate"><span class="pre">&quot;aaa&quot;</span></code> lines (whatever they are) are compiled, and the <code class="docutils literal notranslate"><span class="pre">&quot;bbb&quot;</span></code> lines are ignored.  If <code class="docutils literal notranslate"><span class="pre">FOO</span></code> is false (i.e., 0), then the reverse is true.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define FOO 1</span>
 
-<span class="p">...</span><span class="w"></span>
+<span class="p">...</span>
 
 <span class="cp">#if FOO</span>
-<span class="w">    </span><span class="n">aaa</span><span class="w"></span>
-<span class="w">    </span><span class="n">aaa</span><span class="w"></span>
+<span class="w">    </span><span class="n">aaa</span>
+<span class="w">    </span><span class="n">aaa</span>
 <span class="cp">#else</span>
-<span class="w">    </span><span class="n">bbb</span><span class="w"></span>
-<span class="w">    </span><span class="n">bbb</span><span class="w"></span>
+<span class="w">    </span><span class="n">bbb</span>
+<span class="w">    </span><span class="n">bbb</span>
 <span class="cp">#endif</span>
 </pre></div>
 </div>
@@ -172,7 +169,7 @@
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef __FOO_H__</span>
 <span class="cp">#define __FOO_H__  </span><span class="c1">// we only get here if the symbol __FOO_H__ has not been previously defined</span>
 
-<span class="o">&lt;</span><span class="n">rest</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">foo</span><span class="p">.</span><span class="n">h</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="w"></span>
+<span class="o">&lt;</span><span class="n">rest</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">foo</span><span class="p">.</span><span class="n">h</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span>
 
 <span class="cp">#endif </span><span class="c1">// __FOO_H__</span>
 </pre></div>
@@ -269,9 +266,9 @@
 </pre></div>
 </div>
 <p>Each of the file names (file1-3.txt) is a command-line parameter to the program, and can be collected through two parameters to <code class="docutils literal notranslate"><span class="pre">main</span></code> which are classically called <code class="docutils literal notranslate"><span class="pre">argc</span></code> and <code class="docutils literal notranslate"><span class="pre">argv</span></code> and are declared as follows:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>The meaning of these parameters is:</p>
@@ -282,15 +279,15 @@
 </dd>
 </dl>
 <p>A simple program that traverses the array of command-line arguments and prints each one out could be written as follows:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
 
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">argc</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;argument %d is %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">argc</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;argument %d is %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>There is a C library function called <code class="docutils literal notranslate"><span class="pre">getopt</span></code> that enables parsing of options in more flexible ways.  See <strong class="command">man 3 getopt</strong> for more information.</p>
@@ -301,26 +298,26 @@
 <h2><span class="section-number">9.2. </span>Invariant testing and <code class="docutils literal notranslate"><span class="pre">assert</span></code><a class="headerlink" href="#invariant-testing-and-assert" title="Permalink to this heading">¶</a></h2>
 <p>Array out of bounds references are an extremely common form of C run-time error. You can use the <code class="docutils literal notranslate"><span class="pre">assert()</span></code> function to sprinkle your code with your own bounds checks. A few seconds putting in <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements can save you hours of debugging.</p>
 <p>Getting out all the bugs is the hardest and scariest part of writing a large piece of software.  Adding <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements are one of the easiest and most effective helpers for that difficult phase.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;assert.h&gt;</span><span class="cp"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;assert.h&gt;</span>
 <span class="cp">#define MAX_INTS 100</span>
 
-<span class="kt">void</span><span class="w"> </span><span class="nf">somefunction</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">somefunction</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
 
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ints</span><span class="p">[</span><span class="n">MAX_INTS</span><span class="p">];</span><span class="w"></span>
-<span class="w">    </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="o">&lt;</span><span class="n">something</span><span class="w"> </span><span class="n">complicated</span><span class="o">&gt;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ints</span><span class="p">[</span><span class="n">MAX_INTS</span><span class="p">];</span>
+<span class="w">    </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="o">&lt;</span><span class="n">something</span><span class="w"> </span><span class="n">complicated</span><span class="o">&gt;</span><span class="p">);</span>
 <span class="w">    </span><span class="c1">// i should be in bounds,</span>
 <span class="w">    </span><span class="c1">// but is it really?</span>
 <span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">);</span><span class="w">           </span><span class="c1">// safety assertions</span>
-<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_INTS</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">ints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_INTS</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 
 <span class="w">    </span><span class="c1">// ...</span>
 </pre></div>
 </div>
 <p>Depending on the options specified at compile time, the <code class="docutils literal notranslate"><span class="pre">assert()</span></code> expressions will be left in the code for testing, or may be ignored. For that reason, it is important to only put expressions in <code class="docutils literal notranslate"><span class="pre">assert()</span></code> tests which do not need to be evaluated for the proper functioning of the program.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">errCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="p">();</span><span class="w">      </span><span class="c1">// yes --- ok</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">errCode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="n">assert</span><span class="p">(</span><span class="n">errCode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">assertfoo</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="c1">// NO, foo() will not be called if</span>
 <span class="w">                          </span><span class="c1">// the compiler removes the assert()</span>
 </pre></div>
