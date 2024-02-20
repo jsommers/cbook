@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>10. C Standard Library Functions &#8212; The Book of C (version 2022.08)</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=d59dc883" />
+    <script src="_static/documentation_options.js?v=f827e75a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="9. Program structure and compilation" href="programstructure.html" /> 
@@ -35,9 +35,9 @@
           <div class="body" role="main">
             
   <section id="c-standard-library-functions">
-<h1><span class="section-number">10. </span>C Standard Library Functions<a class="headerlink" href="#c-standard-library-functions" title="Permalink to this heading">¶</a></h1>
+<h1><span class="section-number">10. </span>C Standard Library Functions<a class="headerlink" href="#c-standard-library-functions" title="Link to this heading">¶</a></h1>
 <section id="precedence-and-associativity">
-<span id="index-0"></span><h2><span class="section-number">10.1. </span>Precedence and Associativity<a class="headerlink" href="#precedence-and-associativity" title="Permalink to this heading">¶</a></h2>
+<span id="index-0"></span><h2><span class="section-number">10.1. </span>Precedence and Associativity<a class="headerlink" href="#precedence-and-associativity" title="Link to this heading">¶</a></h2>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Order</p></th>
@@ -114,7 +114,7 @@ than the dereference operator (<code class="docutils literal notranslate"><span 
 as <code class="docutils literal notranslate"><span class="pre">*(structptr.field)</span></code> instead of the (usually) desired <code class="docutils literal notranslate"><span class="pre">(*structptr).field</span></code>.  A way to avoid this problem altogether is to write <code class="docutils literal notranslate"><span class="pre">structptr-&gt;field</span></code>.</p>
 </section>
 <section id="standard-library-functions">
-<span id="id1"></span><span id="index-1"></span><h2><span class="section-number">10.2. </span>Standard Library Functions<a class="headerlink" href="#standard-library-functions" title="Permalink to this heading">¶</a></h2>
+<span id="id1"></span><span id="index-1"></span><h2><span class="section-number">10.2. </span>Standard Library Functions<a class="headerlink" href="#standard-library-functions" title="Link to this heading">¶</a></h2>
 <p>Many basic housekeeping funcions are available to a C program in form of standard library functions. To call these, a program must <code class="docutils literal notranslate"><span class="pre">#include</span></code> the appropriate header file. All modern compilers link in the standard library code by default, so all that is needed is to include the correct header file.  The functions listed in the next table are the most commonly used ones, but there are many more which are not listed here.</p>
 <table class="docutils align-default">
 <thead>
@@ -165,9 +165,9 @@ number of parameters</p></td>
 </tr>
 </tbody>
 </table>
-<span class="target" id="stdio"></span></section>
+</section>
 <section id="stdio-h">
-<span id="index-2"></span><h2><span class="section-number">10.3. </span>stdio.h<a class="headerlink" href="#stdio-h" title="Permalink to this heading">¶</a></h2>
+<span id="index-2"></span><span id="stdio"></span><h2><span class="section-number">10.3. </span>stdio.h<a class="headerlink" href="#stdio-h" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">stdio.h</span></code> is a very common file to include.  It includes functions to print and read strings from files and to open and close files in the file system.</p>
 </div></blockquote>
@@ -214,7 +214,7 @@ number of parameters</p></td>
 </dl>
 </section>
 <section id="ctype-h">
-<span id="index-3"></span><h2><span class="section-number">10.4. </span>ctype.h<a class="headerlink" href="#ctype-h" title="Permalink to this heading">¶</a></h2>
+<span id="index-3"></span><h2><span class="section-number">10.4. </span>ctype.h<a class="headerlink" href="#ctype-h" title="Link to this heading">¶</a></h2>
 <p>ctype.h includes macros for doing simple tests and operations on characters</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">isalpha(ch)</span></code></dt><dd><p>Check whether ch is an upper or lower case letter</p>
@@ -230,7 +230,7 @@ number of parameters</p></td>
 </dl>
 </section>
 <section id="string-h">
-<span id="index-4"></span><h2><span class="section-number">10.5. </span>string.h<a class="headerlink" href="#string-h" title="Permalink to this heading">¶</a></h2>
+<span id="index-4"></span><h2><span class="section-number">10.5. </span>string.h<a class="headerlink" href="#string-h" title="Link to this heading">¶</a></h2>
 <p>None of these string routines allocate memory or check that the passed in memory is the right size. The caller is responsible for making sure there is &quot;enough&quot; memory for the operation. The type <code class="docutils literal notranslate"><span class="pre">size_t</span></code> is an unsigned integer wide enough for the computer's address space (most likely an <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span></code>).</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">strlen(const</span> <span class="pre">char*</span> <span class="pre">string);</span></code></dt><dd><p>Return the number of chars in a C string. EG strlen(&quot;abc&quot;)==3</p>
@@ -256,7 +256,7 @@ number of parameters</p></td>
 </dl>
 </section>
 <section id="stdlib-h">
-<span id="index-5"></span><h2><span class="section-number">10.6. </span>stdlib.h<a class="headerlink" href="#stdlib-h" title="Permalink to this heading">¶</a></h2>
+<span id="index-5"></span><h2><span class="section-number">10.6. </span>stdlib.h<a class="headerlink" href="#stdlib-h" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">rand();</span></code></dt><dd><p>Returns a pseudo random integer in the range 0..RAND_MAX (limits.h) which is at least 32767.</p>
 </dd>
@@ -345,7 +345,7 @@ number of parameters</p></td>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014-2022, Joel Sommers.
+    &#169; Copyright 2014-2022, Joel Sommers.
     </div>
   </body>
 </html>

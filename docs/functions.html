@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>7. Functions &#8212; The Book of C (version 2022.08)</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=d59dc883" />
+    <script src="_static/documentation_options.js?v=f827e75a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,7 +40,7 @@
           <div class="body" role="main">
             
   <section id="functions">
-<span id="id1"></span><h1><span class="section-number">7. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1><span class="section-number">7. </span>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h1>
 <p>All programming languages have built-in mechanisms for <em>structuring</em> and <em>modularizing</em> the code.  The main mechanism that C provides is the <em>subroutine</em>, or <em>function</em>.  In fact, C provides little beyond this basic technique <a class="footnote-reference brackets" href="#f1" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
 <p>Good program design in C (and many other programming languages) involves creating what are typically short functions that accomplish one task, and in which there is little or no duplication of functionality.  The main reasons for creating short, single-purpose functions is to make them more easily testable and to make them easier to read.  There are many benefits to having one place in the code where each major component is implemented, including making it easier to modify the code and making it easier to test.  These ideas are so important in programming that they are present in many different design principles, such as the Abstraction Principle <a class="footnote-reference brackets" href="#f2" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, the Don't Repeat Yourself (DRY) principle <a class="footnote-reference brackets" href="#f3" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, and structured programming <a class="footnote-reference brackets" href="#f4" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>.</p>
 <aside class="sidebar">
@@ -49,7 +49,7 @@
 <p>Benjamin C. Pierce, &quot;Types and Programming Languages&quot; (<a class="reference external" href="http://www.cis.upenn.edu/~bcpierce/tapl/">http://www.cis.upenn.edu/~bcpierce/tapl/</a>).</p>
 </aside>
 <section id="function-syntax">
-<span id="index-0"></span><h2><span class="section-number">7.1. </span>Function syntax<a class="headerlink" href="#function-syntax" title="Permalink to this heading">¶</a></h2>
+<span id="index-0"></span><h2><span class="section-number">7.1. </span>Function syntax<a class="headerlink" href="#function-syntax" title="Link to this heading">¶</a></h2>
 <p>A function has a name, a comma-separated list of parameters, the block of code it executes when called, and, optionally, a return value.  The basic function definition syntax is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">return</span><span class="o">-</span><span class="nb">type</span> <span class="n">function</span><span class="o">-</span><span class="n">name</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="p">{</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span> <span class="p">}</span>
 </pre></div>
@@ -95,17 +95,17 @@
 </div>
 <p>So far, none of this should be particularly surprising.  You may have already seen &quot;public static methods&quot; in Java (e.g., <code class="docutils literal notranslate"><span class="pre">main</span></code>!), which are very similar to C functions, or you may have already seen functions in Python (defined using the <code class="docutils literal notranslate"><span class="pre">def</span></code> keyword).  Both public static methods in Java and functions in Python behave very similarly to functions in C.  In fact, all of these languages use pass-by-value semantics for parameters.</p>
 <section id="main-is-where-it-all-begins">
-<span id="index-1"></span><h3><span class="section-number">7.1.1. </span><code class="docutils literal notranslate"><span class="pre">main</span></code> is where it all begins<a class="headerlink" href="#main-is-where-it-all-begins" title="Permalink to this heading">¶</a></h3>
+<span id="index-1"></span><h3><span class="section-number">7.1.1. </span><code class="docutils literal notranslate"><span class="pre">main</span></code> is where it all begins<a class="headerlink" href="#main-is-where-it-all-begins" title="Link to this heading">¶</a></h3>
 <p>Every C program <strong>must</strong> have a <code class="docutils literal notranslate"><span class="pre">main</span></code> function.  An attempt to compile a program in C which does not have a <code class="docutils literal notranslate"><span class="pre">main</span></code> function defined somewhere will result in an error.  Unlike Java, where any number of class definitions can have a <code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">static</span> <span class="pre">void</span> <span class="pre">main</span></code> definition, it's a highlander situation in C: <em>there can be only one</em> <a class="footnote-reference brackets" href="#f5" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>.</p>
 </section>
 <section id="function-naming-restrictions-and-conventions">
-<span id="index-2"></span><h3><span class="section-number">7.1.2. </span>Function naming restrictions and conventions<a class="headerlink" href="#function-naming-restrictions-and-conventions" title="Permalink to this heading">¶</a></h3>
+<span id="index-2"></span><h3><span class="section-number">7.1.2. </span>Function naming restrictions and conventions<a class="headerlink" href="#function-naming-restrictions-and-conventions" title="Link to this heading">¶</a></h3>
 <p>The only <em>requirement</em> for naming C functions is similar to many programming languages: function names must either begin with a letter or underscore, and can only include numbers, letters, and underscores.  Conventionally, function names that start with an underscore typically mean that the function should be treated as a &quot;private&quot; library function, off limits to other programmers.</p>
 <p>As far as naming conventions, there are a wide variety of practices in existence.  Some programmers like to name their functions using <code class="docutils literal notranslate"><span class="pre">lowerCamelCase</span></code>, which is common in languages such as Java, or using <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>, which is common in Python and Ruby.  In the C standard library, a common practice is to use short, abbreviated names consisting of a single word (e.g., <code class="docutils literal notranslate"><span class="pre">tolower</span></code>).  Still others like to use the abomination referred to as Hungarian Notation <a class="footnote-reference brackets" href="#f6" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>.  A fairly widely used convention in C is <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>, which is the practice followed in this book.</p>
 </section>
 </section>
 <section id="data-types-for-parameters-and-return-values">
-<span id="index-3"></span><h2><span class="section-number">7.2. </span>Data types for parameters and return values<a class="headerlink" href="#data-types-for-parameters-and-return-values" title="Permalink to this heading">¶</a></h2>
+<span id="index-3"></span><h2><span class="section-number">7.2. </span>Data types for parameters and return values<a class="headerlink" href="#data-types-for-parameters-and-return-values" title="Link to this heading">¶</a></h2>
 <p>There are, technically speaking, no restrictions on the data types of parameters or return values for functions in C.  Functions in C can accept all the basic data types as parameters, as well as <code class="docutils literal notranslate"><span class="pre">struct</span></code> types, arrays, and as we will see soon, memory pointers to any data type.</p>
 <p>Likewise, there are no syntactic restrictions on the data type of the return value from a function.  C does not permit <em>multiple</em> return values, unlike some other languages, but it is permissible to return a <code class="docutils literal notranslate"><span class="pre">struct</span></code> type that contains multiple fields (or, as we will later see, a pointer to a memory block containing multiple data items).</p>
 <aside class="topic" id="index-4">
@@ -113,7 +113,7 @@
 <p><code class="docutils literal notranslate"><span class="pre">void</span></code> is a type formalized in ANSI C which means &quot;nothing&quot;. To indicate that a function does not return anything, use <code class="docutils literal notranslate"><span class="pre">void</span></code> as the return type.  If a function does not take any parameters, its parameter list may either be empty (i.e., <code class="docutils literal notranslate"><span class="pre">()</span></code>), or it can contain the keyword <code class="docutils literal notranslate"><span class="pre">void</span></code> to indicate that the function does not take parameters.  It is more common and conventional in C to use an empty parameter list for functions that don't take parameters.</p>
 </aside>
 <section id="parameters-to-functions-are-passed-by-value">
-<span id="index-5"></span><h3><span class="section-number">7.2.1. </span>Parameters to functions are passed by value<a class="headerlink" href="#parameters-to-functions-are-passed-by-value" title="Permalink to this heading">¶</a></h3>
+<span id="index-5"></span><h3><span class="section-number">7.2.1. </span>Parameters to functions are passed by value<a class="headerlink" href="#parameters-to-functions-are-passed-by-value" title="Link to this heading">¶</a></h3>
 <p>The key thing to remember for function parameters is that they are <em>passed by value</em>.  (Note that Java also uses pass-by-value semantics for method parameters.)  Passing by value means that the actual parameter values are <em>copied</em> into local storage (on the stack).  This scheme is fine for many purposes, but it has two disadvantages:</p>
 <blockquote>
 <div><ol class="arabic">
@@ -125,7 +125,7 @@
 </div></blockquote>
 </section>
 <section id="example-1-an-anti-example-of-swapping-two-values">
-<h3><span class="section-number">7.2.2. </span>Example 1: an anti-example of swapping two values<a class="headerlink" href="#example-1-an-anti-example-of-swapping-two-values" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">7.2.2. </span>Example 1: an anti-example of swapping two values<a class="headerlink" href="#example-1-an-anti-example-of-swapping-two-values" title="Link to this heading">¶</a></h3>
 <p>As mentioned above, a key implication of pass-by-value function parameters is that the function gets <em>local</em> copies of any parameter values.  Say that we want to exchange two values via a function.  For example, we want to swap the numerator and denominator in a fraction <code class="docutils literal notranslate"><span class="pre">struct</span></code>.  This is some code that would <em>not</em> work:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
 
@@ -157,7 +157,7 @@
 <p>Epic fail, times 2.  For each of the swap functions, the exchange happens only <em>inside</em> the function; the caller will <em>never</em> see any swap of nancy and donkey.  The fact that the function takes a <code class="docutils literal notranslate"><span class="pre">struct</span></code> here is irrelevant for attempt 1; even if we wrote a <code class="docutils literal notranslate"><span class="pre">swap</span></code> to take two <code class="docutils literal notranslate"><span class="pre">int</span></code> parameters (i.e., attempt 2), there is no way this is going to happen.  Sorry.  In the next chapter on <a class="reference internal" href="pointersarrays.html#pointers"><span class="std std-ref">Pointers and more arrays</span></a>, we will solve this problem.</p>
 </section>
 <section id="example-2-passing-a-struct-to-and-from-a-function">
-<h3><span class="section-number">7.2.3. </span>Example 2: passing a <code class="docutils literal notranslate"><span class="pre">struct</span></code> to and from a function<a class="headerlink" href="#example-2-passing-a-struct-to-and-from-a-function" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">7.2.3. </span>Example 2: passing a <code class="docutils literal notranslate"><span class="pre">struct</span></code> to and from a function<a class="headerlink" href="#example-2-passing-a-struct-to-and-from-a-function" title="Link to this heading">¶</a></h3>
 <p>Ok, enough of the anti-examples.  Here is an example of passing <em>and</em> returning a <code class="docutils literal notranslate"><span class="pre">struct</span></code>.  We'll write a function to add two fractions together and return a new fraction.  A few things to note about the code below:</p>
 <blockquote>
 <div><ul class="simple">
@@ -192,7 +192,7 @@
 </div>
 </section>
 <section id="example-3-passing-an-array-to-a-function">
-<h3><span class="section-number">7.2.4. </span>Example 3: passing an array to a function<a class="headerlink" href="#example-3-passing-an-array-to-a-function" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">7.2.4. </span>Example 3: passing an array to a function<a class="headerlink" href="#example-3-passing-an-array-to-a-function" title="Link to this heading">¶</a></h3>
 <p>Passing an array parameter to a function is somewhat different in nature than the other parameter data types we've seen:</p>
 <blockquote>
 <div><ol class="arabic">
@@ -245,7 +245,7 @@
 <figure class="align-center" id="id9">
 <img alt="_images/arrayparam.png" src="_images/arrayparam.png" />
 <figcaption>
-<p><span class="caption-text">An array parameter gets a <em>copy of the memory address</em> of the array passed into the function, and thus &quot;points&quot; back to the same array contents as can be observed outside the function.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">An array parameter gets a <em>copy of the memory address</em> of the array passed into the function, and thus &quot;points&quot; back to the same array contents as can be observed outside the function.</span><a class="headerlink" href="#id9" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <aside class="topic">
@@ -254,7 +254,7 @@
 </aside>
 </section>
 <section id="a-longer-example">
-<h3><span class="section-number">7.2.5. </span>A longer example<a class="headerlink" href="#a-longer-example" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">7.2.5. </span>A longer example<a class="headerlink" href="#a-longer-example" title="Link to this heading">¶</a></h3>
 <p>We'll wrap up this section with one more example.  A few things to note:</p>
 <blockquote>
 <div><ul class="simple">
@@ -333,7 +333,7 @@
 </section>
 </section>
 <section id="storage-classes-the-stack-and-the-heap">
-<h2><span class="section-number">7.3. </span>Storage classes, the stack and the heap<a class="headerlink" href="#storage-classes-the-stack-and-the-heap" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">7.3. </span>Storage classes, the stack and the heap<a class="headerlink" href="#storage-classes-the-stack-and-the-heap" title="Link to this heading">¶</a></h2>
 <aside class="sidebar">
 <p class="sidebar-title">Static variables and the static storage class</p>
 <p>The keyword <code class="docutils literal notranslate"><span class="pre">static</span></code> has two, somewhat different, meanings and usages in C.</p>
@@ -463,7 +463,7 @@
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014-2022, Joel Sommers.
+    &#169; Copyright 2014-2022, Joel Sommers.
     </div>
   </body>
 </html>

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>9. Program structure and compilation &#8212; The Book of C (version 2022.08)</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=d59dc883" />
+    <script src="_static/documentation_options.js?v=f827e75a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="10. C Standard Library Functions" href="stdlib.html" />
@@ -39,20 +39,20 @@
           <div class="body" role="main">
             
   <section id="program-structure-and-compilation">
-<span id="compilation-and-program-structure"></span><h1><span class="section-number">9. </span>Program structure and compilation<a class="headerlink" href="#program-structure-and-compilation" title="Permalink to this heading">¶</a></h1>
+<span id="compilation-and-program-structure"></span><h1><span class="section-number">9. </span>Program structure and compilation<a class="headerlink" href="#program-structure-and-compilation" title="Link to this heading">¶</a></h1>
 <section id="the-compilation-process">
-<h2><span class="section-number">9.1. </span>The compilation process<a class="headerlink" href="#the-compilation-process" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">9.1. </span>The compilation process<a class="headerlink" href="#the-compilation-process" title="Link to this heading">¶</a></h2>
 <p>For a C program of any reasonable size, it is convenient to separate the functions that comprise the program into different text files. There are standard ways to organize source code in order to allow the functions in separate files to cooperate, and yet allow the compiler to <em>build</em> a single executable.</p>
 <p>The process of compiling C programs is different than with Java, and has important implications for how source code must be organized within files.  In particular, <strong>C compilers make a single (top-to-bottom) pass over source code files.</strong>   This process is <em>very much unlike the Java compiler</em>, which may make multiple passes over the same file, and which may automatically compile <em>multiple</em> files in order to resolve code dependencies (e.g., if a class is used in one file but defined in another, the compiler will compile <em>both</em> files).  In C, it is entirely up to the programmer to decide which files need to be compiled and linked to produce an executable program.</p>
 <p id="compilation-phases">There are three basic steps involved in compiling a C program: <em>preprocessing</em>, <em>compilation</em> of C source code to machine code (or assembly) (also called <em>object code</em>), and <em>linking</em> of multiple object files into a single binary executable program.  Each of these steps are described below.</p>
 <figure class="align-center" id="id2">
 <img alt="_images/compilesteps.png" src="_images/compilesteps.png" />
 <figcaption>
-<p><span class="caption-text">The three basic steps when compiling C programs are <em>preprocessing</em>, <em>compilation</em>, and <em>linking</em>.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">The three basic steps when compiling C programs are <em>preprocessing</em>, <em>compilation</em>, and <em>linking</em>.</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <section id="the-preprocessing-step">
-<span id="preprocessing"></span><h3><span class="section-number">9.1.1. </span>The preprocessing step<a class="headerlink" href="#the-preprocessing-step" title="Permalink to this heading">¶</a></h3>
+<span id="preprocessing"></span><h3><span class="section-number">9.1.1. </span>The preprocessing step<a class="headerlink" href="#the-preprocessing-step" title="Link to this heading">¶</a></h3>
 <p>The preprocessing step happens just prior to the compilation phase.  The C preprocessor looks for any <em>preprocessor directives</em> in the source code, which are any lines starting with <code class="docutils literal notranslate"><span class="pre">#</span></code>.  The preprocessor then performs some actions specified by the directive.  The text resulting from the preprocessor's action is then fed directly (and automatically) to the compilation phase.</p>
 <p>Since a C compiler makes a single pass over a <code class="docutils literal notranslate"><span class="pre">.c</span></code> file, it must be made aware of all the types and signatures in order to correctly and successfully complete the compilation process.  That is, if an unknown data type is encountered in the single top-to-bottom pass, the compiler will report an error.  For example, here is some source code that will <em>not</em> compile correctly:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
@@ -70,7 +70,7 @@
 </div>
 <p>Why does it fail?  Simply because the definition of <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">function</span></code> comes <em>after</em> its first use.  To make the code correctly compile, the <code class="docutils literal notranslate"><span class="pre">struct</span></code> definition must precede <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
 <section id="header-h-and-source-c-files">
-<h4><span class="section-number">9.1.1.1. </span>Header (<code class="docutils literal notranslate"><span class="pre">.h</span></code>) and source (<code class="docutils literal notranslate"><span class="pre">.c</span></code>) files<a class="headerlink" href="#header-h-and-source-c-files" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.1.1. </span>Header (<code class="docutils literal notranslate"><span class="pre">.h</span></code>) and source (<code class="docutils literal notranslate"><span class="pre">.c</span></code>) files<a class="headerlink" href="#header-h-and-source-c-files" title="Link to this heading">¶</a></h4>
 <p>Because of the single-pass top-to-bottom operation of C compilers, each source file (each <code class="docutils literal notranslate"><span class="pre">.c</span></code> file) must identify all data types and function signatures that are used in that file in order to make the code successfully compile.  The standard practice in C is to define any types and declare any functions in <strong>header</strong> files (<code class="docutils literal notranslate"><span class="pre">.h</span></code> files) in order to facilitate the compilation process.  In one sense, you can think of the <code class="docutils literal notranslate"><span class="pre">.h</span></code> files as containing the &quot;external interfaces&quot; (i.e., the API) and data types used for a set of functions, and the corresponding <code class="docutils literal notranslate"><span class="pre">.c</span></code> file as containing the actual function definitions.</p>
 <p>For example, say that we want to define the <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">fraction</span></code> type and a couple utility functions that can be used in other <code class="docutils literal notranslate"><span class="pre">.c</span></code> files.  We might define a <code class="docutils literal notranslate"><span class="pre">fraction.h</span></code> file that contains the following:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">fraction</span><span class="w"> </span><span class="p">{</span>
@@ -113,15 +113,15 @@
 </div>
 </section>
 <section id="preprocessor-directives">
-<h4><span class="section-number">9.1.1.2. </span>Preprocessor directives<a class="headerlink" href="#preprocessor-directives" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.1.2. </span>Preprocessor directives<a class="headerlink" href="#preprocessor-directives" title="Link to this heading">¶</a></h4>
 <p>There are several preprocessor directives that can be listed in C source code.  <code class="docutils literal notranslate"><span class="pre">#include</span></code> and <code class="docutils literal notranslate"><span class="pre">#define</span></code> are the two most common, but there are others.</p>
 </section>
 <section id="include">
-<h4><span class="section-number">9.1.1.3. </span><code class="docutils literal notranslate"><span class="pre">#include</span></code><a class="headerlink" href="#include" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.1.3. </span><code class="docutils literal notranslate"><span class="pre">#include</span></code><a class="headerlink" href="#include" title="Link to this heading">¶</a></h4>
 <p>As we've already seen, the <code class="docutils literal notranslate"><span class="pre">#include</span></code> directive reads in text from different files during the preprocessing step.  <code class="docutils literal notranslate"><span class="pre">#include</span></code> is a very unintelligent directive --- the action is simply to paste in the text from the given file.  The file name given to <code class="docutils literal notranslate"><span class="pre">#include</span></code> may be included in angle brackets or quotes.  The difference is that <em>system</em> files should be enclosed in angle brackets and any <em>user</em> files should be enclosed in quotes.</p>
 </section>
 <section id="define">
-<h4><span class="section-number">9.1.1.4. </span><code class="docutils literal notranslate"><span class="pre">#define</span></code><a class="headerlink" href="#define" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.1.4. </span><code class="docutils literal notranslate"><span class="pre">#define</span></code><a class="headerlink" href="#define" title="Link to this heading">¶</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">#define</span></code> directive can be used to set up symbolic replacements in the source. As with all preprocessor operations, <code class="docutils literal notranslate"><span class="pre">#define</span></code> is extremely unintelligent --- it just does textual replacement without any code evaluation.  <code class="docutils literal notranslate"><span class="pre">#define</span></code> statements are used as a crude way of establishing symbolic constants or <em>macros</em>.  Generally speaking, you should prefer to use <code class="docutils literal notranslate"><span class="pre">const</span></code> values over <code class="docutils literal notranslate"><span class="pre">#define</span></code> directives.</p>
 <p>Here are examples of quasi-constant definitions:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define MAX 100</span>
@@ -144,7 +144,7 @@
 <p>While <code class="docutils literal notranslate"><span class="pre">MAX</span></code> is often referred to as a <em>macro function</em> (or simply macro), it does not operate as a function at all.  The programmer can (somewhat) treat the macro as a function, but the effect is just an illusion created by the C preprocessor.</p>
 </section>
 <section id="if">
-<h4><span class="section-number">9.1.1.5. </span>#if<a class="headerlink" href="#if" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.1.5. </span>#if<a class="headerlink" href="#if" title="Link to this heading">¶</a></h4>
 <p>At the preprocessing phase, the symbolic names (and values) defined by <code class="docutils literal notranslate"><span class="pre">#define</span></code> statements and predefined by the compiler can be tested and evaluated using <code class="docutils literal notranslate"><span class="pre">#if</span></code> directives.  The <code class="docutils literal notranslate"><span class="pre">#if</span></code> test can be used at the preprocessing phase to determine whether code is included or excluded in what is passed on to the compilation phase. The following example depends on the value of the <code class="docutils literal notranslate"><span class="pre">FOO</span></code> <code class="docutils literal notranslate"><span class="pre">#define</span></code> symbol.  If it is true (i.e., non-zero), then the <code class="docutils literal notranslate"><span class="pre">&quot;aaa&quot;</span></code> lines (whatever they are) are compiled, and the <code class="docutils literal notranslate"><span class="pre">&quot;bbb&quot;</span></code> lines are ignored.  If <code class="docutils literal notranslate"><span class="pre">FOO</span></code> is false (i.e., 0), then the reverse is true.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define FOO 1</span>
 
@@ -162,7 +162,7 @@
 <p>Interestingly (and usefully), you can use <code class="docutils literal notranslate"><span class="pre">#if</span> <span class="pre">0</span> <span class="pre">...#endif</span></code> to effectively comment out areas of code you don't want to compile, but which you want to keep in the source file.</p>
 </section>
 <section id="multiple-includes">
-<h4><span class="section-number">9.1.1.6. </span>Multiple #includes<a class="headerlink" href="#multiple-includes" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.1.6. </span>Multiple #includes<a class="headerlink" href="#multiple-includes" title="Link to this heading">¶</a></h4>
 <p>It is invalid in C to declare the same variable or <code class="docutils literal notranslate"><span class="pre">struct</span></code> twice.  This can easily happen if a header file is <code class="docutils literal notranslate"><span class="pre">#include</span></code>d twice.  For example, if a source code file includes header file A and B, and header file B <em>also</em> includes header file A, the contents of header file A will be included <em>twice</em>, which may cause problems.</p>
 <p>A standard practice to avoid this problem is to use the <code class="docutils literal notranslate"><span class="pre">#ifndef</span></code> directive, which means &quot;if the following symbol is not defined, do the following&quot;.  The <code class="docutils literal notranslate"><span class="pre">#define</span></code> symbol is often  based on the header file name (as in the following), and this practice</p>
 <p>This largely solves multiple <code class="docutils literal notranslate"><span class="pre">#include</span></code> problems.</p>
@@ -196,14 +196,14 @@
 </aside>
 </section>
 <section id="invoking-the-preprocessor">
-<h4><span class="section-number">9.1.1.7. </span>Invoking the preprocessor<a class="headerlink" href="#invoking-the-preprocessor" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.1.7. </span>Invoking the preprocessor<a class="headerlink" href="#invoking-the-preprocessor" title="Link to this heading">¶</a></h4>
 <p>Normally, you do not need to do anything special to invoke the preprocessing phase when compiling a program.  It is, however, possible to <em>only</em> invoke the preprocessing phase (i.e., no compilation or anything else), and also to define new preprocessor symbols on the command line.</p>
 <p>To invoke just the preprocessor in <strong class="command">clang</strong>, you can use the command <strong class="command">clang -E sourcefile.c</strong>.  <strong class="command">clang</strong> has another command line option to just run the preprocessor and check code syntax: <strong class="command">clang -fsyntax-only sourcefile.c</strong>.</p>
 <p>To define new preprocessor symbols (i.e., just like <code class="docutils literal notranslate"><span class="pre">#define</span></code>), the -D option can be used with <strong class="command">clang</strong>, as in <strong class="command">clang -DSYMBOL</strong>, or <strong class="command">clang -DSYMBOL=VALUE</strong>.</p>
 </section>
 </section>
 <section id="the-compilation-step">
-<h3><span class="section-number">9.1.2. </span>The compilation step<a class="headerlink" href="#the-compilation-step" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">9.1.2. </span>The compilation step<a class="headerlink" href="#the-compilation-step" title="Link to this heading">¶</a></h3>
 <p>The compilation step takes as input the result from the preprocessing stage.  Thus, any <code class="docutils literal notranslate"><span class="pre">#</span></code> directives have been processed and are removed in the source code seen by the compiler.</p>
 <p>The compilation stage can produce either assembly code or an <em>object file</em> as output.  Typically, the object code is all that is desired; it contains the binary machine code that is generated from compiling the C source.  There are a few different relevant compiler options at this stage:</p>
 <dl class="simple">
@@ -230,10 +230,10 @@
 </table>
 </section>
 <section id="the-linking-phase">
-<h3><span class="section-number">9.1.3. </span>The linking phase<a class="headerlink" href="#the-linking-phase" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">9.1.3. </span>The linking phase<a class="headerlink" href="#the-linking-phase" title="Link to this heading">¶</a></h3>
 <p>The linking stage takes 1 or more object files and produces a binary executable program (i.e., a program that can be directly executed on the processor).  It requires two things: that the implementations for any functions referenced in any part of the code have been defined, and that there is exactly one <code class="docutils literal notranslate"><span class="pre">main</span></code> function defined.</p>
 <section id="options-for-linking">
-<h4><span class="section-number">9.1.3.1. </span>Options for linking<a class="headerlink" href="#options-for-linking" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.3.1. </span>Options for linking<a class="headerlink" href="#options-for-linking" title="Link to this heading">¶</a></h4>
 <p>In the simplest case, there is only one source file to preprocess, compile, and link.  In that case, the same command line we've used with <strong class="command">clang</strong> so far does the trick:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clang</span> <span class="o">-</span><span class="n">g</span> <span class="o">-</span><span class="n">Wall</span> <span class="n">inputfile</span><span class="o">.</span><span class="n">c</span> <span class="o">-</span><span class="n">o</span> <span class="n">myprogram</span>
 </pre></div>
@@ -256,11 +256,11 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">-l</span></code> option indicates that some external library must be linked to the program, in this case the <code class="docutils literal notranslate"><span class="pre">math</span></code> library.</p>
 </section>
 <section id="the-main-function">
-<span id="id1"></span><h4><span class="section-number">9.1.3.2. </span>The main function<a class="headerlink" href="#the-main-function" title="Permalink to this heading">¶</a></h4>
+<span id="id1"></span><h4><span class="section-number">9.1.3.2. </span>The main function<a class="headerlink" href="#the-main-function" title="Link to this heading">¶</a></h4>
 <p>The execution of a C program begins with the function named <code class="docutils literal notranslate"><span class="pre">main</span></code>. All of the files and libraries for the C program are compiled together to build a single program file. That file must contain exactly one <code class="docutils literal notranslate"><span class="pre">main</span></code> function which the operating system uses as the starting point for the program.  <code class="docutils literal notranslate"><span class="pre">main</span></code> returns an int which, by convention, is 0 if the program completed successfully and non-zero if the program exited due to some error condition. This is just a convention which makes sense in shell oriented environments such as UNIX.</p>
 </section>
 <section id="command-line-arguments-to-a-program">
-<h4><span class="section-number">9.1.3.3. </span>Command-line arguments to a program<a class="headerlink" href="#command-line-arguments-to-a-program" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">9.1.3.3. </span>Command-line arguments to a program<a class="headerlink" href="#command-line-arguments-to-a-program" title="Link to this heading">¶</a></h4>
 <p>For many C programs, it is useful to be able to pass various command-line arguments to the program through the shell.  For example, if we had a program named <code class="docutils literal notranslate"><span class="pre">myprogram</span></code> and we wanted to give it the names of several text files for it to process, we might use the following command line:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./myprogram file1.txt file2.txt file3.txt
 </pre></div>
@@ -295,7 +295,7 @@
 </section>
 </section>
 <section id="invariant-testing-and-assert">
-<h2><span class="section-number">9.2. </span>Invariant testing and <code class="docutils literal notranslate"><span class="pre">assert</span></code><a class="headerlink" href="#invariant-testing-and-assert" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">9.2. </span>Invariant testing and <code class="docutils literal notranslate"><span class="pre">assert</span></code><a class="headerlink" href="#invariant-testing-and-assert" title="Link to this heading">¶</a></h2>
 <p>Array out of bounds references are an extremely common form of C run-time error. You can use the <code class="docutils literal notranslate"><span class="pre">assert()</span></code> function to sprinkle your code with your own bounds checks. A few seconds putting in <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements can save you hours of debugging.</p>
 <p>Getting out all the bugs is the hardest and scariest part of writing a large piece of software.  Adding <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements are one of the easiest and most effective helpers for that difficult phase.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;assert.h&gt;</span>
@@ -404,7 +404,7 @@
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014-2022, Joel Sommers.
+    &#169; Copyright 2014-2022, Joel Sommers.
     </div>
   </body>
 </html>

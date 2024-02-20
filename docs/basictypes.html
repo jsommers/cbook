@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>3. Basic Types and Operators &#8212; The Book of C (version 2022.08)</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=d59dc883" />
+    <script src="_static/documentation_options.js?v=f827e75a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,10 +40,10 @@
           <div class="body" role="main">
             
   <section id="basic-types-and-operators">
-<h1><span class="section-number">3. </span>Basic Types and Operators<a class="headerlink" href="#basic-types-and-operators" title="Permalink to this heading">¶</a></h1>
+<h1><span class="section-number">3. </span>Basic Types and Operators<a class="headerlink" href="#basic-types-and-operators" title="Link to this heading">¶</a></h1>
 <p>C provides a standard, though minimal, set of basic data types.  Sometimes these are called &quot;primitive&quot; types. This chapter focuses on defining and showing examples of using the various types, including operators and expressions that can be used. More complex data structures can be built up from the basic types described below, as we will see in later chapters.</p>
 <section id="integer-types">
-<span id="index-0"></span><h2><span class="section-number">3.1. </span>Integer types<a class="headerlink" href="#integer-types" title="Permalink to this heading">¶</a></h2>
+<span id="index-0"></span><h2><span class="section-number">3.1. </span>Integer types<a class="headerlink" href="#integer-types" title="Link to this heading">¶</a></h2>
 <p>There are several integer types in C, differing primarily in their bit widths and thus the range of values they can accommodate.  Each integer type can also be <em>signed</em> or <em>unsigned</em>.  Signed integer types have a range <span class="math notranslate nohighlight">\(-2^{width-1}..2^{width-1}-1\)</span>, and unsigned integers have a range <span class="math notranslate nohighlight">\(0..2^{width}-1\)</span>.  There are five basic integer types:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">char</span></code>: One ASCII character</dt><dd><p>The size of a <code class="docutils literal notranslate"><span class="pre">char</span></code> is almost always 8 bits, or 1 byte.  8 bits provides a signed range of -128..127 or an unsigned range is 0..255, which is enough to hold a single ASCII character <a class="footnote-reference brackets" href="#f1" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. <code class="docutils literal notranslate"><span class="pre">char</span></code> is also required to be the &quot;smallest addressable unit&quot; for the machine --- each byte in memory has its own address.</p>
@@ -65,7 +65,7 @@
 <p>Java contains (almost) the same basic integer types as in C.  It has <code class="docutils literal notranslate"><span class="pre">short</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, and <code class="docutils literal notranslate"><span class="pre">long</span></code>, which are 2 bytes, 4 bytes, and 8 bytes respectively (i.e., generally as they are in C).  Java also has a <code class="docutils literal notranslate"><span class="pre">byte</span></code> type, which is like <code class="docutils literal notranslate"><span class="pre">char</span></code> in C: a 1-byte integer.  A <code class="docutils literal notranslate"><span class="pre">char</span></code> in Java is <strong>not</strong> treated as an integer: it is a single Unicode character. Also, all integer types in Java are signed; unsigned integer types don't exist.</p>
 </aside>
 <section id="the-sizeof-keyword">
-<h3><span class="section-number">3.1.1. </span>The <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> keyword<a class="headerlink" href="#the-sizeof-keyword" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">3.1.1. </span>The <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> keyword<a class="headerlink" href="#the-sizeof-keyword" title="Link to this heading">¶</a></h3>
 <p>There is a keyword in C called <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> that works like a function and returns the number of bytes occupied by a type or variable.  If there is ever a need to know the size of something, just use <code class="docutils literal notranslate"><span class="pre">sizeof</span></code>.  Here is an example of how <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> can be used to print out the sizes of the various integer types on any computer system.  Note that the <code class="docutils literal notranslate"><span class="pre">%lu</span></code> format placeholder in each of the format strings to <code class="docutils literal notranslate"><span class="pre">printf</span></code> means &quot;unsigned long integer&quot;, which is what <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> returns.  (As an exercise, change <code class="docutils literal notranslate"><span class="pre">%lu</span></code> to <code class="docutils literal notranslate"><span class="pre">%d</span></code> and recompile with <strong class="command">clang</strong>.  It will helpfully tell you that something is fishy with the <code class="docutils literal notranslate"><span class="pre">printf</span></code> call.)</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 <span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
@@ -107,9 +107,9 @@
 <p>Instead of defining the exact sizes of the integer types, C defines lower bounds. This makes it easier to implement C compilers on a wide range of hardware. Unfortunately it occasionally leads to bugs where a program runs differently on a 32-bit machine than it runs on a 64-bit machine.  In particular, if you are designing a function that will be implemented on several different machines, it is best to explicitly specify the sizes of integral types.  If you <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;stdint.h&gt;</span></code>, you can use types that explicitly indicate their bit-widths: <code class="docutils literal notranslate"><span class="pre">int8_t</span></code>, <code class="docutils literal notranslate"><span class="pre">int16_t</span></code>, <code class="docutils literal notranslate"><span class="pre">int32_t</span></code>, and <code class="docutils literal notranslate"><span class="pre">int64_t</span></code>.  There are also <code class="docutils literal notranslate"><span class="pre">unsigned</span></code> variants of these types: <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code>, <code class="docutils literal notranslate"><span class="pre">uint16_t</span></code>, <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code>, and <code class="docutils literal notranslate"><span class="pre">uint64_t</span></code>.</p>
 <p>For some operating systems-related functions it is extremely important to be sure that a variable is <em>exactly</em> of a given size. These types come in handy in those situations, too.</p>
 </aside>
-<span class="target" id="character-literals"></span></section>
+</section>
 <section id="char-literals">
-<span id="index-1"></span><h3><span class="section-number">3.1.2. </span><code class="docutils literal notranslate"><span class="pre">char</span></code> literals<a class="headerlink" href="#char-literals" title="Permalink to this heading">¶</a></h3>
+<span id="index-1"></span><span id="character-literals"></span><h3><span class="section-number">3.1.2. </span><code class="docutils literal notranslate"><span class="pre">char</span></code> literals<a class="headerlink" href="#char-literals" title="Link to this heading">¶</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">char</span></code> literal is written with single quotes (') like <code class="docutils literal notranslate"><span class="pre">'A'</span></code> or <code class="docutils literal notranslate"><span class="pre">'z'</span></code>.  The char constant <code class="docutils literal notranslate"><span class="pre">'A'</span></code> is really just a synonym for the ordinary integer value 65, which is the ASCII value for uppercase 'A'. There are also special case <code class="docutils literal notranslate"><span class="pre">char</span></code> constants for certain characters, such as <code class="docutils literal notranslate"><span class="pre">'\t'</span></code> for tab, and <code class="docutils literal notranslate"><span class="pre">'\n'</span></code> for newline.</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">'A'</span></code></dt><dd><p>Uppercase 'A' character</p>
@@ -127,11 +127,11 @@
 </dl>
 </section>
 <section id="int-literals">
-<h3><span class="section-number">3.1.3. </span><code class="docutils literal notranslate"><span class="pre">int</span></code> literals<a class="headerlink" href="#int-literals" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">3.1.3. </span><code class="docutils literal notranslate"><span class="pre">int</span></code> literals<a class="headerlink" href="#int-literals" title="Link to this heading">¶</a></h3>
 <p>Numbers in the source code such as 234 default to type int. They may be followed by an 'L' (upper or lower case) to designate that the constant should be a long, such as 42L.  Similarly, an integer literal may be followed by 'LL' to indicate that it is of type <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code>.  Adding a 'U' before 'L' or 'LL' can be used to specify that the value is unsigned, e.g., 42ULL is an <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></code> type.</p>
 <p>An integer constant can be written with a leading <code class="docutils literal notranslate"><span class="pre">0b</span></code> to indicate that it is expressed in binary (base 2).  For example <code class="docutils literal notranslate"><span class="pre">0b00010000</span></code> is the way to express the decimal number 16 in binary.  Similarly, a leading <code class="docutils literal notranslate"><span class="pre">0x</span></code> is used to indicate that a value is expressed in hexadecimal (base 16) --- <code class="docutils literal notranslate"><span class="pre">0x10</span></code> is way of expressing the decimal number 16.  Lastly, a constant may be written in octal (base 8) by preceding it with <code class="docutils literal notranslate"><span class="pre">0</span></code> (single zero) --- <code class="docutils literal notranslate"><span class="pre">012</span></code> is a way of expressing the decimal number 10.  A pitfall related to octal notation is that if you accidentally write a decimal value with a leading <code class="docutils literal notranslate"><span class="pre">0</span></code>, the C compiler will interpret it as a base-8 value!</p>
 <section id="type-combination-and-promotion">
-<h4><span class="section-number">3.1.3.1. </span>Type combination and promotion<a class="headerlink" href="#type-combination-and-promotion" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">3.1.3.1. </span>Type combination and promotion<a class="headerlink" href="#type-combination-and-promotion" title="Link to this heading">¶</a></h4>
 <p>The integral types may be mixed together in arithmetic expressions since they are all basically just integers.  That includes the <code class="docutils literal notranslate"><span class="pre">char</span></code> type (unlike Java, in which the <code class="docutils literal notranslate"><span class="pre">byte</span></code> type would need to be used to specify a single-byte integer). For example, <code class="docutils literal notranslate"><span class="pre">char</span></code> and <code class="docutils literal notranslate"><span class="pre">int</span></code> can be combined in arithmetic expressions such as (<code class="docutils literal notranslate"><span class="pre">'b'</span> <span class="pre">+</span> <span class="pre">5</span></code>). How does the compiler deal with the different widths present in such an expression?  In such a case, the compiler &quot;promotes&quot; the smaller type (<code class="docutils literal notranslate"><span class="pre">char</span></code>) to be the same size as the larger type (<code class="docutils literal notranslate"><span class="pre">int</span></code>) before combining the values.  Promotions are determined at compile time based purely on the types of the values in the expressions. Promotions do not lose information --- they always convert from one type to a compatible, larger type to avoid losing information.  However, an assignment (or explicit cast) from a larger type to smaller type (e.g., assigning an <code class="docutils literal notranslate"><span class="pre">int</span></code> value to a <code class="docutils literal notranslate"><span class="pre">short</span></code> variable) may indeed lose information.</p>
 <aside class="sidebar">
 <p class="sidebar-title">Pitfall: <code class="docutils literal notranslate"><span class="pre">int</span></code> overflow</p>
@@ -145,7 +145,7 @@
 </section>
 </section>
 <section id="floating-point-types">
-<h2><span class="section-number">3.2. </span>Floating point types<a class="headerlink" href="#floating-point-types" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">3.2. </span>Floating point types<a class="headerlink" href="#floating-point-types" title="Link to this heading">¶</a></h2>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">float</span></code></dt><dd><p>Single precision floating point number typical size: 32 bits (4 bytes)</p>
 </dd>
@@ -163,7 +163,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <p>The sum may or may not be 1.0 exactly, and it may vary from one type of machine to another. For this reason, you should never compare floating numbers to each other for equality (<code class="docutils literal notranslate"><span class="pre">==</span></code>) --- use inequality (<code class="docutils literal notranslate"><span class="pre">&lt;</span></code>) comparisons instead.  Realize that a correct C program run on different computers may produce slightly different outputs in the rightmost digits of its floating point computations.</p>
 </section>
 <section id="boolean-type">
-<span id="index-3"></span><h2><span class="section-number">3.3. </span>Boolean type<a class="headerlink" href="#boolean-type" title="Permalink to this heading">¶</a></h2>
+<span id="index-3"></span><h2><span class="section-number">3.3. </span>Boolean type<a class="headerlink" href="#boolean-type" title="Link to this heading">¶</a></h2>
 <p>In C prior to the C99 standard, there was no distinct Boolean type.  Instead, integer values were used to indicate true or false: zero (0) means false, and anything non-zero means true.  So, the following code:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -191,9 +191,9 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </div>
 </section>
 <section id="basic-syntactic-elements">
-<h2><span class="section-number">3.4. </span>Basic syntactic elements<a class="headerlink" href="#basic-syntactic-elements" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">3.4. </span>Basic syntactic elements<a class="headerlink" href="#basic-syntactic-elements" title="Link to this heading">¶</a></h2>
 <section id="comments">
-<span id="index-4"></span><h3><span class="section-number">3.4.1. </span>Comments<a class="headerlink" href="#comments" title="Permalink to this heading">¶</a></h3>
+<span id="index-4"></span><h3><span class="section-number">3.4.1. </span>Comments<a class="headerlink" href="#comments" title="Link to this heading">¶</a></h3>
 <p>Comments in C are enclosed by slash/star pairs:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="o">..</span> <span class="n">comments</span> <span class="o">..</span> <span class="o">*/</span>
 </pre></div>
@@ -206,7 +206,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <p>Along with well-chosen function names, comments are an important part of well written code.  Comments should not just repeat what the code says.  Comments should describe what the code accomplishes which is much more interesting than a translation of what each statement does.  Comments should also narrate what is tricky or non-obvious about a section of code.</p>
 </section>
 <section id="variables">
-<h3><span class="section-number">3.4.2. </span>Variables<a class="headerlink" href="#variables" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">3.4.2. </span>Variables<a class="headerlink" href="#variables" title="Link to this heading">¶</a></h3>
 <p>As in most languages, a variable declaration reserves and names an area in memory at run time to hold a value of particular type.  Syntactically, C puts the type first followed by the name of the variable.  The following declares an <code class="docutils literal notranslate"><span class="pre">int</span></code> variable named &quot;num&quot; and the 2nd line stores the value 42 into num:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
 </pre></div>
@@ -214,7 +214,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <figure class="align-center" id="id8">
 <img alt="Memory box diagram" src="_images/numbox.png" />
 <figcaption>
-<p><span class="caption-text">A simple memory diagram for <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">num</span> <span class="pre">=</span> <span class="pre">42;</span></code>.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">A simple memory diagram for <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">num</span> <span class="pre">=</span> <span class="pre">42;</span></code>.</span><a class="headerlink" href="#id8" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>A variable corresponds to an area of memory which can store a value of the given type. Making a drawing is an excellent way to think about the variables in a program. Draw each variable as box with the current value inside the box. This may seem like a &quot;newbie&quot; technique,  but when you are buried in some horribly complex programming problem, it will almost certainly help to draw things out as a way to think through the problem.  Embrace your inner noob.</p>
@@ -231,7 +231,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 <p>Names in C are <em>case sensitive</em> so &quot;x&quot; and &quot;X&quot; refer to different variables. Names can contain digits and underscores (_), but may not begin with a digit. Multiple variables can be declared after the type by separating them with commas.  C is a classical &quot;compile time&quot; language --- the names of the variables, their types, and their implementations are all flushed out by the compiler at compile time (as opposed to figuring such details out at run time like an interpreter).</p>
 </section>
 <section id="assignment-operator">
-<span id="index-6"></span><h3><span class="section-number">3.4.3. </span>Assignment Operator <code class="docutils literal notranslate"><span class="pre">=</span></code><a class="headerlink" href="#assignment-operator" title="Permalink to this heading">¶</a></h3>
+<span id="index-6"></span><h3><span class="section-number">3.4.3. </span>Assignment Operator <code class="docutils literal notranslate"><span class="pre">=</span></code><a class="headerlink" href="#assignment-operator" title="Link to this heading">¶</a></h3>
 <p>The assignment operator is the single equals sign (<code class="docutils literal notranslate"><span class="pre">=</span></code>):</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span>
 <span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
@@ -242,7 +242,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </pre></div>
 </div>
 <section id="demotion-on-assignment">
-<span id="index-7"></span><h4><span class="section-number">3.4.3.1. </span>Demotion on assignment<a class="headerlink" href="#demotion-on-assignment" title="Permalink to this heading">¶</a></h4>
+<span id="index-7"></span><h4><span class="section-number">3.4.3.1. </span>Demotion on assignment<a class="headerlink" href="#demotion-on-assignment" title="Link to this heading">¶</a></h4>
 <p>The opposite of promotion, demotion moves a value from a type to a smaller type.  This is a situation to be avoided, because strictly speaking the result is <em>implementation and compiler-defined</em>.  In other words, there's no guarantee what will happen, and it may be different depending on the compiler used.  A common behavior is for any extra bits to be truncated, but you should not depend on that.  At least a good compiler (like <code class="docutils literal notranslate"><span class="pre">clang</span></code>) will generate a compile time warning in this type of situation.</p>
 <p>The assignment of a floating point type to an integer type will <em>truncate</em> the fractional part of the number. The following code will set <code class="docutils literal notranslate"><span class="pre">i</span></code> to the value 3. This happens when assigning a floating point number to an integer or passing a floating point number to a function which takes an integer.  If the integer portion of a floating point number is too big to be represented in the integer being assigned to, the result is the ghastly <em>undefined</em> (see <a class="footnote-reference brackets" href="#f4" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>).  Most modern compilers will warn about implicit conversions like in the code below, but not all.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
@@ -252,7 +252,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </section>
 </section>
 <section id="arithmetic-operations">
-<span id="index-8"></span><h3><span class="section-number">3.4.4. </span>Arithmetic operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this heading">¶</a></h3>
+<span id="index-8"></span><h3><span class="section-number">3.4.4. </span>Arithmetic operations<a class="headerlink" href="#arithmetic-operations" title="Link to this heading">¶</a></h3>
 <p>C includes the usual binary and unary arithmetic operators.  It is good practice to use parentheses if there is ever any question or ambiguity surrounding order of operations.  The compiler will optimize the expression anyway, so as a programmer you should always strive for <em>maximum readability</em> rather than some perceived notion of what is efficient or not.  The operators are sensitive to the type of the operands. So division (<code class="docutils literal notranslate"><span class="pre">/</span></code>) with two integer arguments will do integer division.  If either argument is a float, it does floating point division. So (<code class="docutils literal notranslate"><span class="pre">6/4</span></code>) evaluates to 1 while (<code class="docutils literal notranslate"><span class="pre">6/4.0</span></code>) evaluates to 1.5 --- the 6 is promoted to 6.0 before the division.</p>
 <table class="docutils align-default">
 <thead>
@@ -300,7 +300,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </aside>
 </section>
 <section id="unary-increment-operators-and">
-<span id="index-10"></span><h3><span class="section-number">3.4.5. </span>Unary Increment Operators: <code class="docutils literal notranslate"><span class="pre">++</span></code> and <code class="docutils literal notranslate"><span class="pre">--</span></code><a class="headerlink" href="#unary-increment-operators-and" title="Permalink to this heading">¶</a></h3>
+<span id="index-10"></span><h3><span class="section-number">3.4.5. </span>Unary Increment Operators: <code class="docutils literal notranslate"><span class="pre">++</span></code> and <code class="docutils literal notranslate"><span class="pre">--</span></code><a class="headerlink" href="#unary-increment-operators-and" title="Link to this heading">¶</a></h3>
 <p>The unary <code class="docutils literal notranslate"><span class="pre">++</span></code> and <code class="docutils literal notranslate"><span class="pre">--</span></code> operators increment or decrement the value in a variable. There are &quot;pre&quot; and &quot;post&quot; variants for both operators which do slightly different things (explained below).</p>
 <table class="docutils align-default">
 <thead>
@@ -332,7 +332,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </pre></div>
 </div>
 <section id="pre-and-post-variations">
-<h4><span class="section-number">3.4.5.1. </span>Pre- and post- variations<a class="headerlink" href="#pre-and-post-variations" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">3.4.5.1. </span>Pre- and post- variations<a class="headerlink" href="#pre-and-post-variations" title="Link to this heading">¶</a></h4>
 <p>The pre-/post- variation has to do with nesting a variable with the increment or decrement operator inside an expression --- should the entire expression represent the value of the variable <em>before</em> or <em>after</em> the change?  These operators can be confusing to read in code and are often best avoided, but here is an example:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="p">;</span>
@@ -347,7 +347,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </section>
 </section>
 <section id="relational-operators">
-<span id="index-11"></span><h3><span class="section-number">3.4.6. </span>Relational Operators<a class="headerlink" href="#relational-operators" title="Permalink to this heading">¶</a></h3>
+<span id="index-11"></span><h3><span class="section-number">3.4.6. </span>Relational Operators<a class="headerlink" href="#relational-operators" title="Link to this heading">¶</a></h3>
 <p>These operate on integer or floating point values and return a 0 or 1 boolean value.</p>
 <table class="docutils align-default">
 <thead>
@@ -386,7 +386,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </aside>
 </section>
 <section id="logical-operators">
-<span id="index-12"></span><h3><span class="section-number">3.4.7. </span>Logical Operators<a class="headerlink" href="#logical-operators" title="Permalink to this heading">¶</a></h3>
+<span id="index-12"></span><h3><span class="section-number">3.4.7. </span>Logical Operators<a class="headerlink" href="#logical-operators" title="Link to this heading">¶</a></h3>
 <p>The value 0 is false, anything else is true. The operators evaluate left to right and stop as soon as the truth or falsity of the expression can be deduced. (Such operators are called &quot;short circuiting&quot;) In ANSI C, these are furthermore guaranteed to use 1 to represent true, and not just some random non-zero bit pattern. However, there are many C programs out there which use values other than 1 for true (non-zero pointers for example), so when programming, do not assume that a true boolean is necessarily 1 exactly.</p>
 <table class="docutils align-default">
 <thead>
@@ -408,7 +408,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </table>
 </section>
 <section id="bitwise-operators">
-<span id="index-13"></span><h3><span class="section-number">3.4.8. </span>Bitwise Operators<a class="headerlink" href="#bitwise-operators" title="Permalink to this heading">¶</a></h3>
+<span id="index-13"></span><h3><span class="section-number">3.4.8. </span>Bitwise Operators<a class="headerlink" href="#bitwise-operators" title="Link to this heading">¶</a></h3>
 <p>C includes operators to manipulate memory at the bit level. This is useful for writing low-level hardware or operating system code where the ordinary abstractions of numbers, characters, pointers, etc... are insufficient.  Using bitwise operators is very common in microcontroller programming environments and in some &quot;systems&quot; software.</p>
 <p>Bit manipulation code tends to be less &quot;portable&quot;. Code is &quot;portable&quot; if with no programmer intervention it compiles and runs correctly on different types of processors. The bitwise operations are typically used with unsigned types. In particular, the shift operations are guaranteed to shift zeroes into the newly vacated positions when used on unsigned values.</p>
 <table class="docutils align-default">
@@ -440,7 +440,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </table>
 <p>Do not confuse the bitwise operators with the logical operators. The bitwise connectives are one character wide (<code class="docutils literal notranslate"><span class="pre">&amp;</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code>) while the boolean connectives are two characters wide (<code class="docutils literal notranslate"><span class="pre">&amp;&amp;</span></code>, <code class="docutils literal notranslate"><span class="pre">||</span></code>). The bitwise operators have higher precedence than the boolean operators.  The compiler will not typically help you out with a type error if you use <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> when you meant <code class="docutils literal notranslate"><span class="pre">&amp;&amp;</span></code>.</p>
 <section id="bitwise-operation-example">
-<h4><span class="section-number">3.4.8.1. </span>Bitwise operation example<a class="headerlink" href="#bitwise-operation-example" title="Permalink to this heading">¶</a></h4>
+<h4><span class="section-number">3.4.8.1. </span>Bitwise operation example<a class="headerlink" href="#bitwise-operation-example" title="Link to this heading">¶</a></h4>
 <p>Say we want to set certain bits in a byte.  In particular, say that (starting at 1, on the far right) we want to set the 2nd and 5th bits so that the byte is equal to <code class="docutils literal notranslate"><span class="pre">0b00010010</span></code> (hex 0x12).  The following program would do that:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 <span class="linenos"> 2</span>
@@ -462,7 +462,7 @@ Possibly even bigger floating point number (somewhat obscure)</p>
 </section>
 </section>
 <section id="other-assignment-operators">
-<span id="index-14"></span><h3><span class="section-number">3.4.9. </span>Other Assignment Operators<a class="headerlink" href="#other-assignment-operators" title="Permalink to this heading">¶</a></h3>
+<span id="index-14"></span><h3><span class="section-number">3.4.9. </span>Other Assignment Operators<a class="headerlink" href="#other-assignment-operators" title="Link to this heading">¶</a></h3>
 <p>In addition to the plain <code class="docutils literal notranslate"><span class="pre">=</span></code> operator, C includes many shorthand operators which represents variations on the basic <code class="docutils literal notranslate"><span class="pre">=</span></code>. For example <code class="docutils literal notranslate"><span class="pre">+=</span></code> adds the right hand side to the left hand side. <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">10</span></code> can be reduced to <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+=</span> <span class="pre">10</span></code>.   Note that these operators are much like similar operators in other languages, like Python and Java.
 Here is the list of assignment shorthand operators:</p>
 <table class="docutils align-default">
@@ -629,7 +629,7 @@ Here is the list of assignment shorthand operators:</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014-2022, Joel Sommers.
+    &#169; Copyright 2014-2022, Joel Sommers.
     </div>
   </body>
 </html>

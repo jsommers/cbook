@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>4. Control Structures &#8212; The Book of C (version 2022.08)</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=d59dc883" />
+    <script src="_static/documentation_options.js?v=f827e75a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="5. Arrays and Strings" href="arraysstrings.html" />
@@ -39,10 +39,10 @@
           <div class="body" role="main">
             
   <section id="control-structures">
-<h1><span class="section-number">4. </span>Control Structures<a class="headerlink" href="#control-structures" title="Permalink to this heading">¶</a></h1>
+<h1><span class="section-number">4. </span>Control Structures<a class="headerlink" href="#control-structures" title="Link to this heading">¶</a></h1>
 <p>In this chapter, we encounter the set of &quot;control&quot; structures in C, such as conditional statements and looping constructs.  As a preview, the control structures in C are nearly identical to those found in Java (since Java syntax is heavily based on C), and bear strong resemblance to control structures found in other programming languages.</p>
 <section id="if-statement">
-<span id="index-0"></span><h2><span class="section-number">4.1. </span><code class="docutils literal notranslate"><span class="pre">if</span></code> Statement<a class="headerlink" href="#if-statement" title="Permalink to this heading">¶</a></h2>
+<span id="index-0"></span><h2><span class="section-number">4.1. </span><code class="docutils literal notranslate"><span class="pre">if</span></code> Statement<a class="headerlink" href="#if-statement" title="Link to this heading">¶</a></h2>
 <p>Both an <code class="docutils literal notranslate"><span class="pre">if</span></code> and an <code class="docutils literal notranslate"><span class="pre">if-else</span></code> are available in C.  The <code class="docutils literal notranslate"><span class="pre">&lt;expression&gt;</span></code> can be any valid C expression.  The parentheses around the expression are required, even if it is just a single variable:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span><span class="w">    </span><span class="c1">// simple form with no {}&#39;s or else clause</span>
 </pre></div>
@@ -80,7 +80,7 @@ generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, wi
 </div>
 </section>
 <section id="the-conditional-expression-ternary-operator">
-<span id="index-2"></span><h2><span class="section-number">4.2. </span>The conditional expression (ternary operator)<a class="headerlink" href="#the-conditional-expression-ternary-operator" title="Permalink to this heading">¶</a></h2>
+<span id="index-2"></span><h2><span class="section-number">4.2. </span>The conditional expression (ternary operator)<a class="headerlink" href="#the-conditional-expression-ternary-operator" title="Link to this heading">¶</a></h2>
 <p>The conditional expression can be used as a shorthand for some if-else statements. The general syntax of the conditional operator is:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">expression1</span><span class="o">&gt;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">&lt;</span><span class="n">expression2</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">&lt;</span><span class="n">expression3</span><span class="o">&gt;</span>
 </pre></div>
@@ -101,7 +101,7 @@ generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, wi
 <p>The ternary operator is viewed by some programmers as &quot;excessively tricky&quot; since expressions with such operators can be hard to read.  Use your best judgment, and don't do something this <a class="reference internal" href="#horrific" id="id2"><span>[Horrific]</span></a> example.</p>
 </section>
 <section id="switch-statement">
-<span id="index-3"></span><h2><span class="section-number">4.3. </span><code class="docutils literal notranslate"><span class="pre">switch</span></code> statement<a class="headerlink" href="#switch-statement" title="Permalink to this heading">¶</a></h2>
+<span id="index-3"></span><h2><span class="section-number">4.3. </span><code class="docutils literal notranslate"><span class="pre">switch</span></code> statement<a class="headerlink" href="#switch-statement" title="Link to this heading">¶</a></h2>
 <p>The switch statement is a sort of specialized form of <code class="docutils literal notranslate"><span class="pre">if</span></code> with the goal of efficiently separating different blocks of code based on the value of an integer.  The <code class="docutils literal notranslate"><span class="pre">switch</span></code> expression is evaluated, and then the flow of control jumps to the matching const-expression <code class="docutils literal notranslate"><span class="pre">case</span></code>. The <code class="docutils literal notranslate"><span class="pre">case</span></code> expressions are typically <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">char</span></code> constants (unfortunately, you cannot use strings as <code class="docutils literal notranslate"><span class="pre">case</span></code> expressions).  The <code class="docutils literal notranslate"><span class="pre">switch</span></code> statement is probably the single most syntactically awkward and error-prone feature of the C language:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;</span><span class="no">const</span><span class="o">-</span><span class="no">expression</span><span class="mi">-1</span><span class="o">&gt;</span><span class="p">:</span>
@@ -123,7 +123,7 @@ generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, wi
 <p>Why does the <code class="docutils literal notranslate"><span class="pre">switch</span></code> statement fall-through behavior work the way it does? The best explanation might be that C was originally developed for an audience of assembly language programmers. The assembly language programmers were used to the idea of a &quot;jump table&quot; with fall-through behavior, so that's the way C does it (it's also relatively easy to implement it this way). Unfortunately, the audience for C is now quite different, and the fall-through behavior is widely regarded as an unfortunate part of the language.</p>
 </section>
 <section id="while-loop">
-<span id="index-4"></span><h2><span class="section-number">4.4. </span><code class="docutils literal notranslate"><span class="pre">while</span></code> loop<a class="headerlink" href="#while-loop" title="Permalink to this heading">¶</a></h2>
+<span id="index-4"></span><h2><span class="section-number">4.4. </span><code class="docutils literal notranslate"><span class="pre">while</span></code> loop<a class="headerlink" href="#while-loop" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">while</span></code> loop evaluates the test expression before every loop, so it can execute zero times if the condition is initially false.  The conditional expression requires parentheses like the if:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
@@ -133,7 +133,7 @@ generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, wi
 <p>Although the curly braces are not technically required if there is only one statement in the body of the <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, you should <em>always</em> use the curly braces.  Again, see <a class="footnote-reference brackets" href="#f1" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> for why.</p>
 </section>
 <section id="do-while-loop">
-<span id="index-5"></span><h2><span class="section-number">4.5. </span><code class="docutils literal notranslate"><span class="pre">do-while</span></code> loop<a class="headerlink" href="#do-while-loop" title="Permalink to this heading">¶</a></h2>
+<span id="index-5"></span><h2><span class="section-number">4.5. </span><code class="docutils literal notranslate"><span class="pre">do-while</span></code> loop<a class="headerlink" href="#do-while-loop" title="Link to this heading">¶</a></h2>
 <p>Like a <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, but with the test condition at the <em>bottom</em> of the loop. The loop body will always execute at least once. The <code class="docutils literal notranslate"><span class="pre">do-while</span></code> tends to be an unpopular area of the language.  Although many users of C use the straight <code class="docutils literal notranslate"><span class="pre">while</span></code> if possible, a <code class="docutils literal notranslate"><span class="pre">do-while</span></code> loop can be very useful in some situations:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">do</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
@@ -142,7 +142,7 @@ generally insignificant, very much <em>unlike</em> Python.  Not surprisingly, wi
 </div>
 </section>
 <section id="for-loop">
-<span id="index-6"></span><h2><span class="section-number">4.6. </span><code class="docutils literal notranslate"><span class="pre">for</span></code> loop<a class="headerlink" href="#for-loop" title="Permalink to this heading">¶</a></h2>
+<span id="index-6"></span><h2><span class="section-number">4.6. </span><code class="docutils literal notranslate"><span class="pre">for</span></code> loop<a class="headerlink" href="#for-loop" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">for</span></code> loop in C contains three components that are often used in looping constructs, making it a fairly convenient statement to use.  The three parts are an initializer, a continuation condition, and an action, as in:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">initializer</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">continuation</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">action</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
@@ -171,7 +171,7 @@ forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
 </div>
 <p>Once the <code class="docutils literal notranslate"><span class="pre">-std=c99</span></code> flag is added, the code compiles correctly, as expected.</p>
 <section id="break">
-<h3><span class="section-number">4.6.1. </span><code class="docutils literal notranslate"><span class="pre">break</span></code><a class="headerlink" href="#break" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">4.6.1. </span><code class="docutils literal notranslate"><span class="pre">break</span></code><a class="headerlink" href="#break" title="Link to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">break</span></code> statement causes execution to exit the current loop or switch statement.  Stylistically speaking, <code class="docutils literal notranslate"><span class="pre">break</span></code> has the potential to be a bit vulgar.  It is preferable to use a straight <code class="docutils literal notranslate"><span class="pre">while</span></code> with a single conditional expression at the top if possible, but sometimes you are forced to use a <code class="docutils literal notranslate"><span class="pre">break</span></code> because the test can occur only somewhere in the midst of the statements in the loop body.  To keep the code readable, be sure to make the <code class="docutils literal notranslate"><span class="pre">break</span></code> obvious --- forgetting to account for the action of a <code class="docutils literal notranslate"><span class="pre">break</span></code> is a traditional source of bugs in loop behavior:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
@@ -188,7 +188,7 @@ forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
 <p>The <code class="docutils literal notranslate"><span class="pre">break</span></code> does not work with <code class="docutils literal notranslate"><span class="pre">if</span></code>; it only works in loops and switches. Thinking that a <code class="docutils literal notranslate"><span class="pre">break</span></code> refers to an <code class="docutils literal notranslate"><span class="pre">if</span></code> when it really refers to the enclosing <code class="docutils literal notranslate"><span class="pre">while</span></code> has created some high-quality bugs. When using a <code class="docutils literal notranslate"><span class="pre">break</span></code>, it is nice to write the enclosing loop to iterate in the most straightforward, obvious, normal way, and then use the <code class="docutils literal notranslate"><span class="pre">break</span></code> to explicitly catch the exceptional, weird cases.</p>
 </section>
 <section id="continue">
-<h3><span class="section-number">4.6.2. </span><code class="docutils literal notranslate"><span class="pre">continue</span></code><a class="headerlink" href="#continue" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">4.6.2. </span><code class="docutils literal notranslate"><span class="pre">continue</span></code><a class="headerlink" href="#continue" title="Link to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">continue</span></code> statement causes control to jump to the bottom of the loop, effectively skipping over any code below the <code class="docutils literal notranslate"><span class="pre">continue</span></code>. As with <code class="docutils literal notranslate"><span class="pre">break</span></code>, this has a reputation as being vulgar, so use it sparingly. You can almost always get the effect more clearly using an <code class="docutils literal notranslate"><span class="pre">if</span></code> inside your loop:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
@@ -203,7 +203,7 @@ forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
 </div>
 </section>
 <section id="statement-labels-and-goto">
-<h3><span class="section-number">4.6.3. </span>Statement labels and <code class="docutils literal notranslate"><span class="pre">goto</span></code><a class="headerlink" href="#statement-labels-and-goto" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">4.6.3. </span>Statement labels and <code class="docutils literal notranslate"><span class="pre">goto</span></code><a class="headerlink" href="#statement-labels-and-goto" title="Link to this heading">¶</a></h3>
 <p>Continuing the theme of statements that have a tendency of being a bit vulgar, we come to the king of vulgarity, the infamous <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement <a class="reference internal" href="#goto" id="id4"><span>[Goto]</span></a>.  The structure of a <code class="docutils literal notranslate"><span class="pre">goto</span></code> statement in C is to <em>unconditionally</em> jump to a statement label, and continue execution from there.  The basic structure is:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="nl">label</span><span class="p">:</span>
 <span class="w">  </span><span class="o">&lt;</span><span class="n">statement</span><span class="o">&gt;</span>
@@ -358,7 +358,7 @@ forloop.c:4:5: note: use option -std=c99 or -std=gnu99 to compile your code
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014-2022, Joel Sommers.
+    &#169; Copyright 2014-2022, Joel Sommers.
     </div>
   </body>
 </html>

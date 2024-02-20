@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>2. Getting your feet wet in the C &#8212; The Book of C (version 2022.08)</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=d59dc883" />
+    <script src="_static/documentation_options.js?v=f827e75a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. Basic Types and Operators" href="basictypes.html" />
@@ -39,10 +39,10 @@
           <div class="body" role="main">
             
   <section id="getting-your-feet-wet-in-the-c">
-<span id="tutorial"></span><h1><span class="section-number">2. </span>Getting your feet wet in the C<a class="headerlink" href="#getting-your-feet-wet-in-the-c" title="Permalink to this heading">¶</a></h1>
+<span id="tutorial"></span><h1><span class="section-number">2. </span>Getting your feet wet in the C<a class="headerlink" href="#getting-your-feet-wet-in-the-c" title="Link to this heading">¶</a></h1>
 <p>In this first chapter, we'll get wet in the C by way of a tutorial that examines a variety of topics that are discussed in depth in later chapters.  Where appropriate, pointers to later sections are given if you want to read a bit more as you work through the following examples.</p>
 <section id="hello-somebody">
-<h2><span class="section-number">2.1. </span>Hello, somebody<a class="headerlink" href="#hello-somebody" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">2.1. </span>Hello, somebody<a class="headerlink" href="#hello-somebody" title="Link to this heading">¶</a></h2>
 <p>We first start out by examining a simple &quot;hello, world&quot;-style program: a program that simply echoes (prints) what ever is typed on the keyboard, until end-of-file is reached.
 Here is the code:</p>
 <div class="highlight-c notranslate" id="index-0"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
@@ -81,13 +81,13 @@ Here is the code:</p>
 </ol>
 </div></blockquote>
 <section id="an-aside-on-c-strings-and-string-based-i-o">
-<h3><span class="section-number">2.1.1. </span>An aside on C strings and string-based I/O<a class="headerlink" href="#an-aside-on-c-strings-and-string-based-i-o" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">2.1.1. </span>An aside on C strings and string-based I/O<a class="headerlink" href="#an-aside-on-c-strings-and-string-based-i-o" title="Link to this heading">¶</a></h3>
 <p>In ordinary C programs, you'll often used string-based I/O functions instead of character-based ones.  Strings in C are very much unlike strings in Java or Python: they are simply arrays of characters that are terminated with a &quot;null termination character&quot;, which is written <code class="docutils literal notranslate"><span class="pre">'\0'</span></code>.  Notice single quotes are used for literal characters in C and double quotes are used for literal strings.  You can read more later in this book about <a class="reference internal" href="arraysstrings.html#cstrings"><span class="std std-ref">C strings</span></a>.</p>
 <p>Printing strings is typically handled using the <code class="docutils literal notranslate"><span class="pre">printf</span></code> function, and there are a variety of functions used for reading strings (e.g., <code class="docutils literal notranslate"><span class="pre">fgets</span></code>, <code class="docutils literal notranslate"><span class="pre">scanf</span></code>).  An example <code class="docutils literal notranslate"><span class="pre">printf</span></code> line that could replace line 8 in the program above is <code class="docutils literal notranslate"><span class="pre">printf(&quot;%c&quot;,</span> <span class="pre">character);</span></code>.  Notice that the first argument to <code class="docutils literal notranslate"><span class="pre">printf</span></code> is a string (double quotes), which defines a <em>format template</em>.  The special character sequence <code class="docutils literal notranslate"><span class="pre">%c</span></code> indicates to <code class="docutils literal notranslate"><span class="pre">printf</span></code> that a character should be substituted at that point in the template; the character to be substituted is just the second argument to the function.  Note that two other common <code class="docutils literal notranslate"><span class="pre">printf</span></code> formatting placeholders are <code class="docutils literal notranslate"><span class="pre">%s</span></code> for printing a string, <code class="docutils literal notranslate"><span class="pre">%d</span></code> for printing a decimal integer, and <code class="docutils literal notranslate"><span class="pre">%f</span></code> for printing a floating point number.  Read more about printf in the <a class="reference internal" href="stdlib.html#stdio"><span class="std std-ref">stdio reference</span></a>.</p>
 </section>
 </section>
 <section id="hello-clang">
-<span id="index-1"></span><h2><span class="section-number">2.2. </span>Hello, <strong class="command">clang</strong><a class="headerlink" href="#hello-clang" title="Permalink to this heading">¶</a></h2>
+<span id="index-1"></span><h2><span class="section-number">2.2. </span>Hello, <strong class="command">clang</strong><a class="headerlink" href="#hello-clang" title="Link to this heading">¶</a></h2>
 <p>Now that we've gone through the <code class="docutils literal notranslate"><span class="pre">hello</span></code> program in some gory detail, let's compile and run it.  Just like Java, C requires an explicit compilation step to produce an executable program.  Unlike Java, however, the program produced by the compiler does not contain &quot;byte code&quot;, it contains <em>real</em> executable instructions for the processor on which you're running the compiler.  So, if you happen to be compiling on a 64-bit Linux system using an Intel-based processor, the program produced by the C compiler will contain raw Intel x86_64 instructions <a class="footnote-reference brackets" href="#f1" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
 <p>All the examples in this book will use a compiler called <strong class="command">clang</strong>, and all examples will use the command line (in particular, the <strong class="command">bash</strong> shell). <strong class="command">clang</strong> is available on most recent Linux systems and on MacOS X <a class="footnote-reference brackets" href="#f2" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.  If <strong class="command">clang</strong> is unavailable, you can also use the <strong class="command">gcc</strong> compiler.  The reason we favor <strong class="command">clang</strong> is that the error messages produced by <strong class="command">clang</strong> are far, far superior to the cryptic nonsense spewed by <strong class="command">gcc</strong>.</p>
 <p>The basic recipe for using <strong class="command">clang</strong> is:</p>
@@ -127,7 +127,7 @@ o
 </div>
 <p>When invoked like this, <strong class="command">clang</strong> will perform all three basic phases of compilation (see <a class="reference internal" href="programstructure.html#compilation-phases"><span class="std std-ref">compilation phases</span></a> for details): preprocessing, compiling, and linking.  The final result is a binary executable program that can be executed on a particular processor architecture (e.g., Intel x86 or x86_64).</p>
 <section id="when-clang-goes-bang">
-<span id="index-2"></span><h3><span class="section-number">2.2.1. </span>When <strong class="command">clang</strong> goes &quot;bang!&quot;<a class="headerlink" href="#when-clang-goes-bang" title="Permalink to this heading">¶</a></h3>
+<span id="index-2"></span><h3><span class="section-number">2.2.1. </span>When <strong class="command">clang</strong> goes &quot;bang!&quot;<a class="headerlink" href="#when-clang-goes-bang" title="Link to this heading">¶</a></h3>
 <p>Of course, not all our wonderful source code will compile and run correctly on the first go.  Let's modify our &quot;echo&quot; program to introduce a bug and see what happens.  Specifically, we will modify two lines: on line 5 we will remove the semicolon at the end of the line, and on line 8, we will remove the argument to <code class="docutils literal notranslate"><span class="pre">putchar</span></code>.  Here's what <strong class="command">clang</strong>'s output looks like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span> <span class="n">error</span><span class="p">:</span> <span class="n">expected</span> <span class="s1">&#39;;&#39;</span> <span class="n">at</span> <span class="n">end</span> <span class="n">of</span> <span class="n">declaration</span>
     <span class="nb">int</span> <span class="n">character</span>
@@ -143,7 +143,7 @@ o
 <p><strong class="command">Clang</strong> helpfully tells us that we're missing the semicolon (the 5:18 means the fifth line and 18th character on that line), and that there was an incorrect number of arguments to <code class="docutils literal notranslate"><span class="pre">putchar</span></code> <a class="footnote-reference brackets" href="#f5" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>.</p>
 </section>
 <section id="clang-versus-gcc">
-<span id="index-3"></span><h3><span class="section-number">2.2.2. </span><strong class="command">clang</strong> versus <strong class="command">gcc</strong><a class="headerlink" href="#clang-versus-gcc" title="Permalink to this heading">¶</a></h3>
+<span id="index-3"></span><h3><span class="section-number">2.2.2. </span><strong class="command">clang</strong> versus <strong class="command">gcc</strong><a class="headerlink" href="#clang-versus-gcc" title="Link to this heading">¶</a></h3>
 <p>If you use <strong class="command">gcc</strong> instead of <strong class="command">clang</strong> (perhaps because <strong class="command">clang</strong> is not available for some reason), the command-line options are <em>exactly</em> the same.  Nothing needs to change there.  The key difference you will notice between <strong class="command">gcc</strong> and <strong class="command">clang</strong> is in the error and warning messages.  If you thought the error messages above weren't very good, ponder the following output of <strong class="command">gcc</strong> for the same example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span><span class="o">.</span><span class="n">c</span><span class="p">:</span> <span class="n">In</span> <span class="n">function</span> <span class="s1">&#39;main&#39;</span><span class="p">:</span>
 <span class="n">echo</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="mi">6</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span> <span class="n">error</span><span class="p">:</span> <span class="n">expected</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="s1">&#39;asm&#39;</span> <span class="ow">or</span> <span class="s1">&#39;__attribute__&#39;</span> <span class="n">before</span> <span class="s1">&#39;character&#39;</span>
@@ -269,7 +269,7 @@ o
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2014-2022, Joel Sommers.
+    &#169; Copyright 2014-2022, Joel Sommers.
     </div>
   </body>
 </html>
